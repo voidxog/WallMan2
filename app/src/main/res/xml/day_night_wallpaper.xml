@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wallpaper xmlns:android="http://schemas.android.com/apk/res/android"
+    android:description="@string/day_night_wallpaper_description"
+    android:thumbnail="@drawable/p_pulley_preview"
+    android:showMetadataInPreview="true"/>

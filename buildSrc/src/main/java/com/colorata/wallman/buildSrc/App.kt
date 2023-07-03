@@ -1,0 +1,11 @@
+package com.colorata.wallman.buildSrc
+
+object App {
+    const val id = "com.colorata.wallman"
+    const val targetSdk = 34
+    const val compileSdk = 34
+    const val minSdk = 26
+
+    const val versionCode = 4
+    const val versionName = "Tiramisu01"
+}

@@ -1,0 +1,28 @@
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+buildscript {
+    repositories {
+        mavenCentral()
+        google()
+        maven("https://s01.oss.sonatype.org/content/repositories/snapshots")
+    }
+    dependencies {
+        classpath("com.android.tools.build:gradle:8.0.2")
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.8.21")
+        classpath("org.jetbrains.kotlin:kotlin-serialization:1.8.21")
+        classpath("androidx.navigation:navigation-safe-args-gradle-plugin:2.6.0")
+        classpath("app.cash.molecule:molecule-gradle-plugin:0.9.0")
+    }
+}
+
+tasks.register<Copy>("clean") {
+    /*delete(rootProject.buildDir)
+    doLast {
+        val file = file(rootDir.absolutePath + "/app/build/outputs/apk/debug/app-debug.apk")
+        copy {
+            from(file.absolutePath)
+            into(rootDir.absolutePath)
+        }
+        println(rootProject.buildDir.absolutePath)
+        delete(rootProject.buildDir)
+    }*/
+}
