@@ -26,6 +26,7 @@ object Libraries {
         const val activity = "androidx.activity:activity-compose:${LibraryVersions.AndroidX.activity}"
         const val ui = "androidx.compose.ui:ui:${LibraryVersions.Compose.base}"
         const val uiUtil = "androidx.compose.ui:ui-util:${LibraryVersions.Compose.base}"
+        const val uiTest = "androidx.compose.ui:ui-test-junit4-android:${LibraryVersions.Compose.base}"
         const val uiToolingManifest = "androidx.compose.ui:ui-test-manifest:${LibraryVersions.Compose.base}"
         const val uiTestManifest = "androidx.compose.ui:ui-test-manifest:${LibraryVersions.Compose.base}"
         const val uiToolingPreview = "androidx.compose.ui:ui-tooling-preview:${LibraryVersions.Compose.base}"

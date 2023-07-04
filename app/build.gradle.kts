@@ -34,6 +34,7 @@ dependencies {
 
     testImplementation(Libraries.Test.junit)
     androidTestImplementation(Libraries.Test.androidXJunit)
+    androidTestImplementation(Libraries.Compose.uiTest)
 
     debugImplementation(Libraries.Compose.uiToolingManifest)
     debugImplementation(Libraries.Compose.uiTooling)

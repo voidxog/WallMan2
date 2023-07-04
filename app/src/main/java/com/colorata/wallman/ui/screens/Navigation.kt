@@ -50,6 +50,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavType
 import androidx.navigation.compose.currentBackStackEntryAsState
@@ -208,6 +209,7 @@ fun BottomBar(viewModel: NavigationViewModel) {
                         label = { Text(text = rememberString(string = it.value.previewName)) },
                         alwaysShowLabel = false,
                         modifier = Modifier
+                            .testTag(it.value.name)
                             .animateVisibility(
                                 it.visible,
                                 fade(

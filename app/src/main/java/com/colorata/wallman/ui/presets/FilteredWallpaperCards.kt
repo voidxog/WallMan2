@@ -34,6 +34,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import com.colorata.animateaslifestyle.animateVisibility
 import com.colorata.animateaslifestyle.fade
@@ -147,7 +148,7 @@ fun FilteredWallpaperCards(
                         .animateVisibility(
                             it.visible,
                             transition = animationSpec
-                        ),
+                        ).testTag("Wallpaper$index"),
                     scale = if (remember(selectedIndex) { derivedStateOf { selectedIndex == index }.value }) animatable.value else 1f
                 ) {
                     scope.launch {
