@@ -8,8 +8,11 @@ plugins {
 
 kotlinDependencies {
     api(Libraries.Colorata.animateAsLifestyle)
-    implementation(Libraries.AndroidX.lifecycleViewModel)
-    implementation(Libraries.Compose.materialMotionNavigation)
+    api(Libraries.AndroidX.lifecycleViewModel)
+    api(Libraries.AndroidX.lifecycleCompose)
+    api(Libraries.Compose.materialMotionNavigation)
+    api(Libraries.Compose.material3WindowSize)
+    api(Libraries.Compose.uiUtil)
     implementation(Libraries.Kotlin.collectionsImmutable)
     implementation(Libraries.Accompanist.systemUiController)
     api(com.colorata.wallman.buildSrc.Libraries.Compose.uiToolingPreview)

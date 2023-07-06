@@ -15,14 +15,6 @@ kotlinDependencies {
     implementation(project(Modules.Settings.Memory.api))
     implementation(project(Modules.Settings.Mirror.api))
     implementation(project(Modules.Settings.About.api))
-    implementation(Libraries.Colorata.animateAsLifestyle)
-    implementation(Libraries.AndroidX.lifecycleCompose)
-    implementation(Libraries.AndroidX.lifecycle)
-    implementation(Libraries.AndroidX.lifecycleViewModel)
-    implementation(Libraries.Compose.materialMotionNavigation)
-    implementation(Libraries.Compose.material3WindowSize)
-    implementation(Libraries.Compose.uiUtil)
-    implementation(Libraries.Kotlin.collectionsImmutable)
 }
 
 tasks.withType<KotlinCompile> {

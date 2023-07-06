@@ -13,14 +13,6 @@ kotlinDependencies {
     implementation(project(Modules.Wallpapers.api))
     implementation(project(Modules.Wallpapers.ui))
     implementation(project(Modules.Categories.api))
-    implementation(Libraries.Colorata.animateAsLifestyle)
-    implementation(Libraries.AndroidX.lifecycleCompose)
-    implementation(Libraries.AndroidX.lifecycle)
-    implementation(Libraries.AndroidX.lifecycleViewModel)
-    implementation(Libraries.Compose.materialMotionNavigation)
-    implementation(Libraries.Compose.material3WindowSize)
-    implementation(Libraries.Compose.uiUtil)
-    implementation(Libraries.Kotlin.collectionsImmutable)
 }
 
 tasks.withType<KotlinCompile> {

@@ -11,8 +11,6 @@ kotlinDependencies(androidUnitTestBlock = {}, commonTestBlock = {}) {
     implementation(Libraries.AndroidX.activity)
     implementation(Libraries.AndroidX.splashscreen)
     implementation(Libraries.AndroidX.startup)
-    implementation(Libraries.Kotlin.collectionsImmutable)
-    implementation(Libraries.Compose.materialMotionNavigation)
     implementation(project(Modules.Core.impl))
     implementation(project(Modules.Core.di))
     implementation(project(Modules.Core.data))
