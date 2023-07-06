@@ -2,15 +2,17 @@
 buildscript {
     repositories {
         mavenCentral()
+        gradlePluginPortal()
         google()
         maven("https://s01.oss.sonatype.org/content/repositories/snapshots")
     }
     dependencies {
-        classpath("com.android.tools.build:gradle:8.0.2")
+        classpath("com.android.tools.build:gradle:7.4.2")
         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.8.21")
         classpath("org.jetbrains.kotlin:kotlin-serialization:1.8.21")
         classpath("androidx.navigation:navigation-safe-args-gradle-plugin:2.6.0")
         classpath("app.cash.molecule:molecule-gradle-plugin:0.9.0")
+        classpath("dev.icerock.moko:resources-generator:0.23.0")
     }
 }
 

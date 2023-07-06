@@ -1,0 +1,89 @@
+package com.colorata.wallman.settings.overview.viewmodel
+
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Info
+import androidx.compose.runtime.Immutable
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import app.cash.molecule.RecompositionClock
+import app.cash.molecule.launchMolecule
+import com.colorata.wallman.core.NavigationController
+import com.colorata.wallman.core.data.Destination
+import com.colorata.wallman.core.data.Destinations
+import com.colorata.wallman.core.data.Polyglot
+import com.colorata.wallman.core.data.Strings
+import com.colorata.wallman.core.di.Graph
+import com.colorata.wallman.settings.about.api.AboutDestination
+import com.colorata.wallman.settings.memory.api.MemoryDestination
+import com.colorata.wallman.settings.mirror.api.MirrorDestination
+import com.colorata.wallman.ui.icons.Animation
+import com.colorata.wallman.ui.icons.ContentCopy
+import com.colorata.wallman.ui.icons.Storage
+import com.colorata.wallman.wallpapers.WallpapersRepository
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.persistentListOf
+
+fun Graph.SettingsViewModel() = SettingsViewModel(wallpapersRepository, navigationController)
+
+class SettingsViewModel(
+    private val repo: WallpapersRepository,
+    private val navigation: NavigationController
+) : ViewModel() {
+    private val items = persistentListOf(
+        SettingsItem(
+            Strings.memoryOptimization,
+            Strings.keepYourMemoryFree,
+            Icons.Default.Storage,
+            Destinations.MemoryDestination()
+        ),
+        SettingsItem(
+            Strings.mirrors,
+            Strings.youCanAddOtherMirrorIfCurrentDoesNotWork,
+            Icons.Default.ContentCopy,
+            Destinations.MirrorDestination()
+        ),
+        SettingsItem(
+            Strings.aboutWallMan,
+            Strings.contactInfoDevelopersMore,
+            Icons.Default.Info,
+            Destinations.AboutDestination()
+        )
+    )
+
+    data class SettingsItem(
+        val name: Polyglot,
+        val description: Polyglot,
+        val icon: ImageVector,
+        val destination: Destination
+    )
+
+
+    private fun onSettingsClick(
+        setting: SettingsItem
+    ) {
+        navigation.navigate(setting.destination)
+    }
+
+    val state by lazy {
+        viewModelScope.launchMolecule(RecompositionClock.Immediate) {
+            return@launchMolecule SettingsScreenState(
+                items
+            ) { event ->
+                when (event) {
+                    is SettingsScreenEvent.GoToSettings -> onSettingsClick(event.setting)
+                }
+            }
+        }
+    }
+
+    data class SettingsScreenState(
+        val settingsItems: ImmutableList<SettingsItem>,
+        val onEvent: (SettingsScreenEvent) -> Unit
+    )
+
+    @Immutable
+    sealed interface SettingsScreenEvent {
+        data class GoToSettings(val setting: SettingsItem) : SettingsScreenEvent
+    }
+}

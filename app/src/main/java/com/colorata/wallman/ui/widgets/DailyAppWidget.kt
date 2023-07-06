@@ -1,9 +1,12 @@
 package com.colorata.wallman.ui.widgets
 
 import android.content.Context
+import android.graphics.BitmapFactory
 import androidx.annotation.Keep
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
+import androidx.compose.ui.graphics.asAndroidBitmap
+import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.unit.dp
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.intPreferencesKey
@@ -31,13 +34,14 @@ import androidx.glance.state.PreferencesGlanceStateDefinition
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import com.colorata.wallman.R
-import com.colorata.wallman.arch.graph
 import com.colorata.wallman.arch.widget.DailyDynamicWallpaperCallback
 import com.colorata.wallman.arch.widget.WidgetUpdater
 import com.colorata.wallman.arch.widget.rememberShapedImageBitmap
-import com.colorata.wallman.wallpaper.DynamicWallpaper
-import com.colorata.wallman.wallpaper.WallpaperI
-import com.colorata.wallman.wallpaper.supportsDynamicWallpapers
+import com.colorata.wallman.core.data.bitmapAsset
+import com.colorata.wallman.shared.graph
+import com.colorata.wallman.wallpapers.DynamicWallpaper
+import com.colorata.wallman.wallpapers.WallpaperI
+import com.colorata.wallman.wallpapers.supportsDynamicWallpapers
 import java.util.concurrent.TimeUnit
 
 @Keep
@@ -52,7 +56,7 @@ class DailyAppWidget : GlanceAppWidget() {
         val squareSize = minOf(size.width, size.height)
         val state = kotlin.runCatching { currentState<Preferences>() }.getOrNull()
         val context = LocalContext.current
-        val wallpapers = remember { context.graph.mainRepo.wallpapers }
+        val wallpapers = remember { context.graph.wallpapersRepository.wallpapers }
         val shape = kotlin.runCatching { state?.get(intPreferencesKey(shapeKey.name)) }
             .getOrDefault(R.drawable.ic_clever) ?: R.drawable.ic_clever
         val hashCode =
@@ -69,9 +73,18 @@ class DailyAppWidget : GlanceAppWidget() {
             GlanceModifier.fillMaxSize(),
             contentAlignment = Alignment.Center
         ) {
+            val bitmap = remember(currentWallpaper.previewRes) {
+                val fullPath =
+                    context.assets.list("")?.first { currentWallpaper.previewRes in it.split(".", "/") }
+                        ?: error("Asset not found")
+
+                context.assets.open(fullPath)
+                    .use { BitmapFactory.decodeStream(it) }
+                    .asImageBitmap()
+            }
             val shapedBitmap = rememberShapedImageBitmap(
                 shape = shape,
-                image = currentWallpaper.previewRes
+                image = bitmap.asAndroidBitmap()
             )
             Image(
                 provider = ImageProvider(

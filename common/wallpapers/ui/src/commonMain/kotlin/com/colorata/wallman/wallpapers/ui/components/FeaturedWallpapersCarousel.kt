@@ -1,0 +1,268 @@
+package com.colorata.wallman.wallpapers.ui.components
+
+import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.Animatable
+import androidx.compose.animation.core.LinearEasing
+import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.animation.core.tween
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.PageSize
+import androidx.compose.foundation.pager.PagerState
+import androidx.compose.foundation.pager.rememberPagerState
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material3.Button
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.draw.drawWithContent
+import androidx.compose.ui.geometry.CornerRadius
+import androidx.compose.ui.geometry.Rect
+import androidx.compose.ui.geometry.RoundRect
+import androidx.compose.ui.graphics.ClipOp
+import androidx.compose.ui.graphics.Path
+import androidx.compose.ui.graphics.drawscope.clipPath
+import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.util.lerp
+import com.colorata.animateaslifestyle.animateVisibility
+import com.colorata.animateaslifestyle.fade
+import com.colorata.animateaslifestyle.slideVertically
+import com.colorata.animateaslifestyle.stagger.ExperimentalStaggerApi
+import com.colorata.animateaslifestyle.stagger.animateAsList
+import com.colorata.animateaslifestyle.stagger.staggerSpecOf
+import com.colorata.animateaslifestyle.stagger.toStaggerList
+import com.colorata.wallman.core.data.animation
+import com.colorata.wallman.core.data.bitmapAsset
+import com.colorata.wallman.core.data.launchIO
+import com.colorata.wallman.core.data.rememberString
+import com.colorata.wallman.core.ui.spacing
+import com.colorata.wallman.core.ui.theme.WallManPreviewTheme
+import com.colorata.wallman.wallpapers.WallpaperI
+import com.colorata.wallman.wallpapers.firstBaseWallpaper
+import com.colorata.wallman.wallpapers.firstPreviewRes
+import com.colorata.wallman.wallpapers.walls
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import kotlin.math.absoluteValue
+
+@OptIn(ExperimentalFoundationApi::class, ExperimentalStaggerApi::class)
+@Composable
+fun FeaturedWallpapersCarousel(
+    wallpapers: ImmutableList<WallpaperI>,
+    onClick: (WallpaperI) -> Unit,
+    modifier: Modifier = Modifier
+) {
+    val state = rememberPagerState(Int.MAX_VALUE / 2) {
+        Int.MAX_VALUE
+    }
+    val anim = animation
+    val scope = rememberCoroutineScope()
+    val currentProgress = remember { Animatable(0f) }
+    val visibleWallpapers = remember { wallpapers.toStaggerList({ 0f }, visible = false) }
+    var indicatorsVisible by remember { mutableStateOf(false) }
+    val transition = fade(animationSpec = anim.emphasized()) + slideVertically(
+        from = 100f,
+        animationSpec = anim.emphasized()
+    )
+    LaunchedEffect(Unit) {
+        visibleWallpapers.animateAsList(
+            this,
+            startIndex = state.currentPage % wallpapers.size,
+            spec = staggerSpecOf(itemsDelayMillis = 300) {
+                visible = true
+            })
+        delay(300)
+        indicatorsVisible = true
+    }
+    LaunchedEffect(Unit) {
+        while (true) {
+            launchIO({}) {
+                val page = state.currentPage
+                currentProgress.animateTo(
+                    1f, animationSpec = tween(5000, easing = LinearEasing)
+                )
+                if (state.currentPage == page && currentProgress.value == 1f) state.animateScrollToPage(
+                    state.currentPage + 1,
+                    animationSpec = anim.emphasized(anim.durationSpec.extraLong4)
+                )
+                currentProgress.animateTo(0f)
+            }.join()
+            delay(1000)
+        }
+    }
+    LaunchedEffect(Unit) {
+        snapshotFlow { state.isScrollInProgress }.collect {
+            if (state.isScrollInProgress) {
+                currentProgress.stop()
+                currentProgress.animateTo(0f)
+            }
+        }
+    }
+    Column(
+        modifier.fillMaxWidth(),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.large)
+    ) {
+        HorizontalPager(
+            state,
+            contentPadding = PaddingValues(horizontal = 96.dp),
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(384.dp),
+            pageSize = PageSize.Fixed(192.dp)
+        ) { index ->
+            val currentWallpaper = wallpapers[index % wallpapers.size]
+            Box(
+                Modifier
+                    .fillMaxSize(), contentAlignment = Alignment.Center
+            ) {
+                val cornerRadius = MaterialTheme.spacing.extraLarge
+                Box(
+                    Modifier
+                    .animateVisibility(
+                        visibleWallpapers[index % wallpapers.size].visible,
+                        transition
+                    )
+                    .clickable {
+                        scope.launch {
+                            if (state.currentPage != index) state.animateScrollToPage(
+                                index,
+                                animationSpec = anim.emphasized(anim.durationSpec.extraLong4)
+                            ) else onClick(currentWallpaper)
+                        }
+                    }
+                    .graphicsLayer {
+                        val pageOffset = state.calculateOffsetForIndex(index)
+                        alpha = lerp(0.5f, 1f, 1f - pageOffset)
+                        scaleX = lerp(0.85f, 1f, 1f - pageOffset)
+                        scaleY = lerp(0.85f, 1f, 1f - pageOffset)
+                    }
+                    .drawWithContent {
+                        val pageOffset = state.calculateOffsetForIndex(index)
+                        clipPath(Path().apply {
+                            this.addRoundRect(
+                                RoundRect(
+                                    Rect(
+                                        left = 48.dp.toPx() * pageOffset,
+                                        right = size.width - 48.dp.toPx() * pageOffset,
+                                        top = 0f,
+                                        bottom = size.height
+                                    ), CornerRadius(cornerRadius.toPx())
+                                )
+                            )
+                        }, clipOp = ClipOp.Intersect) {
+                            this@drawWithContent.drawContent()
+                        }
+                    }) {
+                    Image(
+                        bitmap = bitmapAsset(currentWallpaper.firstPreviewRes()),
+                        contentDescription = "",
+                        Modifier
+                            .align(Alignment.Center)
+                            .fillMaxSize(),
+                        contentScale = ContentScale.Crop
+                    )
+                    Button(
+                        onClick = { /*TODO*/ },
+                        Modifier
+                            .graphicsLayer {
+                                val pageOffset = state.calculateOffsetForIndex(index)
+                                alpha = maxOf(1f - pageOffset * 2, 0f)
+                            }
+                            .align(
+                                Alignment.BottomCenter
+                            )
+                            .padding(MaterialTheme.spacing.large)
+                            .drawWithContent {
+                                clipPath(Path().apply {
+                                    val pageOffset = state.calculateOffsetForIndex(index)
+                                    this.addRoundRect(
+                                        RoundRect(
+                                            Rect(
+                                                left = size.width / 2 * pageOffset,
+                                                right = size.width - size.width / 2 * pageOffset,
+                                                top = 0f,
+                                                bottom = size.height
+                                            ), CornerRadius(size.height / 2)
+                                        )
+                                    )
+                                }, clipOp = ClipOp.Intersect) {
+                                    this@drawWithContent.drawContent()
+                                }
+                            }
+                            .heightIn(min = 48.dp)
+                    ) {
+                        Text(
+                            rememberString(string = currentWallpaper.firstBaseWallpaper().shortName),
+                            maxLines = 2,
+                            textAlign = TextAlign.Center
+                        )
+                    }
+                }
+            }
+        }
+        Row(
+            Modifier.animateVisibility(indicatorsVisible, transition),
+            horizontalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.small)
+        ) {
+            wallpapers.forEachIndexed { index, _ ->
+                val pageOffset by remember {
+                    derivedStateOf {
+                        (state.currentPage % wallpapers.size - index + state.currentPageOffsetFraction).absoluteValue.coerceIn(
+                            0f,
+                            1f
+                        )
+                    }
+                }
+                val isSelected by remember { derivedStateOf { state.currentPage % wallpapers.size == index } }
+                val animatedWidth by animateDpAsState(
+                    12.dp + 24.dp * (1f - pageOffset),
+                    label = ""
+                )
+                val animatedBackground by animateColorAsState(
+                    if (isSelected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.surfaceVariant,
+                    label = ""
+                )
+                val surfaceVariant = MaterialTheme.colorScheme.surfaceVariant
+                Box(
+                    Modifier
+                        .clip(CircleShape)
+                        .drawBehind {
+                            drawRect(surfaceVariant)
+                            if (isSelected) drawRoundRect(
+                                animatedBackground,
+                                size = size.copy(width = size.width * currentProgress.value),
+                                cornerRadius = CornerRadius(size.height / 2)
+                            )
+                        }
+                        .width(animatedWidth)
+                        .height(12.dp))
+            }
+        }
+    }
+}
+
+@OptIn(ExperimentalFoundationApi::class)
+private fun PagerState.calculateOffsetForIndex(index: Int) =
+    (currentPage - index + currentPageOffsetFraction)
+        .absoluteValue.coerceIn(0f, 1f)
+
+@Preview
+@Composable
+private fun FeaturedWallpapersPreview() {
+    WallManPreviewTheme {
+        FeaturedWallpapersCarousel(walls.subList(0, 10), onClick = {})
+    }
+}

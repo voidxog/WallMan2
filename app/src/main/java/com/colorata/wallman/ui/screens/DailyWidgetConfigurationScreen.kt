@@ -19,10 +19,10 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.colorata.wallman.R
-import com.colorata.wallman.arch.Polyglot
-import com.colorata.wallman.arch.Strings
-import com.colorata.wallman.arch.rememberString
+import com.colorata.wallman.core.data.Polyglot
+import com.colorata.wallman.core.data.rememberString
 import com.colorata.wallman.ui.theme.spacing
+import com.colorata.wallman.core.data.Strings
 import kotlinx.collections.immutable.persistentListOf
 
 @OptIn(ExperimentalMaterial3Api::class)

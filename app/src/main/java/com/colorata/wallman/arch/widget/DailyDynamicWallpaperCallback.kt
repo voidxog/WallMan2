@@ -8,10 +8,10 @@ import androidx.glance.GlanceId
 import androidx.glance.action.ActionParameters
 import androidx.glance.appwidget.action.ActionCallback
 import androidx.glance.state.PreferencesGlanceStateDefinition
-import com.colorata.wallman.arch.graph
+import com.colorata.wallman.shared.graph
 import com.colorata.wallman.ui.widgets.DailyAppWidget
-import com.colorata.wallman.wallpaper.goToLiveWallpaper
-import com.colorata.wallman.wallpaper.supportsDynamicWallpapers
+import com.colorata.wallman.wallpapers.goToLiveWallpaper
+import com.colorata.wallman.wallpapers.supportsDynamicWallpapers
 
 @Keep
 class DailyDynamicWallpaperCallback : ActionCallback {
@@ -22,7 +22,7 @@ class DailyDynamicWallpaperCallback : ActionCallback {
     ) {
         val graph = context.graph
         val intentHandler = graph.intentHandler
-        val mainRepo = graph.mainRepo
+        val mainRepo = graph.wallpapersRepository
         val widget = WidgetState(context, PreferencesGlanceStateDefinition, glanceId)
         widget.update {
             val currentWallpaperHashcode =
@@ -40,7 +40,7 @@ class DailyDynamicWallpaperCallback : ActionCallback {
 }
 
 fun MutablePreferences.updateWallpaper(context: Context) {
-    val mainRepo = context.graph.mainRepo
+    val mainRepo = context.graph.wallpapersRepository
     val randomWallpaper =
         mainRepo.wallpapers.filter { it.supportsDynamicWallpapers() }.random()
     this[intPreferencesKey(DailyAppWidget.wallpaperHashcode.name)] =

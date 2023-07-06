@@ -16,11 +16,8 @@
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE_DATA_SYNC" />
 
-    <uses-feature
-        android:glEsVersion="0x00020000"
-        android:required="true" />
     <application
-        android:name=".arch.WallManApp"
+        android:name=".shared.WallManApp"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:enableOnBackInvokedCallback="true"
@@ -37,7 +34,7 @@
             tools:targetApi="q" />
 
         <activity
-            android:name=".EasterActivity"
+            android:name=".settings.about.ui.EasterActivity"
             android:exported="true"
             android:theme="@style/Theme.WallMan" />
 
@@ -56,41 +53,11 @@
                 android:resource="@xml/daily_widget_provider" />
         </receiver>
 
-        <service
-            android:name=".wallpaper.own.textwallpaper.TextWallpaperService"
-            android:enabled="false"
-            android:exported="true"
-            android:label="Live Text"
-            android:permission="android.permission.BIND_WALLPAPER">
-            <meta-data
-                android:name="android.service.wallpaper"
-                android:resource="@xml/text_wallpaper" />
-
-            <intent-filter>
-                <action android:name="android.service.wallpaper.WallpaperService" />
-            </intent-filter>
-        </service>
-
-        <service
-            android:name=".wallpaper.own.daynight.DayNightWallpaperService"
-            android:enabled="true"
-            android:exported="true"
-            android:label="Day/Night wallpaper"
-            android:permission="android.permission.BIND_WALLPAPER">
-            <meta-data
-                android:name="android.service.wallpaper"
-                android:resource="@xml/day_night_wallpaper" />
-
-            <intent-filter>
-                <action android:name="android.service.wallpaper.WallpaperService" />
-            </intent-filter>
-        </service>
-
         <activity
-            android:name=".MainActivity"
+            android:name=".shared.MainActivity"
             android:configChanges="orientation|screenSize"
             android:exported="true"
-            android:theme="@style/Theme.com.colorata.wallman.buildSrc.App.Starting"
+            android:theme="@style/Theme.WallMan"
             android:windowSoftInputMode="adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -101,7 +68,7 @@
         </activity>
 
         <receiver
-            android:name=".wallpaper.PackageReceiver"
+            android:name=".core.impl.PackageReceiver"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.PACKAGE_ADDED" />
@@ -110,15 +77,6 @@
                 <action android:name="android.intent.action.PACKAGE_FULLY_REMOVED" />
 
                 <data android:scheme="package" />
-            </intent-filter>
-        </receiver>
-
-        <receiver
-            android:name=".wallpaper.DayNightReceiver"
-            android:enabled="true"
-            android:exported="true">
-            <intent-filter android:priority="20">
-                <action android:name="android.intent.action.CONFIGURATION_CHANGED" />
             </intent-filter>
         </receiver>
 

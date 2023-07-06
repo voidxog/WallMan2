@@ -8,6 +8,7 @@
 
 **You can get legacy version [here](https://gitlab.com/colorata/WallMan-legacy)**
 
+**Experiments are located [here](https://gitlab.com/colorata/wallman-experimental)**
 ## 👀 Current Look
 
 | 🤖 Android                                                                                                       |                                                                                                                  |
@@ -28,7 +29,6 @@
 - [ ] Linux
 - [ ] Windows
 - [ ] MacOS
-- [ ] iOS
 
 ## ✅ ToDo
 
@@ -39,6 +39,7 @@
 - [ ] Move to multiplatform
 - [ ] Linux support
 - [ ] Windows support
+- [ ] MacOS support
 - [ ] Package to Flatpak
 - [ ] Publish on Flathub
 - [ ] Publish on F-Droid

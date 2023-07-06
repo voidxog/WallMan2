@@ -4,7 +4,6 @@ plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     id("org.jetbrains.kotlin.plugin.serialization")
-    //kotlin("kapt")
     id("app.cash.molecule")
 }
 
@@ -70,6 +69,14 @@ dependencies {
     implementation(Libraries.AndroidX.splashscreen)
     implementation(Libraries.AndroidX.work)
     implementation(Libraries.Ktor.library)
+
+    implementation(project(Modules.shared))
+    implementation(project(Modules.Core.data))
+    implementation(project(Modules.Settings.About.ui))
+    implementation(project(Modules.Core.impl))
+    implementation(project(Modules.Core.di))
+    implementation(project(Modules.Core.data))
+    implementation(project(Modules.Wallpapers.api))
 }
 
 gradle.taskGraph.whenReady {
