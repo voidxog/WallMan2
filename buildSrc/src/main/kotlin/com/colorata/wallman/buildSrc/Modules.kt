@@ -1,51 +1,81 @@
 package com.colorata.wallman.buildSrc
 
-object Modules {
-    val shared = ":shared"
-    object Core {
-        private const val prefix = ":common:core"
-        const val di = "$prefix:di"
-        const val data = "$prefix:data"
-        const val ui = "$prefix:ui"
-        const val impl = "$prefix:impl"
+import gradle.kotlin.dsl.accessors._880216c2616ecdf7c3cb978160b24f37.implementation
+import org.gradle.kotlin.dsl.DependencyHandlerScope
+import org.gradle.kotlin.dsl.project
+import org.jetbrains.kotlin.gradle.plugin.KotlinDependencyHandler
+
+fun KotlinDependencyHandler.modules(block: Modules.() -> Unit) {
+    val modules = Modules {
+        implementation(project(it))
+    }
+    modules.block()
+}
+
+fun DependencyHandlerScope.projectModules(block: Modules.() -> Unit) {
+    val modules = Modules {
+        implementation(project(it))
+    }
+    modules.block()
+}
+
+class Modules(private val implementation: (moduleName: String) -> Unit) {
+
+
+    fun shared() = implementation(":shared")
+
+    val core = Core()
+    inner class Core {
+        private val prefix = ":common:core"
+        fun di() = implementation("$prefix:di")
+        fun data() = implementation("$prefix:data")
+        fun ui() = implementation("$prefix:ui")
+        fun impl() = implementation("$prefix:impl")
     }
 
-    object Wallpapers {
-        private const val prefix = ":common:wallpapers"
-        const val api = "$prefix:api"
-        const val impl = "$prefix:impl"
-        const val ui = "$prefix:ui"
+    val wallpapers = Wallpapers()
+    inner class Wallpapers {
+        private val prefix = ":common:wallpapers"
+        fun api() = implementation("$prefix:api")
+        fun impl() = implementation("$prefix:impl")
+        fun ui() = implementation("$prefix:ui")
     }
 
-    object Categories {
-        private const val prefix = ":common:categories"
-        const val api = "$prefix:api"
-        const val ui = "$prefix:ui"
+    val categories = Categories()
+    inner class Categories {
+        private val prefix = ":common:categories"
+        fun api() = implementation("$prefix:api")
+        fun ui() = implementation("$prefix:ui")
     }
 
-    object Settings {
-        object Overview {
-            private const val prefix = ":common:settings:overview"
-            const val api = "$prefix:api"
-            const val ui = "$prefix:ui"
+    val settings = Settings()
+    inner class Settings {
+        val overview = Overview()
+        inner class Overview {
+            private val prefix = ":common:settings:overview"
+            fun api() = implementation("$prefix:api")
+            fun ui() = implementation("$prefix:ui")
         }
 
-        object Memory {
-            private const val prefix = ":common:settings:memory"
-            const val api = "$prefix:api"
-            const val ui = "$prefix:ui"
+        val memory = Memory()
+        inner class Memory {
+            private val prefix = ":common:settings:memory"
+            fun api() = implementation("$prefix:api")
+            fun ui() = implementation("$prefix:ui")
         }
 
-        object Mirror {
-            private const val prefix = ":common:settings:mirror"
-            const val api = "$prefix:api"
-            const val ui = "$prefix:ui"
+        val mirror = Mirror()
+        inner class Mirror {
+            private val prefix = ":common:settings:mirror"
+            fun api() = implementation("$prefix:api")
+            fun ui() = implementation("$prefix:ui")
         }
 
-        object About {
-            private const val prefix = ":common:settings:about"
-            const val api = "$prefix:api"
-            const val ui = "$prefix:ui"
+        val about = About()
+        inner class About {
+            private val prefix = ":common:settings:about"
+            fun api() = implementation("$prefix:api")
+            fun ui() = implementation("$prefix:ui")
         }
     }
 }

@@ -1,4 +1,5 @@
 import com.colorata.wallman.buildSrc.*
+import com.colorata.wallman.buildSrc.modules
 
 plugins {
     id("com.android.application")
@@ -70,13 +71,18 @@ dependencies {
     implementation(Libraries.AndroidX.work)
     implementation(Libraries.Ktor.library)
 
-    implementation(project(Modules.shared))
-    implementation(project(Modules.Core.data))
-    implementation(project(Modules.Settings.About.ui))
-    implementation(project(Modules.Core.impl))
-    implementation(project(Modules.Core.di))
-    implementation(project(Modules.Core.data))
-    implementation(project(Modules.Wallpapers.api))
+    projectModules {
+        shared()
+
+        core.data()
+        core.impl()
+        core.di()
+        core.data()
+
+        settings.about.ui()
+
+        wallpapers.api()
+    }
 }
 
 gradle.taskGraph.whenReady {

@@ -16,7 +16,7 @@ fun LibraryExtension.setup() {
     }
 }
 
-fun Project.kotlinDependencies(
+fun Project.projectDependencies(
     androidMainBlock: KotlinDependencyHandler.() -> Unit = {},
     androidUnitTestBlock: (KotlinDependencyHandler.() -> Unit)? = null,
     commonTestBlock: (KotlinDependencyHandler.() -> Unit)? = null,

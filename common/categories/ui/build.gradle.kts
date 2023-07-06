@@ -1,18 +1,23 @@
 import com.colorata.wallman.buildSrc.Modules
-import com.colorata.wallman.buildSrc.kotlinDependencies
+import com.colorata.wallman.buildSrc.modules
+import com.colorata.wallman.buildSrc.projectDependencies
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     id("compose-multiplatform-setup")
 }
 
-kotlinDependencies {
-    implementation(project(Modules.Core.data))
-    implementation(project(Modules.Core.di))
-    implementation(project(Modules.Core.ui))
-    implementation(project(Modules.Wallpapers.api))
-    implementation(project(Modules.Wallpapers.ui))
-    implementation(project(Modules.Categories.api))
+projectDependencies {
+    modules {
+        core.data()
+        core.di()
+        core.ui()
+
+        wallpapers.api()
+        wallpapers.ui()
+
+        categories.api()
+    }
 }
 
 tasks.withType<KotlinCompile> {

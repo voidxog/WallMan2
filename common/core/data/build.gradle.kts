@@ -8,7 +8,7 @@ plugins {
     id("app.cash.molecule")
 }
 
-kotlinDependencies {
+projectDependencies {
     api(Libraries.Kotlin.coroutines)
     api(Libraries.Kotlin.collectionsImmutable)
     api(Libraries.Compose.materialMotionNavigation)

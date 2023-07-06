@@ -6,9 +6,11 @@ plugins {
     id("multiplatform-setup")
 }
 
-kotlinDependencies {
-    implementation(project(Modules.Core.data))
-    implementation(project(Modules.Categories.api))
+projectDependencies {
+    modules {
+        core.data()
+        categories.api()
+    }
     implementation(Libraries.Compose.runtime)
     implementation(Libraries.Compose.material3)
 }

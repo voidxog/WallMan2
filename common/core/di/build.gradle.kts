@@ -6,9 +6,11 @@ plugins {
     id("org.jetbrains.kotlin.plugin.serialization")
 }
 
-kotlinDependencies {
-    implementation(project(Modules.Wallpapers.api))
-    implementation(project(Modules.Core.data))
+projectDependencies {
+    modules {
+        wallpapers.api()
+        core.data()
+    }
 }
 
 tasks.withType<KotlinCompile> {

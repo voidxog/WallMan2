@@ -1,12 +1,11 @@
-import com.colorata.wallman.buildSrc.Modules
-import com.colorata.wallman.buildSrc.kotlinDependencies
+import com.colorata.wallman.buildSrc.projectDependencies
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     id("compose-multiplatform-setup")
 }
 
-kotlinDependencies {
+projectDependencies {
     api(Libraries.Colorata.animateAsLifestyle)
     api(Libraries.AndroidX.lifecycleViewModel)
     api(Libraries.AndroidX.lifecycleCompose)
