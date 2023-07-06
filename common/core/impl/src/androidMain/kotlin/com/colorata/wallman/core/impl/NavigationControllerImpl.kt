@@ -46,6 +46,7 @@ class NavigationControllerImpl(
     override fun resetRootTo(destination: Destination) {
         composeController.navigate(destination.path.replace("//", "/")) {
             popUpTo(destination.name)
+            launchSingleTop = true
         }
     }
 

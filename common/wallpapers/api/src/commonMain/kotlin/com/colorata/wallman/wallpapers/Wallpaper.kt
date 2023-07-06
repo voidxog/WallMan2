@@ -1,13 +1,11 @@
 package com.colorata.wallman.wallpapers
 
-import androidx.annotation.DrawableRes
 import androidx.compose.material.icons.Icons
 import androidx.compose.runtime.Immutable
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.colorata.wallman.categories.api.WallpaperCategory
 import com.colorata.wallman.core.data.*
 import com.colorata.wallman.ui.icons.*
-import com.colorata.wallman.wallpapers.api.R
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
 

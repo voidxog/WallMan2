@@ -100,7 +100,7 @@ fun BottomBar() {
                 stagger.forEach {
                     NavigationBarItem(
                         selected = route == it.value.name,
-                        onClick = { if (route != it.value.name) navController.navigate(destination(it.value.name)) },
+                        onClick = { if (route != it.value.name) navController.resetRootTo(destination(it.value.name)) },
                         icon = {
                             Icon(
                                 imageVector = if (route == it.value.name) it.value.filledIcon else it.value.outlinedIcon,

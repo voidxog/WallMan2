@@ -6,22 +6,10 @@ plugins {
     id("multiplatform-setup")
 }
 
-kotlin {
-    sourceSets {
-        val commonMain by getting {
-            dependencies {
-                implementation(Libraries.Kotlin.coroutines)
-                implementation(Libraries.Kotlin.collectionsImmutable)
-                implementation(Libraries.AndroidX.core)
-                implementation(Libraries.Compose.runtime)
-                implementation(Libraries.Compose.ui)
-                implementation(Libraries.Compose.material3)
-                implementation(project(Modules.Core.data))
-                implementation(project(Modules.Core.di))
-                implementation(project(Modules.Wallpapers.api))
-            }
-        }
-    }
+kotlinDependencies {
+    implementation(project(Modules.Core.data))
+    implementation(project(Modules.Core.di))
+    implementation(project(Modules.Wallpapers.api))
 }
 
 tasks.withType<KotlinCompile> {

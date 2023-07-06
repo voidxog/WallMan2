@@ -11,10 +11,10 @@ plugins {
 kotlinDependencies {
     api(Libraries.Kotlin.coroutines)
     api(Libraries.Kotlin.collectionsImmutable)
-    implementation(Libraries.Compose.materialMotionNavigation)
+    api(Libraries.Compose.materialMotionNavigation)
     api(Libraries.Kotlin.serialization)
     implementation(Libraries.Compose.material3)
-    implementation(Libraries.Compose.runtime)
+    api(Libraries.Compose.runtime)
 }
 
 
