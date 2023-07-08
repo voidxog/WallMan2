@@ -39,7 +39,7 @@
             android:theme="@style/Theme.WallMan" />
 
         <receiver
-            android:name=".ui.widgets.DailyAppWidgetReceiver"
+            android:name=".widget.impl.DailyAppWidgetReceiver"
             android:enabled="true"
             android:exported="true"
             android:label="@string/daily_widget_label">

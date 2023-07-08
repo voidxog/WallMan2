@@ -11,6 +11,7 @@ interface IntentHandler {
 
     fun goToMaps(coordinates: Coordinates)
 
+    fun exit()
 
     object NoopIntentHandler : IntentHandler {
         override fun goToUrl(url: String) {}
@@ -20,5 +21,7 @@ interface IntentHandler {
         override fun goToLiveWallpaper(packageName: String, serviceName: String) {}
 
         override fun goToMaps(coordinates: Coordinates) {}
+
+        override fun exit() {}
     }
 }

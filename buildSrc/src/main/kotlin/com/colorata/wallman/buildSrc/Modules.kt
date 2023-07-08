@@ -25,6 +25,7 @@ class Modules(private val implementation: (moduleName: String) -> Unit) {
     fun shared() = implementation(":shared")
 
     val core = Core()
+
     inner class Core {
         private val prefix = ":common:core"
         fun di() = implementation("$prefix:di")
@@ -34,6 +35,7 @@ class Modules(private val implementation: (moduleName: String) -> Unit) {
     }
 
     val wallpapers = Wallpapers()
+
     inner class Wallpapers {
         private val prefix = ":common:wallpapers"
         fun api() = implementation("$prefix:api")
@@ -42,15 +44,28 @@ class Modules(private val implementation: (moduleName: String) -> Unit) {
     }
 
     val categories = Categories()
+
     inner class Categories {
         private val prefix = ":common:categories"
         fun api() = implementation("$prefix:api")
         fun ui() = implementation("$prefix:ui")
     }
 
+    val widget = Widget()
+
+    inner class Widget {
+        private val prefix = ":common:widget"
+        fun api() = implementation("$prefix:api")
+        fun impl() = implementation("$prefix:impl")
+        fun ui() = implementation("$prefix:ui")
+        fun uiWidget() = implementation("$prefix:ui-widget")
+    }
+
     val settings = Settings()
+
     inner class Settings {
         val overview = Overview()
+
         inner class Overview {
             private val prefix = ":common:settings:overview"
             fun api() = implementation("$prefix:api")
@@ -58,6 +73,7 @@ class Modules(private val implementation: (moduleName: String) -> Unit) {
         }
 
         val memory = Memory()
+
         inner class Memory {
             private val prefix = ":common:settings:memory"
             fun api() = implementation("$prefix:api")
@@ -65,6 +81,7 @@ class Modules(private val implementation: (moduleName: String) -> Unit) {
         }
 
         val mirror = Mirror()
+
         inner class Mirror {
             private val prefix = ":common:settings:mirror"
             fun api() = implementation("$prefix:api")
@@ -72,6 +89,7 @@ class Modules(private val implementation: (moduleName: String) -> Unit) {
         }
 
         val about = About()
+
         inner class About {
             private val prefix = ":common:settings:about"
             fun api() = implementation("$prefix:api")

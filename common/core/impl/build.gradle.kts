@@ -15,6 +15,9 @@ projectDependencies {
 
         wallpapers.impl()
         wallpapers.api()
+
+        widget.api()
+        widget.impl()
     }
 
     implementation(Libraries.AndroidX.dataStore)

@@ -3,8 +3,8 @@ package com.colorata.wallman.core.di.impl
 import android.app.Application
 import com.colorata.wallman.core.*
 import com.colorata.wallman.core.data.IntentHandler
+import com.colorata.wallman.core.data.NavigationController
 import com.colorata.wallman.core.di.Graph
-import com.colorata.wallman.core.NavigationController
 import com.colorata.wallman.core.impl.ApplicationSettingsImpl
 import com.colorata.wallman.core.impl.NavigationControllerImpl
 import com.colorata.wallman.wallpapers.WallpaperManager
@@ -13,6 +13,7 @@ import com.colorata.wallman.wallpapers.WallpapersRepository
 import com.colorata.wallman.wallpapers.impl.WallpaperManagerImpl
 import com.colorata.wallman.wallpapers.impl.WallpaperProviderImpl
 import com.colorata.wallman.wallpapers.impl.WallpapersRepositoryImpl
+import com.colorata.wallman.widget.api.EverydayWidgetRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 
@@ -46,4 +47,7 @@ actual class GraphImpl(private val application: Application) : Graph {
     override val wallpapersRepository: WallpapersRepository by lazy {
         WallpapersRepositoryImpl()
     }
+
+    override var everydayWidgetRepository: EverydayWidgetRepository =
+        EverydayWidgetRepository.NoopEverydayWidgetRepository
 }

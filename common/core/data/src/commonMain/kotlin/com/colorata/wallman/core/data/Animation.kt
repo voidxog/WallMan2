@@ -4,8 +4,10 @@ import androidx.compose.animation.core.CubicBezierEasing
 import androidx.compose.animation.core.Easing
 import androidx.compose.animation.core.FiniteAnimationSpec
 import androidx.compose.animation.core.tween
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
+import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.runtime.compositionLocalOf
 
 @Immutable
@@ -29,33 +31,27 @@ data class EasingSpec(
 
 data class Animation(val durationSpec: DurationSpec, val easingSpec: EasingSpec) {
     fun <T> emphasized(
-        durationMillis: Int = durationSpec.long2,
-        delayMillis: Int = 0
+        durationMillis: Int = durationSpec.long2, delayMillis: Int = 0
     ): FiniteAnimationSpec<T> = tween(durationMillis, delayMillis, easingSpec.emphasized)
 
     fun <T> emphasizedDecelerate(
-        durationMillis: Int = durationSpec.medium3,
-        delayMillis: Int = 0
+        durationMillis: Int = durationSpec.medium3, delayMillis: Int = 0
     ): FiniteAnimationSpec<T> = tween(durationMillis, delayMillis, easingSpec.emphasizedDecelerate)
 
     fun <T> emphasizedAccelerate(
-        durationMillis: Int = durationSpec.medium4,
-        delayMillis: Int = 0
+        durationMillis: Int = durationSpec.medium4, delayMillis: Int = 0
     ): FiniteAnimationSpec<T> = tween(durationMillis, delayMillis, easingSpec.emphasizedAccelerate)
 
     fun <T> standard(
-        durationMillis: Int = durationSpec.medium2,
-        delayMillis: Int = 0
+        durationMillis: Int = durationSpec.medium2, delayMillis: Int = 0
     ): FiniteAnimationSpec<T> = tween(durationMillis, delayMillis, easingSpec.standard)
 
     fun <T> standardDecelerate(
-        durationMillis: Int = durationSpec.short3,
-        delayMillis: Int = 0
+        durationMillis: Int = durationSpec.short3, delayMillis: Int = 0
     ): FiniteAnimationSpec<T> = tween(durationMillis, delayMillis, easingSpec.standardDecelerate)
 
     fun <T> standardAccelerate(
-        durationMillis: Int = durationSpec.short4,
-        delayMillis: Int = 0
+        durationMillis: Int = durationSpec.short4, delayMillis: Int = 0
     ): FiniteAnimationSpec<T> = tween(durationMillis, delayMillis, easingSpec.standardAccelerate)
 }
 
@@ -80,6 +76,15 @@ data class DurationSpec(
 
 val LocalAnimation = compositionLocalOf { Animation(DurationSpec(), EasingSpec()) }
 
+val MaterialTheme.animation: Animation
+    @Composable @ReadOnlyComposable get() = LocalAnimation.current
+
+@Deprecated(
+    "Use MaterialTheme.animation instead",
+    replaceWith = ReplaceWith(
+        "MaterialTheme.animation",
+        "androidx.compose.material3.MaterialTheme"
+    )
+)
 val animation: Animation
-    @Composable
-    get() = LocalAnimation.current
+    @Composable get() = LocalAnimation.current

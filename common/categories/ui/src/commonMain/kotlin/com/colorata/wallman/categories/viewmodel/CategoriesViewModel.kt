@@ -7,12 +7,11 @@ import app.cash.molecule.RecompositionClock
 import app.cash.molecule.launchMolecule
 import com.colorata.wallman.categories.api.CategoryDetailsDestination
 import com.colorata.wallman.categories.api.WallpaperCategory
-import com.colorata.wallman.core.NavigationController
+import com.colorata.wallman.core.data.NavigationController
 import com.colorata.wallman.core.data.Destinations
 import com.colorata.wallman.core.di.Graph
 import com.colorata.wallman.wallpapers.WallpaperI
 import com.colorata.wallman.wallpapers.WallpapersRepository
-import com.colorata.wallman.wallpapers.categoryWallpapers
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
 

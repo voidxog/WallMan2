@@ -20,7 +20,9 @@ class LibraryVersions {
         const val base = "1.5.0-beta02"
         const val material3 = "1.2.0-alpha02"
 
-        const val materialMotion = "1.0.1"
+        const val materialMotion = "1.0.3"
+
+        const val navigation = "2.7.0-beta02"
 
         const val coil = "2.4.0"
 

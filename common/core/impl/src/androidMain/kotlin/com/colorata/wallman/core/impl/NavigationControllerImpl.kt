@@ -1,31 +1,31 @@
 package com.colorata.wallman.core.impl
 
 import android.content.Context
-import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.ui.Modifier
 import androidx.navigation.NavDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.Navigator
 import androidx.navigation.compose.ComposeNavigator
 import androidx.navigation.compose.DialogNavigator
-import com.colorata.wallman.core.data.Destination
-import com.colorata.wallman.core.NavigationController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.rememberNavController
+import com.colorata.wallman.core.data.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
-import soup.compose.material.motion.navigation.MaterialMotionComposeNavigator
 
 class NavigationControllerImpl(
-    private val context: Context,
-    scope: CoroutineScope,
-    private val navigators: List<Navigator<out NavDestination>> = emptyList()
+    context: Context,
+    private val scope: CoroutineScope
 ) : NavigationController {
-    @OptIn(ExperimentalAnimationApi::class)
     private fun createMaterialMotionNavController(
         context: Context, vararg navigators: Navigator<out NavDestination>
     ): NavHostController {
-        val navigator = MaterialMotionComposeNavigator()
+        val navigator = ComposeNavigator()
         val controller = NavHostController(context).apply {
             (listOf(ComposeNavigator(), DialogNavigator(), navigator) + navigators).forEach {
                 navigatorProvider.addNavigator(it)
@@ -34,7 +34,7 @@ class NavigationControllerImpl(
         return controller
     }
 
-    override val composeController by lazy { createMaterialMotionNavController(context, *navigators.toTypedArray()) }
+    private var composeController = createMaterialMotionNavController(context)
     override fun navigate(destination: Destination) {
         composeController.navigate(destination.path.replace("//", "/"))
     }
@@ -50,7 +50,24 @@ class NavigationControllerImpl(
         }
     }
 
-    override val currentPath: StateFlow<String> =
-        composeController.currentBackStackEntryFlow.map { it.destination.route ?: "" }
+    override val currentPath: StateFlow<String>
+        get() = composeController.currentBackStackEntryFlow.map { it.destination.route ?: "" }
             .stateIn(scope, SharingStarted.Lazily, "")
+
+    @Composable
+    override fun NavigationHost(
+        startDestination: Destination,
+        animation: Animation,
+        modifier: Modifier,
+        builder: MaterialNavGraphBuilder.() -> Unit
+    ) {
+        val navController = rememberNavController()
+        LaunchedEffect(Unit) {
+            composeController = navController
+        }
+        NavHost(navController, startDestination = startDestination.path, modifier = modifier) {
+            val navBuilder = MaterialNavGraphBuilder(this, animation)
+            navBuilder.builder()
+        }
+    }
 }

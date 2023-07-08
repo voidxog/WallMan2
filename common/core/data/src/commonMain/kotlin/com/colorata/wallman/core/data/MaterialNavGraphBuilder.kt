@@ -1,22 +1,24 @@
 package com.colorata.wallman.core.data
 
 import androidx.compose.animation.*
+import androidx.compose.animation.core.FastOutLinearInEasing
+import androidx.compose.animation.core.FastOutSlowInEasing
+import androidx.compose.animation.core.LinearOutSlowInEasing
+import androidx.compose.animation.core.tween
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NamedNavArgument
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavDeepLink
 import androidx.navigation.NavGraphBuilder
-import soup.compose.material.motion.animation.materialFadeThroughIn
-import soup.compose.material.motion.animation.materialFadeThroughOut
-import soup.compose.material.motion.animation.materialSharedAxisXIn
-import soup.compose.material.motion.animation.materialSharedAxisXOut
-import soup.compose.material.motion.navigation.composable
+import androidx.navigation.compose.composable
+
 
 class MaterialNavGraphBuilder(
     private val builder: NavGraphBuilder,
     val animation: Animation
 ) {
-    @OptIn(ExperimentalAnimationApi::class)
     fun composable(
         route: String,
         arguments: List<NamedNavArgument> = emptyList(),

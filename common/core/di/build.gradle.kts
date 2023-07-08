@@ -9,6 +9,8 @@ plugins {
 projectDependencies {
     modules {
         wallpapers.api()
+
+        widget.api()
         core.data()
     }
 }

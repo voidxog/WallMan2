@@ -1,4 +1,3 @@
-import com.colorata.wallman.buildSrc.Modules
 import com.colorata.wallman.buildSrc.modules
 import com.colorata.wallman.buildSrc.projectDependencies
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
@@ -12,6 +11,7 @@ projectDependencies(androidUnitTestBlock = {}, commonTestBlock = {}) {
     implementation(Libraries.AndroidX.activity)
     implementation(Libraries.AndroidX.splashscreen)
     implementation(Libraries.AndroidX.startup)
+    implementation(com.colorata.wallman.buildSrc.Libraries.Compose.navigation)
     modules {
         core.impl()
         core.data()
@@ -23,6 +23,10 @@ projectDependencies(androidUnitTestBlock = {}, commonTestBlock = {}) {
 
         categories.api()
         categories.ui()
+
+        widget.api()
+        widget.impl()
+        widget.ui()
 
         settings.overview.ui()
         settings.about.ui()

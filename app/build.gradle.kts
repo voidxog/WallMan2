@@ -82,6 +82,9 @@ dependencies {
         settings.about.ui()
 
         wallpapers.api()
+
+        widget.impl()
+        widget.uiWidget()
     }
 }
 

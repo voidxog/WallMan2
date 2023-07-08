@@ -46,9 +46,6 @@ import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.mutate
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toImmutableList
-import soup.compose.material.motion.MaterialMotion
-import soup.compose.material.motion.animation.materialSharedAxisX
-import soup.compose.material.motion.animation.materialSharedAxisY
 
 fun MaterialNavGraphBuilder.wallpaperDetailsScreen() {
     flatComposable(Destinations.WallpaperDetailsDestination()) { entry ->
@@ -412,7 +409,7 @@ private fun BottomBar(
             ),
             enabled = state.selectedWallpaperType == WallpaperI.SelectedWallpaperType.Dynamic && state.wallpaper.supportsDynamicWallpapers()
         ) {
-            MaterialMotion(targetState = state.cacheState, transitionSpec = {
+            AnimatedContent(targetState = state.cacheState, transitionSpec = {
                 materialSharedAxisY(true, 100)
             }) {
                 Text(text = rememberString(it.label))
@@ -430,13 +427,13 @@ private fun BottomBar(
                 MaterialTheme.spacing.extraSmall
             )
         ) {
-            MaterialMotion(targetState = state.selectedWallpaperType.icon, transitionSpec = {
+            AnimatedContent(targetState = state.selectedWallpaperType.icon, transitionSpec = {
                 materialSharedAxisY(true, 100)
             }) {
                 Icon(imageVector = it, contentDescription = "")
             }
             Spacer(modifier = Modifier.width(MaterialTheme.spacing.small))
-            MaterialMotion(targetState = state.actionType.label, transitionSpec = {
+            AnimatedContent(targetState = state.actionType.label, transitionSpec = {
                 materialSharedAxisY(true, 100)
             }) {
                 Text(text = rememberString(string = it))

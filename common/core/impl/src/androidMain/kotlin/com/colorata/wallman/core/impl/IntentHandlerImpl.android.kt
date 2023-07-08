@@ -1,5 +1,6 @@
 package com.colorata.wallman.core.impl
 
+import android.app.Activity
 import android.app.WallpaperManager
 import android.content.ComponentName
 import android.content.Context
@@ -9,7 +10,7 @@ import com.colorata.wallman.core.data.Coordinates
 import com.colorata.wallman.core.data.IntentHandler
 import kotlin.reflect.KClass
 
-class IntentHandlerImpl(private val context: Context): IntentHandler {
+class IntentHandlerImpl(private val context: Context) : IntentHandler {
     override fun goToUrl(url: String) {
         Intent(Intent.ACTION_VIEW, Uri.parse(url)).apply {
             addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
@@ -49,6 +50,10 @@ class IntentHandlerImpl(private val context: Context): IntentHandler {
             Intent.ACTION_VIEW,
             Uri.parse(url)
         ).start()
+    }
+
+    override fun exit() {
+        (context as Activity).finish()
     }
 
     private fun Intent.start() = context.startActivity(this)

@@ -1,7 +1,6 @@
 package com.colorata.wallman.shared
 
 import android.os.Build
-import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.FastOutLinearInEasing
 import androidx.compose.animation.core.LinearOutSlowInEasing
@@ -12,7 +11,6 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
-import androidx.navigation.compose.currentBackStackEntryAsState
 import com.colorata.animateaslifestyle.animateVisibility
 import com.colorata.animateaslifestyle.fade
 import com.colorata.animateaslifestyle.isCompositionLaunched
@@ -27,35 +25,31 @@ import com.colorata.wallman.settings.memory.ui.cacheScreen
 import com.colorata.wallman.settings.mirror.ui.mirrorScreen
 import com.colorata.wallman.settings.overview.ui.aboutScreen
 import com.colorata.wallman.settings.overview.ui.settingsScreen
+import com.colorata.wallman.wallpapers.MainDestination
 import com.colorata.wallman.wallpapers.ui.mainScreen
 import com.colorata.wallman.wallpapers.ui.wallpaperDetailsScreen
-import soup.compose.material.motion.navigation.MaterialMotionNavHost
+import com.colorata.wallman.widget.ui.shapePickerScreen
 
-@OptIn(ExperimentalAnimationApi::class)
 @Composable
-fun Navigation() {
+fun Navigation(startDestination: Destination = Destinations.MainDestination()) {
     val navController = LocalGraph.current.navigationController
     Scaffold(bottomBar = {
         BottomBar()
     }) { padding ->
-        val anim = animation
         CompositionLocalProvider(LocalPaddings provides padding) {
-            MaterialMotionNavHost(
-                navController = navController.composeController,
-                startDestination = "Main"
-            ) {
-                val materialBuilder = MaterialNavGraphBuilder(this, anim)
-                materialBuilder.apply {
-                    mainScreen()
-                    wallpaperDetailsScreen()
-                    categoriesScreen()
-                    categoryDetailsScreen()
+            navController.NavigationHost(startDestination, MaterialTheme.animation, Modifier) {
+                mainScreen()
+                wallpaperDetailsScreen()
 
-                    settingsScreen()
-                    aboutScreen()
-                    mirrorScreen()
-                    cacheScreen()
-                }
+                categoriesScreen()
+                categoryDetailsScreen()
+
+                shapePickerScreen()
+
+                settingsScreen()
+                aboutScreen()
+                mirrorScreen()
+                cacheScreen()
             }
         }
     }

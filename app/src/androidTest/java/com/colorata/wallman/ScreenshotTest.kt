@@ -1,6 +1,8 @@
 package com.colorata.wallman
 
+import android.app.Activity
 import android.graphics.Bitmap
+import androidx.activity.ComponentActivity
 import androidx.compose.ui.graphics.asAndroidBitmap
 import androidx.compose.ui.test.captureToImage
 import androidx.compose.ui.test.hasTestTag
@@ -26,7 +28,7 @@ import java.io.FileOutputStream
 @RunWith(AndroidJUnit4::class)
 class ScreenshotTest {
     @get:Rule
-    val rule = createAndroidComposeRule<MainActivity>()
+    val rule = createAndroidComposeRule<ComponentActivity>()
 
     @Test
     fun mainScreen() {

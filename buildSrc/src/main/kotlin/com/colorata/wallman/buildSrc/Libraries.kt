@@ -43,6 +43,7 @@ object Libraries {
         const val materialMotionNavigation = "io.github.fornewid:material-motion-compose-navigation:${LibraryVersions.Compose.materialMotion}"
         const val materialMotionCore = "io.github.fornewid:material-motion-compose-core:${LibraryVersions.Compose.materialMotion}"
 
+        const val navigation = "androidx.navigation:navigation-compose:${LibraryVersions.Compose.navigation}"
         const val coil = "io.coil-kt:coil-compose:${LibraryVersions.Compose.coil}"
 
         const val glance = "androidx.glance:glance:${LibraryVersions.Compose.glance}"
