@@ -1,5 +1,3 @@
-import com.colorata.wallman.buildSrc.setupKotlin
-
 plugins {
     kotlin("multiplatform")
     id("com.android.library")
@@ -10,8 +8,10 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                implementation(Libraries.Compose.runtime)
-                implementation(Libraries.Compose.material3)
+                internal {
+                    compose.runtime()
+                    compose.material3()
+                }
             }
         }
     }

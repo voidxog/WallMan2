@@ -1,5 +1,4 @@
-import com.colorata.wallman.buildSrc.*
-import com.colorata.wallman.buildSrc.modules
+import com.colorata.wallman.buildSrc.AppDefaultPlugin
 
 plugins {
     id("com.android.application")
@@ -26,12 +25,6 @@ android {
 }
 
 dependencies {
-    implementation(Libraries.AndroidX.core)
-    implementation(Libraries.AndroidX.lifecycle)
-    implementation(Libraries.AndroidX.lifecycleCompose)
-    implementation(Libraries.AndroidX.lifecycleService)
-    implementation(Libraries.AndroidX.activity)
-
     testImplementation(Libraries.Test.junit)
     androidTestImplementation(Libraries.Test.androidXJunit)
     androidTestImplementation(Libraries.Compose.uiTest)
@@ -40,36 +33,6 @@ dependencies {
     debugImplementation(Libraries.Compose.uiTooling)
     implementation(Libraries.Compose.uiToolingPreview)
     debugImplementation(Libraries.Compose.uiTestManifest)
-
-    implementation(Libraries.Compose.activity)
-    implementation(Libraries.Compose.ui)
-    implementation(Libraries.Compose.uiUtil)
-    implementation(Libraries.Compose.material3)
-    implementation(Libraries.Compose.material3WindowSize)
-
-    implementation(Libraries.Accompanist.systemUiController)
-    implementation(Libraries.Accompanist.flowLayout)
-
-    implementation(Libraries.Compose.materialMotionCore)
-    implementation(Libraries.Compose.materialMotionNavigation)
-
-    implementation(Libraries.AndroidX.dataStore)
-    implementation(Libraries.AndroidX.dataStoreCore)
-    implementation(Libraries.Kotlin.collectionsImmutable)
-    implementation(Libraries.Kotlin.serialization)
-
-    implementation(Libraries.Compose.coil)
-
-    implementation(Libraries.Compose.glance)
-    implementation(Libraries.Compose.glanceAppWidget)
-
-    implementation(Libraries.Colorata.animateAsLifestyle)
-
-    implementation(Libraries.AndroidX.profileInstaller)
-    implementation(Libraries.AndroidX.startup)
-    implementation(Libraries.AndroidX.splashscreen)
-    implementation(Libraries.AndroidX.work)
-    implementation(Libraries.Ktor.library)
 
     projectModules {
         shared()

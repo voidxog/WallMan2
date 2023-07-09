@@ -1,6 +1,3 @@
-import com.colorata.wallman.buildSrc.Libraries
-import com.colorata.wallman.buildSrc.projectDependencies
-
 plugins {
     multiplatformSetup()
     serialization()
@@ -8,10 +5,14 @@ plugins {
 }
 
 projectDependencies {
-    api(Libraries.Kotlin.coroutines)
-    api(Libraries.Kotlin.collectionsImmutable)
-    api(Libraries.Compose.navigation)
-    api(Libraries.Kotlin.serialization)
-    implementation(Libraries.Compose.material3)
-    api(Libraries.Compose.runtime)
+    external {
+        kotlin.coroutines()
+        kotlin.collectionsImmutable()
+        compose.navigation()
+        kotlin.serialization()
+        compose.runtime()
+    }
+    internal {
+        compose.material3()
+    }
 }

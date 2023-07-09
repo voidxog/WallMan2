@@ -1,6 +1,3 @@
-import com.colorata.wallman.buildSrc.modules
-import com.colorata.wallman.buildSrc.projectDependencies
-
 plugins {
     composeMultiplatformSetup()
 }

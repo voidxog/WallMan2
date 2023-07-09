@@ -1,5 +1,3 @@
-package com.colorata.wallman.buildSrc
-
 import gradle.kotlin.dsl.accessors._880216c2616ecdf7c3cb978160b24f37.implementation
 import org.gradle.kotlin.dsl.DependencyHandlerScope
 import org.gradle.kotlin.dsl.project
