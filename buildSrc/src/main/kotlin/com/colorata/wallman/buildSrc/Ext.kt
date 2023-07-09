@@ -5,15 +5,35 @@ import com.android.build.api.dsl.LibraryExtension
 import gradle.kotlin.dsl.accessors._880216c2616ecdf7c3cb978160b24f37.kotlin
 import gradle.kotlin.dsl.accessors._880216c2616ecdf7c3cb978160b24f37.sourceSets
 import org.gradle.api.Project
-import org.gradle.kotlin.dsl.getting
 import org.gradle.kotlin.dsl.getValue
+import org.gradle.kotlin.dsl.getting
+import org.jetbrains.kotlin.gradle.dsl.KotlinCommonOptions
 import org.jetbrains.kotlin.gradle.plugin.KotlinDependencyHandler
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 fun LibraryExtension.setup() {
     compileSdk = App.compileSdk
     defaultConfig {
         minSdk = App.minSdk
     }
+}
+
+fun Project.setupKotlin() {
+    tasks.withType(KotlinCompile::class.java) {
+        kotlinOptions.jvmTarget = "18"
+        kotlinOptions.composeReports(project.buildDir.absolutePath)
+    }
+}
+
+fun KotlinCommonOptions.composeReports(path: String) {
+    freeCompilerArgs += listOf(
+        "-P",
+        "plugin:androidx.compose.compiler.plugins.kotlin:reportsDestination=$path"
+    )
+    freeCompilerArgs += listOf(
+        "-P",
+        "plugin:androidx.compose.compiler.plugins.kotlin:suppressKotlinVersionCompatibilityCheck=1.8.21"
+    )
 }
 
 fun Project.projectDependencies(

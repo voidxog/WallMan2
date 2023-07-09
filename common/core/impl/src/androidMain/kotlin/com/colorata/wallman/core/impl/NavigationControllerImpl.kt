@@ -3,6 +3,8 @@ package com.colorata.wallman.core.impl
 import android.content.Context
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.saveable.Saver
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavDestination
 import androidx.navigation.NavHostController
@@ -35,6 +37,7 @@ class NavigationControllerImpl(
     }
 
     private var composeController = createMaterialMotionNavController(context)
+
     override fun navigate(destination: Destination) {
         composeController.navigate(destination.path.replace("//", "/"))
     }
@@ -62,9 +65,8 @@ class NavigationControllerImpl(
         builder: MaterialNavGraphBuilder.() -> Unit
     ) {
         val navController = rememberNavController()
-        LaunchedEffect(Unit) {
-            composeController = navController
-        }
+        rememberSaveable(saver = Saver(save = { null }, restore = { })) { composeController = navController }
+
         NavHost(navController, startDestination = startDestination.path, modifier = modifier) {
             val navBuilder = MaterialNavGraphBuilder(this, animation)
             navBuilder.builder()

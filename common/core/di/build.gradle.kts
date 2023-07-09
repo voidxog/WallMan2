@@ -1,9 +1,9 @@
-import com.colorata.wallman.buildSrc.*
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import com.colorata.wallman.buildSrc.modules
+import com.colorata.wallman.buildSrc.projectDependencies
 
 plugins {
-    id("multiplatform-setup")
-    id("org.jetbrains.kotlin.plugin.serialization")
+    multiplatformSetup()
+    serialization()
 }
 
 projectDependencies {
@@ -13,8 +13,4 @@ projectDependencies {
         widget.api()
         core.data()
     }
-}
-
-tasks.withType<KotlinCompile> {
-    kotlinOptions.jvmTarget = "18"
 }

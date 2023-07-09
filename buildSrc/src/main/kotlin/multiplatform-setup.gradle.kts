@@ -1,3 +1,5 @@
+import com.colorata.wallman.buildSrc.setupKotlin
+
 plugins {
     kotlin("multiplatform")
     id("com.android.library")
@@ -32,3 +34,5 @@ android {
         kotlinCompilerExtensionVersion = LibraryVersions.Compose.compiler
     }
 }
+
+setupKotlin()
