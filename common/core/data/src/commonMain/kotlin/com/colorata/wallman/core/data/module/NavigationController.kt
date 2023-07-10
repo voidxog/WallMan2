@@ -1,8 +1,10 @@
-package com.colorata.wallman.core.data
+package com.colorata.wallman.core.data.module
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.navigation.NavHostController
+import com.colorata.wallman.core.data.Animation
+import com.colorata.wallman.core.data.Destination
+import com.colorata.wallman.core.data.MaterialNavGraphBuilder
 import kotlinx.coroutines.flow.StateFlow
 
 interface NavigationController {

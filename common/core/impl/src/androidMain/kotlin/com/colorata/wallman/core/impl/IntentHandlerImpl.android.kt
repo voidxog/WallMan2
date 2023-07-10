@@ -7,7 +7,7 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import com.colorata.wallman.core.data.Coordinates
-import com.colorata.wallman.core.data.IntentHandler
+import com.colorata.wallman.core.data.module.IntentHandler
 import kotlin.reflect.KClass
 
 class IntentHandlerImpl(private val context: Context) : IntentHandler {

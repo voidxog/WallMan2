@@ -5,16 +5,12 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import androidx.lifecycle.lifecycleScope
 import com.colorata.wallman.core.data.Destinations
-import com.colorata.wallman.core.data.launchIO
-import com.colorata.wallman.core.data.loadables
+import com.colorata.wallman.core.data.module.loadables
 import com.colorata.wallman.core.di.LocalGraph
 import com.colorata.wallman.core.di.impl.applyActivity
 import com.colorata.wallman.wallpapers.MainDestination
 import com.colorata.wallman.widget.api.ShapePickerDestination
-import com.colorata.wallman.widget.impl.EverydayWidgetRepositoryImpl
-import com.colorata.wallman.widget.impl.currentWidgetShapeId
 import com.colorata.wallman.widget.impl.isWidgetConfiguration
 
 class MainActivity : ComponentActivity() {

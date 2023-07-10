@@ -5,6 +5,7 @@ import androidx.compose.runtime.Immutable
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.colorata.wallman.categories.api.WallpaperCategory
 import com.colorata.wallman.core.data.*
+import com.colorata.wallman.core.data.module.IntentHandler
 import com.colorata.wallman.ui.icons.*
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList

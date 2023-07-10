@@ -3,7 +3,7 @@ package com.colorata.wallman.core.impl
 import android.content.Context
 import android.os.Build
 import android.os.FileObserver
-import com.colorata.wallman.core.data.SystemProvider
+import com.colorata.wallman.core.data.module.SystemProvider
 import com.colorata.wallman.core.data.launchIO
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow

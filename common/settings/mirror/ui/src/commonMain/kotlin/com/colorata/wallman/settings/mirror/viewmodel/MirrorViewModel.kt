@@ -4,8 +4,8 @@ import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.lifecycle.ViewModel
-import com.colorata.wallman.core.data.ApplicationSettings
-import com.colorata.wallman.core.data.CoreModule
+import com.colorata.wallman.core.data.module.ApplicationSettings
+import com.colorata.wallman.core.data.module.CoreModule
 import com.colorata.wallman.core.data.Strings
 import com.colorata.wallman.core.data.lazyMolecule
 import com.colorata.wallman.settings.mirror.api.Mirror

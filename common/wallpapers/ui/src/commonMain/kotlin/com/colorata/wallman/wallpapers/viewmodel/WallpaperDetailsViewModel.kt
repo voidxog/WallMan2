@@ -6,10 +6,8 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.navigation.NavType
-import androidx.navigation.navArgument
 import com.colorata.wallman.core.data.*
-import com.colorata.wallman.core.di.Graph
+import com.colorata.wallman.core.data.module.IntentHandler
 import com.colorata.wallman.wallpapers.*
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf

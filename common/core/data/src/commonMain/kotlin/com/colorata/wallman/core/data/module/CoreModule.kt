@@ -1,8 +1,6 @@
-package com.colorata.wallman.core.data
+package com.colorata.wallman.core.data.module
 
-import com.colorata.wallman.core.*
-import com.colorata.wallman.core.data.IntentHandler
-import com.colorata.wallman.core.data.NavigationController
+import com.colorata.wallman.core.data.*
 import kotlinx.coroutines.CoroutineScope
 
 interface CoreModule {

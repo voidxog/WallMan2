@@ -5,7 +5,7 @@ import androidx.compose.runtime.DisallowComposableCalls
 import androidx.compose.runtime.remember
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.colorata.wallman.core.data.CoreModule
+import com.colorata.wallman.core.data.module.CoreModule
 import com.colorata.wallman.core.di.Graph
 import com.colorata.wallman.core.di.LocalGraph
 

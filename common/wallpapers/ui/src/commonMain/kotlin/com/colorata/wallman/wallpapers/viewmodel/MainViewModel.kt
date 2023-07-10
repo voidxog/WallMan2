@@ -10,8 +10,7 @@ import app.cash.molecule.RecompositionClock
 import app.cash.molecule.launchMolecule
 import com.colorata.animateaslifestyle.stagger.ExperimentalStaggerApi
 import com.colorata.animateaslifestyle.stagger.toStaggerList
-import com.colorata.wallman.core.di.Graph
-import com.colorata.wallman.core.data.NavigationController
+import com.colorata.wallman.core.data.module.NavigationController
 import com.colorata.wallman.core.data.Destinations
 import com.colorata.wallman.wallpapers.WallpaperDetailsDestination
 import com.colorata.wallman.wallpapers.WallpaperI

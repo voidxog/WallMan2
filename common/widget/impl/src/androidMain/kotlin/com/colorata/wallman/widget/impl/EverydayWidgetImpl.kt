@@ -1,7 +1,7 @@
 package com.colorata.wallman.widget.impl
 
 import androidx.datastore.preferences.core.intPreferencesKey
-import com.colorata.wallman.core.data.IntentHandler
+import com.colorata.wallman.core.data.module.IntentHandler
 import com.colorata.wallman.wallpapers.WallpaperProvider
 import com.colorata.wallman.wallpapers.WallpapersRepository
 import com.colorata.wallman.wallpapers.supportsDynamicWallpapers

@@ -1,5 +1,6 @@
-package com.colorata.wallman.core.data
+package com.colorata.wallman.core.data.module
 
+import com.colorata.wallman.core.data.Coordinates
 import kotlin.reflect.KClass
 
 interface IntentHandler {

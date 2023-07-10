@@ -1,9 +1,9 @@
 package com.colorata.wallman.wallpapers.impl
 
-import com.colorata.wallman.core.data.ApplicationSettings
-import com.colorata.wallman.core.data.AppsProvider
-import com.colorata.wallman.core.data.DownloadHandler
-import com.colorata.wallman.core.data.SystemProvider
+import com.colorata.wallman.core.data.module.ApplicationSettings
+import com.colorata.wallman.core.data.module.AppsProvider
+import com.colorata.wallman.core.data.module.DownloadHandler
+import com.colorata.wallman.core.data.module.SystemProvider
 import com.colorata.wallman.core.data.Result
 import com.colorata.wallman.core.data.mutate
 import com.colorata.wallman.core.data.runResulting

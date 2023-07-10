@@ -3,17 +3,13 @@ package com.colorata.wallman.widget.viewmodel
 import androidx.compose.runtime.Immutable
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.colorata.wallman.core.data.IntentHandler
-import com.colorata.wallman.core.data.Strings
+import com.colorata.wallman.core.data.module.IntentHandler
 import com.colorata.wallman.core.data.launchIO
 import com.colorata.wallman.core.data.lazyMolecule
-import com.colorata.wallman.core.di.Graph
 import com.colorata.wallman.widget.api.EverydayWidgetRepository
-import com.colorata.wallman.widget.api.R
 import com.colorata.wallman.widget.api.ShapeConfiguration
 import com.colorata.wallman.widget.api.WidgetModule
 import kotlinx.collections.immutable.ImmutableList
-import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toImmutableList
 
 fun WidgetModule.ShapePickerViewModel() =

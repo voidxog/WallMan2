@@ -1,7 +1,7 @@
 package com.colorata.wallman.wallpapers.impl
 
 import android.app.Application
-import com.colorata.wallman.core.data.CoreModule
+import com.colorata.wallman.core.data.module.CoreModule
 import com.colorata.wallman.wallpapers.WallpaperManager
 import com.colorata.wallman.wallpapers.WallpaperProvider
 import com.colorata.wallman.wallpapers.WallpapersModule

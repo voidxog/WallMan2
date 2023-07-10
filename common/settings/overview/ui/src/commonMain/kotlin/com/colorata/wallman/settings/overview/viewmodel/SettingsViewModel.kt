@@ -9,7 +9,8 @@ import androidx.lifecycle.viewModelScope
 import app.cash.molecule.RecompositionClock
 import app.cash.molecule.launchMolecule
 import com.colorata.wallman.core.data.*
-import com.colorata.wallman.core.di.Graph
+import com.colorata.wallman.core.data.module.CoreModule
+import com.colorata.wallman.core.data.module.NavigationController
 import com.colorata.wallman.settings.about.api.AboutDestination
 import com.colorata.wallman.settings.memory.api.MemoryDestination
 import com.colorata.wallman.settings.mirror.api.MirrorDestination
