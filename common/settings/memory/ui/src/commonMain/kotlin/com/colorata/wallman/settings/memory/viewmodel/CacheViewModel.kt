@@ -6,7 +6,6 @@ import androidx.compose.runtime.getValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.colorata.wallman.core.data.lazyMolecule
-import com.colorata.wallman.core.di.Graph
 import com.colorata.wallman.wallpapers.WallpaperManager
 import com.colorata.wallman.wallpapers.WallpaperPacks
 import com.colorata.wallman.wallpapers.WallpapersModule

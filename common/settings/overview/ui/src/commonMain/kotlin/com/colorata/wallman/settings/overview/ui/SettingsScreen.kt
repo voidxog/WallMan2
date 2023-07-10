@@ -24,7 +24,7 @@ import com.colorata.animateaslifestyle.stagger.staggerSpecOf
 import com.colorata.animateaslifestyle.stagger.toStaggerList
 import com.colorata.wallman.core.data.*
 import com.colorata.wallman.core.ui.spacing
-import com.colorata.wallman.core.viewModel
+import com.colorata.wallman.core.data.viewModel
 import com.colorata.wallman.settings.overview.api.SettingsOverviewDestination
 import com.colorata.wallman.settings.overview.ui.components.SettingsItem
 import com.colorata.wallman.settings.overview.viewmodel.SettingsViewModel

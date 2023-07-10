@@ -22,11 +22,9 @@ import androidx.glance.layout.size
 import androidx.glance.state.GlanceStateDefinition
 import androidx.glance.state.PreferencesGlanceStateDefinition
 import com.colorata.wallman.core.di.graph
-import com.colorata.wallman.wallpapers.WallpaperI
 import com.colorata.wallman.wallpapers.supportsDynamicWallpapers
 import com.colorata.wallman.widget.api.EverydayWidget
 import com.colorata.wallman.widget.api.R
-import kotlinx.collections.immutable.ImmutableList
 
 class EverydayWidgetContent(
     private val onClick: Action

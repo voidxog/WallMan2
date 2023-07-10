@@ -8,6 +8,7 @@ import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.colorata.wallman.core.data.Destinations
 import com.colorata.wallman.core.data.module.loadables
 import com.colorata.wallman.core.di.LocalGraph
+import com.colorata.wallman.core.di.ProvideGraphModules
 import com.colorata.wallman.core.di.impl.applyActivity
 import com.colorata.wallman.wallpapers.MainDestination
 import com.colorata.wallman.widget.api.ShapePickerDestination
@@ -29,7 +30,9 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             CompositionLocalProvider(LocalGraph provides graph) {
-                App(startDestination)
+                ProvideGraphModules {
+                    App(startDestination)
+                }
             }
         }
 

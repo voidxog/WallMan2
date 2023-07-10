@@ -5,7 +5,6 @@ plugins {
 projectDependencies {
     modules {
         core.data()
-        core.di()
         core.ui()
 
         wallpapers.api()

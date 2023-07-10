@@ -34,7 +34,7 @@ import com.colorata.wallman.core.data.*
 import com.colorata.wallman.core.ui.R
 import com.colorata.wallman.core.ui.spacing
 import com.colorata.wallman.core.ui.theme.WallManPreviewTheme
-import com.colorata.wallman.core.viewModel
+import com.colorata.wallman.core.data.viewModel
 import com.colorata.wallman.settings.about.api.AboutDestination
 import com.colorata.wallman.settings.overview.ui.components.AboutItem
 import com.colorata.wallman.settings.overview.viewmodel.AboutViewModel

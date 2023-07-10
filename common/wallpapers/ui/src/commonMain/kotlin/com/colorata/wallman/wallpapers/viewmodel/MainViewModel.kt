@@ -1,17 +1,12 @@
 package com.colorata.wallman.wallpapers.viewmodel
 
 import androidx.compose.runtime.Immutable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import app.cash.molecule.RecompositionClock
 import app.cash.molecule.launchMolecule
-import com.colorata.animateaslifestyle.stagger.ExperimentalStaggerApi
-import com.colorata.animateaslifestyle.stagger.toStaggerList
-import com.colorata.wallman.core.data.module.NavigationController
 import com.colorata.wallman.core.data.Destinations
+import com.colorata.wallman.core.data.module.NavigationController
 import com.colorata.wallman.wallpapers.WallpaperDetailsDestination
 import com.colorata.wallman.wallpapers.WallpaperI
 import com.colorata.wallman.wallpapers.WallpapersModule
@@ -21,13 +16,11 @@ import kotlinx.collections.immutable.toImmutableList
 
 fun WallpapersModule.MainViewModel() = MainViewModel(wallpapersRepository, navigationController)
 
-@OptIn(ExperimentalStaggerApi::class)
 class MainViewModel(
     private val repo: WallpapersRepository,
     private val navigation: NavigationController
 ) : ViewModel() {
 
-    var list by mutableStateOf(repo.wallpapers.map { it }.toStaggerList({ 0f }, false))
     private fun goToRandomWallpaper() {
         navigation.navigate(
             Destinations.WallpaperDetailsDestination(repo.wallpapers.random())
