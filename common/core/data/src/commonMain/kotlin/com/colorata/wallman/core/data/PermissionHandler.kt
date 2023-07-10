@@ -1,4 +1,4 @@
-package com.colorata.wallman.core
+package com.colorata.wallman.core.data
 
 interface PermissionHandler {
     fun requestPermissions(permissions: List<String>, requestCode: Int = 0)

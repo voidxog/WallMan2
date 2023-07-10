@@ -47,7 +47,7 @@ fun BigChip(
     )
     val roundness by animateIntAsState(
         targetValue = if (selected) 20 else 50, label = "Roundness",
-        animationSpec = animation.emphasizedDecelerate()
+        animationSpec = MaterialTheme.animation.emphasizedDecelerate()
     )
     Row(
         horizontalArrangement = Arrangement.Center,
@@ -70,13 +70,13 @@ fun BigChip(
             fontVariables = FontVariables(
                 weight = animateFloatAsState(
                     targetValue = if (selected) 900f else 400f, label = "Weight",
-                    animationSpec = animation.emphasizedDecelerate()
+                    animationSpec = MaterialTheme.animation.emphasizedDecelerate()
                 ).value
             ),
             color = animateColorAsState(
                 targetValue = if (selected) MaterialTheme.colorScheme.onTertiary else MaterialTheme.colorScheme.onSurfaceVariant,
                 label = "Color",
-                animationSpec = animation.emphasizedDecelerate()
+                animationSpec = MaterialTheme.animation.emphasizedDecelerate()
             ).value
         )
     }

@@ -4,7 +4,7 @@ import android.annotation.SuppressLint
 import android.app.DownloadManager
 import android.content.Context
 import android.net.Uri
-import com.colorata.wallman.core.DownloadHandler
+import com.colorata.wallman.core.data.DownloadHandler
 import com.colorata.wallman.core.data.Strings
 import com.colorata.wallman.core.data.Result
 import com.colorata.wallman.core.data.launchIO

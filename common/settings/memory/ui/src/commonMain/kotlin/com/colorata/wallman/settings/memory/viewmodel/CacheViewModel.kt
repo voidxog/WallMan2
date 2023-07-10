@@ -9,11 +9,12 @@ import com.colorata.wallman.core.data.lazyMolecule
 import com.colorata.wallman.core.di.Graph
 import com.colorata.wallman.wallpapers.WallpaperManager
 import com.colorata.wallman.wallpapers.WallpaperPacks
+import com.colorata.wallman.wallpapers.WallpapersModule
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.launch
 
-fun Graph.CacheViewModel() = CacheViewModel(wallpaperManager)
+fun WallpapersModule.CacheViewModel() = CacheViewModel(wallpaperManager)
 
 class CacheViewModel(private val wallpaperManager: WallpaperManager) :
     ViewModel() {

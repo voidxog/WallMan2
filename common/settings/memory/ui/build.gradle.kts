@@ -9,6 +9,7 @@ projectDependencies {
         core.ui()
 
         wallpapers.api()
+        wallpapers.ui()
         settings.memory.api()
     }
 }

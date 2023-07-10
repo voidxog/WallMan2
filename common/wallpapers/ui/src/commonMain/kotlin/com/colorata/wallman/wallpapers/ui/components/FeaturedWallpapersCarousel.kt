@@ -67,7 +67,7 @@ fun FeaturedWallpapersCarousel(
     val state = rememberPagerState(Int.MAX_VALUE / 2) {
         Int.MAX_VALUE
     }
-    val anim = animation
+    val anim = MaterialTheme.animation
     val scope = rememberCoroutineScope()
     val currentProgress = remember { Animatable(0f) }
     val visibleWallpapers = remember { wallpapers.toStaggerList({ 0f }, visible = false) }
@@ -131,41 +131,41 @@ fun FeaturedWallpapersCarousel(
                 val cornerRadius = MaterialTheme.spacing.extraLarge
                 Box(
                     Modifier
-                    .animateVisibility(
-                        visibleWallpapers[index % wallpapers.size].visible,
-                        transition
-                    )
-                    .clickable {
-                        scope.launch {
-                            if (state.currentPage != index) state.animateScrollToPage(
-                                index,
-                                animationSpec = anim.emphasized(anim.durationSpec.extraLong4)
-                            ) else onClick(currentWallpaper)
+                        .animateVisibility(
+                            visibleWallpapers[index % wallpapers.size].visible,
+                            transition
+                        )
+                        .clickable {
+                            scope.launch {
+                                if (state.currentPage != index) state.animateScrollToPage(
+                                    index,
+                                    animationSpec = anim.emphasized(anim.durationSpec.extraLong4)
+                                ) else onClick(currentWallpaper)
+                            }
                         }
-                    }
-                    .graphicsLayer {
-                        val pageOffset = state.calculateOffsetForIndex(index)
-                        alpha = lerp(0.5f, 1f, 1f - pageOffset)
-                        scaleX = lerp(0.85f, 1f, 1f - pageOffset)
-                        scaleY = lerp(0.85f, 1f, 1f - pageOffset)
-                    }
-                    .drawWithContent {
-                        val pageOffset = state.calculateOffsetForIndex(index)
-                        clipPath(Path().apply {
-                            this.addRoundRect(
-                                RoundRect(
-                                    Rect(
-                                        left = 48.dp.toPx() * pageOffset,
-                                        right = size.width - 48.dp.toPx() * pageOffset,
-                                        top = 0f,
-                                        bottom = size.height
-                                    ), CornerRadius(cornerRadius.toPx())
+                        .graphicsLayer {
+                            val pageOffset = state.calculateOffsetForIndex(index)
+                            alpha = lerp(0.5f, 1f, 1f - pageOffset)
+                            scaleX = lerp(0.85f, 1f, 1f - pageOffset)
+                            scaleY = lerp(0.85f, 1f, 1f - pageOffset)
+                        }
+                        .drawWithContent {
+                            val pageOffset = state.calculateOffsetForIndex(index)
+                            clipPath(Path().apply {
+                                this.addRoundRect(
+                                    RoundRect(
+                                        Rect(
+                                            left = 48.dp.toPx() * pageOffset,
+                                            right = size.width - 48.dp.toPx() * pageOffset,
+                                            top = 0f,
+                                            bottom = size.height
+                                        ), CornerRadius(cornerRadius.toPx())
+                                    )
                                 )
-                            )
-                        }, clipOp = ClipOp.Intersect) {
-                            this@drawWithContent.drawContent()
-                        }
-                    }) {
+                            }, clipOp = ClipOp.Intersect) {
+                                this@drawWithContent.drawContent()
+                            }
+                        }) {
                     Image(
                         bitmap = bitmapAsset(currentWallpaper.firstPreviewRes()),
                         contentDescription = "",

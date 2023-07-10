@@ -1,4 +1,4 @@
-package com.colorata.wallman.core
+package com.colorata.wallman.core.data
 
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

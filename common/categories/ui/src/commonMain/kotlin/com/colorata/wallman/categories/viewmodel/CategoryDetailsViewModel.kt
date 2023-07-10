@@ -6,17 +6,13 @@ import androidx.lifecycle.viewModelScope
 import app.cash.molecule.RecompositionClock
 import app.cash.molecule.launchMolecule
 import com.colorata.wallman.categories.api.WallpaperCategory
-import com.colorata.wallman.core.data.NavigationController
 import com.colorata.wallman.core.data.Destinations
-import com.colorata.wallman.core.di.Graph
-import com.colorata.wallman.wallpapers.WallpaperDetailsDestination
-import com.colorata.wallman.wallpapers.WallpaperI
-import com.colorata.wallman.wallpapers.WallpapersRepository
-import com.colorata.wallman.wallpapers.categoryWallpapers
+import com.colorata.wallman.core.data.NavigationController
+import com.colorata.wallman.wallpapers.*
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
 
-fun Graph.CategoryDetailsViewModel(index: Int) =
+fun WallpapersModule.CategoryDetailsViewModel(index: Int) =
     CategoryDetailsViewModel(wallpapersRepository, navigationController, index)
 
 class CategoryDetailsViewModel(

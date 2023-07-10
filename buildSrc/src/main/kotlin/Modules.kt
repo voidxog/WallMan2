@@ -17,46 +17,46 @@ fun DependencyHandlerScope.projectModules(block: Modules.() -> Unit) {
     modules.block()
 }
 
-class Modules(private val implementation: (moduleName: String) -> Unit) {
+class Modules(private val applier: (moduleName: String) -> Unit) {
 
 
-    fun shared() = implementation(":shared")
+    fun shared() = applier(":shared")
 
     val core = Core()
 
     inner class Core {
         private val prefix = ":common:core"
-        fun di() = implementation("$prefix:di")
-        fun data() = implementation("$prefix:data")
-        fun ui() = implementation("$prefix:ui")
-        fun impl() = implementation("$prefix:impl")
+        fun di() = applier("$prefix:di")
+        fun data() = applier("$prefix:data")
+        fun ui() = applier("$prefix:ui")
+        fun impl() = applier("$prefix:impl")
     }
 
     val wallpapers = Wallpapers()
 
     inner class Wallpapers {
         private val prefix = ":common:wallpapers"
-        fun api() = implementation("$prefix:api")
-        fun impl() = implementation("$prefix:impl")
-        fun ui() = implementation("$prefix:ui")
+        fun api() = applier("$prefix:api")
+        fun impl() = applier("$prefix:impl")
+        fun ui() = applier("$prefix:ui")
     }
 
     val categories = Categories()
 
     inner class Categories {
         private val prefix = ":common:categories"
-        fun api() = implementation("$prefix:api")
-        fun ui() = implementation("$prefix:ui")
+        fun api() = applier("$prefix:api")
+        fun ui() = applier("$prefix:ui")
     }
 
     val widget = Widget()
 
     inner class Widget {
         private val prefix = ":common:widget"
-        fun api() = implementation("$prefix:api")
-        fun impl() = implementation("$prefix:impl")
-        fun ui() = implementation("$prefix:ui")
-        fun uiWidget() = implementation("$prefix:ui-widget")
+        fun api() = applier("$prefix:api")
+        fun impl() = applier("$prefix:impl")
+        fun ui() = applier("$prefix:ui")
+        fun uiWidget() = applier("$prefix:ui-widget")
     }
 
     val settings = Settings()
@@ -66,32 +66,32 @@ class Modules(private val implementation: (moduleName: String) -> Unit) {
 
         inner class Overview {
             private val prefix = ":common:settings:overview"
-            fun api() = implementation("$prefix:api")
-            fun ui() = implementation("$prefix:ui")
+            fun api() = applier("$prefix:api")
+            fun ui() = applier("$prefix:ui")
         }
 
         val memory = Memory()
 
         inner class Memory {
             private val prefix = ":common:settings:memory"
-            fun api() = implementation("$prefix:api")
-            fun ui() = implementation("$prefix:ui")
+            fun api() = applier("$prefix:api")
+            fun ui() = applier("$prefix:ui")
         }
 
         val mirror = Mirror()
 
         inner class Mirror {
             private val prefix = ":common:settings:mirror"
-            fun api() = implementation("$prefix:api")
-            fun ui() = implementation("$prefix:ui")
+            fun api() = applier("$prefix:api")
+            fun ui() = applier("$prefix:ui")
         }
 
         val about = About()
 
         inner class About {
             private val prefix = ":common:settings:about"
-            fun api() = implementation("$prefix:api")
-            fun ui() = implementation("$prefix:ui")
+            fun api() = applier("$prefix:api")
+            fun ui() = applier("$prefix:ui")
         }
     }
 }

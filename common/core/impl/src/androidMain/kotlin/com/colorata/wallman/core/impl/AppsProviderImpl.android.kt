@@ -7,7 +7,7 @@ import android.content.IntentFilter
 import android.content.pm.PackageManager
 import android.net.Uri
 import androidx.core.content.FileProvider
-import com.colorata.wallman.core.AppsProvider
+import com.colorata.wallman.core.data.AppsProvider
 import com.colorata.wallman.core.data.Result
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

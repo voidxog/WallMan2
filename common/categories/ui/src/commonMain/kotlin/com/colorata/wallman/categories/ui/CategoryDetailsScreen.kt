@@ -13,8 +13,8 @@ import com.colorata.wallman.core.data.Destinations
 import com.colorata.wallman.core.data.MaterialNavGraphBuilder
 import com.colorata.wallman.core.data.continuousComposable
 import com.colorata.wallman.core.data.rememberString
-import com.colorata.wallman.core.viewModel
 import com.colorata.wallman.wallpapers.ui.components.FilteredWallpaperCards
+import com.colorata.wallman.wallpapers.viewmodel.viewModel
 
 fun MaterialNavGraphBuilder.categoryDetailsScreen() {
     continuousComposable(Destinations.CategoryDetailsDestination()) { entry ->

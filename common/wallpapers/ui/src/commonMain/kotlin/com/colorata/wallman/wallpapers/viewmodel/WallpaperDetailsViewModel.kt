@@ -18,7 +18,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
 
-fun Graph.WallpaperDetailsViewModel(wallpaperHashCode: Int) =
+fun WallpapersModule.WallpaperDetailsViewModel(wallpaperHashCode: Int) =
     WallpaperDetailsViewModel(wallpapersRepository, wallpaperHashCode, wallpaperManager, intentHandler)
 
 class WallpaperDetailsViewModel(

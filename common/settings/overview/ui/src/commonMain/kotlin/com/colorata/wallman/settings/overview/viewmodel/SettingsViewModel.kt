@@ -8,25 +8,19 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import app.cash.molecule.RecompositionClock
 import app.cash.molecule.launchMolecule
-import com.colorata.wallman.core.data.NavigationController
-import com.colorata.wallman.core.data.Destination
-import com.colorata.wallman.core.data.Destinations
-import com.colorata.wallman.core.data.Polyglot
-import com.colorata.wallman.core.data.Strings
+import com.colorata.wallman.core.data.*
 import com.colorata.wallman.core.di.Graph
 import com.colorata.wallman.settings.about.api.AboutDestination
 import com.colorata.wallman.settings.memory.api.MemoryDestination
 import com.colorata.wallman.settings.mirror.api.MirrorDestination
 import com.colorata.wallman.ui.icons.ContentCopy
 import com.colorata.wallman.ui.icons.Storage
-import com.colorata.wallman.wallpapers.WallpapersRepository
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 
-fun Graph.SettingsViewModel() = SettingsViewModel(wallpapersRepository, navigationController)
+fun CoreModule.SettingsViewModel() = SettingsViewModel(navigationController)
 
 class SettingsViewModel(
-    private val repo: WallpapersRepository,
     private val navigation: NavigationController
 ) : ViewModel() {
     private val items = persistentListOf(

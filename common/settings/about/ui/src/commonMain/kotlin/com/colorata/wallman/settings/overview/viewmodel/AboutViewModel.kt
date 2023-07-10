@@ -13,6 +13,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import app.cash.molecule.RecompositionClock
 import app.cash.molecule.launchMolecule
+import com.colorata.wallman.core.data.CoreModule
 import com.colorata.wallman.core.data.IntentHandler
 import com.colorata.wallman.core.data.Polyglot
 import com.colorata.wallman.core.data.Strings
@@ -24,7 +25,7 @@ import com.colorata.wallman.ui.icons.CurrencyRuble
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 
-fun Graph.AboutViewModel() = AboutViewModel(intentHandler)
+fun CoreModule.AboutViewModel() = AboutViewModel(intentHandler)
 
 class AboutViewModel(
     private val intentHandler: IntentHandler

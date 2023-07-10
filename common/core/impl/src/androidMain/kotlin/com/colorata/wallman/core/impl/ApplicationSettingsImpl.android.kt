@@ -3,8 +3,8 @@ package com.colorata.wallman.core.impl
 import android.content.Context
 import androidx.datastore.core.Serializer
 import androidx.datastore.dataStore
-import com.colorata.wallman.core.AppSettings
-import com.colorata.wallman.core.ApplicationSettings
+import com.colorata.wallman.core.data.AppSettings
+import com.colorata.wallman.core.data.ApplicationSettings
 import com.colorata.wallman.core.data.launchIO
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.SharingStarted

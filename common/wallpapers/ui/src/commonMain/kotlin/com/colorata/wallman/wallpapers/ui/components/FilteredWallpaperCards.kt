@@ -72,9 +72,9 @@ fun FilteredWallpaperCards(
             else -> 4
         }
     }
-    val animationSpec = fade(animationSpec = animation.emphasized()) + slideVertically(
+    val animationSpec = fade(animationSpec = MaterialTheme.animation.emphasized()) + slideVertically(
         100f,
-        animationSpec = animation.emphasized()
+        animationSpec = MaterialTheme.animation.emphasized()
     )
 
     Box(
@@ -166,7 +166,7 @@ fun FilteredWallpaperCards(
                 }
                 .padding(MaterialTheme.spacing.large),
             delayMillis = 200,
-            durationMillis = animation.durationSpec.long2,
+            durationMillis = MaterialTheme.animation.durationSpec.long2,
             size = FabSize.Large
         ) {
             Icon(imageVector = Icons.Default.Shuffle, contentDescription = "Shuffle")

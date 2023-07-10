@@ -24,9 +24,9 @@ import androidx.compose.ui.unit.dp
 import com.colorata.wallman.core.data.*
 import com.colorata.wallman.core.data.Strings
 import com.colorata.wallman.core.ui.spacing
-import com.colorata.wallman.core.viewModel
 import com.colorata.wallman.widget.api.ShapePickerDestination
 import com.colorata.wallman.widget.viewmodel.ShapePickerViewModel
+import com.colorata.wallman.widget.viewmodel.viewModel
 
 fun MaterialNavGraphBuilder.shapePickerScreen() {
     flatComposable(Destinations.ShapePickerDestination()) {

@@ -24,8 +24,8 @@ class DailyDynamicWallpaperCallback : ActionCallback {
         parameters: ActionParameters
     ) {
         val graph = context.graph
-        val intentHandler = graph.intentHandler
-        val mainRepo = graph.wallpapersRepository
+        val intentHandler = graph.coreModule.intentHandler
+        val mainRepo = graph.wallpapersModule.wallpapersRepository
         val widget = WidgetState(context, PreferencesGlanceStateDefinition, glanceId)
         widget.update(
             createEverydayWidgetContent()
@@ -50,7 +50,7 @@ internal fun createEverydayWidgetContent() =
     )
 
 internal fun MutablePreferences.updateWallpaper(context: Context) {
-    val mainRepo = context.graph.wallpapersRepository
+    val mainRepo = context.graph.wallpapersModule.wallpapersRepository
     val randomWallpaper =
         mainRepo.wallpapers.filter { it.supportsDynamicWallpapers() }.random()
     this[intPreferencesKey(EverydayWidget.wallpaperHashcode)] =

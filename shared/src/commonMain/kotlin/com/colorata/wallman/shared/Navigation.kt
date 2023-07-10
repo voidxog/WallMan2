@@ -32,7 +32,7 @@ import com.colorata.wallman.widget.ui.shapePickerScreen
 
 @Composable
 fun Navigation(startDestination: Destination = Destinations.MainDestination()) {
-    val navController = LocalGraph.current.navigationController
+    val navController = LocalGraph.current.coreModule.navigationController
     Scaffold(bottomBar = {
         BottomBar()
     }) { padding ->
@@ -58,7 +58,7 @@ fun Navigation(startDestination: Destination = Destinations.MainDestination()) {
 @OptIn(ExperimentalStaggerApi::class)
 @Composable
 fun BottomBar() {
-    val navController = LocalGraph.current.navigationController
+    val navController = LocalGraph.current.coreModule.navigationController
     val route by navController.currentPath.collectAsState()
     val stagger = remember {
         staggerListOf(

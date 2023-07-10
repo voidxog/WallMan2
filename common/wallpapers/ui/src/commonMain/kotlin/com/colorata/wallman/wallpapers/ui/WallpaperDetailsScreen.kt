@@ -24,6 +24,7 @@ import com.colorata.animateaslifestyle.animateVisibility
 import com.colorata.animateaslifestyle.fade
 import com.colorata.animateaslifestyle.material3.shapes.ScallopShape
 import com.colorata.animateaslifestyle.shapes.ArcBorder
+import com.colorata.animateaslifestyle.shapes.ExperimentalShapeApi
 import com.colorata.animateaslifestyle.shapes.arc
 import com.colorata.animateaslifestyle.shapes.degrees
 import com.colorata.animateaslifestyle.slideVertically
@@ -36,12 +37,12 @@ import com.colorata.wallman.core.data.Strings
 import com.colorata.wallman.core.ui.LightDarkPreview
 import com.colorata.wallman.core.ui.spacing
 import com.colorata.wallman.core.ui.theme.WallManPreviewTheme
-import com.colorata.wallman.core.viewModel
 import com.colorata.wallman.ui.icons.SdCard
 import com.colorata.wallman.wallpapers.*
 import com.colorata.wallman.wallpapers.ui.components.BigChip
 import com.colorata.wallman.wallpapers.ui.components.WallpaperVariants
 import com.colorata.wallman.wallpapers.viewmodel.WallpaperDetailsViewModel
+import com.colorata.wallman.wallpapers.viewmodel.viewModel
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.mutate
 import kotlinx.collections.immutable.persistentListOf
@@ -89,7 +90,7 @@ private fun WallpaperDetailsScreen(
             })
         }
         val animationSpec =
-            fade(animationSpec = animation.emphasized()) + slideVertically(animationSpec = animation.emphasized())
+            fade(animationSpec = MaterialTheme.animation.emphasized()) + slideVertically(animationSpec = MaterialTheme.animation.emphasized())
         Column(
             Modifier
                 .weight(1f)
@@ -138,9 +139,9 @@ private fun WallpaperDetailsScreen(
                 },
                 Modifier.animateVisibility(
                     animList[3].visible,
-                    fade(animationSpec = animation.emphasized()) + slideVertically(
+                    fade(animationSpec = MaterialTheme.animation.emphasized()) + slideVertically(
                         100f,
-                        animation.emphasized()
+                        MaterialTheme.animation.emphasized()
                     )
                 )
             )
@@ -240,6 +241,7 @@ private fun Variants(
     }
 }
 
+@OptIn(ExperimentalShapeApi::class)
 @Composable
 private fun PreviewImage(
     resource: String,

@@ -1,6 +1,5 @@
-package com.colorata.wallman.core
+package com.colorata.wallman.core.data
 
-import com.colorata.wallman.core.data.Result
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 

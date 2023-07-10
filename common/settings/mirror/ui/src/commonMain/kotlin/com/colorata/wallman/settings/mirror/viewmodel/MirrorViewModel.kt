@@ -4,16 +4,16 @@ import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.lifecycle.ViewModel
-import com.colorata.wallman.core.ApplicationSettings
+import com.colorata.wallman.core.data.ApplicationSettings
+import com.colorata.wallman.core.data.CoreModule
 import com.colorata.wallman.core.data.Strings
 import com.colorata.wallman.core.data.lazyMolecule
-import com.colorata.wallman.core.di.Graph
 import com.colorata.wallman.settings.mirror.api.Mirror
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.coroutines.flow.map
 
-fun Graph.MirrorViewModel() = MirrorViewModel(applicationSettings)
+fun CoreModule.MirrorViewModel() = MirrorViewModel(applicationSettings)
 class MirrorViewModel(
     private val applicationSettings: ApplicationSettings
 ) : ViewModel() {

@@ -11,11 +11,11 @@ import com.colorata.animateaslifestyle.stagger.ExperimentalStaggerApi
 import com.colorata.animateaslifestyle.stagger.toStaggerList
 import com.colorata.wallman.core.data.*
 import com.colorata.wallman.core.ui.spacing
-import com.colorata.wallman.core.viewModel
 import com.colorata.wallman.wallpapers.MainDestination
 import com.colorata.wallman.wallpapers.ui.components.FeaturedWallpapersCarousel
 import com.colorata.wallman.wallpapers.ui.components.FilteredWallpaperCards
 import com.colorata.wallman.wallpapers.viewmodel.MainViewModel
+import com.colorata.wallman.wallpapers.viewmodel.viewModel
 
 fun MaterialNavGraphBuilder.mainScreen() {
     flatComposable(Destinations.MainDestination()) { FeaturedScreen() }

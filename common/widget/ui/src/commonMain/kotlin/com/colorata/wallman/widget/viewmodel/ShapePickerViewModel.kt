@@ -11,12 +11,13 @@ import com.colorata.wallman.core.di.Graph
 import com.colorata.wallman.widget.api.EverydayWidgetRepository
 import com.colorata.wallman.widget.api.R
 import com.colorata.wallman.widget.api.ShapeConfiguration
+import com.colorata.wallman.widget.api.WidgetModule
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toImmutableList
 
-fun Graph.ShapePickerViewModel() =
-    ShapePickerViewModel(everydayWidgetRepository, intentHandler)
+fun WidgetModule.ShapePickerViewModel() =
+    ShapePickerViewModel(widgetRepository, intentHandler)
 
 class ShapePickerViewModel(
     private val repository: EverydayWidgetRepository,

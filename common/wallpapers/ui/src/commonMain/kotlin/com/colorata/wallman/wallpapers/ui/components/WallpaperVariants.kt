@@ -50,7 +50,7 @@ fun WallpaperVariants(
                             animateFloatAsState(
                                 targetValue = if (selectedWallpaper == wallpaper) 5f else 1f,
                                 label = "Wallpaper width animation",
-                                animationSpec = animation.standard()
+                                animationSpec = MaterialTheme.animation.standard()
                             ).value
                         ),
                     contentScale = ContentScale.Crop)

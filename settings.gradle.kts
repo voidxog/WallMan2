@@ -16,39 +16,16 @@ dependencyResolutionManagement {
     }
 }
 rootProject.name = "WallMan"
-include(":app")
-include(":app:benchmark")
 
-include(":shared")
-
-include(":common:core:data")
-include(":common:core:impl")
-include(":common:core:di")
-include(":common:core:ui")
-
-include(":common:wallpapers:api")
-include(":common:wallpapers:impl")
-include(":common:wallpapers:ui")
-
-include(":common:categories:api")
-include(":common:categories:ui")
-
-include(":common:widget:api")
-include(":common:widget:impl")
-include(":common:widget:ui")
-include(":common:widget:ui-widget")
-
-
-include(":common:settings:overview:api")
-include(":common:settings:overview:ui")
-
-include(":common:settings:memory:api")
-include(":common:settings:memory:ui")
-
-include(":common:settings:mirror:api")
-include(":common:settings:mirror:ui")
-
-include(":common:settings:about:api")
-include(":common:settings:about:ui")
-
+rootDir
+    .walk()
+    .filter {
+        it.name != "buildSrc"
+                && it.isDirectory
+                && file("${it.absolutePath}/build.gradle.kts").exists()
+    }
+    .forEach {
+        val calculated = it.absolutePath.replace(rootDir.absolutePath, "").replace("/", ":")
+        include(calculated)
+    }
 

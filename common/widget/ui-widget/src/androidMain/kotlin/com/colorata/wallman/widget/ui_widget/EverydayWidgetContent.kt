@@ -38,7 +38,7 @@ class EverydayWidgetContent(
     @Composable
     override fun Content() {
         val context = LocalContext.current
-        val wallpapers = context.graph.wallpapersRepository.wallpapers
+        val wallpapers = context.graph.wallpapersModule.wallpapersRepository.wallpapers
         val size = LocalSize.current
         val squareSize = minOf(size.width, size.height)
         val state = runCatching { currentState<Preferences>() }.getOrNull()

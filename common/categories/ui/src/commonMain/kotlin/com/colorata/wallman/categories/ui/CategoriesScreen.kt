@@ -29,8 +29,8 @@ import com.colorata.wallman.categories.viewmodel.CategoriesViewModel
 import com.colorata.wallman.core.data.*
 import com.colorata.wallman.core.ui.spacing
 import com.colorata.wallman.core.ui.theme.LocalPaddings
-import com.colorata.wallman.core.viewModel
 import com.colorata.wallman.wallpapers.categoryWallpapers
+import com.colorata.wallman.wallpapers.viewmodel.viewModel
 import kotlinx.collections.immutable.toImmutableList
 
 fun MaterialNavGraphBuilder.categoriesScreen() {
@@ -58,9 +58,9 @@ private fun CategoriesScreen(
             visible = true
         })
     }
-    val animationSpec = fade(animationSpec = animation.emphasized()) + slideVertically(
+    val animationSpec = fade(animationSpec = MaterialTheme.animation.emphasized()) + slideVertically(
         100f,
-        animationSpec = animation.emphasized()
+        animationSpec = MaterialTheme.animation.emphasized()
     )
     LazyColumn(modifier) {
         item {

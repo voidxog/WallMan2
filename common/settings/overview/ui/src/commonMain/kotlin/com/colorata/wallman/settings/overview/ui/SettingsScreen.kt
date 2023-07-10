@@ -54,9 +54,9 @@ private fun SettingsScreen(
             visible = true
         })
     }
-    val transition = fade(animationSpec = animation.emphasized()) + slideVertically(
+    val transition = fade(animationSpec = MaterialTheme.animation.emphasized()) + slideVertically(
         100f,
-        animationSpec = animation.emphasized()
+        animationSpec = MaterialTheme.animation.emphasized()
     )
     LazyColumn(
         modifier = modifier

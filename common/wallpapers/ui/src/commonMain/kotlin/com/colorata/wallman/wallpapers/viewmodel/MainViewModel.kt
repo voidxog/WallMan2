@@ -15,11 +15,12 @@ import com.colorata.wallman.core.data.NavigationController
 import com.colorata.wallman.core.data.Destinations
 import com.colorata.wallman.wallpapers.WallpaperDetailsDestination
 import com.colorata.wallman.wallpapers.WallpaperI
+import com.colorata.wallman.wallpapers.WallpapersModule
 import com.colorata.wallman.wallpapers.WallpapersRepository
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
 
-fun Graph.MainViewModel() = MainViewModel(wallpapersRepository, navigationController)
+fun WallpapersModule.MainViewModel() = MainViewModel(wallpapersRepository, navigationController)
 
 @OptIn(ExperimentalStaggerApi::class)
 class MainViewModel(
