@@ -18,7 +18,7 @@ class CoreModuleImpl(private val application: Application) : CoreModule {
         ApplicationSettingsImpl(application, coroutineScope)
     }
     override val navigationController: NavigationController by lazy {
-        NavigationControllerImpl(application, coroutineScope)
+        NavigationControllerImpl()
     }
 }
 

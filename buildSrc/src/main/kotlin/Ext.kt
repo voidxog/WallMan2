@@ -11,6 +11,7 @@ fun Project.setupKotlin() {
     tasks.withType(KotlinCompile::class.java) {
         kotlinOptions.jvmTarget = "18"
         kotlinOptions.composeReports(project.buildDir.absolutePath)
+        kotlinOptions.experimentalContextReceivers()
     }
 }
 
@@ -23,6 +24,10 @@ fun KotlinCommonOptions.composeReports(path: String) {
         "-P",
         "plugin:androidx.compose.compiler.plugins.kotlin:suppressKotlinVersionCompatibilityCheck=1.8.21"
     )
+}
+
+fun KotlinCommonOptions.experimentalContextReceivers() {
+    freeCompilerArgs += listOf("-Xcontext-receivers")
 }
 
 fun Project.projectDependencies(

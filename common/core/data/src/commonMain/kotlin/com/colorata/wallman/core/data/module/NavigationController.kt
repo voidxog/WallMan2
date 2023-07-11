@@ -16,6 +16,7 @@ interface NavigationController {
 
     val currentPath: StateFlow<String>
 
+
     @Composable
     fun NavigationHost(
         startDestination: Destination,
@@ -23,25 +24,4 @@ interface NavigationController {
         modifier: Modifier,
         builder: MaterialNavGraphBuilder.() -> Unit
     )
-
-    object NoopNavigationController : NavigationController {
-        override fun navigate(destination: Destination) {}
-
-        override fun pop() {}
-
-        override fun resetRootTo(destination: Destination) {}
-
-        override val currentPath: StateFlow<String>
-            get() = error("NavigationController is not provided")
-
-        @Composable
-        override fun NavigationHost(
-            startDestination: Destination,
-            animation: Animation,
-            modifier: Modifier,
-            builder: MaterialNavGraphBuilder.() -> Unit
-        ) {
-
-        }
-    }
 }

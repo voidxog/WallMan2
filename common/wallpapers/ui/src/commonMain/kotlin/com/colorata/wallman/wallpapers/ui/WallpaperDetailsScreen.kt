@@ -2,14 +2,41 @@ package com.colorata.wallman.wallpapers.ui
 
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.SizeTransform
-import androidx.compose.animation.core.*
-import androidx.compose.foundation.*
-import androidx.compose.foundation.layout.*
+import androidx.compose.animation.core.LinearEasing
+import androidx.compose.animation.core.RepeatMode
+import androidx.compose.animation.core.animateFloat
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.infiniteRepeatable
+import androidx.compose.animation.core.rememberInfiniteTransition
+import androidx.compose.animation.core.tween
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.LocationOn
-import androidx.compose.material3.*
+import androidx.compose.material3.AssistChip
+import androidx.compose.material3.Button
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -32,22 +59,42 @@ import com.colorata.animateaslifestyle.stagger.ExperimentalStaggerApi
 import com.colorata.animateaslifestyle.stagger.animateAsList
 import com.colorata.animateaslifestyle.stagger.staggerSpecOf
 import com.colorata.animateaslifestyle.stagger.toStaggerList
-import com.colorata.wallman.core.data.*
+import com.colorata.wallman.core.data.Destinations
+import com.colorata.wallman.core.data.MaterialNavGraphBuilder
+import com.colorata.wallman.core.data.Polyglot
 import com.colorata.wallman.core.data.Strings
+import com.colorata.wallman.core.data.animation
+import com.colorata.wallman.core.data.bitmapAsset
+import com.colorata.wallman.core.data.flatComposable
+import com.colorata.wallman.core.data.formatted
+import com.colorata.wallman.core.data.materialSharedAxisX
+import com.colorata.wallman.core.data.materialSharedAxisY
+import com.colorata.wallman.core.data.rememberString
+import com.colorata.wallman.core.data.simplifiedLocaleOf
+import com.colorata.wallman.core.data.viewModel
 import com.colorata.wallman.core.ui.LightDarkPreview
 import com.colorata.wallman.core.ui.spacing
 import com.colorata.wallman.core.ui.theme.WallManPreviewTheme
 import com.colorata.wallman.ui.icons.SdCard
-import com.colorata.wallman.wallpapers.*
+import com.colorata.wallman.wallpapers.BaseWallpaper
+import com.colorata.wallman.wallpapers.Chip
+import com.colorata.wallman.wallpapers.DynamicWallpaper
+import com.colorata.wallman.wallpapers.WallpaperDetailsDestination
+import com.colorata.wallman.wallpapers.WallpaperI
+import com.colorata.wallman.wallpapers.WallpapersModule
+import com.colorata.wallman.wallpapers.sizeInMb
+import com.colorata.wallman.wallpapers.supportsDynamicWallpapers
 import com.colorata.wallman.wallpapers.ui.components.BigChip
 import com.colorata.wallman.wallpapers.ui.components.WallpaperVariants
 import com.colorata.wallman.wallpapers.viewmodel.WallpaperDetailsViewModel
-import com.colorata.wallman.wallpapers.viewmodel.viewModel
+import com.colorata.wallman.wallpapers.walls
+import com.theapache64.rebugger.Rebugger
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.mutate
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toImmutableList
 
+context(WallpapersModule)
 fun MaterialNavGraphBuilder.wallpaperDetailsScreen() {
     flatComposable(Destinations.WallpaperDetailsDestination()) { entry ->
         val hashCode =
@@ -57,13 +104,11 @@ fun MaterialNavGraphBuilder.wallpaperDetailsScreen() {
     }
 }
 
+context(WallpapersModule)
 @Composable
 fun WallpaperDetailsScreen(wallpaperHashCode: Int, modifier: Modifier = Modifier) {
     val viewModel = viewModel { WallpaperDetailsViewModel(wallpaperHashCode) }
     val state by viewModel.state.collectAsStateWithLifecycle()
-    LaunchedEffect(state) {
-        println(state)
-    }
     WallpaperDetailsScreen(state, modifier)
 }
 
@@ -76,6 +121,16 @@ private fun WallpaperDetailsScreen(
     val wallpaper = state.wallpaper
     val selectedBaseWallpaper = state.selectedWallpaper
     val isPreview = LocalInspectionMode.current
+    Rebugger(
+        trackMap = mapOf(
+            "state" to state,
+            "modifier" to modifier,
+            "wallpaper" to wallpaper,
+            "selectedBaseWallpaper" to selectedBaseWallpaper,
+            "isPreview" to isPreview,
+        ),
+        composableName = "WallpaperDetailsScreen"
+    )
     Column(
         modifier
             .fillMaxSize()

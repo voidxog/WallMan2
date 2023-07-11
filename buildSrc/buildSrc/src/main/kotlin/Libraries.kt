@@ -220,6 +220,8 @@ class Libs(val applier: (String) -> Unit) {
         )
 
         fun glanceAppWidget() = applier("androidx.glance:glance-appwidget:${LibraryVersions.Compose.glance}")
+
+        fun rebugger() = applier("com.github.theapache64:rebugger:1.0.0-alpha06")
     }
 
     val accompanist = Accompanist()

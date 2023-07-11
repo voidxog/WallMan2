@@ -16,6 +16,7 @@ projectDependencies {
         compose.material3WindowSize()
         compose.uiUtil()
         compose.uiToolingPreview()
+        compose.rebugger()
     }
 
     internal {

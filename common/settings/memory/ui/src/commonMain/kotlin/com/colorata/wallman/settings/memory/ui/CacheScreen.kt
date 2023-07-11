@@ -19,26 +19,29 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.colorata.animateaslifestyle.material3.groupedItems
 import com.colorata.wallman.core.data.Destinations
 import com.colorata.wallman.core.data.MaterialNavGraphBuilder
+import com.colorata.wallman.core.data.Strings
 import com.colorata.wallman.core.data.continuousComposable
+import com.colorata.wallman.core.data.rememberString
+import com.colorata.wallman.core.data.viewModel
+import com.colorata.wallman.core.ui.spacing
 import com.colorata.wallman.settings.memory.api.MemoryDestination
+import com.colorata.wallman.settings.memory.ui.components.CacheCard
 import com.colorata.wallman.settings.memory.viewmodel.CacheViewModel
 import com.colorata.wallman.wallpapers.WallpaperPacks
-import com.colorata.wallman.core.ui.spacing
-import com.colorata.wallman.core.data.rememberString
-import com.colorata.wallman.core.data.Strings
-import com.colorata.wallman.settings.memory.ui.components.CacheCard
+import com.colorata.wallman.wallpapers.WallpapersModule
 import com.colorata.wallman.wallpapers.sizeInMb
-import com.colorata.wallman.wallpapers.viewmodel.viewModel
 import kotlinx.collections.immutable.mutate
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.collections.immutable.toPersistentList
 
+context(WallpapersModule)
 fun MaterialNavGraphBuilder.cacheScreen() {
     continuousComposable(Destinations.MemoryDestination()) {
         CacheScreen()
     }
 }
 
+context(WallpapersModule)
 @Composable
 fun CacheScreen(modifier: Modifier = Modifier) {
     val viewModel = viewModel { CacheViewModel() }

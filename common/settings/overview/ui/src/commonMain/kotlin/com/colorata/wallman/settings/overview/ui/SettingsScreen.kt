@@ -23,18 +23,21 @@ import com.colorata.animateaslifestyle.stagger.animateAsList
 import com.colorata.animateaslifestyle.stagger.staggerSpecOf
 import com.colorata.animateaslifestyle.stagger.toStaggerList
 import com.colorata.wallman.core.data.*
+import com.colorata.wallman.core.data.module.CoreModule
 import com.colorata.wallman.core.ui.spacing
 import com.colorata.wallman.core.data.viewModel
 import com.colorata.wallman.settings.overview.api.SettingsOverviewDestination
 import com.colorata.wallman.settings.overview.ui.components.SettingsItem
 import com.colorata.wallman.settings.overview.viewmodel.SettingsViewModel
 
+context(CoreModule)
 fun MaterialNavGraphBuilder.settingsScreen() {
     flatComposable(Destinations.SettingsOverviewDestination(), hasContinuousChildren = true) {
         SettingsScreen()
     }
 }
 
+context(CoreModule)
 @Composable
 fun SettingsScreen(modifier: Modifier = Modifier) {
     val viewModel = viewModel { SettingsViewModel() }

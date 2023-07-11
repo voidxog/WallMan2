@@ -26,19 +26,27 @@ import com.colorata.animateaslifestyle.stagger.toStaggerList
 import com.colorata.wallman.categories.api.CategoriesDestination
 import com.colorata.wallman.categories.ui.components.CategoryCard
 import com.colorata.wallman.categories.viewmodel.CategoriesViewModel
-import com.colorata.wallman.core.data.*
+import com.colorata.wallman.core.data.Destinations
+import com.colorata.wallman.core.data.MaterialNavGraphBuilder
+import com.colorata.wallman.core.data.Strings
+import com.colorata.wallman.core.data.animation
+import com.colorata.wallman.core.data.flatComposable
+import com.colorata.wallman.core.data.rememberString
+import com.colorata.wallman.core.data.viewModel
 import com.colorata.wallman.core.ui.spacing
 import com.colorata.wallman.core.ui.theme.LocalPaddings
+import com.colorata.wallman.wallpapers.WallpapersModule
 import com.colorata.wallman.wallpapers.categoryWallpapers
-import com.colorata.wallman.wallpapers.viewmodel.viewModel
 import kotlinx.collections.immutable.toImmutableList
 
+context(WallpapersModule)
 fun MaterialNavGraphBuilder.categoriesScreen() {
     flatComposable(Destinations.CategoriesDestination(), hasContinuousChildren = true) {
         CategoriesScreen()
     }
 }
 
+context(WallpapersModule)
 @Composable
 fun CategoriesScreen(modifier: Modifier = Modifier) {
     val viewModel = viewModel { CategoriesViewModel() }

@@ -1,61 +1,37 @@
 package com.colorata.wallman.core.impl
 
-import android.content.Context
+import android.annotation.SuppressLint
+import androidx.activity.compose.BackHandler
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.saveable.Saver
-import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.Immutable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.navigation.NavDestination
-import androidx.navigation.NavHostController
-import androidx.navigation.Navigator
-import androidx.navigation.compose.ComposeNavigator
-import androidx.navigation.compose.DialogNavigator
 import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.colorata.wallman.core.data.*
 import com.colorata.wallman.core.data.module.NavigationController
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.MutableStateFlow
 
-class NavigationControllerImpl(
-    context: Context,
-    private val scope: CoroutineScope
-) : NavigationController {
-    private fun createMaterialMotionNavController(
-        context: Context, vararg navigators: Navigator<out NavDestination>
-    ): NavHostController {
-        val navigator = ComposeNavigator()
-        val controller = NavHostController(context).apply {
-            (listOf(ComposeNavigator(), DialogNavigator(), navigator) + navigators).forEach {
-                navigatorProvider.addNavigator(it)
-            }
-        }
-        return controller
-    }
+class NavigationControllerImpl : NavigationController {
 
-    private var composeController = createMaterialMotionNavController(context)
+    private var onEvent: (Event) -> Unit = {}
 
+    private fun Destination.normalizedPath() = path.replace("//", "/")
     override fun navigate(destination: Destination) {
-        composeController.navigate(destination.path.replace("//", "/"))
+        onEvent(Event.Navigate(destination))
     }
 
     override fun pop() {
-        composeController.navigateUp()
+        onEvent(Event.Pop)
     }
 
     override fun resetRootTo(destination: Destination) {
-        composeController.navigate(destination.path.replace("//", "/")) {
-            popUpTo(destination.name)
-            launchSingleTop = true
-        }
+        onEvent(Event.ResetRootTo(destination))
     }
 
-    override val currentPath: StateFlow<String>
-        get() = composeController.currentBackStackEntryFlow.map { it.destination.route ?: "" }
-            .stateIn(scope, SharingStarted.Lazily, "")
+    override val currentPath = MutableStateFlow("")
 
     @Composable
     override fun NavigationHost(
@@ -65,11 +41,48 @@ class NavigationControllerImpl(
         builder: MaterialNavGraphBuilder.() -> Unit
     ) {
         val navController = rememberNavController()
-        rememberSaveable(saver = Saver(save = { null }, restore = { })) { composeController = navController }
+        val backStackEntry by navController.currentBackStackEntryAsState()
+        val route = backStackEntry?.destination?.route
+        LaunchedEffect(route) {
+            currentPath.emit(route.orEmpty())
+        }
 
+        LaunchedEffect(Unit) {
+            onEvent = { event ->
+                when (event) {
+                    Event.Pop -> {
+                        navController.navigateUp()
+                    }
+
+                    is Event.Navigate -> {
+                        navController.navigate(
+                            event.destination.normalizedPath()
+                        )
+                    }
+
+                    is Event.ResetRootTo -> {
+                        navController.navigate(
+                            event.destination.normalizedPath()
+                        ) {
+                            popUpTo(event.destination.normalizedPath())
+                            launchSingleTop = true
+                        }
+                    }
+                }
+            }
+        }
         NavHost(navController, startDestination = startDestination.path, modifier = modifier) {
             val navBuilder = MaterialNavGraphBuilder(this, animation)
             navBuilder.builder()
         }
+    }
+
+    @Immutable
+    private sealed interface Event {
+        object Pop : Event
+
+        data class Navigate(val destination: Destination) : Event
+
+        data class ResetRootTo(val destination: Destination) : Event
     }
 }

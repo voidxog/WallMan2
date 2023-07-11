@@ -5,8 +5,6 @@ import androidx.compose.runtime.DisallowComposableCalls
 import androidx.compose.runtime.remember
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.colorata.wallman.core.data.module.CoreModule
-import com.colorata.wallman.core.data.module.LocalCoreModule
 
 
 @PublishedApi
@@ -18,18 +16,10 @@ internal class ViewModelFactory(val viewModel: () -> ViewModel) : ViewModelProvi
 }
 
 @Composable
-inline fun <reified T : ViewModel> viewModel(noinline block: @DisallowComposableCalls CoreModule.() -> T): T {
-    return viewModelWithReceiver(LocalCoreModule.current, block)
-}
-
-@Composable
-inline fun <reified T : ViewModel, R> viewModelWithReceiver(
-    receiver: R,
-    noinline block: @DisallowComposableCalls R.() -> T
-): T {
+inline fun <reified T : ViewModel> viewModel(noinline block: @DisallowComposableCalls () -> T): T {
     return androidx.lifecycle.viewmodel.compose.viewModel(factory = remember {
         ViewModelFactory {
-            receiver.block()
+            block()
         }
     })
 }

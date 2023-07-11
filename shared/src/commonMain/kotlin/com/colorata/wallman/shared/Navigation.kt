@@ -1,7 +1,6 @@
 package com.colorata.wallman.shared
 
 import android.os.Build
-import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.FastOutLinearInEasing
 import androidx.compose.animation.core.LinearOutSlowInEasing
 import androidx.compose.animation.core.tween
@@ -33,23 +32,32 @@ import com.colorata.wallman.widget.ui.shapePickerScreen
 @Composable
 fun Navigation(startDestination: Destination = Destinations.MainDestination()) {
     val navController = LocalGraph.current.coreModule.navigationController
+    val graph = LocalGraph.current
     Scaffold(bottomBar = {
-        BottomBar()
+        val selected by navController.currentPath.collectAsState()
+        BottomBar(selected) { navController.resetRootTo(destination(it)) }
     }) { padding ->
         CompositionLocalProvider(LocalPaddings provides padding) {
             navController.NavigationHost(startDestination, MaterialTheme.animation, Modifier) {
-                mainScreen()
-                wallpaperDetailsScreen()
+                with(graph.coreModule) {
+                    settingsScreen()
+                    aboutScreen()
+                    mirrorScreen()
+                }
 
-                categoriesScreen()
-                categoryDetailsScreen()
+                with(graph.wallpapersModule) {
+                    mainScreen()
+                    wallpaperDetailsScreen()
 
-                shapePickerScreen()
+                    categoriesScreen()
+                    categoryDetailsScreen()
 
-                settingsScreen()
-                aboutScreen()
-                mirrorScreen()
-                cacheScreen()
+                    cacheScreen()
+                }
+
+                with(graph.widgetModule) {
+                    shapePickerScreen()
+                }
             }
         }
     }
@@ -57,12 +65,10 @@ fun Navigation(startDestination: Destination = Destinations.MainDestination()) {
 
 @OptIn(ExperimentalStaggerApi::class)
 @Composable
-fun BottomBar() {
-    val navController = LocalGraph.current.coreModule.navigationController
-    val route by navController.currentPath.collectAsState()
+fun BottomBar(currentRoute: String, onClick: (route: String) -> Unit) {
     val stagger = remember {
         staggerListOf(
-            { Animatable(80f) }, false, *quickAccessibleDestinations.toTypedArray()
+            { }, false, *quickAccessibleDestinations.toTypedArray()
         )
     }
     val height =
@@ -71,40 +77,47 @@ fun BottomBar() {
     LaunchedEffect(key1 = isCompositionLaunched(105)) {
         stagger.animateAsList(this, spec = staggerSpecOf(itemsDelayMillis = 100) {
             visible = true
-            animationValue.animateTo(0f, animationSpec = tween(500))
         })
     }
+
+    val dp80inPx = 80.dp.toPx()
     val barVisible =
-        remember(route) { route in quickAccessibleDestinations.map { it.name } }
+        remember(currentRoute) { currentRoute in quickAccessibleDestinations.map { it.destination.path } }
     Surface(
         tonalElevation = 3.dp, modifier = Modifier.animateVisibility(
-            barVisible, slideVertically(
-                80.dp.toPx(), animationSpec = tween()
-            ) + fade(
-                animationSpec = tween(
-                    if (barVisible) (300 * 0.35f).toInt() else 300,
-                    if (barVisible) (300 * 0.35f).toInt() else 0,
-                    if (barVisible) LinearOutSlowInEasing else FastOutLinearInEasing
+            barVisible, remember(barVisible) {
+                slideVertically(
+                    dp80inPx, animationSpec = tween()
+                ) + fade(
+                    animationSpec = tween(
+                        if (barVisible) (300 * 0.35f).toInt() else 300,
+                        if (barVisible) (300 * 0.35f).toInt() else 0,
+                        if (barVisible) LinearOutSlowInEasing else FastOutLinearInEasing
+                    )
                 )
-            )
+            }
         )
     ) {
         Column {
             Row {
                 stagger.forEach {
+                    val destination = it.value.destination
+                    val selected = currentRoute == destination.path
                     NavigationBarItem(
-                        selected = route == it.value.name,
-                        onClick = { if (route != it.value.name) navController.resetRootTo(destination(it.value.name)) },
+                        selected = selected,
+                        onClick = {
+                            if (!selected) onClick(destination.path)
+                        },
                         icon = {
                             Icon(
-                                imageVector = if (route == it.value.name) it.value.filledIcon else it.value.outlinedIcon,
+                                imageVector = if (selected) it.value.filledIcon else it.value.outlinedIcon,
                                 contentDescription = ""
                             )
                         },
                         label = { Text(text = rememberString(string = it.value.previewName)) },
                         alwaysShowLabel = false,
                         modifier = Modifier
-                            .testTag(it.value.name)
+                            .testTag(destination.path)
                             .animateVisibility(
                                 it.visible,
                                 fade(
@@ -117,9 +130,6 @@ fun BottomBar() {
                                     animationSpec = tween(250)
                                 )
                             )
-                            /*.graphicsLayer(
-                                translationY = it.animationValue.value.dp.toPx()
-                            )*/
                             .height(80.dp)
                     )
                 }

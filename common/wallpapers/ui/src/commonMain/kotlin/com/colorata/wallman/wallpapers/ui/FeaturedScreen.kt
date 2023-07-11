@@ -9,18 +9,25 @@ import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.colorata.animateaslifestyle.stagger.ExperimentalStaggerApi
 import com.colorata.animateaslifestyle.stagger.toStaggerList
-import com.colorata.wallman.core.data.*
+import com.colorata.wallman.core.data.Destinations
+import com.colorata.wallman.core.data.MaterialNavGraphBuilder
+import com.colorata.wallman.core.data.Strings
+import com.colorata.wallman.core.data.flatComposable
+import com.colorata.wallman.core.data.rememberString
+import com.colorata.wallman.core.data.viewModel
 import com.colorata.wallman.core.ui.spacing
 import com.colorata.wallman.wallpapers.MainDestination
+import com.colorata.wallman.wallpapers.WallpapersModule
 import com.colorata.wallman.wallpapers.ui.components.FeaturedWallpapersCarousel
 import com.colorata.wallman.wallpapers.ui.components.FilteredWallpaperCards
 import com.colorata.wallman.wallpapers.viewmodel.MainViewModel
-import com.colorata.wallman.wallpapers.viewmodel.viewModel
 
+context(WallpapersModule)
 fun MaterialNavGraphBuilder.mainScreen() {
     flatComposable(Destinations.MainDestination()) { FeaturedScreen() }
 }
 
+context(WallpapersModule)
 @Composable
 fun FeaturedScreen(modifier: Modifier = Modifier) {
     val viewModel = viewModel { MainViewModel() }

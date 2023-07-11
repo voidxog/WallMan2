@@ -1,7 +1,7 @@
 package com.colorata.wallman.core.data.module
 
 import androidx.compose.runtime.compositionLocalOf
-import com.colorata.wallman.core.data.*
+import com.colorata.wallman.core.data.Loadable
 import kotlinx.coroutines.CoroutineScope
 
 interface CoreModule {
@@ -17,5 +17,3 @@ interface CoreModule {
 
 val CoreModule.loadables: List<Loadable>
     get() = listOf(systemProvider, appsProvider)
-
-val LocalCoreModule = compositionLocalOf<CoreModule> { error("CoreModule is not provided") }

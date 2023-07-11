@@ -17,18 +17,21 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.colorata.animateaslifestyle.material3.groupedItems
 import com.colorata.wallman.core.data.*
+import com.colorata.wallman.core.data.module.CoreModule
 import com.colorata.wallman.core.ui.spacing
 import com.colorata.wallman.core.data.viewModel
 import com.colorata.wallman.settings.mirror.api.MirrorDestination
 import com.colorata.wallman.settings.mirror.ui.components.MirrorCard
 import com.colorata.wallman.settings.mirror.viewmodel.MirrorViewModel
 
+context(CoreModule)
 fun MaterialNavGraphBuilder.mirrorScreen() {
     continuousComposable(Destinations.MirrorDestination()) {
         MirrorScreen()
     }
 }
 
+context(CoreModule)
 @Composable
 fun MirrorScreen(modifier: Modifier = Modifier) {
     val viewModel = viewModel { MirrorViewModel() }

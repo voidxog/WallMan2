@@ -13,9 +13,11 @@ import com.colorata.wallman.core.data.Destinations
 import com.colorata.wallman.core.data.MaterialNavGraphBuilder
 import com.colorata.wallman.core.data.continuousComposable
 import com.colorata.wallman.core.data.rememberString
+import com.colorata.wallman.core.data.viewModel
+import com.colorata.wallman.wallpapers.WallpapersModule
 import com.colorata.wallman.wallpapers.ui.components.FilteredWallpaperCards
-import com.colorata.wallman.wallpapers.viewmodel.viewModel
 
+context(WallpapersModule)
 fun MaterialNavGraphBuilder.categoryDetailsScreen() {
     continuousComposable(Destinations.CategoryDetailsDestination()) { entry ->
         val index =
@@ -25,6 +27,7 @@ fun MaterialNavGraphBuilder.categoryDetailsScreen() {
     }
 }
 
+context(WallpapersModule)
 @Composable
 fun CategoryDetailsScreen(categoryIndex: Int, modifier: Modifier = Modifier) {
     val viewModel = viewModel { CategoryDetailsViewModel(categoryIndex) }

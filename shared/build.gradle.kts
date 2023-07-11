@@ -27,6 +27,8 @@ projectDependencies(androidUnitTestBlock = {}, commonTestBlock = {}) {
         widget.impl()
         widget.ui()
 
+        settings.overview.api()
+
         settings.overview.ui()
         settings.about.ui()
         settings.memory.ui()

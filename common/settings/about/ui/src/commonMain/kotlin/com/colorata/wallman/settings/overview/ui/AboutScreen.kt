@@ -31,6 +31,7 @@ import com.colorata.animateaslifestyle.material3.GroupedColumn
 import com.colorata.animateaslifestyle.slideVertically
 import com.colorata.animateaslifestyle.stagger.*
 import com.colorata.wallman.core.data.*
+import com.colorata.wallman.core.data.module.CoreModule
 import com.colorata.wallman.core.ui.R
 import com.colorata.wallman.core.ui.spacing
 import com.colorata.wallman.core.ui.theme.WallManPreviewTheme
@@ -43,12 +44,14 @@ import com.colorata.wallman.ui.icons.Code
 import com.colorata.wallman.ui.icons.CurrencyRuble
 import kotlinx.collections.immutable.persistentListOf
 
+context(CoreModule)
 fun MaterialNavGraphBuilder.aboutScreen() {
     continuousComposable(Destinations.AboutDestination()) {
         AboutScreen()
     }
 }
 
+context(CoreModule)
 @Composable
 fun AboutScreen(modifier: Modifier = Modifier) {
     val viewModel = viewModel { AboutViewModel() }
