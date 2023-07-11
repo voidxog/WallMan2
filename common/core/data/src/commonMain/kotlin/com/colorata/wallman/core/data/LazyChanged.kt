@@ -3,7 +3,7 @@ package com.colorata.wallman.core.data
 import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KProperty
 
-class LazyChanged<T, V>(
+class LazyChanged<T : Any, V>(
     private val change: () -> V,
     private val value: () -> T
 ) : ReadOnlyProperty<Any?, T> {
@@ -18,4 +18,4 @@ class LazyChanged<T, V>(
     }
 }
 
-fun <T, V> lazyChanged(change: () -> V, value: () -> T) = LazyChanged(change, value)
+fun <T : Any, V> lazyChanged(change: () -> V, value: () -> T) = LazyChanged(change, value)

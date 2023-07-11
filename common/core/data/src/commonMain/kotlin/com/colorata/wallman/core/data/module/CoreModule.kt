@@ -1,6 +1,5 @@
 package com.colorata.wallman.core.data.module
 
-import androidx.compose.runtime.compositionLocalOf
 import com.colorata.wallman.core.data.Loadable
 import kotlinx.coroutines.CoroutineScope
 

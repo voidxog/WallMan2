@@ -6,13 +6,18 @@ import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.LinearOutSlowInEasing
 import androidx.compose.animation.core.tween
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Immutable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NamedNavArgument
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavDeepLink
 import androidx.navigation.NavGraphBuilder
+import androidx.navigation.NavType
 import androidx.navigation.compose.composable
+import androidx.navigation.navArgument
+import kotlin.reflect.KProperty
 
 
 class MaterialNavGraphBuilder(
@@ -40,7 +45,26 @@ class MaterialNavGraphBuilder(
             content = content
         )
     }
+
+    fun DestinationArgument.toNavArgument() = navArgument(name) {
+        type = NavType.StringType
+        this.defaultValue = this@toNavArgument.defaultValue
+    }
 }
+
+@Immutable
+interface NavigationDestinationScope {
+    operator fun getValue(thisObj: Any?, property: KProperty<Any?>): String?
+}
+
+internal class NavigationDestinationScopeImpl(private val entry: NavBackStackEntry) :
+    NavigationDestinationScope {
+    override operator fun getValue(thisObj: Any?, property: KProperty<Any?>): String? {
+        return entry.arguments?.getString(property.name)
+    }
+}
+
+fun NavigationDestinationScope.parameter(): NavigationDestinationScope = this
 
 fun MaterialNavGraphBuilder.flatComposable(
     destination: Destination,
@@ -67,18 +91,18 @@ fun MaterialNavGraphBuilder.flatComposable(
     popExitTransition: AnimatedContentTransitionScope<NavBackStackEntry>.() -> ExitTransition = {
         materialFadeThroughOut(durationMillis = animation.durationSpec.medium2)
     },
-    content: @Composable AnimatedVisibilityScope.(NavBackStackEntry) -> Unit
+    content: @Composable NavigationDestinationScope.() -> Unit
 ) {
     composable(
         destination.name,
-        arguments = destination.arguments,
-        deepLinks = destination.deepLinks,
+        arguments = destination.arguments.map { it.toNavArgument() },
         enterTransition = enterTransition,
         exitTransition = exitTransition,
         popEnterTransition = popEnterTransition,
         popExitTransition = popExitTransition
     ) {
-        content(it)
+        val scope = remember { NavigationDestinationScopeImpl(it) }
+        content(scope)
     }
 }
 
@@ -109,7 +133,7 @@ fun MaterialNavGraphBuilder.continuousComposable(
             forward = false, 100, durationMillis = animation.durationSpec.medium2
         )
     },
-    content: @Composable AnimatedVisibilityScope.(NavBackStackEntry) -> Unit
+    content: @Composable NavigationDestinationScope.() -> Unit
 ) = flatComposable(
     destination,
     hasContinuousChildren,

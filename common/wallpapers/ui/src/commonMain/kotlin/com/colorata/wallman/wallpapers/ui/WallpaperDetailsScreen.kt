@@ -69,6 +69,7 @@ import com.colorata.wallman.core.data.flatComposable
 import com.colorata.wallman.core.data.formatted
 import com.colorata.wallman.core.data.materialSharedAxisX
 import com.colorata.wallman.core.data.materialSharedAxisY
+import com.colorata.wallman.core.data.parameter
 import com.colorata.wallman.core.data.rememberString
 import com.colorata.wallman.core.data.simplifiedLocaleOf
 import com.colorata.wallman.core.data.viewModel
@@ -96,11 +97,9 @@ import kotlinx.collections.immutable.toImmutableList
 
 context(WallpapersModule)
 fun MaterialNavGraphBuilder.wallpaperDetailsScreen() {
-    flatComposable(Destinations.WallpaperDetailsDestination()) { entry ->
-        val hashCode =
-            entry.arguments?.getInt(Destinations.WallpaperDetailsDestination().arguments[0].name)
-                ?: 0
-        WallpaperDetailsScreen(wallpaperHashCode = hashCode)
+    flatComposable(Destinations.WallpaperDetailsDestination()) {
+        val hashCode by parameter()
+        WallpaperDetailsScreen(wallpaperHashCode = hashCode?.toInt() ?: 0)
     }
 }
 
