@@ -11,9 +11,9 @@
 **Experiments are located [here](https://gitlab.com/colorata/wallman-experimental)**
 ## 👀 Current Look
 
-| 🤖 Android                                                                                                       |                                                                                                                  |
-|------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------|
-| <img src="https://github.com/Colorata/Assets/assets/79582543/91ef1014-7109-4b83-877b-dfbc14e5eccf" width="200"/> | <img src="https://github.com/Colorata/Assets/assets/79582543/ffea9761-a8e0-4603-80b4-0c4273fb604c" width="200"/> |
+| 🤖 Android                |                           |
+|---------------------------|---------------------------|
+| <img src="https://github.com/Colorata/Assets/assets/79582543/822160f2-aadc-4dd9-97b1-4641d351cae7" width="200"/> | <img src="https://github.com/Colorata/Assets/assets/79582543/82f4ac4c-6d4d-44ec-be44-fbc1cce2f77a" width="200"/> |
 | <img src="https://github.com/Colorata/Assets/assets/79582543/ab3bbeb6-2c47-4465-a8d2-1bd0a2742e6a" width="200"/> | <img src="https://github.com/Colorata/Assets/assets/79582543/6f3a5ea6-8f10-4237-8aba-852a069084d5" width="200"/> |
 
 ## 📦 Features
