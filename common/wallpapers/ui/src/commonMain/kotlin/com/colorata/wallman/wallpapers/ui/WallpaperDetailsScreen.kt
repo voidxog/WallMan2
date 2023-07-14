@@ -31,8 +31,10 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.LocationOn
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.AssistChip
 import androidx.compose.material3.Button
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
@@ -67,6 +69,7 @@ import com.colorata.wallman.core.data.animation
 import com.colorata.wallman.core.data.bitmapAsset
 import com.colorata.wallman.core.data.flatComposable
 import com.colorata.wallman.core.data.formatted
+import com.colorata.wallman.core.data.icons.InstallMobile
 import com.colorata.wallman.core.data.materialSharedAxisX
 import com.colorata.wallman.core.data.materialSharedAxisY
 import com.colorata.wallman.core.data.parameter
@@ -130,6 +133,13 @@ private fun WallpaperDetailsScreen(
         ),
         composableName = "WallpaperDetailsScreen"
     )
+    if (state.showPermissionRequest) {
+        PermissionRequestDialog(onDismiss = {
+            state.onEvent(WallpaperDetailsViewModel.WallpaperDetailsScreenEvent.DismissPermissionRequest)
+        }, onConfirm = {
+            state.onEvent(WallpaperDetailsViewModel.WallpaperDetailsScreenEvent.GoToInstallAppsPermissionsPage)
+        })
+    }
     Column(
         modifier
             .fillMaxSize()
@@ -144,7 +154,9 @@ private fun WallpaperDetailsScreen(
             })
         }
         val animationSpec =
-            fade(animationSpec = MaterialTheme.animation.emphasized()) + slideVertically(animationSpec = MaterialTheme.animation.emphasized())
+            fade(animationSpec = MaterialTheme.animation.emphasized()) + slideVertically(
+                animationSpec = MaterialTheme.animation.emphasized()
+            )
         Column(
             Modifier
                 .weight(1f)
@@ -436,6 +448,28 @@ private fun WallpaperTypeSelector(
             Modifier.weight(1f)
         )
     }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun PermissionRequestDialog(
+    onDismiss: () -> Unit,
+    onConfirm: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    AlertDialog(onDismissRequest = {
+        onDismiss()
+    }, confirmButton = {
+        Button(onClick = { onConfirm() }) {
+            Text(rememberString(Strings.ok))
+        }
+    }, icon = {
+        Icon(Icons.Default.InstallMobile, contentDescription = null)
+    }, title = {
+        Text(rememberString(Strings.permissionNeeded))
+    }, text = {
+        Text(rememberString(Strings.permissionNeededDescription))
+    }, modifier = modifier)
 }
 
 @Composable

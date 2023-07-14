@@ -21,10 +21,20 @@ object Strings {
     val more = simplifiedLocaleOf("More", "Больше")
     val exploreNew = simplifiedLocaleOf("Explore new", "Познавайте больше")
     val goToMaps = simplifiedLocaleOf("Go to maps", "Найти на карте")
+    val ok = simplifiedLocaleOf("Ok", "Ок")
     val size = simplifiedLocaleOf("Size: %s MB", "Размер: %s MB")
     val categories = simplifiedLocaleOf("Categories", "Категории")
     val adaptWallpaperToTheme =
         simplifiedLocaleOf("Adapt wallpaper to theme", "Адаптировать обои под тему")
+
+    val permissionNeeded = simplifiedLocaleOf("Permission needed", "Нужно разрешение")
+    val permissionNeededDescription =
+        simplifiedLocaleOf(
+            "WallMan needs \"Install unknown apps\" permission because wallpaper " +
+                    "packs are packaged into apps",
+            "WallMan нужно разрешение \"Устанавливать неизвестные приложения\", " +
+                    "потому что паки обоев являются приложениями"
+        )
 
     val remove = simplifiedLocaleOf("Remove", "Удалить")
     val install = simplifiedLocaleOf("Install", "Установить")

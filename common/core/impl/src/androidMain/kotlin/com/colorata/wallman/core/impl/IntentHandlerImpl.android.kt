@@ -6,8 +6,10 @@ import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.provider.Settings
 import com.colorata.wallman.core.data.Coordinates
 import com.colorata.wallman.core.data.module.IntentHandler
+import com.colorata.wallman.core.data.module.PermissionPage
 import kotlin.reflect.KClass
 
 class IntentHandlerImpl(private val context: Context) : IntentHandler {
@@ -54,6 +56,16 @@ class IntentHandlerImpl(private val context: Context) : IntentHandler {
 
     override fun exit() {
         (context as Activity).finish()
+    }
+
+    override fun goToPermissionPage(page: PermissionPage) {
+        page.toIntent().addFlags(Intent.FLAG_ACTIVITY_NEW_TASK).start()
+    }
+
+    private fun PermissionPage.toIntent() = when (this) {
+        PermissionPage.InstallUnknownApps -> Intent(Settings.ACTION_MANAGE_UNKNOWN_APP_SOURCES).setData(
+            Uri.parse("package:${context.packageName}")
+        )
     }
 
     private fun Intent.start() = context.startActivity(this)

@@ -1,14 +1,12 @@
 package com.colorata.wallman.wallpapers
 
-import com.colorata.wallman.core.data.Destination
 import com.colorata.wallman.core.data.Destinations
-import com.colorata.wallman.core.data.destinationArgument
-import com.colorata.wallman.core.data.destinationSubPath
-import kotlinx.collections.immutable.persistentListOf
+import com.colorata.wallman.core.data.destination
+import com.colorata.wallman.core.data.withArgument
 
-fun Destinations.MainDestination() = Destination("Main")
-fun Destinations.WallpaperDetailsDestination(wallpaper: WallpaperI? = null) = Destination(
-    "Wallpaper/{hashCode}",
-    "Wallpaper/",
-    persistentListOf(destinationArgument("hashCode", "0"))
-).let { if (wallpaper != null) it + destinationSubPath(wallpaper.hashCode()) else it }
+fun Destinations.MainDestination() = destination("Main")
+fun Destinations.WallpaperDetailsDestination(wallpaper: WallpaperI? = null) = destination(
+    "Wallpaper/{hashCode}", "Wallpaper/"
+).withArgument(
+    wallpaper, argumentName = "hashCode", defaultValue = "0"
+) { it.hashCode() }

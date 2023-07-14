@@ -6,9 +6,26 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.colorata.wallman.core.data.*
+import com.colorata.wallman.core.data.Result
+import com.colorata.wallman.core.data.launchIO
+import com.colorata.wallman.core.data.launchMolecule
+import com.colorata.wallman.core.data.lazyMolecule
 import com.colorata.wallman.core.data.module.IntentHandler
-import com.colorata.wallman.wallpapers.*
+import com.colorata.wallman.core.data.module.Permission
+import com.colorata.wallman.core.data.module.PermissionHandler
+import com.colorata.wallman.core.data.module.PermissionPage
+import com.colorata.wallman.wallpapers.BaseWallpaper
+import com.colorata.wallman.wallpapers.DynamicWallpaper
+import com.colorata.wallman.wallpapers.StaticWallpaper
+import com.colorata.wallman.wallpapers.WallpaperI
+import com.colorata.wallman.wallpapers.WallpaperManager
+import com.colorata.wallman.wallpapers.WallpapersModule
+import com.colorata.wallman.wallpapers.WallpapersRepository
+import com.colorata.wallman.wallpapers.canBe
+import com.colorata.wallman.wallpapers.firstBaseWallpaper
+import com.colorata.wallman.wallpapers.goToLiveWallpaper
+import com.colorata.wallman.wallpapers.isSameAs
+import com.colorata.wallman.wallpapers.supportsDynamicWallpapers
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.coroutines.Job
@@ -17,17 +34,23 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
 
 fun WallpapersModule.WallpaperDetailsViewModel(wallpaperHashCode: Int) =
-    WallpaperDetailsViewModel(wallpapersRepository, wallpaperHashCode, wallpaperManager, intentHandler)
+    WallpaperDetailsViewModel(
+        wallpapersRepository,
+        wallpaperHashCode,
+        wallpaperManager,
+        intentHandler,
+        permissionHandler
+    )
 
 class WallpaperDetailsViewModel(
     private val repo: WallpapersRepository,
     private val wallpaperHashCode: Int,
     private val wallpaperManager: WallpaperManager,
-    private val intentHandler: IntentHandler
+    private val intentHandler: IntentHandler,
+    private val permissionHandler: PermissionHandler
 ) : ViewModel() {
 
-    private val wallpaper: WallpaperI
-        get() = repo.wallpapers.first { it.hashCode() == wallpaperHashCode }
+    private val wallpaper: WallpaperI by lazy { repo.wallpapers.first { it.hashCode() == wallpaperHashCode } }
 
     private val progress = MutableStateFlow(100f)
     private var downloadJob: Job? = null
@@ -45,6 +68,7 @@ class WallpaperDetailsViewModel(
     private val selectedWallpaperIndex = MutableStateFlow(0)
     private val selectedBaseWallpaper = MutableStateFlow(wallpaper.firstBaseWallpaper())
     private val wallpaperVariants = MutableStateFlow(getDisplayedWallpaperVariants())
+    private val showPermissionRequest = MutableStateFlow(false)
 
     init {
         viewModelScope.launchIO({ it.printStackTrace() }) {
@@ -90,10 +114,14 @@ class WallpaperDetailsViewModel(
         viewModelScope.launch {
             when (downloadState.value) {
                 DynamicWallpaper.DynamicWallpaperCacheState.Cached -> {
-                    val result = wallpaperManager.installWallpaperPack(
-                        wallpaper.parent
-                    )
-                    if (result is Result.Error<Unit>) result.throwable.printStackTrace()
+                    if (permissionHandler.isPermissionGranted(Permission.InstallUnknownApps)) {
+                        val result = wallpaperManager.installWallpaperPack(
+                            wallpaper.parent
+                        )
+                        if (result is Result.Error<Unit>) result.throwable.printStackTrace()
+                    } else {
+                        showPermissionRequest.emit(true)
+                    }
                 }
 
                 DynamicWallpaper.DynamicWallpaperCacheState.Downloading -> {
@@ -199,6 +227,7 @@ class WallpaperDetailsViewModel(
         val action by actionType.collectAsState()
         val selectedWallpaper by selectedBaseWallpaper.collectAsState()
         val wallpaperVariants by wallpaperVariants.collectAsState()
+        val showPermissionRequest by showPermissionRequest.collectAsState()
         return@lazyMolecule WallpaperDetailsScreenState(
             wallpaper,
             selectedWallpaper,
@@ -206,7 +235,8 @@ class WallpaperDetailsViewModel(
             updatedProgress,
             cacheState,
             selectedType,
-            action
+            action,
+            showPermissionRequest
         ) { event ->
             when (event) {
                 WallpaperDetailsScreenEvent.ClickOnActionButton -> onActionButtonClick()
@@ -220,6 +250,14 @@ class WallpaperDetailsViewModel(
 
                 is WallpaperDetailsScreenEvent.SelectBaseWallpaper -> selectedBaseWallpaper.value =
                     event.wallpaper
+
+                WallpaperDetailsScreenEvent.DismissPermissionRequest ->
+                    this.showPermissionRequest.value = false
+
+                WallpaperDetailsScreenEvent.GoToInstallAppsPermissionsPage -> {
+                    intentHandler.goToPermissionPage(PermissionPage.InstallUnknownApps)
+                    this.showPermissionRequest.value = false
+                }
             }
         }
     }
@@ -233,6 +271,7 @@ class WallpaperDetailsViewModel(
         val cacheState: DynamicWallpaper.DynamicWallpaperCacheState,
         val selectedWallpaperType: WallpaperI.SelectedWallpaperType,
         val actionType: WallpaperI.ActionType,
+        val showPermissionRequest: Boolean = false,
         val onEvent: (WallpaperDetailsScreenEvent) -> Unit
     )
 
@@ -247,5 +286,9 @@ class WallpaperDetailsViewModel(
             WallpaperDetailsScreenEvent
 
         data class SelectBaseWallpaper(val wallpaper: BaseWallpaper) : WallpaperDetailsScreenEvent
+
+        object DismissPermissionRequest : WallpaperDetailsScreenEvent
+
+        object GoToInstallAppsPermissionsPage : WallpaperDetailsScreenEvent
     }
 }

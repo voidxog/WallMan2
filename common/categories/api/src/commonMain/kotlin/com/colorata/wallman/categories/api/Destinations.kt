@@ -1,23 +1,14 @@
 package com.colorata.wallman.categories.api
 
-import com.colorata.wallman.core.data.Destination
 import com.colorata.wallman.core.data.Destinations
-import com.colorata.wallman.core.data.destinationArgument
-import com.colorata.wallman.core.data.destinationSubPath
-import kotlinx.collections.immutable.persistentListOf
+import com.colorata.wallman.core.data.destination
+import com.colorata.wallman.core.data.withArgument
 
-fun Destinations.CategoriesDestination() = Destination("CategoriesList")
-fun Destinations.CategoryDetailsDestination(category: WallpaperCategory? = null) = Destination(
-    "Category/{index}",
-    "Category/",
-    arguments = persistentListOf(
-        destinationArgument(
-            "index",
-            "0"
-        )
-    )
-).let {
-    if (category != null) it + destinationSubPath(
-        WallpaperCategory.values().indexOf(category)
-    ) else it
+fun Destinations.CategoriesDestination() = destination("CategoriesList")
+fun Destinations.CategoryDetailsDestination(category: WallpaperCategory? = null) = destination(
+    "Category/{index}", "Category/"
+).withArgument(
+    category, argumentName = "index", defaultValue = "0"
+) {
+    WallpaperCategory.values().indexOf(it)
 }

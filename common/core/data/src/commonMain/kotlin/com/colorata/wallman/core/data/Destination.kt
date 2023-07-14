@@ -2,6 +2,7 @@ package com.colorata.wallman.core.data
 
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
+import kotlinx.collections.immutable.toImmutableList
 
 data class Destination(
     val name: String,
@@ -12,7 +13,7 @@ data class Destination(
         return Destination(
             name + "/" + other.name,
             path + "/" + other.path,
-            other.arguments
+            (arguments + other.arguments).toSet().toImmutableList()
         )
     }
 }
@@ -33,6 +34,17 @@ fun destination(
     arguments: ImmutableList<DestinationArgument> = persistentListOf()
 ) = Destination(name, path, arguments)
 
-fun destinationSubPath(
-    path: Any?
-) = Destination("", path.toString())
+fun <T> Destination.withArgument(
+    argument: T?,
+    argumentName: String,
+    defaultValue: String,
+    convert: (T) -> Any?
+): Destination {
+    return let {
+        if (argument != null) it + destination(
+            "",
+            convert(argument).toString(),
+            persistentListOf(destinationArgument(argumentName, defaultValue))
+        ) else it
+    }
+}

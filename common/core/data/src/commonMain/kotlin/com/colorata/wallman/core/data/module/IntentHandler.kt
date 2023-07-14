@@ -12,17 +12,12 @@ interface IntentHandler {
 
     fun goToMaps(coordinates: Coordinates)
 
+    fun goToPermissionPage(page: PermissionPage)
+
     fun exit()
 
-    object NoopIntentHandler : IntentHandler {
-        override fun goToUrl(url: String) {}
+}
 
-        override fun <T : Any> goToActivity(activity: KClass<T>) {}
-
-        override fun goToLiveWallpaper(packageName: String, serviceName: String) {}
-
-        override fun goToMaps(coordinates: Coordinates) {}
-
-        override fun exit() {}
-    }
+enum class PermissionPage {
+    InstallUnknownApps
 }
