@@ -10,6 +10,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LargeTopAppBar
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -21,6 +22,8 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.testTag
@@ -36,6 +39,8 @@ import com.colorata.animateaslifestyle.stagger.animateAsGrid
 import com.colorata.animateaslifestyle.stagger.asStaggerList
 import com.colorata.animateaslifestyle.stagger.staggerSpecOf
 import com.colorata.wallman.core.data.animation
+import com.colorata.wallman.core.data.bitmapAsset
+import com.colorata.wallman.core.ui.components.ScreenBackground
 import com.colorata.wallman.core.ui.spacing
 import com.colorata.wallman.core.ui.theme.LocalPaddings
 import com.colorata.wallman.ui.icons.Shuffle
@@ -56,6 +61,7 @@ fun FilteredWallpaperCards(
     description: String = "",
     wallpapers: StaggerList<WallpaperI, Float>,
     onRandomWallpaper: () -> Unit,
+    backgroundImageBitmap: ImageBitmap? = null,
     withNavbar: Boolean = true
 ) {
     val screenConfig = rememberWindowSize()
@@ -72,11 +78,15 @@ fun FilteredWallpaperCards(
             else -> 4
         }
     }
-    val animationSpec = fade(animationSpec = MaterialTheme.animation.emphasized()) + slideVertically(
-        100f,
-        animationSpec = MaterialTheme.animation.emphasized()
-    )
+    val animationSpec =
+        fade(animationSpec = MaterialTheme.animation.emphasized()) + slideVertically(
+            100f,
+            animationSpec = MaterialTheme.animation.emphasized()
+        )
 
+    if (backgroundImageBitmap != null) {
+        ScreenBackground(backgroundImageBitmap)
+    }
     Box(
         modifier = modifier.fillMaxSize()
     ) {
@@ -108,9 +118,12 @@ fun FilteredWallpaperCards(
         ) {
             item(span = { GridItemSpan(maxLineSpan) }) {
                 Column {
-                    LargeTopAppBar(title = {
-                        androidx.compose.material3.Text(text = name)
-                    })
+                    LargeTopAppBar(
+                        title = {
+                            androidx.compose.material3.Text(text = name)
+                        },
+                        colors = TopAppBarDefaults.largeTopAppBarColors(containerColor = Color.Transparent)
+                    )
                     if (description != "") {
                         androidx.compose.material3.Text(
                             text = description,
@@ -137,8 +150,9 @@ fun FilteredWallpaperCards(
                         .animateVisibility(
                             it.visible,
                             transition = animationSpec
-                        ).testTag("Wallpaper$index"),
-                    scale = if (remember(selectedIndex) { derivedStateOf { selectedIndex == index }.value }) animatable.value else 1f
+                        )
+                        .testTag("Wallpaper$index"),
+                    scale = { if (selectedIndex == index) animatable.value else 1f }
                 ) {
                     scope.launch {
                         selectedIndex = index

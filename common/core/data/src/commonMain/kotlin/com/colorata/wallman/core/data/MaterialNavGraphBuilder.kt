@@ -70,7 +70,7 @@ fun MaterialNavGraphBuilder.flatComposable(
     destination: Destination,
     hasContinuousChildren: Boolean = false,
     enterTransition: AnimatedContentTransitionScope<NavBackStackEntry>.() -> EnterTransition = {
-        materialFadeThroughIn(durationMillis = animation.durationSpec.medium2)
+        materialFadeThroughIn(initialScale = 1f, durationMillis = animation.durationSpec.medium2)
     },
     exitTransition: AnimatedContentTransitionScope<NavBackStackEntry>.() -> ExitTransition = {
         if (hasContinuousChildren) materialSharedAxisXOut(
@@ -86,7 +86,7 @@ fun MaterialNavGraphBuilder.flatComposable(
             100,
             animation.durationSpec.medium2
         )
-        else materialFadeThroughIn(durationMillis = animation.durationSpec.medium2)
+        else materialFadeThroughIn(initialScale = 1f, durationMillis = animation.durationSpec.medium2)
     },
     popExitTransition: AnimatedContentTransitionScope<NavBackStackEntry>.() -> ExitTransition = {
         materialFadeThroughOut(durationMillis = animation.durationSpec.medium2)

@@ -77,6 +77,7 @@ import com.colorata.wallman.core.data.rememberString
 import com.colorata.wallman.core.data.simplifiedLocaleOf
 import com.colorata.wallman.core.data.viewModel
 import com.colorata.wallman.core.ui.LightDarkPreview
+import com.colorata.wallman.core.ui.components.ScreenBackground
 import com.colorata.wallman.core.ui.spacing
 import com.colorata.wallman.core.ui.theme.WallManPreviewTheme
 import com.colorata.wallman.ui.icons.SdCard
@@ -140,10 +141,10 @@ private fun WallpaperDetailsScreen(
             state.onEvent(WallpaperDetailsViewModel.WallpaperDetailsScreenEvent.GoToInstallAppsPermissionsPage)
         })
     }
+    ScreenBackground(bitmapAsset(state.selectedWallpaper.previewRes))
     Column(
         modifier
             .fillMaxSize()
-            .background(MaterialTheme.colorScheme.surface)
     ) {
         val animList = remember {
             List(8) { }.toStaggerList({ 0f }, visible = isPreview)
@@ -161,7 +162,6 @@ private fun WallpaperDetailsScreen(
             Modifier
                 .weight(1f)
                 .verticalScroll(rememberScrollState())
-                .background(MaterialTheme.colorScheme.surface)
                 .padding(MaterialTheme.spacing.extraLarge)
                 .fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally,

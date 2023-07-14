@@ -2,8 +2,10 @@ package com.colorata.wallman.wallpapers.ui.components
 
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.Animatable
+import androidx.compose.animation.core.EaseInSine
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
@@ -57,13 +59,21 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlin.math.absoluteValue
 
+
+@OptIn(ExperimentalFoundationApi::class)
+private fun PagerState.calculateOffsetForIndex(index: Int) =
+    (currentPage - index + currentPageOffsetFraction)
+        .absoluteValue.coerceIn(0f, 1f)
+
 @OptIn(ExperimentalFoundationApi::class, ExperimentalStaggerApi::class)
 @Composable
 fun FeaturedWallpapersCarousel(
     wallpapers: ImmutableList<WallpaperI>,
     onClick: (WallpaperI) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onWallpaperRotation: (WallpaperI) -> Unit = {}
 ) {
+
     val state = rememberPagerState(Int.MAX_VALUE / 2) {
         Int.MAX_VALUE
     }
@@ -76,6 +86,7 @@ fun FeaturedWallpapersCarousel(
         from = 100f,
         animationSpec = anim.emphasized()
     )
+
     LaunchedEffect(Unit) {
         visibleWallpapers.animateAsList(
             this,
@@ -110,6 +121,11 @@ fun FeaturedWallpapersCarousel(
             }
         }
     }
+    LaunchedEffect(Unit) {
+        snapshotFlow { state.currentPage }.collect { index ->
+            onWallpaperRotation(wallpapers[index % wallpapers.size])
+        }
+    }
     Column(
         modifier.fillMaxWidth(),
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -123,10 +139,30 @@ fun FeaturedWallpapersCarousel(
                 .height(384.dp),
             pageSize = PageSize.Fixed(192.dp)
         ) { index ->
+            var isSelected by remember { mutableStateOf(false) }
+            val scale by animateFloatAsState(
+                if (isSelected) 1.1f else 1f,
+                label = "",
+                animationSpec = tween(200, easing = EaseInSine)
+            )
             val currentWallpaper = wallpapers[index % wallpapers.size]
+
+            val clickHandler = remember {
+                {
+                    scope.launch {
+                        isSelected = true
+                        delay(50)
+                        onClick(currentWallpaper)
+                    }
+                }
+            }
             Box(
                 Modifier
-                    .fillMaxSize(), contentAlignment = Alignment.Center
+                    .fillMaxSize()
+                    .graphicsLayer {
+                        scaleX = scale
+                        scaleY = scale
+                    }, contentAlignment = Alignment.Center
             ) {
                 val cornerRadius = MaterialTheme.spacing.extraLarge
                 Box(
@@ -140,7 +176,9 @@ fun FeaturedWallpapersCarousel(
                                 if (state.currentPage != index) state.animateScrollToPage(
                                     index,
                                     animationSpec = anim.emphasized(anim.durationSpec.extraLong4)
-                                ) else onClick(currentWallpaper)
+                                ) else {
+                                    clickHandler()
+                                }
                             }
                         }
                         .graphicsLayer {
@@ -175,7 +213,9 @@ fun FeaturedWallpapersCarousel(
                         contentScale = ContentScale.Crop
                     )
                     Button(
-                        onClick = { /*TODO*/ },
+                        onClick = {
+                            clickHandler()
+                        },
                         Modifier
                             .graphicsLayer {
                                 val pageOffset = state.calculateOffsetForIndex(index)
@@ -253,11 +293,6 @@ fun FeaturedWallpapersCarousel(
         }
     }
 }
-
-@OptIn(ExperimentalFoundationApi::class)
-private fun PagerState.calculateOffsetForIndex(index: Int) =
-    (currentPage - index + currentPageOffsetFraction)
-        .absoluteValue.coerceIn(0f, 1f)
 
 @Preview
 @Composable

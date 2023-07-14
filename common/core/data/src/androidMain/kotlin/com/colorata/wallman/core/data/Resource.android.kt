@@ -30,7 +30,7 @@ actual fun bitmapAsset(assetName: String): ImageBitmap {
     val context = LocalContext.current
     val bitmap = remember(assetName) {
         val fullPath =
-            context.assets.list("")?.first { assetName in it.split(".", "/") }
+            context.assets.list("")?.find { assetName in it.split(".", "/") }
                 ?: error("Asset '$assetName' not found")
 
         context.assets.open(fullPath)
