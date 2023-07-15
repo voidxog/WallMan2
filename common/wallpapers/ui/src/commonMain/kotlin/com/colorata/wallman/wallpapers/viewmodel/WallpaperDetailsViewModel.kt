@@ -222,7 +222,7 @@ class WallpaperDetailsViewModel(
 
     val state by lazyMolecule {
         val cacheState by downloadState.collectAsState()
-        val updatedProgress by progress.collectAsState()
+        val downloadProgress by progress.collectAsState()
         val selectedType by selectedWallpaperType.collectAsState()
         val action by actionType.collectAsState()
         val selectedWallpaper by selectedBaseWallpaper.collectAsState()
@@ -232,7 +232,7 @@ class WallpaperDetailsViewModel(
             wallpaper,
             selectedWallpaper,
             wallpaperVariants,
-            updatedProgress,
+            downloadProgress,
             cacheState,
             selectedType,
             action,

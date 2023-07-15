@@ -16,11 +16,13 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
@@ -45,17 +47,27 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.graphics.StrokeCap
+import androidx.compose.ui.graphics.drawOutline
+import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalInspectionMode
+import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.text.style.TextAlign
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.colorata.animateaslifestyle.animateVisibility
 import com.colorata.animateaslifestyle.fade
 import com.colorata.animateaslifestyle.material3.shapes.ScallopShape
-import com.colorata.animateaslifestyle.shapes.ArcBorder
 import com.colorata.animateaslifestyle.shapes.ExperimentalShapeApi
 import com.colorata.animateaslifestyle.shapes.arc
 import com.colorata.animateaslifestyle.shapes.degrees
+import com.colorata.animateaslifestyle.shapes.drawMaskArc
+import com.colorata.animateaslifestyle.shapes.drawOffscreen
 import com.colorata.animateaslifestyle.slideVertically
 import com.colorata.animateaslifestyle.stagger.ExperimentalStaggerApi
 import com.colorata.animateaslifestyle.stagger.animateAsList
@@ -319,29 +331,9 @@ private fun PreviewImage(
             .statusBarsPadding()
             .fillMaxWidth(0.7f)
     ) {
-        val progress by animateFloatAsState(downloadProgress(), label = "")
-        val start = if (progress != 100f) rememberInfiniteTransition(label = "").animateFloat(
-            initialValue = -90f,
-            targetValue = 270f,
-            animationSpec = infiniteRepeatable(
-                animation = tween(
-                    durationMillis = 5000,
-                    easing = LinearEasing
-                ),
-                repeatMode = RepeatMode.Restart
-            ), label = ""
-        ).value else -90f
         ArcBorder(
-            arc = arc(
-                degrees(
-                    start
-                ), degrees(3.6f * progress)
-            ),
-            border = BorderStroke(
-                MaterialTheme.spacing.extraSmall * animateFloatAsState(targetValue = if (progress == 100f) 1f else 3f).value,
-                MaterialTheme.colorScheme.primary
-            ),
-            shape = ScallopShape(density = 100f)
+            progress = { downloadProgress() },
+            shape = remember { ScallopShape(density = 100f) }
         ) {
             AnimatedContent(
                 targetState = resource,
@@ -359,6 +351,58 @@ private fun PreviewImage(
                 )
             }
         }
+    }
+}
+
+@Composable
+private fun ArcBorder(
+    progress: () -> Float,
+    shape: Shape = RectangleShape,
+    content: @Composable () -> Unit
+) {
+    val animatedProgress by animateFloatAsState(progress(), label = "")
+    val start = if (animatedProgress != 100f) rememberInfiniteTransition(label = "").animateFloat(
+        initialValue = -90f,
+        targetValue = 270f,
+        animationSpec = infiniteRepeatable(
+            animation = tween(
+                durationMillis = 5000,
+                easing = LinearEasing
+            ),
+            repeatMode = RepeatMode.Restart
+        ), label = ""
+    ).value else -90f
+    val width =
+        MaterialTheme.spacing.extraSmall * animateFloatAsState(
+            targetValue = if (animatedProgress == 100f) 1f else 3f,
+            label = ""
+        ).value
+    val borderColor = MaterialTheme.colorScheme.primary
+    val layoutDirection = LocalLayoutDirection.current
+    val density = LocalDensity.current
+    Box(
+        modifier = Modifier
+            .clip(shape)
+            .height(IntrinsicSize.Min)
+            .width(IntrinsicSize.Min)
+    ) {
+        content()
+        Box(
+            Modifier
+                .fillMaxSize()
+                .drawOffscreen()
+                .drawBehind {
+                    val border = BorderStroke(
+                        width,
+                        borderColor
+                    )
+                    drawOutline(
+                        shape.createOutline(size, layoutDirection, density),
+                        brush = border.brush,
+                        style = Stroke(border.width.toPx(), cap = StrokeCap.Round)
+                    )
+                    drawMaskArc(arc(degrees(start), degrees(3.6f * animatedProgress)), border.brush)
+                })
     }
 }
 
