@@ -8,11 +8,14 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.produceState
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.graphics.asAndroidBitmap
 import androidx.compose.ui.graphics.toArgb
+import androidx.palette.graphics.Palette
 import com.colorata.wallman.core.data.memoize
 import dev.sasikanth.material.color.utilities.hct.Hct
 import dev.sasikanth.material.color.utilities.quantize.QuantizerCelebi
 import dev.sasikanth.material.color.utilities.scheme.Scheme
+import java.lang.String
 
 fun Scheme.toColorScheme(): ColorScheme {
     return darkColorScheme(
@@ -48,36 +51,19 @@ fun Scheme.toColorScheme(): ColorScheme {
 }
 
 /**
- * Finds hue with maximum pixels.
- * Usually more saturated.
- */
-private fun ImageBitmap.hueDominantColor(): Int {
-    val buffer = IntArray(width * height + 1)
-    readPixels(buffer)
-    val hue = dominantHueFrom(buffer)
-    return Color.hsl(hue, 1f, 0.85f).toArgb()
-}
-
-/**
  * Uses Material Color Utilities api to find dominant color.
- * Usually less saturated.
+ * @param chroma chroma of generated color
  */
-private fun ImageBitmap.overallDominantColor(): Int {
+private fun ImageBitmap.overallDominantColor(chroma: Int = 30): Int {
     val buffer = IntArray(width * height + 1)
     readPixels(buffer)
-    return QuantizerCelebi.quantize(buffer, maxColors = 10).map { it.key }.maxBy { Hct.fromInt(it).getChroma() }
-}
-
-private fun dominantHueFrom(colors: IntArray): Float {
-    val hueCountMap = mutableMapOf<Float, Int>()
-    colors.forEach { color ->
-        val hct = Hct.fromInt(color)
-        if (hct.getChroma() <= 20 || hct.getTone() !in 20f..80f) return@forEach
-        val hue = hct.getHue().toFloat()
-        hueCountMap[hue] = hueCountMap[hue] ?: 1
+    asAndroidBitmap().getPixels(buffer, 0, width, 0, 0, width - 1, height - 1)
+    return QuantizerCelebi.quantize(buffer, maxColors = 1).toList()[0].first.let {
+        Hct
+            .fromInt(it)
+            .apply { setChroma(chroma.toDouble()) }
+            .toInt()
     }
-    if (hueCountMap.isEmpty()) return 200f
-    return hueCountMap.maxBy { it.value }.key
 }
 
 fun ImageBitmap.extractColorScheme(darkTheme: Boolean): ColorScheme {
