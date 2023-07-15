@@ -13,7 +13,7 @@
 
 | 🤖 Android                                                                                                       |                                                                                                                  |
 |------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------|
-| <img src="https://github.com/Colorata/Assets/assets/79582543/822160f2-aadc-4dd9-97b1-4641d351cae7" width="200"/> | <img src="https://github.com/Colorata/Assets/assets/79582543/82f4ac4c-6d4d-44ec-be44-fbc1cce2f77a" width="200"/> |
+| <img src="https://github.com/Colorata/Assets/assets/79582543/7bbdab2e-c6d2-4db4-97c6-fdc4031ca757" width="200"/> | <img src="https://github.com/Colorata/Assets/assets/79582543/4287f9b2-7ff0-404a-b4af-f478eb8a7168" width="200"/> |
 | <img src="https://github.com/Colorata/Assets/assets/79582543/ab3bbeb6-2c47-4465-a8d2-1bd0a2742e6a" width="200"/> | <img src="https://github.com/Colorata/Assets/assets/79582543/6f3a5ea6-8f10-4237-8aba-852a069084d5" width="200"/> |
 
 ## 📦 Features
