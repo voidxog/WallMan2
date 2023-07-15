@@ -127,6 +127,8 @@ class Libs(val applier: (String) -> Unit) {
             "androidx.datastore:datastore-core:${LibraryVersions.AndroidX.dataStore}"
         )
 
+
+        fun palette() = applier("androidx.palette:palette-ktx:1.0.0")
         fun profileInstaller() =
             applier("androidx.profileinstaller:profileinstaller:${LibraryVersions.AndroidX.profileInstaller}")
 
@@ -201,6 +203,8 @@ class Libs(val applier: (String) -> Unit) {
         fun material3WindowSize() =
             applier("androidx.compose.material3:material3-window-size-class:${LibraryVersions.Compose.material3}")
 
+        fun materialColorUtilities() =
+            applier("dev.sasikanth:material-color-utilities:1.0.0-alpha01")
         fun materialMotionNavigation() =
             applier("io.github.fornewid:material-motion-compose-navigation:${LibraryVersions.Compose.materialMotion}")
 

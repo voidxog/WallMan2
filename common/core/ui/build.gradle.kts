@@ -22,5 +22,7 @@ projectDependencies {
     internal {
         kotlin.collectionsImmutable()
         accompanist.systemUiController()
+        compose.materialColorUtilities()
+        androidX.palette()
     }
 }

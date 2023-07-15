@@ -35,8 +35,8 @@
 - [x] All wallpapers UI
 - [x] Categories
 - [x] Wallpaper details UI
-- [ ] Wallpaper's color scheme
-- [ ] Move to multiplatform
+- [x] Wallpaper's color scheme
+- [x] Move to multiplatform
 - [ ] Linux support
 - [ ] Windows support
 - [ ] MacOS support

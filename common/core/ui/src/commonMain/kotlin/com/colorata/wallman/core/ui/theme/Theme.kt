@@ -87,27 +87,31 @@ fun WallManTheme(
     }
 }
 
+
 @Composable
 fun WallManPreviewTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
+    colorScheme: ColorScheme? = null,
     dynamicColor: Boolean = true,
     content: @Composable () -> Unit
 ) {
-    val colorScheme = when {
-        dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
-            val context = LocalContext.current
-            if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
-        }
+    val finalColorScheme =
+        when {
+            colorScheme != null -> colorScheme
+            dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
+                val context = LocalContext.current
+                if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
+            }
 
-        darkTheme -> DarkColorScheme
-        else -> LightColorScheme
-    }
+            darkTheme -> DarkColorScheme
+            else -> LightColorScheme
+        }
     CompositionLocalProvider(
         LocalSpacing provides Spacing(),
         LocalAnimationsPerformance provides AnimationsPerformance.Full
     ) {
         MaterialTheme(
-            colorScheme = colorScheme, typography = Typography, content = content
+            colorScheme = finalColorScheme, typography = Typography, content = content
         )
     }
 }

@@ -49,6 +49,7 @@ import com.colorata.wallman.core.data.bitmapAsset
 import com.colorata.wallman.core.data.launchIO
 import com.colorata.wallman.core.data.rememberString
 import com.colorata.wallman.core.ui.spacing
+import com.colorata.wallman.core.ui.theme.WallManContentTheme
 import com.colorata.wallman.core.ui.theme.WallManPreviewTheme
 import com.colorata.wallman.wallpapers.WallpaperI
 import com.colorata.wallman.wallpapers.firstBaseWallpaper
@@ -147,6 +148,7 @@ fun FeaturedWallpapersCarousel(
             )
             val currentWallpaper = wallpapers[index % wallpapers.size]
 
+            val previewImage = bitmapAsset(currentWallpaper.firstPreviewRes())
             val clickHandler = remember {
                 {
                     scope.launch {
@@ -205,50 +207,52 @@ fun FeaturedWallpapersCarousel(
                             }
                         }) {
                     Image(
-                        bitmap = bitmapAsset(currentWallpaper.firstPreviewRes()),
+                        bitmap = previewImage,
                         contentDescription = "",
                         Modifier
                             .align(Alignment.Center)
                             .fillMaxSize(),
                         contentScale = ContentScale.Crop
                     )
-                    Button(
-                        onClick = {
-                            clickHandler()
-                        },
-                        Modifier
-                            .graphicsLayer {
-                                val pageOffset = state.calculateOffsetForIndex(index)
-                                alpha = maxOf(1f - pageOffset * 2, 0f)
-                            }
-                            .align(
-                                Alignment.BottomCenter
-                            )
-                            .padding(MaterialTheme.spacing.large)
-                            .drawWithContent {
-                                clipPath(Path().apply {
+                    WallManContentTheme(previewImage) {
+                        Button(
+                            onClick = {
+                                clickHandler()
+                            },
+                            Modifier
+                                .graphicsLayer {
                                     val pageOffset = state.calculateOffsetForIndex(index)
-                                    this.addRoundRect(
-                                        RoundRect(
-                                            Rect(
-                                                left = size.width / 2 * pageOffset,
-                                                right = size.width - size.width / 2 * pageOffset,
-                                                top = 0f,
-                                                bottom = size.height
-                                            ), CornerRadius(size.height / 2)
-                                        )
-                                    )
-                                }, clipOp = ClipOp.Intersect) {
-                                    this@drawWithContent.drawContent()
+                                    alpha = maxOf(1f - pageOffset * 2, 0f)
                                 }
-                            }
-                            .heightIn(min = 48.dp)
-                    ) {
-                        Text(
-                            rememberString(string = currentWallpaper.firstBaseWallpaper().shortName),
-                            maxLines = 2,
-                            textAlign = TextAlign.Center
-                        )
+                                .align(
+                                    Alignment.BottomCenter
+                                )
+                                .padding(MaterialTheme.spacing.large)
+                                .drawWithContent {
+                                    clipPath(Path().apply {
+                                        val pageOffset = state.calculateOffsetForIndex(index)
+                                        this.addRoundRect(
+                                            RoundRect(
+                                                Rect(
+                                                    left = size.width / 2 * pageOffset,
+                                                    right = size.width - size.width / 2 * pageOffset,
+                                                    top = 0f,
+                                                    bottom = size.height
+                                                ), CornerRadius(size.height / 2)
+                                            )
+                                        )
+                                    }, clipOp = ClipOp.Intersect) {
+                                        this@drawWithContent.drawContent()
+                                    }
+                                }
+                                .heightIn(min = 48.dp)
+                        ) {
+                            Text(
+                                rememberString(string = currentWallpaper.firstBaseWallpaper().shortName),
+                                maxLines = 2,
+                                textAlign = TextAlign.Center
+                            )
+                        }
                     }
                 }
             }
