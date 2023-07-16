@@ -59,6 +59,7 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.colorata.animateaslifestyle.animateVisibility
 import com.colorata.animateaslifestyle.fade
@@ -106,7 +107,6 @@ import com.colorata.wallman.wallpapers.ui.components.BigChip
 import com.colorata.wallman.wallpapers.ui.components.WallpaperVariants
 import com.colorata.wallman.wallpapers.viewmodel.WallpaperDetailsViewModel
 import com.colorata.wallman.wallpapers.walls
-import com.theapache64.rebugger.Rebugger
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.mutate
 import kotlinx.collections.immutable.persistentListOf
@@ -137,16 +137,6 @@ private fun WallpaperDetailsScreen(
     val wallpaper = state.wallpaper
     val selectedBaseWallpaper = state.selectedWallpaper
     val isPreview = LocalInspectionMode.current
-    Rebugger(
-        trackMap = mapOf(
-            "state" to state,
-            "modifier" to modifier,
-            "wallpaper" to wallpaper,
-            "selectedBaseWallpaper" to selectedBaseWallpaper,
-            "isPreview" to isPreview,
-        ),
-        composableName = "WallpaperDetailsScreen"
-    )
     if (state.showPermissionRequest) {
         PermissionRequestDialog(onDismiss = {
             state.onEvent(WallpaperDetailsViewModel.WallpaperDetailsScreenEvent.DismissPermissionRequest)
@@ -158,7 +148,7 @@ private fun WallpaperDetailsScreen(
     ScreenBackground(previewImage)
     WallManContentTheme(previewImage) {
 
-        Column(
+        Box(
             modifier
                 .fillMaxSize()
         ) {
@@ -176,7 +166,6 @@ private fun WallpaperDetailsScreen(
                 )
             Column(
                 Modifier
-                    .weight(1f)
                     .verticalScroll(rememberScrollState())
                     .padding(MaterialTheme.spacing.extraLarge)
                     .fillMaxSize(),
@@ -273,8 +262,17 @@ private fun WallpaperDetailsScreen(
                         animationSpec
                     )
                 )
+                Spacer(Modifier.height(80.dp))
             }
-            BottomBar(state)
+            BottomBar(
+                state,
+                Modifier
+                    .align(Alignment.BottomCenter)
+                    .animateVisibility(
+                        animList[6].visible,
+                        animationSpec
+                    )
+            )
         }
     }
 }

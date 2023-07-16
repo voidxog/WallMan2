@@ -19,7 +19,7 @@ actual class WallpaperManagerImpl(
     applicationSettings: ApplicationSettings,
     private val wallpaperProvider: WallpaperProvider,
     private val scope: CoroutineScope
-): WallpaperManager {
+) : WallpaperManager {
     private val settings = applicationSettings.settings()
     private val wallpaperPacks by lazy { WallpaperPacks.values().toList() }
     private val cacheStorage by lazy { systemProvider.externalCacheDirectoryPath }
@@ -57,15 +57,16 @@ actual class WallpaperManagerImpl(
             pack.description.value
         ).onEach {
             if (it is Result.Success) _cachedWallpaperPacks.value += pack
-            else if (it is Result.Error) _cachedWallpaperPacks.value =
-                _cachedWallpaperPacks.value.mutate { remove(pack) }
+            else if (it is Result.Error) _cachedWallpaperPacks.update {
+                it.mutate { remove(pack) }
+            }
         }
     }
 
     override fun deleteWallpaperPackCache(pack: WallpaperPacks): Result<Unit> {
         return runResulting {
             File(cacheStorage + "/" + pack.url).delete()
-            _cachedWallpaperPacks.value.mutate { remove(pack) }
+            _cachedWallpaperPacks.update { it.mutate { remove(pack) } }
         }
     }
 

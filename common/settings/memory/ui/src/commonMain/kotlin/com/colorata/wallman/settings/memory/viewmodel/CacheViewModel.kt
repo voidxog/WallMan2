@@ -20,7 +20,8 @@ class CacheViewModel(private val wallpaperManager: WallpaperManager) :
 
     private fun onCacheClick(pack: WallpaperPacks) {
         viewModelScope.launch {
-            wallpaperManager.deleteWallpaperPackCache(pack)
+            val result = wallpaperManager.deleteWallpaperPackCache(pack)
+            println(result)
         }
     }
 
@@ -40,6 +41,7 @@ class CacheViewModel(private val wallpaperManager: WallpaperManager) :
     val state by lazyMolecule {
         val downloadedPacks by downloadedWallpaperPacks.collectAsState()
         val installedPacks by installedWallpaperPacks.collectAsState()
+        println(downloadedPacks)
         return@lazyMolecule CacheScreenState(
             downloadedPacks.toImmutableList(),
             installedPacks.toImmutableList(),
