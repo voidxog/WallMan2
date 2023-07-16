@@ -6,13 +6,6 @@ import com.colorata.wallman.wallpapers.WallpaperProvider
 import kotlinx.coroutines.flow.StateFlow
 
 interface EverydayWidget {
-    fun updateRandom(widgetState: WidgetState)
-
-    fun goToLiveWallpaper(wallpaper: WallpaperProvider.LiveWallpaper)
-
-    fun selectedShape(widgetState: WidgetState): ShapeConfiguration?
-
-    fun updateShape(shapeConfiguration: ShapeConfiguration)
 
     companion object {
         val shapeKey = "shape"

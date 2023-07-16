@@ -15,7 +15,7 @@ fun WidgetModuleImpl.applyActivity(activity: ComponentActivity) {
     val isShapeConfiguration = activity.isWidgetConfiguration()
     if (isShapeConfiguration) activity.lifecycleScope.launchIO({ it.printStackTrace() }) {
         activity.currentWidgetShapeId().collect {
-            widgetRepository = EverydayWidgetRepositoryImpl(it, activity)
+            widgetRepository = EverydayWidgetRepositoryImpl(it, activity).apply { setActivity(activity) }
         }
     }
 }

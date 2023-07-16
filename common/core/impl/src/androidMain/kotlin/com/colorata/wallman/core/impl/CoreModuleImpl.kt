@@ -9,7 +9,7 @@ import kotlinx.coroutines.Dispatchers
 class CoreModuleImpl(private val application: Application) : CoreModule {
     override val coroutineScope: CoroutineScope by lazy { CoroutineScope(Dispatchers.IO) }
     override var permissionHandler: PermissionHandler = PermissionHandler.NoopPermissionHandler
-    override val intentHandler: IntentHandler by lazy { IntentHandlerImpl(application) }
+    override val intentHandler by lazy { IntentHandlerImpl(application) }
     override val systemProvider: SystemProvider by lazy { SystemProviderImpl(application, coroutineScope) }
     override val appsProvider: AppsProvider by lazy { AppsProviderImpl(application) }
     override val downloadHandler: DownloadHandler by lazy { DownloadHandlerImpl(application, coroutineScope) }
@@ -24,4 +24,5 @@ class CoreModuleImpl(private val application: Application) : CoreModule {
 
 fun CoreModuleImpl.applyActivity(activity: Activity) {
     permissionHandler = PermissionHandlerImpl(activity)
+    intentHandler.setActivityContext(activity)
 }

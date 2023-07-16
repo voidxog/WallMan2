@@ -12,7 +12,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
 fun Activity.isWidgetConfiguration(): Boolean {
-    setResult(ComponentActivity.RESULT_CANCELED)
+    setResult(ComponentActivity.RESULT_OK)
     val appWidgetId = intent?.extras?.getInt(
         AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID
     ) ?: AppWidgetManager.INVALID_APPWIDGET_ID

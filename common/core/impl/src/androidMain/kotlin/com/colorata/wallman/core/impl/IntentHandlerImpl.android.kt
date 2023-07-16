@@ -12,7 +12,12 @@ import com.colorata.wallman.core.data.module.IntentHandler
 import com.colorata.wallman.core.data.module.PermissionPage
 import kotlin.reflect.KClass
 
-class IntentHandlerImpl(private val context: Context) : IntentHandler {
+class IntentHandlerImpl(private var context: Context) : IntentHandler {
+
+    fun setActivityContext(context: Context) {
+        this.context = context
+    }
+
     override fun goToUrl(url: String) {
         Intent(Intent.ACTION_VIEW, Uri.parse(url)).apply {
             addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
