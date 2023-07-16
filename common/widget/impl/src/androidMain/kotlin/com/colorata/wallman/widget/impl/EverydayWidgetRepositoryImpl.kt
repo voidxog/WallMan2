@@ -55,21 +55,22 @@ class EverydayWidgetRepositoryImpl(
 
     override suspend fun updateShape(configuration: ShapeConfiguration) {
         val manager = GlanceAppWidgetManager(context)
-        val glanceIds =
-            manager.getGlanceIds(EverydayWidgetContent::class.java).last()
-        updateAppWidgetState(context, glanceIds) {
-            it.apply {
-                this[intPreferencesKey(EverydayWidget.shapeKey)] =
-                    configuration.resId
+        val glanceIds = _activity?.currentAppWidgetId()?.let { manager.getGlanceIdBy(it) }
+        if (glanceIds != null) {
+            updateAppWidgetState(context, glanceIds) {
+                it.apply {
+                    this[intPreferencesKey(EverydayWidget.shapeKey)] =
+                        configuration.resId
+                }
             }
+            createEverydayWidgetContent().update(context, glanceIds)
+            val result = Intent()
+            result.putExtra(
+                AppWidgetManager.EXTRA_APPWIDGET_ID,
+                glanceIds.toString().filter { it.isDigit() }.toInt()
+            )
+            _activity?.setResult(ComponentActivity.RESULT_OK, result)
         }
-        createEverydayWidgetContent().update(context, glanceIds)
-        val result = Intent()
-        result.putExtra(
-            AppWidgetManager.EXTRA_APPWIDGET_ID,
-            glanceIds.toString().filter { it.isDigit() }.toInt()
-        )
-        _activity?.setResult(ComponentActivity.RESULT_OK, result)
     }
 
     override fun initializeWorkManager() {
