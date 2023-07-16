@@ -55,9 +55,9 @@ actual class WallpaperManagerImpl(
             settings.value.mirror + pack.url,
             cacheStorage + "/" + pack.url,
             pack.description.value
-        ).onEach {
-            if (it is Result.Success) _cachedWallpaperPacks.value += pack
-            else if (it is Result.Error) _cachedWallpaperPacks.update {
+        ).onEach { result ->
+            if (result is Result.Success) _cachedWallpaperPacks.value += pack
+            else if (result is Result.Error) _cachedWallpaperPacks.update {
                 it.mutate { remove(pack) }
             }
         }

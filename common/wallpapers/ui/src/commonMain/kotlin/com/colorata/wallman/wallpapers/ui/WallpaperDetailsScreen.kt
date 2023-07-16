@@ -146,7 +146,7 @@ private fun WallpaperDetailsScreen(
     }
     val previewImage = bitmapAsset(state.selectedWallpaper.previewRes)
     ScreenBackground(previewImage)
-    WallManContentTheme(previewImage) {
+    WallManContentTheme(state.selectedWallpaper.previewRes) {
 
         Box(
             modifier

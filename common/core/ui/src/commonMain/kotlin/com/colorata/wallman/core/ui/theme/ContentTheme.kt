@@ -9,13 +9,11 @@ import androidx.compose.runtime.produceState
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asAndroidBitmap
-import androidx.compose.ui.graphics.toArgb
-import androidx.palette.graphics.Palette
-import com.colorata.wallman.core.data.memoize
+import com.colorata.wallman.core.data.bitmapAsset
+import com.colorata.wallman.core.data.memoizeHash
 import dev.sasikanth.material.color.utilities.hct.Hct
 import dev.sasikanth.material.color.utilities.quantize.QuantizerCelebi
 import dev.sasikanth.material.color.utilities.scheme.Scheme
-import java.lang.String
 
 fun Scheme.toColorScheme(): ColorScheme {
     return darkColorScheme(
@@ -73,18 +71,21 @@ fun ImageBitmap.extractColorScheme(darkTheme: Boolean): ColorScheme {
 }
 
 private val extractedColors =
-    memoize { bitmap: ImageBitmap, darkTheme: Boolean ->
+    memoizeHash({ assetName: String, _ -> assetName }) { _: String, pair: Pair<ImageBitmap, Boolean> ->
+        val (bitmap, darkTheme) = pair
         bitmap.extractColorScheme(darkTheme)
     }
 
 @Composable
 fun WallManContentTheme(
-    image: ImageBitmap,
+    assetName: String,
     darkTheme: Boolean = isSystemInDarkTheme(),
     content: @Composable () -> Unit
 ) {
-    val colorScheme by produceState<ColorScheme?>(null, key1 = image) {
-        value = extractedColors(image, darkTheme)
+    val image = bitmapAsset(assetName)
+
+    val colorScheme by produceState<ColorScheme?>(null, key1 = assetName) {
+        value = extractedColors(assetName, image to darkTheme)
     }
     WallManPreviewTheme(darkTheme = darkTheme, colorScheme = colorScheme) {
         content()

@@ -214,7 +214,7 @@ fun FeaturedWallpapersCarousel(
                             .fillMaxSize(),
                         contentScale = ContentScale.Crop
                     )
-                    WallManContentTheme(previewImage) {
+                    WallManContentTheme(currentWallpaper.firstPreviewRes()) {
                         Button(
                             onClick = {
                                 clickHandler()

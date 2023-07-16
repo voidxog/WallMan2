@@ -25,6 +25,7 @@ private fun mapResourceToId(resource: Resource.Drawable): Int =
         Resource.Drawable.SQUARE -> androidx.core.R.drawable.ic_call_answer
     }
 
+
 @Composable
 actual fun bitmapAsset(assetName: String): ImageBitmap {
     val context = LocalContext.current

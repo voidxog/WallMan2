@@ -84,9 +84,6 @@ fun FilteredWallpaperCards(
             animationSpec = MaterialTheme.animation.emphasized()
         )
 
-    if (backgroundImageBitmap != null) {
-        ScreenBackground(backgroundImageBitmap)
-    }
     Box(
         modifier = modifier.fillMaxSize()
     ) {
@@ -117,6 +114,9 @@ fun FilteredWallpaperCards(
             contentPadding = PaddingValues(bottom = fabHeight)
         ) {
             item(span = { GridItemSpan(maxLineSpan) }) {
+                if (backgroundImageBitmap != null) {
+                    ScreenBackground(backgroundImageBitmap)
+                }
                 Column {
                     LargeTopAppBar(
                         title = {
@@ -135,12 +135,11 @@ fun FilteredWallpaperCards(
                             )
                         )
                     }
+                    if (startItem != null) {
+                        startItem()
+                    }
                 }
             }
-            if (startItem != null)
-                item(span = { GridItemSpan(maxLineSpan) }) {
-                    startItem()
-                }
             itemsIndexed(sortedWallpapers, key = { index, it ->
                 it.hashCode()
             }) { index, it ->

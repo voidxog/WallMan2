@@ -117,6 +117,8 @@ fun WallpaperI.countIcon() =
         else -> null
     }
 
+fun WallpaperI.baseWallpapers(): List<BaseWallpaper> = dynamicWallpapers + staticWallpapers
+
 fun WallpaperI.supportsDynamicWallpapers() = dynamicWallpapers.isNotEmpty()
 
 fun WallpaperI.shortName() = firstBaseWallpaper().previewName
