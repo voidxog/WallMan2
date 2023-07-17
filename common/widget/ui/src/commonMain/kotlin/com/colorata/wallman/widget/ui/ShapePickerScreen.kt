@@ -25,6 +25,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.LargeTopAppBar
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -75,7 +76,7 @@ private fun ShapePickerScreen(state: ShapePickerViewModel.ScreenState, modifier:
         item(span = { GridItemSpan(maxLineSpan) }) {
             LargeTopAppBar(title = {
                 Text(text = rememberString(string = Strings.configureWidget))
-            })
+            }, colors = TopAppBarDefaults.largeTopAppBarColors())
         }
         itemsIndexed(state.shapes) { index, shape ->
             Column(

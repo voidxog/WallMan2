@@ -8,7 +8,5 @@ import com.colorata.wallman.wallpapers.MainDestination
 
 @Composable
 fun App(startDestination: Destination = Destinations.MainDestination()) {
-    WallManTheme {
-        Navigation(startDestination)
-    }
+    Navigation(startDestination)
 }
