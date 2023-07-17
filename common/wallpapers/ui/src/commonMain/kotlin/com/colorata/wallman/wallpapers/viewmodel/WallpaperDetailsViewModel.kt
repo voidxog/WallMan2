@@ -14,6 +14,9 @@ import com.colorata.wallman.core.data.module.IntentHandler
 import com.colorata.wallman.core.data.module.Permission
 import com.colorata.wallman.core.data.module.PermissionHandler
 import com.colorata.wallman.core.data.module.PermissionPage
+import com.colorata.wallman.core.data.onError
+import com.colorata.wallman.core.data.onLoading
+import com.colorata.wallman.core.data.onSuccess
 import com.colorata.wallman.wallpapers.BaseWallpaper
 import com.colorata.wallman.wallpapers.DynamicWallpaper
 import com.colorata.wallman.wallpapers.StaticWallpaper
@@ -85,6 +88,22 @@ class WallpaperDetailsViewModel(
                     )
                 }
         }
+        viewModelScope.launchIO({ it.printStackTrace() }){
+            wallpaperManager.resultForDownloadWallpaperPack(wallpaper.parent)?.collect { result ->
+                result.onLoading {
+                    progress.emit(it * 100)
+                    downloadState.value = DynamicWallpaper.DynamicWallpaperCacheState.Downloading
+                }
+                result.onSuccess {
+                    progress.emit(100f)
+                    downloadState.value = DynamicWallpaper.DynamicWallpaperCacheState.Cached
+                }
+                result.onError {
+                    progress.emit(100f)
+                    downloadState.value = DynamicWallpaper.DynamicWallpaperCacheState.NotCached
+                }
+            }
+        }
         viewModelScope.launchMolecule {
             val selectedType by selectedWallpaperType.collectAsState()
             val downloadState by downloadState.collectAsState()
@@ -131,6 +150,7 @@ class WallpaperDetailsViewModel(
                     downloadJob?.cancel()
                     downloadJob = null
                     progress.value = 100f
+                    downloadState.value = DynamicWallpaper.DynamicWallpaperCacheState.NotCached
                 }
 
                 DynamicWallpaper.DynamicWallpaperCacheState.NotCached -> {

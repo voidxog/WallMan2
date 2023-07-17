@@ -15,6 +15,8 @@ interface WallpaperManager {
 
     fun downloadWallpaperPack(pack: WallpaperPacks): Flow<Result<Unit>>
 
+    fun resultForDownloadWallpaperPack(pack: WallpaperPacks): Flow<Result<Unit>>?
+
     fun deleteWallpaperPackCache(pack: WallpaperPacks): Result<Unit>
 
     fun stopDownloadingWallpaperPack(pack: WallpaperPacks)

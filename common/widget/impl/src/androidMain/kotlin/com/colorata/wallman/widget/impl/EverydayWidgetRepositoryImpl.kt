@@ -15,7 +15,6 @@ import com.colorata.wallman.widget.api.EverydayWidget
 import com.colorata.wallman.widget.api.EverydayWidgetRepository
 import com.colorata.wallman.widget.api.R
 import com.colorata.wallman.widget.api.ShapeConfiguration
-import com.colorata.wallman.widget.ui_widget.EverydayWidgetContent
 
 class EverydayWidgetRepositoryImpl(
     private val currentShapeId: Int?, private val context: Context

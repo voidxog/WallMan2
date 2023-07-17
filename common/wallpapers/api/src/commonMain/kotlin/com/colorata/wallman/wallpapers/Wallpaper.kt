@@ -121,7 +121,7 @@ fun WallpaperI.baseWallpapers(): List<BaseWallpaper> = dynamicWallpapers + stati
 
 fun WallpaperI.supportsDynamicWallpapers() = dynamicWallpapers.isNotEmpty()
 
-fun WallpaperI.shortName() = firstBaseWallpaper().previewName
+fun WallpaperI.shortName() = firstBaseWallpaper().shortName
 
 fun DynamicWallpaper.isSameAs(liveWallpaper: WallpaperProvider.LiveWallpaper) =
     parent.packageName == liveWallpaper.packageName &&

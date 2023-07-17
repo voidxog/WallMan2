@@ -23,7 +23,6 @@ actual class WallpaperProviderImpl(private val context: Context, scope: Coroutin
         scope.launchIO({ it.printStackTrace() }) {
             while (isActive) {
                 _currentLiveWallpaper.value = wallpaperManager.wallpaperInfo?.toLiveWallpaper()
-                wallpaperManager
                 delay(1000)
             }
         }

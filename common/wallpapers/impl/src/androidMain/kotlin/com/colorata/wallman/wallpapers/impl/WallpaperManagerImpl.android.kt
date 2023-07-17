@@ -30,6 +30,8 @@ actual class WallpaperManagerImpl(
         }.stateIn(scope, SharingStarted.Eagerly, initialValue = listOf())
     }
 
+    private val _downloadingWallpaperPacks by lazy { mutableMapOf<WallpaperPacks, Flow<Result<Unit>>>() }
+
     private val _cachedWallpaperPacks by lazy {
         MutableStateFlow(getCachedWallpapers())
     }
@@ -51,16 +53,23 @@ actual class WallpaperManagerImpl(
     }
 
     override fun downloadWallpaperPack(pack: WallpaperPacks): Flow<Result<Unit>> {
-        return downloadHandler.downloadFileInBackground(
-            settings.value.mirror + pack.url,
-            cacheStorage + "/" + pack.url,
-            pack.description.value
-        ).onEach { result ->
-            if (result is Result.Success) _cachedWallpaperPacks.value += pack
-            else if (result is Result.Error) _cachedWallpaperPacks.update {
-                it.mutate { remove(pack) }
-            }
+        return _downloadingWallpaperPacks.getOrPut(pack) {
+            downloadHandler.downloadFileInBackground(
+                settings.value.mirror + pack.url,
+                cacheStorage + "/" + pack.url,
+                pack.description.value
+            ).onEach { result ->
+                if (result !is Result.Loading) _downloadingWallpaperPacks.remove(pack)
+                if (result is Result.Success) _cachedWallpaperPacks.value += pack
+                else if (result is Result.Error) _cachedWallpaperPacks.update {
+                    it.mutate { remove(pack) }
+                }
+            }.stateIn(scope, SharingStarted.Lazily, Result.Loading(0f))
         }
+    }
+
+    override fun resultForDownloadWallpaperPack(pack: WallpaperPacks): Flow<Result<Unit>>? {
+        return _downloadingWallpaperPacks[pack]
     }
 
     override fun deleteWallpaperPackCache(pack: WallpaperPacks): Result<Unit> {
