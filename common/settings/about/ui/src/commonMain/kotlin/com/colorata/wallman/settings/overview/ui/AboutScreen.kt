@@ -65,9 +65,9 @@ private fun AboutScreen(state: AboutViewModel.AboutScreenState, modifier: Modifi
     var logoVisible by remember { mutableStateOf(false) }
     val animatedItems =
         remember(state.aboutItems) { state.aboutItems.toStaggerList({ 0f }, false) }
-    val defaultAnimation = fade(animationSpec = tween(250, (250 * 0.35f).toInt())) + slideVertically(
-            from = 80f.dp.toPx(),
-            animationSpec = tween(250)
+    val defaultAnimation =
+        fade(animationSpec = MaterialTheme.animation.emphasized()) + slideVertically(
+            animationSpec = MaterialTheme.animation.emphasized()
         )
 
     LaunchedEffect(key1 = Unit) {

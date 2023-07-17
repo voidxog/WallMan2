@@ -17,17 +17,24 @@ import com.colorata.wallman.core.data.module.CoreModule
 import com.colorata.wallman.core.data.module.IntentHandler
 import com.colorata.wallman.core.data.Polyglot
 import com.colorata.wallman.core.data.Strings
+import com.colorata.wallman.core.data.launchIO
+import com.colorata.wallman.core.data.module.Logger
+import com.colorata.wallman.core.data.module.SystemProvider
+import com.colorata.wallman.core.data.module.throwable
 import com.colorata.wallman.settings.about.ui.EasterActivity
 import com.colorata.wallman.ui.icons.BugReport
 import com.colorata.wallman.ui.icons.Code
+import com.colorata.wallman.ui.icons.ContentCopy
 import com.colorata.wallman.ui.icons.CurrencyRuble
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 
-fun CoreModule.AboutViewModel() = AboutViewModel(intentHandler)
+fun CoreModule.AboutViewModel() = AboutViewModel(intentHandler, systemProvider, logger)
 
 class AboutViewModel(
-    private val intentHandler: IntentHandler
+    private val intentHandler: IntentHandler,
+    private val systemProvider: SystemProvider,
+    private val logger: Logger
 ) : ViewModel() {
 
     data class AboutItem(
@@ -74,7 +81,17 @@ class AboutViewModel(
         Icons.Default.BugReport
     ) {
         intentHandler.goToUrl("https://gitlab.com/Colorata/WallMan/issues")
-    })
+    },
+        AboutItem(
+            Strings.copyLogs,
+            Strings.tapToCopy,
+            Icons.Default.ContentCopy
+        ) {
+            viewModelScope.launchIO({ logger.throwable(it) }) {
+                systemProvider.putToClipboard(Strings.logs.value, logger.allLogs())
+            }
+        }
+    )
 
 
     private fun onClickOnVersion() {
@@ -103,8 +120,9 @@ class AboutViewModel(
         val clicksOnVersion: Int,
         val onEvent: (AboutScreenEvent) -> Unit
     )
+
     @Immutable
     sealed interface AboutScreenEvent {
-        object ClickOnVersion: AboutScreenEvent
+        object ClickOnVersion : AboutScreenEvent
     }
 }

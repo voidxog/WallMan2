@@ -1,5 +1,7 @@
 package com.colorata.wallman.core.impl
 
+import android.content.ClipData
+import android.content.ClipboardManager
 import android.content.Context
 import android.os.Build
 import android.os.FileObserver
@@ -47,6 +49,12 @@ class SystemProviderImpl(
 
     override fun load() {
         watchers.forEach { (_, observer) -> observer.stopWatching() }
+    }
+
+    override fun putToClipboard(label: String, text: String) {
+        val manager = context.getSystemService(ClipboardManager::class.java)
+        val data = ClipData.newPlainText(label, text)
+        manager.setPrimaryClip(data)
     }
 
     private fun getFilesInDirectory(path: String): List<String> {

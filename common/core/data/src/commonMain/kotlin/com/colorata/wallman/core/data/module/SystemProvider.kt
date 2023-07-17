@@ -7,6 +7,8 @@ import kotlinx.coroutines.flow.StateFlow
 interface SystemProvider: Loadable {
     fun filesInDirectory(path: String): StateFlow<List<String>>
 
+    fun putToClipboard(label: String, text: String)
+
     val cacheDirectoryPath: String
 
     val filesDirectoryPath: String
@@ -15,17 +17,4 @@ interface SystemProvider: Loadable {
 
     val externalFilesDirectoryPath: String
 
-    object NoopSystemProvider : SystemProvider {
-        override val filesDirectoryPath = ""
-        override val cacheDirectoryPath = ""
-        override val externalCacheDirectoryPath = ""
-        override val externalFilesDirectoryPath = ""
-
-        override fun filesInDirectory(path: String): StateFlow<List<String>> {
-            return MutableStateFlow(listOf())
-        }
-
-        override fun load() {}
-        override fun unload() {}
-    }
 }

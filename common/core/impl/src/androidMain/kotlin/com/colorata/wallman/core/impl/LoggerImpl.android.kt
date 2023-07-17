@@ -1,6 +1,7 @@
 package com.colorata.wallman.core.impl
 
 import android.content.Context
+import android.icu.util.Calendar
 import android.util.Log
 import com.colorata.wallman.core.data.module.Logger
 import kotlinx.coroutines.CoroutineScope
@@ -46,12 +47,15 @@ class LoggerImpl(
     private fun storeLog(logType: LogType, tag: String, message: String) {
         scope.launch {
             val log = buildString {
-                appendLine()
-                appendLine("${logType.name}: $tag: $message")
+                appendLine("${getDate()}\n${logType.name}: $tag\n$message")
                 appendLine()
             }
             store.appendText(log)
         }
+    }
+
+    private fun getDate(): String {
+        return Calendar.getInstance().time.toString()
     }
 
     override suspend fun allLogs(): String {

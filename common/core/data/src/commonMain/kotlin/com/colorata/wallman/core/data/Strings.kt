@@ -58,6 +58,9 @@ object Strings {
     val gitlab = simplifiedLocaleOf("Gitlab", "Gitlab")
     val supportWithQiwi = simplifiedLocaleOf("Support with Qiwi", "Поддержать с помощью Qiwi")
     val reportBug = simplifiedLocaleOf("Report bug", "Сообщить об ошибке")
+    val copyLogs = simplifiedLocaleOf("Copy logs", "Скопировать журнал сообщений")
+    val logs = simplifiedLocaleOf("Logs", "Журнал сообщений")
+    val tapToCopy = simplifiedLocaleOf("Tap to copy", "Нажмите, чтобы скопировать")
     val requiresAccountInGitlab =
         simplifiedLocaleOf("Requires account on Gitlab", "Необходим аккаунт на Gitlab")
 

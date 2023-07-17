@@ -15,6 +15,7 @@ projectDependencies {
         compose.navigation()
         compose.material3WindowSize()
         compose.uiUtil()
+        compose.uiTooling()
         compose.uiToolingPreview()
         compose.rebugger()
     }
