@@ -4,7 +4,7 @@ object Strings {
     val invalidUrl: Polyglot = simplifiedLocaleOf("Invalid Link", "Неправильная ссылка")
     val required: Polyglot = simplifiedLocaleOf("*required", "*обязательно")
     val configureWidget = simplifiedLocaleOf("Configure widget shape", "Настройте форму виджета")
-    val actualVersion = simplifiedLocaleOf("Tiramisu01", "Tiramisu01")
+    val actualVersion = simplifiedLocaleOf(AppConfiguration.VERSION_NAME)
     val scallop = simplifiedLocaleOf("Scallop", "Узор")
     val clever = simplifiedLocaleOf("Clever", "Клевер")
     val square = simplifiedLocaleOf("Square", "Квадрат")

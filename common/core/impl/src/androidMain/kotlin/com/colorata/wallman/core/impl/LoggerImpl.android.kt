@@ -3,6 +3,7 @@ package com.colorata.wallman.core.impl
 import android.content.Context
 import android.icu.util.Calendar
 import android.util.Log
+import com.colorata.wallman.core.data.AppConfiguration
 import com.colorata.wallman.core.data.module.Logger
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -47,7 +48,9 @@ class LoggerImpl(
     private fun storeLog(logType: LogType, tag: String, message: String) {
         scope.launch {
             val log = buildString {
-                appendLine("${getDate()}\n${logType.name}: $tag\n$message")
+                val versionName = AppConfiguration.VERSION_NAME
+                val versionCode = AppConfiguration.VERSION_CODE
+                appendLine("VERSION_CODE: $versionCode, VERSION_NAME: ${versionName}\n${getDate()}\n${logType.name}: $tag\n$message")
                 appendLine()
             }
             store.appendText(log)
