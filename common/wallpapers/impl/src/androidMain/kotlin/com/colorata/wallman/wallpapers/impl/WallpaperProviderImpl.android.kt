@@ -8,6 +8,8 @@ import android.graphics.BitmapFactory
 import com.colorata.wallman.wallpapers.WallpaperProvider
 import com.colorata.wallman.core.data.Result
 import com.colorata.wallman.core.data.launchIO
+import com.colorata.wallman.core.data.module.Logger
+import com.colorata.wallman.core.data.module.throwable
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
@@ -15,12 +17,16 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.isActive
 
-actual class WallpaperProviderImpl(private val context: Context, scope: CoroutineScope): WallpaperProvider {
+actual class WallpaperProviderImpl(
+    private val context: Context,
+    scope: CoroutineScope,
+    private val logger: Logger
+) : WallpaperProvider {
     private val wallpaperManager by lazy { WallpaperManager.getInstance(context) }
     private val _currentLiveWallpaper = MutableStateFlow<WallpaperProvider.LiveWallpaper?>(null)
 
     init {
-        scope.launchIO({ it.printStackTrace() }) {
+        scope.launchIO({ logger.throwable(it) }) {
             while (isActive) {
                 _currentLiveWallpaper.value = wallpaperManager.wallpaperInfo?.toLiveWallpaper()
                 delay(1000)
@@ -42,5 +48,6 @@ actual class WallpaperProviderImpl(private val context: Context, scope: Coroutin
         }
     }
 
-    private fun WallpaperInfo.toLiveWallpaper() = WallpaperProvider.LiveWallpaper(packageName, serviceName)
+    private fun WallpaperInfo.toLiveWallpaper() =
+        WallpaperProvider.LiveWallpaper(packageName, serviceName)
 }

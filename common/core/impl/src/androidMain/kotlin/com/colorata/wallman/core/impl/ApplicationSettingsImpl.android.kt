@@ -6,6 +6,8 @@ import androidx.datastore.dataStore
 import com.colorata.wallman.core.data.module.AppSettings
 import com.colorata.wallman.core.data.module.ApplicationSettings
 import com.colorata.wallman.core.data.launchIO
+import com.colorata.wallman.core.data.module.Logger
+import com.colorata.wallman.core.data.module.throwable
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -32,7 +34,11 @@ private object AppSettingsSerializer : Serializer<AppSettings> {
     }
 }
 
-class ApplicationSettingsImpl(context: Context, private val scope: CoroutineScope) : ApplicationSettings {
+class ApplicationSettingsImpl(
+    context: Context,
+    private val scope: CoroutineScope,
+    private val logger: Logger
+) : ApplicationSettings {
     private val androidSettings = context.dataStore
     private val _settings by lazy {
         androidSettings.data.stateIn(scope, SharingStarted.Lazily, AppSettings())
@@ -43,7 +49,7 @@ class ApplicationSettingsImpl(context: Context, private val scope: CoroutineScop
     }
 
     override fun mutate(block: (AppSettings) -> AppSettings) {
-        scope.launchIO({ it.printStackTrace() }) {
+        scope.launchIO({ logger.throwable(it) }) {
             androidSettings.updateData { block(it) }
         }
     }

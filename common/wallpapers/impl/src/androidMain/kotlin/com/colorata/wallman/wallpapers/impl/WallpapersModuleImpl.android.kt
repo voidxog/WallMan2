@@ -13,7 +13,7 @@ actual class WallpapersModuleImpl(
 ) : WallpapersModule,
     CoreModule by coreModule {
     override val wallpaperProvider: WallpaperProvider by lazy {
-        WallpaperProviderImpl(application, coroutineScope)
+        WallpaperProviderImpl(application, coroutineScope, logger)
     }
     override val wallpaperManager: WallpaperManager by lazy {
         WallpaperManagerImpl(

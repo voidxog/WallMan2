@@ -5,6 +5,8 @@ import android.os.Build
 import android.os.FileObserver
 import com.colorata.wallman.core.data.module.SystemProvider
 import com.colorata.wallman.core.data.launchIO
+import com.colorata.wallman.core.data.module.Logger
+import com.colorata.wallman.core.data.module.throwable
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -12,18 +14,24 @@ import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import java.io.File
 
-class SystemProviderImpl(private val context: Context, private val scope: CoroutineScope) : SystemProvider {
+class SystemProviderImpl(
+    private val context: Context,
+    private val scope: CoroutineScope,
+    private val logger: Logger
+) : SystemProvider {
     private val mutex = Mutex()
     private val watchers = mutableMapOf<String, FileObserver>()
 
     override val filesDirectoryPath: String by lazy { context.filesDir.absolutePath }
     override val cacheDirectoryPath: String by lazy { context.cacheDir.absolutePath }
     override val externalCacheDirectoryPath by lazy { context.externalCacheDir?.absolutePath ?: "" }
-    override val externalFilesDirectoryPath by lazy { context.getExternalFilesDir(null)?.absolutePath ?: "" }
+    override val externalFilesDirectoryPath by lazy {
+        context.getExternalFilesDir(null)?.absolutePath ?: ""
+    }
 
     override fun filesInDirectory(path: String): StateFlow<List<String>> {
         val state = MutableStateFlow(getFilesInDirectory(path))
-        scope.launchIO(onError = { it.printStackTrace() }) {
+        scope.launchIO({ logger.throwable(it) }) {
             watchDirectoryForUpdates(path) {
                 val files = getFilesInDirectory(path)
                 state.value = files + listOf("")

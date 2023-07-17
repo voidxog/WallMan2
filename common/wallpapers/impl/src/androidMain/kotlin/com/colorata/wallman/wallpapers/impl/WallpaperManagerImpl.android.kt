@@ -119,7 +119,6 @@ actual class WallpaperManagerImpl(
         }?.filter { pack ->
             val fileLength =
                 File(cacheStorage + "/" + pack.url).length()
-            println("$fileLength ${pack.checksum}")
             fileLength == pack.checksum
         } ?: listOf()
     }

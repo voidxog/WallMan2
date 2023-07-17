@@ -11,9 +11,11 @@ import com.colorata.wallman.core.data.launchIO
 import com.colorata.wallman.core.data.launchMolecule
 import com.colorata.wallman.core.data.lazyMolecule
 import com.colorata.wallman.core.data.module.IntentHandler
+import com.colorata.wallman.core.data.module.Logger
 import com.colorata.wallman.core.data.module.Permission
 import com.colorata.wallman.core.data.module.PermissionHandler
 import com.colorata.wallman.core.data.module.PermissionPage
+import com.colorata.wallman.core.data.module.throwable
 import com.colorata.wallman.core.data.onError
 import com.colorata.wallman.core.data.onLoading
 import com.colorata.wallman.core.data.onSuccess
@@ -42,7 +44,8 @@ fun WallpapersModule.WallpaperDetailsViewModel(wallpaperHashCode: Int) =
         wallpaperHashCode,
         wallpaperManager,
         intentHandler,
-        permissionHandler
+        permissionHandler,
+        logger
     )
 
 class WallpaperDetailsViewModel(
@@ -50,7 +53,8 @@ class WallpaperDetailsViewModel(
     private val wallpaperHashCode: Int,
     private val wallpaperManager: WallpaperManager,
     private val intentHandler: IntentHandler,
-    private val permissionHandler: PermissionHandler
+    private val permissionHandler: PermissionHandler,
+    private val logger: Logger
 ) : ViewModel() {
 
     private val wallpaper: WallpaperI by lazy { repo.wallpapers.first { it.hashCode() == wallpaperHashCode } }
@@ -74,7 +78,7 @@ class WallpaperDetailsViewModel(
     private val showPermissionRequest = MutableStateFlow(false)
 
     init {
-        viewModelScope.launchIO({ it.printStackTrace() }) {
+        viewModelScope.launchIO({ logger.throwable(it) }) {
             wallpaperManager.cachedWallpaperPacks()
                 .combine(wallpaperManager.installedWallpaperPacks()) { t1, t2 -> t1 to t2 }
                 .collect { result ->
@@ -88,7 +92,7 @@ class WallpaperDetailsViewModel(
                     )
                 }
         }
-        viewModelScope.launchIO({ it.printStackTrace() }){
+        viewModelScope.launchIO({ logger.throwable(it) }) {
             wallpaperManager.resultForDownloadWallpaperPack(wallpaper.parent)?.collect { result ->
                 result.onLoading {
                     progress.emit(it * 100)
@@ -118,7 +122,7 @@ class WallpaperDetailsViewModel(
                 ) else actionType.emit(WallpaperI.ActionType.Install(available))
             }
         }
-        viewModelScope.launchIO({ it.printStackTrace() }) {
+        viewModelScope.launchIO({ logger.throwable(it) }) {
             wallpaperManager.currentlyInstalledDynamicWallpaper().collect { liveWallpaper ->
                 isLiveWallpaperInstalled.value =
                     if (liveWallpaper == null) false else
@@ -130,14 +134,14 @@ class WallpaperDetailsViewModel(
     }
 
     private fun onDownloadClick() {
-        viewModelScope.launch {
+        viewModelScope.launchIO({ logger.throwable(it) }) {
             when (downloadState.value) {
                 DynamicWallpaper.DynamicWallpaperCacheState.Cached -> {
                     if (permissionHandler.isPermissionGranted(Permission.InstallUnknownApps)) {
                         val result = wallpaperManager.installWallpaperPack(
                             wallpaper.parent
                         )
-                        if (result is Result.Error<Unit>) result.throwable.printStackTrace()
+                        if (result is Result.Error<Unit>) logger.throwable(result.throwable)
                     } else {
                         showPermissionRequest.emit(true)
                     }
@@ -154,7 +158,7 @@ class WallpaperDetailsViewModel(
                 }
 
                 DynamicWallpaper.DynamicWallpaperCacheState.NotCached -> {
-                    downloadJob = launchIO({ it.printStackTrace() }) {
+                    downloadJob = launchIO({ logger.throwable(it) }) {
                         wallpaperManager.downloadWallpaperPack(
                             wallpaper.parent
                         ).collect {
@@ -189,7 +193,7 @@ class WallpaperDetailsViewModel(
     }
 
     private fun onActionButtonClick() {
-        viewModelScope.launchIO({ it.printStackTrace() }) {
+        viewModelScope.launchIO({ logger.throwable(it) }) {
             val action = actionType.value
             when {
                 action is WallpaperI.ActionType.Install &&
@@ -210,7 +214,7 @@ class WallpaperDetailsViewModel(
                             actionType.value = when (it) {
                                 is Result.Loading -> WallpaperI.ActionType.Installing
                                 is Result.Error -> {
-                                    it.throwable.printStackTrace()
+                                    logger.throwable(it.throwable)
                                     WallpaperI.ActionType.Error
                                 }
 

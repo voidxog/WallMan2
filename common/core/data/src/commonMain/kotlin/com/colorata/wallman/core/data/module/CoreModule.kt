@@ -4,6 +4,7 @@ import com.colorata.wallman.core.data.Loadable
 import kotlinx.coroutines.CoroutineScope
 
 interface CoreModule {
+    val logger: Logger
     val coroutineScope: CoroutineScope
     val permissionHandler: PermissionHandler
     val intentHandler: IntentHandler

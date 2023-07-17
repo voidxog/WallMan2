@@ -44,7 +44,6 @@ class NavigationControllerImpl : NavigationController {
         val backStackEntry by navController.currentBackStackEntryAsState()
         val route = backStackEntry?.destination?.route
         LaunchedEffect(route) {
-            println(route)
             currentPath.emit(route.orEmpty())
         }
 

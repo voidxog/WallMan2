@@ -51,5 +51,5 @@ fun <T> Result<T>.getOrDefault(default: T): T {
 inline fun <T> runResulting(block: () -> T): Result<T> {
     return runCatching {
         return@runCatching Result.Success(block())
-    }.getOrElse { Result.Error(it) }.onError { it.printStackTrace() }
+        }.getOrElse { Result.Error(it) }.onError { it.printStackTrace() }
 }

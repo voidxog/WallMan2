@@ -8,6 +8,8 @@ import com.colorata.wallman.core.data.module.DownloadHandler
 import com.colorata.wallman.core.data.Strings
 import com.colorata.wallman.core.data.Result
 import com.colorata.wallman.core.data.launchIO
+import com.colorata.wallman.core.data.module.Logger
+import com.colorata.wallman.core.data.module.throwable
 import com.colorata.wallman.core.data.withIO
 import io.ktor.client.*
 import io.ktor.client.call.*
@@ -22,7 +24,11 @@ import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import java.io.File
 
-class DownloadHandlerImpl(private val context: Context, private val scope: CoroutineScope): DownloadHandler {
+class DownloadHandlerImpl(
+    private val context: Context,
+    private val scope: CoroutineScope,
+    private val logger: Logger
+) : DownloadHandler {
     private val mutex = Mutex()
     private val downloadIdsByUrl = mutableMapOf<String, Long>()
     private val downloadManager by lazy { context.getSystemService(DownloadManager::class.java) }
@@ -83,7 +89,7 @@ class DownloadHandlerImpl(private val context: Context, private val scope: Corou
     }
 
     override fun stopDownloadingFileInBackground(url: String, path: String) {
-        scope.launchIO({ it.printStackTrace() }) {
+        scope.launchIO({ logger.throwable(it) }) {
             mutex.withLock {
                 if (downloadIdsByUrl.containsKey(url)) {
                     downloadManager.remove(downloadIdsByUrl[url] ?: 0)
