@@ -15,6 +15,7 @@ abstract class GraphActivity : ComponentActivity() {
 
     @Composable
     abstract fun Content()
+
     private val graph by lazy {
         (application as WallManApp).graph
     }

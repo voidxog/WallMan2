@@ -33,16 +33,13 @@ import com.colorata.wallman.widget.ui.shapePickerScreen
 fun Navigation(startDestination: Destination = Destinations.MainDestination()) {
     val navController = LocalGraph.current.coreModule.navigationController
     val graph = LocalGraph.current
-    LaunchedEffect(startDestination) {
-        navController.resetRootTo(startDestination)
-    }
     Scaffold(bottomBar = {
         val selected by navController.currentPath.collectAsState()
         BottomBar(selected) { navController.resetRootTo(destination(it)) }
     }) { padding ->
         CompositionLocalProvider(LocalPaddings provides padding) {
             navController.NavigationHost(
-                remember { startDestination },
+                startDestination,
                 MaterialTheme.animation,
                 Modifier
             ) {
