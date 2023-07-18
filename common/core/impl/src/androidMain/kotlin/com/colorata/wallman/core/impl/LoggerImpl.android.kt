@@ -44,7 +44,12 @@ class LoggerImpl(
         storeLog(logType, tag, message)
     }
 
-    private val store by lazy { File(context.filesDir.absolutePath + "/" + "logs.txt") }
+    private val store by lazy {
+        File(context.filesDir.absolutePath + "/" + "logs.txt").apply {
+            if (!exists()) createNewFile()
+        }
+    }
+
     private fun storeLog(logType: LogType, tag: String, message: String) {
         scope.launch {
             val log = buildString {
