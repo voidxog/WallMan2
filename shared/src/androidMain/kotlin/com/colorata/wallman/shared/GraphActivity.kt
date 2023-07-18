@@ -6,11 +6,14 @@ import androidx.activity.compose.setContent
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import androidx.lifecycle.lifecycleScope
 import com.colorata.wallman.core.data.module.loadables
 import com.colorata.wallman.core.data.module.throwable
 import com.colorata.wallman.core.di.LocalGraph
 import com.colorata.wallman.core.di.impl.applyActivity
 import com.colorata.wallman.core.ui.theme.WallManTheme
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 abstract class GraphActivity : ComponentActivity() {
 
@@ -28,6 +31,7 @@ abstract class GraphActivity : ComponentActivity() {
 
         Thread.setDefaultUncaughtExceptionHandler { thread, throwable ->
             graph.coreModule.logger.throwable(throwable)
+            graph.coreModule.intentHandler.goToActivity(this::class)
             finish()
         }
 
