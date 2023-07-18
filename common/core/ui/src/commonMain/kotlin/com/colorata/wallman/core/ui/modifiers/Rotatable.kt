@@ -2,8 +2,10 @@ package com.colorata.wallman.core.ui.modifiers
 
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.Easing
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.gestures.detectDragGestures
+import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -16,12 +18,15 @@ import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.unit.dp
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import kotlin.math.pow
 import kotlin.math.sin
 
 private const val maxAngle = 50f
 private const val pi = Math.PI.toFloat()
+private const val maxTranslation = 140f
 private val SpringEasing = Easing { x ->
     val c4 = (2 * pi) / 3f
 
@@ -32,42 +37,79 @@ private val SpringEasing = Easing { x ->
     }
 }
 
-fun Modifier.rotatable() = composed {
+interface RotationState {
+    fun startRotation()
+
+    fun update(rotation: Offset)
+
+    fun reset()
+
+    val rotation: Offset
+
+    val isRotationInProgress: Boolean
+}
+
+private class RotationStateImpl(private val scope: CoroutineScope) : RotationState {
+    override val rotation: Offset
+        get() = Offset(_rotationX.value, _rotationY.value)
+
+    private val _rotationX = Animatable(0f)
+    private val _rotationY = Animatable(0f)
+
+    override var isRotationInProgress: Boolean by mutableStateOf(false)
+
+    override fun startRotation() {
+        isRotationInProgress = true
+    }
+
+    override fun update(rotation: Offset) {
+        scope.launch {
+            _rotationX.animateTo(rotation.x)
+        }
+        scope.launch {
+            _rotationY.animateTo(rotation.y)
+        }
+    }
+
+    override fun reset() {
+        val animationSpec = tween<Float>(1000, easing = SpringEasing)
+        scope.launch {
+            _rotationX.animateTo(0f, animationSpec)
+        }
+        scope.launch {
+            _rotationY.animateTo(0f, animationSpec)
+        }
+        isRotationInProgress = false
+    }
+}
+
+@Composable
+fun rememberRotationState(): RotationState {
     val scope = rememberCoroutineScope()
+    return remember { RotationStateImpl(scope) }
+}
+
+fun Modifier.detectRotation(state: RotationState) = composed {
 
     var angle by remember { mutableStateOf(Offset.Zero) }
-    val rotateY = remember { Animatable(0f) }
-    val rotateX = remember { Animatable(0f) }
-    val animationSpec = tween<Float>(1000, easing = SpringEasing)
-
     var viewSize by remember { mutableStateOf(Size.Zero) }
-    val backToStart = remember {
-        {
-            scope.launch {
-                rotateX.animateTo(0f, animationSpec = animationSpec)
-            }
-            scope.launch {
-                rotateY.animateTo(0f, animationSpec = animationSpec)
-            }
-        }
+    onGloballyPositioned { coordinates ->
+        viewSize = Size(
+            width = coordinates.size.width.toFloat(),
+            height = coordinates.size.height.toFloat()
+        )
     }
-    graphicsLayer {
-        rotationY = rotateY.value
-        rotationX = rotateX.value
-    }
-        .onGloballyPositioned { coordinates ->
-            viewSize = Size(
-                width = coordinates.size.width.toFloat(),
-                height = coordinates.size.height.toFloat()
-            )
-        }
         .pointerInput(Unit) {
             detectDragGestures(
                 onDragCancel = {
-                    backToStart()
+                    state.reset()
                 },
                 onDragEnd = {
-                    backToStart()
+                    state.reset()
+                },
+                onDragStart = {
+                    angle = Offset.Zero
+                    state.startRotation()
                 }
             ) { change, dragAmount ->
                 change.consume()
@@ -80,15 +122,27 @@ fun Modifier.rotatable() = composed {
                     )
 
                     angle = update
-                    scope.launch {
-                        rotateX.animateTo(angle.y)
-                    }
-                    scope.launch {
-                        rotateY.animateTo(-angle.x)
-                    }
+                    state.update(Offset(angle.y, -angle.x))
                 }
             }
         }
+}
+
+fun Modifier.displayRotation(state: RotationState, layer: Float = 0f) = composed {
+    val translateX by animateFloatAsState(
+        state.rotation.y * maxTranslation / 90f * layer,
+        label = ""
+    )
+    val translateY by animateFloatAsState(
+        -state.rotation.x * maxTranslation / 90f * layer,
+        label = ""
+    )
+    graphicsLayer {
+        rotationY = state.rotation.y
+        rotationX = state.rotation.x
+        translationX = translateX
+        translationY = translateY
+    }
 }
 
 private fun getRotationAngles(

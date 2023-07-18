@@ -10,13 +10,13 @@ import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
-import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
@@ -25,6 +25,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
@@ -36,7 +37,6 @@ import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.AssistChip
 import androidx.compose.material3.Button
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
@@ -48,7 +48,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.StrokeCap
@@ -60,6 +59,7 @@ import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.zIndex
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.colorata.animateaslifestyle.animateVisibility
 import com.colorata.animateaslifestyle.fade
@@ -91,7 +91,9 @@ import com.colorata.wallman.core.data.simplifiedLocaleOf
 import com.colorata.wallman.core.data.viewModel
 import com.colorata.wallman.core.ui.LightDarkPreview
 import com.colorata.wallman.core.ui.components.ScreenBackground
-import com.colorata.wallman.core.ui.modifiers.rotatable
+import com.colorata.wallman.core.ui.modifiers.rememberRotationState
+import com.colorata.wallman.core.ui.modifiers.detectRotation
+import com.colorata.wallman.core.ui.modifiers.displayRotation
 import com.colorata.wallman.core.ui.spacing
 import com.colorata.wallman.core.ui.theme.WallManContentTheme
 import com.colorata.wallman.core.ui.theme.WallManPreviewTheme
@@ -177,102 +179,95 @@ private fun WallpaperDetailsScreen(
                     resource = selectedBaseWallpaper.previewRes,
                     downloadProgress = { state.downloadProgress },
                     Modifier
+                        .zIndex(3f)
                         .animateVisibility(
                             animList[0].visible,
                             animationSpec
                         )
-                        .rotatable()
                 )
-
-                Column(
-                    Modifier,
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.large)
-                ) {
-                    PreviewName(
-                        selectedBaseWallpaper.previewName,
-                        Modifier
-                            .align(Alignment.Start)
-                            .animateVisibility(
-                                animList[1].visible,
-                                animationSpec
-                            )
-                    )
-                    Description(
-                        selectedBaseWallpaper.description,
-                        Modifier
-                            .align(Alignment.Start)
-                            .animateVisibility(
-                                animList[2].visible,
-                                animationSpec
-                            )
-                    )
-                    WallpaperTypeSelector(
-                        supportsDynamicWallpaper = remember(wallpaper) { wallpaper.supportsDynamicWallpapers() },
-                        selectedWallpaperType = state.selectedWallpaperType,
-                        onClick = {
-                            state.onEvent(
-                                WallpaperDetailsViewModel.WallpaperDetailsScreenEvent.SelectWallpaperType(
-                                    it
-                                )
-                            )
-                        },
-                        Modifier.animateVisibility(
-                            animList[3].visible,
-                            fade(animationSpec = MaterialTheme.animation.emphasized()) + slideVertically(
-                                100f,
-                                MaterialTheme.animation.emphasized()
+                PreviewName(
+                    selectedBaseWallpaper.previewName,
+                    Modifier
+                        .align(Alignment.Start)
+                        .animateVisibility(
+                            animList[1].visible,
+                            animationSpec
+                        )
+                )
+                Description(
+                    selectedBaseWallpaper.description,
+                    Modifier
+                        .align(Alignment.Start)
+                        .animateVisibility(
+                            animList[2].visible,
+                            animationSpec
+                        )
+                )
+                WallpaperTypeSelector(
+                    supportsDynamicWallpaper = remember(wallpaper) { wallpaper.supportsDynamicWallpapers() },
+                    selectedWallpaperType = state.selectedWallpaperType,
+                    onClick = {
+                        state.onEvent(
+                            WallpaperDetailsViewModel.WallpaperDetailsScreenEvent.SelectWallpaperType(
+                                it
                             )
                         )
+                    },
+                    Modifier.animateVisibility(
+                        animList[3].visible,
+                        fade(animationSpec = MaterialTheme.animation.emphasized()) + slideVertically(
+                            100f,
+                            MaterialTheme.animation.emphasized()
+                        )
                     )
-                    val chips = remember {
-                        persistentListOf<Chip>().mutate {
-                            if (selectedBaseWallpaper.coordinates != null) it.add(
-                                Chip(
-                                    Strings.goToMaps,
-                                    Icons.Default.LocationOn
-                                )
+                )
+                val chips = remember {
+                    persistentListOf<Chip>().mutate {
+                        if (selectedBaseWallpaper.coordinates != null) it.add(
+                            Chip(
+                                Strings.goToMaps,
+                                Icons.Default.LocationOn
                             )
-                            if (wallpaper.supportsDynamicWallpapers()) it.add(
-                                Chip(
-                                    Strings.size.formatted(wallpaper.parent.sizeInMb()),
-                                    Icons.Default.SdCard
-                                )
+                        )
+                        if (wallpaper.supportsDynamicWallpapers()) it.add(
+                            Chip(
+                                Strings.size.formatted(wallpaper.parent.sizeInMb()),
+                                Icons.Default.SdCard
                             )
-                            it.add(
-                                Chip(
-                                    simplifiedLocaleOf(wallpaper.author),
-                                    Icons.Filled.AccountCircle
-                                )
+                        )
+                        it.add(
+                            Chip(
+                                simplifiedLocaleOf(wallpaper.author),
+                                Icons.Filled.AccountCircle
                             )
-                        }
+                        )
                     }
-                    Chips(
-                        chips = chips, onClick = {
-                            val index = chips.indexOf(it)
-                            if (index == 0) state.onEvent(WallpaperDetailsViewModel.WallpaperDetailsScreenEvent.GoToMaps)
-                        }, Modifier.animateVisibility(
-                            animList[4].visible,
-                            animationSpec
-                        )
-                    )
-                    Variants(
-                        state.wallpaperVariants,
-                        selectedWallpaper = state.selectedWallpaper,
-                        onClick = {
-                            state.onEvent(
-                                WallpaperDetailsViewModel.WallpaperDetailsScreenEvent.SelectBaseWallpaper(
-                                    it
-                                )
-                            )
-                        },
-                        Modifier.animateVisibility(
-                            animList[5].visible,
-                            animationSpec
-                        )
-                    )
-                    Spacer(Modifier.height(80.dp))
                 }
+                Chips(
+                    chips = chips, onClick = {
+                        val index = chips.indexOf(it)
+                        if (index == 0) state.onEvent(WallpaperDetailsViewModel.WallpaperDetailsScreenEvent.GoToMaps)
+                    }, Modifier.animateVisibility(
+                        animList[4].visible,
+                        animationSpec
+                    )
+                )
+                Variants(
+                    state.wallpaperVariants,
+                    selectedWallpaper = state.selectedWallpaper,
+                    onClick = {
+                        state.onEvent(
+                            WallpaperDetailsViewModel.WallpaperDetailsScreenEvent.SelectBaseWallpaper(
+                                it
+                            )
+                        )
+                    },
+                    Modifier.animateVisibility(
+                        animList[5].visible,
+                        animationSpec
+                    )
+                )
+                Spacer(Modifier.height(80.dp))
             }
             BottomBar(
                 state,
@@ -341,39 +336,56 @@ private fun PreviewImage(
     downloadProgress: () -> Float,
     modifier: Modifier = Modifier
 ) {
+    val shape = remember { ScallopShape(density = 100f) }
+    val rotationState = rememberRotationState()
     Box(
         modifier
+            .detectRotation(rotationState)
             .statusBarsPadding()
-            .fillMaxWidth(0.7f)
+            .fillMaxWidth(0.8f),
+        contentAlignment = Alignment.Center
     ) {
-        ArcBorder(
-            progress = { downloadProgress() },
-            shape = remember { ScallopShape(density = 100f) }
-        ) {
-            AnimatedContent(
-                targetState = resource,
-                transitionSpec = {
-                    materialSharedAxisX(true, 100)
-                }, label = ""
-            ) { imageName ->
-                Image(
-                    bitmap = bitmapAsset(imageName),
-                    contentDescription = "",
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .aspectRatio(1f),
-                    contentScale = ContentScale.Crop
-                )
-            }
+        AnimatedContent(
+            targetState = resource,
+            transitionSpec = {
+                materialSharedAxisX(true, 100)
+            }, label = "",
+            contentAlignment = Alignment.Center,
+            modifier = Modifier
+                .displayRotation(rotationState)
+                .clip(shape)
+                .size(300.dp)
+        ) { imageName ->
+            Image(
+                bitmap = bitmapAsset(imageName),
+                contentDescription = "",
+                modifier = Modifier
+                    .size(300.dp)
+                    .aspectRatio(1f),
+                contentScale = ContentScale.Crop
+            )
         }
+        Arc(
+            progress = { downloadProgress() },
+            width = { progress ->
+                if (rotationState.isRotationInProgress) 8f
+                else if (progress == 100f) 1f
+                else 3f
+            },
+            Modifier
+                .displayRotation(rotationState, layer = 1f)
+                .size(300.dp),
+            shape
+        )
     }
 }
 
 @Composable
-private fun ArcBorder(
+private fun Arc(
     progress: () -> Float,
-    shape: Shape = RectangleShape,
-    content: @Composable () -> Unit
+    width: (progress: Float) -> Float,
+    modifier: Modifier = Modifier,
+    shape: Shape = RectangleShape
 ) {
     val animatedProgress by animateFloatAsState(progress(), label = "")
     val start = if (animatedProgress != 100f) rememberInfiniteTransition(label = "").animateFloat(
@@ -387,37 +399,34 @@ private fun ArcBorder(
             repeatMode = RepeatMode.Restart
         ), label = ""
     ).value else -90f
-    val width =
+    val animatedWidth =
         MaterialTheme.spacing.extraSmall * animateFloatAsState(
-            targetValue = if (animatedProgress == 100f) 1f else 3f,
+            targetValue = width(animatedProgress),
             label = ""
         ).value
     val borderColor = MaterialTheme.colorScheme.primary
     val layoutDirection = LocalLayoutDirection.current
     val density = LocalDensity.current
     Box(
-        modifier = Modifier
+        modifier = modifier
             .clip(shape)
-            .height(IntrinsicSize.Min)
-            .width(IntrinsicSize.Min)
     ) {
-        content()
-        Box(
-            Modifier
+        Canvas(
+            modifier = Modifier
                 .fillMaxSize()
                 .drawOffscreen()
-                .drawBehind {
-                    val border = BorderStroke(
-                        width,
-                        borderColor
-                    )
-                    drawOutline(
-                        shape.createOutline(size, layoutDirection, density),
-                        brush = border.brush,
-                        style = Stroke(border.width.toPx(), cap = StrokeCap.Round)
-                    )
-                    drawMaskArc(arc(degrees(start), degrees(3.6f * animatedProgress)), border.brush)
-                })
+        ) {
+            val border = BorderStroke(
+                animatedWidth,
+                borderColor
+            )
+            drawOutline(
+                shape.createOutline(size, layoutDirection, density),
+                brush = border.brush,
+                style = Stroke(border.width.toPx(), cap = StrokeCap.Round)
+            )
+            drawMaskArc(arc(degrees(start), degrees(3.6f * animatedProgress)), border.brush)
+        }
     }
 }
 
@@ -509,7 +518,6 @@ private fun WallpaperTypeSelector(
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PermissionRequestDialog(
     onDismiss: () -> Unit,

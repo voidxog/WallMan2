@@ -1,6 +1,9 @@
 package com.colorata.wallman.settings.overview.ui
 
+import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -19,15 +22,22 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.times
+import androidx.compose.ui.zIndex
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.colorata.animateaslifestyle.animateVisibility
 import com.colorata.animateaslifestyle.fade
 import com.colorata.animateaslifestyle.material3.GroupedColumn
+import com.colorata.animateaslifestyle.material3.shapes.ScallopShape
+import com.colorata.animateaslifestyle.shapes.Arc
+import com.colorata.animateaslifestyle.shapes.ExperimentalShapeApi
+import com.colorata.animateaslifestyle.shapes.Full
 import com.colorata.animateaslifestyle.slideVertically
 import com.colorata.animateaslifestyle.stagger.*
 import com.colorata.wallman.core.data.*
@@ -36,6 +46,10 @@ import com.colorata.wallman.core.ui.R
 import com.colorata.wallman.core.ui.spacing
 import com.colorata.wallman.core.ui.theme.WallManPreviewTheme
 import com.colorata.wallman.core.data.viewModel
+import com.colorata.wallman.core.ui.components.ArcBorder
+import com.colorata.wallman.core.ui.modifiers.detectRotation
+import com.colorata.wallman.core.ui.modifiers.displayRotation
+import com.colorata.wallman.core.ui.modifiers.rememberRotationState
 import com.colorata.wallman.settings.about.api.AboutDestination
 import com.colorata.wallman.settings.overview.ui.components.AboutItem
 import com.colorata.wallman.settings.overview.viewmodel.AboutViewModel
@@ -62,7 +76,6 @@ fun AboutScreen(modifier: Modifier = Modifier) {
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalStaggerApi::class)
 @Composable
 private fun AboutScreen(state: AboutViewModel.AboutScreenState, modifier: Modifier = Modifier) {
-    var logoVisible by remember { mutableStateOf(false) }
     val animatedItems =
         remember(state.aboutItems) { state.aboutItems.toStaggerList({ 0f }, false) }
     val defaultAnimation =
@@ -71,7 +84,6 @@ private fun AboutScreen(state: AboutViewModel.AboutScreenState, modifier: Modifi
         )
 
     LaunchedEffect(key1 = Unit) {
-        logoVisible = true
         animatedItems.animateAsList(this, spec = staggerSpecOf {
             visible = true
         })
@@ -83,18 +95,13 @@ private fun AboutScreen(state: AboutViewModel.AboutScreenState, modifier: Modifi
         LargeTopAppBar(title = {
             Text(text = rememberString(Strings.aboutWallMan))
         })
-        Image(
-            painter = painterResource(id = R.drawable.ic_monochrome),
-            contentDescription = "",
-            modifier = Modifier
+        Logo(
+            Modifier
+                .zIndex(3f)
                 .animateVisibility(
                     animatedItems[0].visible,
                     defaultAnimation
                 )
-                .clip(CircleShape)
-                .background(Color(0xFF2F3032))
-                .size(200.dp),
-            contentScale = ContentScale.Crop
         )
         Spacer(modifier = Modifier.height(MaterialTheme.spacing.large))
         GroupedColumn(
@@ -115,6 +122,46 @@ private fun AboutScreen(state: AboutViewModel.AboutScreenState, modifier: Modifi
                 .navigationBarsPadding()
                 .height(MaterialTheme.spacing.medium)
         )
+    }
+}
+
+@OptIn(ExperimentalShapeApi::class)
+@Composable
+private fun Logo(modifier: Modifier = Modifier) {
+    val shape = remember { ScallopShape(density = 100f) }
+    val rotationState = rememberRotationState()
+    Box(
+        modifier
+            .size(300.dp)
+            .detectRotation(rotationState)
+    ) {
+        Box(
+            Modifier
+                .displayRotation(rotationState)
+                .clip(shape)
+                .background(Color(0xFF2F3032))
+                .fillMaxSize()
+        )
+        val width by remember { derivedStateOf { if (rotationState.isRotationInProgress) 8f else 1f } }
+        val animatedWidth =
+            animateFloatAsState(width, label = "").value * MaterialTheme.spacing.extraSmall
+        ArcBorder(
+            Arc.Full,
+            BorderStroke(animatedWidth, MaterialTheme.colorScheme.primary),
+            Modifier
+                .displayRotation(rotationState, layer = 1f)
+                .fillMaxSize(),
+            shape
+        ) {
+            Image(
+                painter = painterResource(id = R.drawable.ic_launcher_foreground),
+                contentDescription = "",
+                modifier = Modifier
+                    .fillMaxSize()
+                    .scale(1.3f),
+                contentScale = ContentScale.Crop
+            )
+        }
     }
 }
 
