@@ -40,7 +40,7 @@ fun ScreenBackground(
         Box(
             modifier
                 .fillMaxSize()
-                .blur(30.dp)
+                .blur(5.dp)
                 .background(MaterialTheme.colorScheme.surface),
             contentAlignment = Alignment.TopCenter
         ) {

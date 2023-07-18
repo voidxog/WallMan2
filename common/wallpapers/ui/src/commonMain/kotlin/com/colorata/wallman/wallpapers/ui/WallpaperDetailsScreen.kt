@@ -91,6 +91,7 @@ import com.colorata.wallman.core.data.simplifiedLocaleOf
 import com.colorata.wallman.core.data.viewModel
 import com.colorata.wallman.core.ui.LightDarkPreview
 import com.colorata.wallman.core.ui.components.ScreenBackground
+import com.colorata.wallman.core.ui.modifiers.rotatable
 import com.colorata.wallman.core.ui.spacing
 import com.colorata.wallman.core.ui.theme.WallManContentTheme
 import com.colorata.wallman.core.ui.theme.WallManPreviewTheme
@@ -144,10 +145,10 @@ private fun WallpaperDetailsScreen(
             state.onEvent(WallpaperDetailsViewModel.WallpaperDetailsScreenEvent.GoToInstallAppsPermissionsPage)
         })
     }
+    val scrollState = rememberScrollState()
     val previewImage = bitmapAsset(state.selectedWallpaper.previewRes)
     ScreenBackground(previewImage)
     WallManContentTheme(state.selectedWallpaper.previewRes) {
-
         Box(
             modifier
                 .fillMaxSize()
@@ -166,7 +167,7 @@ private fun WallpaperDetailsScreen(
                 )
             Column(
                 Modifier
-                    .verticalScroll(rememberScrollState())
+                    .verticalScroll(scrollState)
                     .padding(MaterialTheme.spacing.extraLarge)
                     .fillMaxSize(),
                 horizontalAlignment = Alignment.CenterHorizontally,
@@ -175,94 +176,103 @@ private fun WallpaperDetailsScreen(
                 PreviewImage(
                     resource = selectedBaseWallpaper.previewRes,
                     downloadProgress = { state.downloadProgress },
-                    Modifier.animateVisibility(
-                        animList[0].visible,
-                        animationSpec
-                    )
-                )
-                PreviewName(
-                    selectedBaseWallpaper.previewName,
                     Modifier
-                        .align(Alignment.Start)
                         .animateVisibility(
-                            animList[1].visible,
+                            animList[0].visible,
                             animationSpec
                         )
+                        .rotatable()
                 )
-                Description(
-                    selectedBaseWallpaper.description,
-                    Modifier
-                        .align(Alignment.Start)
-                        .animateVisibility(
-                            animList[2].visible,
-                            animationSpec
-                        )
-                )
-                WallpaperTypeSelector(
-                    supportsDynamicWallpaper = remember(wallpaper) { wallpaper.supportsDynamicWallpapers() },
-                    selectedWallpaperType = state.selectedWallpaperType,
-                    onClick = {
-                        state.onEvent(
-                            WallpaperDetailsViewModel.WallpaperDetailsScreenEvent.SelectWallpaperType(
-                                it
+
+                Column(
+                    Modifier,
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.large)
+                ) {
+                    PreviewName(
+                        selectedBaseWallpaper.previewName,
+                        Modifier
+                            .align(Alignment.Start)
+                            .animateVisibility(
+                                animList[1].visible,
+                                animationSpec
                             )
-                        )
-                    },
-                    Modifier.animateVisibility(
-                        animList[3].visible,
-                        fade(animationSpec = MaterialTheme.animation.emphasized()) + slideVertically(
-                            100f,
-                            MaterialTheme.animation.emphasized()
+                    )
+                    Description(
+                        selectedBaseWallpaper.description,
+                        Modifier
+                            .align(Alignment.Start)
+                            .animateVisibility(
+                                animList[2].visible,
+                                animationSpec
+                            )
+                    )
+                    WallpaperTypeSelector(
+                        supportsDynamicWallpaper = remember(wallpaper) { wallpaper.supportsDynamicWallpapers() },
+                        selectedWallpaperType = state.selectedWallpaperType,
+                        onClick = {
+                            state.onEvent(
+                                WallpaperDetailsViewModel.WallpaperDetailsScreenEvent.SelectWallpaperType(
+                                    it
+                                )
+                            )
+                        },
+                        Modifier.animateVisibility(
+                            animList[3].visible,
+                            fade(animationSpec = MaterialTheme.animation.emphasized()) + slideVertically(
+                                100f,
+                                MaterialTheme.animation.emphasized()
+                            )
                         )
                     )
-                )
-                val chips = remember {
-                    persistentListOf<Chip>().mutate {
-                        if (selectedBaseWallpaper.coordinates != null) it.add(
-                            Chip(
-                                Strings.goToMaps,
-                                Icons.Default.LocationOn
+                    val chips = remember {
+                        persistentListOf<Chip>().mutate {
+                            if (selectedBaseWallpaper.coordinates != null) it.add(
+                                Chip(
+                                    Strings.goToMaps,
+                                    Icons.Default.LocationOn
+                                )
                             )
-                        )
-                        if (wallpaper.supportsDynamicWallpapers()) it.add(
-                            Chip(
-                                Strings.size.formatted(wallpaper.parent.sizeInMb()),
-                                Icons.Default.SdCard
+                            if (wallpaper.supportsDynamicWallpapers()) it.add(
+                                Chip(
+                                    Strings.size.formatted(wallpaper.parent.sizeInMb()),
+                                    Icons.Default.SdCard
+                                )
                             )
-                        )
-                        it.add(
-                            Chip(
-                                simplifiedLocaleOf(wallpaper.author),
-                                Icons.Filled.AccountCircle
+                            it.add(
+                                Chip(
+                                    simplifiedLocaleOf(wallpaper.author),
+                                    Icons.Filled.AccountCircle
+                                )
                             )
-                        )
+                        }
                     }
-                }
-                Chips(
-                    chips = chips, onClick = {
-                        val index = chips.indexOf(it)
-                        if (index == 0) state.onEvent(WallpaperDetailsViewModel.WallpaperDetailsScreenEvent.GoToMaps)
-                    }, Modifier.animateVisibility(
-                        animList[4].visible,
-                        animationSpec
-                    )
-                )
-                Variants(
-                    state.wallpaperVariants,
-                    selectedWallpaper = state.selectedWallpaper,
-                    onClick = {
-                        state.onEvent(
-                            WallpaperDetailsViewModel.WallpaperDetailsScreenEvent.SelectBaseWallpaper(
-                                it
-                            )
+                    Chips(
+                        chips = chips, onClick = {
+                            val index = chips.indexOf(it)
+                            if (index == 0) state.onEvent(WallpaperDetailsViewModel.WallpaperDetailsScreenEvent.GoToMaps)
+                        }, Modifier.animateVisibility(
+                            animList[4].visible,
+                            animationSpec
                         )
-                    },
-                    Modifier.animateVisibility(
-                        animList[5].visible,
-                        animationSpec
                     )
-                )
-                Spacer(Modifier.height(80.dp))
+                    Variants(
+                        state.wallpaperVariants,
+                        selectedWallpaper = state.selectedWallpaper,
+                        onClick = {
+                            state.onEvent(
+                                WallpaperDetailsViewModel.WallpaperDetailsScreenEvent.SelectBaseWallpaper(
+                                    it
+                                )
+                            )
+                        },
+                        Modifier.animateVisibility(
+                            animList[5].visible,
+                            animationSpec
+                        )
+                    )
+                    Spacer(Modifier.height(80.dp))
+                }
             }
             BottomBar(
                 state,

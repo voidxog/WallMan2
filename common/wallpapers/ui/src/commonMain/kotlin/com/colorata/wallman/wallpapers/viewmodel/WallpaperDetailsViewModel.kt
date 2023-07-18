@@ -36,7 +36,6 @@ import kotlinx.collections.immutable.persistentListOf
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.launch
 
 fun WallpapersModule.WallpaperDetailsViewModel(wallpaperHashCode: Int) =
     WallpaperDetailsViewModel(
@@ -57,7 +56,9 @@ class WallpaperDetailsViewModel(
     private val logger: Logger
 ) : ViewModel() {
 
-    private val wallpaper: WallpaperI by lazy { repo.wallpapers.first { it.hashCode() == wallpaperHashCode } }
+    private val wallpaper: WallpaperI by lazy {
+        repo.wallpapers.find { it.hashCode() == wallpaperHashCode } ?: repo.wallpapers.first()
+    }
 
     private val progress = MutableStateFlow(100f)
     private var downloadJob: Job? = null
@@ -125,7 +126,7 @@ class WallpaperDetailsViewModel(
         viewModelScope.launchIO({ logger.throwable(it) }) {
             wallpaperManager.currentlyInstalledDynamicWallpaper().collect { liveWallpaper ->
                 isLiveWallpaperInstalled.value =
-                    if (liveWallpaper == null) false else
+                    if (liveWallpaper == null || !wallpaper.supportsDynamicWallpapers()) false else
                         wallpaper.dynamicWallpapers[selectedWallpaperIndex.value]
                             .isSameAs(liveWallpaper)
             }
