@@ -7,9 +7,13 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.provider.Settings
+import android.widget.Toast
 import com.colorata.wallman.core.data.Coordinates
+import com.colorata.wallman.core.data.Strings
 import com.colorata.wallman.core.data.module.IntentHandler
 import com.colorata.wallman.core.data.module.PermissionPage
+import com.colorata.wallman.core.data.onError
+import com.colorata.wallman.core.data.runResulting
 import kotlin.reflect.KClass
 
 class IntentHandlerImpl(private var context: Context) : IntentHandler {
@@ -19,9 +23,13 @@ class IntentHandlerImpl(private var context: Context) : IntentHandler {
     }
 
     override fun goToUrl(url: String) {
-        Intent(Intent.ACTION_VIEW, Uri.parse(url)).apply {
-            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-        }.start()
+        runResulting {
+            Intent(Intent.ACTION_VIEW, Uri.parse(url)).apply {
+                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            }.start()
+        }.onError {
+            showToast(Strings.browserNotInstalled.value)
+        }
     }
 
     override fun <T : Any> goToActivity(activity: KClass<T>) {
@@ -31,32 +39,40 @@ class IntentHandlerImpl(private var context: Context) : IntentHandler {
     }
 
     override fun goToLiveWallpaper(packageName: String, serviceName: String) {
-        val component = ComponentName(
-            packageName,
-            serviceName
-        )
-        Intent(WallpaperManager.ACTION_CHANGE_LIVE_WALLPAPER)
-            .apply {
-                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                putExtra(WallpaperManager.EXTRA_LIVE_WALLPAPER_COMPONENT, component)
-                addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-            }
-            .start()
+        runResulting {
+            val component = ComponentName(
+                packageName,
+                serviceName
+            )
+            Intent(WallpaperManager.ACTION_CHANGE_LIVE_WALLPAPER)
+                .apply {
+                    addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                    putExtra(WallpaperManager.EXTRA_LIVE_WALLPAPER_COMPONENT, component)
+                    addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                }
+                .start()
+        }.onError {
+            showToast(Strings.wallpaperNotFound.value)
+        }
     }
 
     override fun goToMaps(coordinates: Coordinates) {
-        val url =
-            when (coordinates) {
-                is Coordinates.ExactCoordinates ->
-                    "geo:${coordinates.latitude},${coordinates.longitude}?z=16"
+        runResulting {
+            val url =
+                when (coordinates) {
+                    is Coordinates.ExactCoordinates ->
+                        "geo:${coordinates.latitude},${coordinates.longitude}?z=16"
 
-                is Coordinates.AddressCoordinates ->
-                    "geo:0,0?q=${coordinates.address.replace(" ", "+")}"
-            }
-        Intent(
-            Intent.ACTION_VIEW,
-            Uri.parse(url)
-        ).start()
+                    is Coordinates.AddressCoordinates ->
+                        "geo:0,0?q=${coordinates.address.replace(" ", "+")}"
+                }
+            Intent(
+                Intent.ACTION_VIEW,
+                Uri.parse(url)
+            ).start()
+        }.onError {
+            showToast(Strings.mapsAppNotInstalled.value)
+        }
     }
 
     override fun exit() {
@@ -74,4 +90,7 @@ class IntentHandlerImpl(private var context: Context) : IntentHandler {
     }
 
     private fun Intent.start() = context.startActivity(this)
+
+    private fun showToast(message: String) =
+        Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
 }
