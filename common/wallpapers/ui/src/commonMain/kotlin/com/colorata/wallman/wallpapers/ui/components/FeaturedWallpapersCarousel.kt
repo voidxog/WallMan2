@@ -89,12 +89,19 @@ fun FeaturedWallpapersCarousel(
     )
 
     LaunchedEffect(Unit) {
-        visibleWallpapers.animateAsList(
-            this,
-            startIndex = state.currentPage % wallpapers.size,
-            spec = staggerSpecOf(itemsDelayMillis = 300) {
-                visible = true
-            })
+        launch {
+            val page = state.currentPage
+            visibleWallpapers[page % wallpapers.size].visible = true
+            delay(100)
+            visibleWallpapers[(page - 1) % wallpapers.size].visible = true
+            visibleWallpapers[(page + 1) % wallpapers.size].visible = true
+            visibleWallpapers.animateAsList(
+                this,
+                startIndex = page % wallpapers.size,
+                spec = staggerSpecOf {
+                    visible = true
+                })
+        }
         delay(300)
         indicatorsVisible = true
     }

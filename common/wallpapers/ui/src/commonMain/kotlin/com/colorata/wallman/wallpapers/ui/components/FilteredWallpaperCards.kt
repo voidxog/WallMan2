@@ -3,8 +3,19 @@ package com.colorata.wallman.wallpapers.ui.components
 import androidx.compose.animation.core.EaseInSine
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.grid.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.GridItemSpan
+import androidx.compose.foundation.lazy.grid.LazyGridItemScope
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.itemsIndexed
+import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -14,7 +25,6 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -32,17 +42,16 @@ import com.colorata.animateaslifestyle.animateVisibility
 import com.colorata.animateaslifestyle.fade
 import com.colorata.animateaslifestyle.material3.fab.AnimatedFloatingActionButton
 import com.colorata.animateaslifestyle.material3.fab.FabSize
-import com.colorata.animateaslifestyle.material3.rememberWindowSize
 import com.colorata.animateaslifestyle.slideVertically
 import com.colorata.animateaslifestyle.stagger.StaggerList
 import com.colorata.animateaslifestyle.stagger.animateAsGrid
 import com.colorata.animateaslifestyle.stagger.asStaggerList
 import com.colorata.animateaslifestyle.stagger.staggerSpecOf
 import com.colorata.wallman.core.data.animation
-import com.colorata.wallman.core.data.bitmapAsset
 import com.colorata.wallman.core.ui.components.ScreenBackground
 import com.colorata.wallman.core.ui.spacing
 import com.colorata.wallman.core.ui.theme.LocalPaddings
+import com.colorata.wallman.core.ui.util.rememberWindowSize
 import com.colorata.wallman.ui.icons.Shuffle
 import com.colorata.wallman.wallpapers.WallpaperI
 import kotlinx.coroutines.delay
@@ -78,11 +87,6 @@ fun FilteredWallpaperCards(
             else -> 4
         }
     }
-    val animationSpec =
-        fade(animationSpec = MaterialTheme.animation.emphasized()) + slideVertically(
-            100f,
-            animationSpec = MaterialTheme.animation.emphasized()
-        )
 
     Box(
         modifier = modifier.fillMaxSize()
@@ -96,8 +100,8 @@ fun FilteredWallpaperCards(
             else animatable.animateTo(1.0f, tween(100, easing = EaseInSine))
         }
         LaunchedEffect(key1 = sortedWallpapers) {
-            sortedWallpapers.forEach {
-                it.visible = false
+            sortedWallpapers.forEachIndexed { index, element ->
+                element.visible = index !in state.layoutInfo.visibleItemsInfo.map { it.index }
             }
             sortedWallpapers.animateAsGrid(
                 this,
@@ -143,12 +147,18 @@ fun FilteredWallpaperCards(
             itemsIndexed(sortedWallpapers, key = { index, it ->
                 it.hashCode()
             }) { index, it ->
+                val animationSpec =
+                    fade(
+                        animationSpec = MaterialTheme.animation.emphasized()
+                    ) + slideVertically(
+                        animationSpec = MaterialTheme.animation.emphasized()
+                    )
                 WallpaperCard(
                     wallpaper = it.value, modifier = Modifier
                         .animateItemPlacement()
                         .animateVisibility(
                             it.visible,
-                            transition = animationSpec
+                            animationSpec
                         )
                         .testTag("Wallpaper$index"),
                     scale = { if (selectedIndex == index) animatable.value else 1f }
