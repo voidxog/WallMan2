@@ -18,7 +18,6 @@ import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.onGloballyPositioned
-import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import kotlin.math.pow
@@ -122,21 +121,17 @@ fun Modifier.detectRotation(state: RotationState) = composed {
                     )
 
                     angle = update
-                    state.update(Offset(angle.y, -angle.x))
+                    state.update(Offset(-angle.y, angle.x))
                 }
             }
         }
 }
 
 fun Modifier.displayRotation(state: RotationState, layer: Float = 0f) = composed {
-    val translateX by animateFloatAsState(
-        state.rotation.y * maxTranslation / 90f * layer,
-        label = ""
-    )
-    val translateY by animateFloatAsState(
-        -state.rotation.x * maxTranslation / 90f * layer,
-        label = ""
-    )
+    val translateX =
+        state.rotation.y * maxTranslation / 90f * layer
+    val translateY =
+        -state.rotation.x * maxTranslation / 90f * layer
     graphicsLayer {
         rotationY = state.rotation.y
         rotationX = state.rotation.x

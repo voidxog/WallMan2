@@ -44,6 +44,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -303,6 +304,18 @@ private fun PreviewImage(
             .fillMaxWidth(0.8f),
         contentAlignment = Alignment.Center
     ) {
+        Arc(
+            progress = { downloadProgress() },
+            width = { progress ->
+                if (rotationState.isRotationInProgress) 8f
+                else if (progress == 100f) 1f
+                else 3f
+            },
+            Modifier
+                .displayRotation(rotationState)
+                .size(300.dp),
+            shape
+        )
         AnimatedContent(
             targetState = resource,
             transitionSpec = {
@@ -310,9 +323,9 @@ private fun PreviewImage(
             }, label = "",
             contentAlignment = Alignment.Center,
             modifier = Modifier
-                .displayRotation(rotationState)
+                .displayRotation(rotationState, layer = 0.5f)
                 .clip(shape)
-                .size(300.dp)
+                .size(290.dp)
         ) { imageName ->
             Image(
                 bitmap = bitmapAsset(imageName),
@@ -326,7 +339,7 @@ private fun PreviewImage(
         Arc(
             progress = { downloadProgress() },
             width = { progress ->
-                if (rotationState.isRotationInProgress) 8f
+                if (rotationState.isRotationInProgress) 0f
                 else if (progress == 100f) 1f
                 else 3f
             },
@@ -345,7 +358,10 @@ private fun Arc(
     modifier: Modifier = Modifier,
     shape: Shape = RectangleShape
 ) {
-    val animatedProgress by animateFloatAsState(progress(), label = "")
+    val animatedProgress by animateFloatAsState(
+        progress(),
+        label = ""
+    )
     val start = if (animatedProgress != 100f) rememberInfiniteTransition(label = "").animateFloat(
         initialValue = -90f,
         targetValue = 270f,
@@ -359,7 +375,7 @@ private fun Arc(
     ).value else -90f
     val animatedWidth =
         MaterialTheme.spacing.extraSmall * animateFloatAsState(
-            targetValue = width(animatedProgress),
+            targetValue = remember { derivedStateOf { width(animatedProgress) } }.value,
             label = ""
         ).value
     val borderColor = MaterialTheme.colorScheme.primary
@@ -378,12 +394,14 @@ private fun Arc(
                 animatedWidth,
                 borderColor
             )
-            drawOutline(
-                shape.createOutline(size, layoutDirection, density),
-                brush = border.brush,
-                style = Stroke(border.width.toPx(), cap = StrokeCap.Round)
-            )
-            drawMaskArc(arc(degrees(start), degrees(3.6f * animatedProgress)), border.brush)
+            if (animatedWidth.value != 0f) {
+                drawOutline(
+                    shape.createOutline(size, layoutDirection, density),
+                    brush = border.brush,
+                    style = Stroke(border.width.toPx(), cap = StrokeCap.Round)
+                )
+                drawMaskArc(arc(degrees(start), degrees(3.6f * animatedProgress)), border.brush)
+            }
         }
     }
 }
