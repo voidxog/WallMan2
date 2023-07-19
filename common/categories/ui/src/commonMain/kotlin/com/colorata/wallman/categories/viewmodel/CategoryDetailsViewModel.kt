@@ -50,7 +50,7 @@ class CategoryDetailsViewModel(
 
     @Immutable
     sealed interface CategoryDetailsScreenEvent {
-        object GoToRandomWallpaper : CategoryDetailsScreenEvent
+        data object GoToRandomWallpaper : CategoryDetailsScreenEvent
         data class GoToWallpaper(val wallpaper: WallpaperI) : CategoryDetailsScreenEvent
     }
 }

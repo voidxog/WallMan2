@@ -24,13 +24,13 @@ data class WallpaperI(
         class Install(available: Boolean) :
             ActionType(available, Strings.ApplyStates.notApplied)
 
-        object Installing :
+        data object Installing :
             ActionType(available = true, Strings.ApplyStates.applying)
 
-        object Installed :
+        data object Installed :
             ActionType(available = false, Strings.ApplyStates.applied)
 
-        object Error :
+        data object Error :
             ActionType(available = true, Strings.ApplyStates.error)
     }
 

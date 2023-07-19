@@ -302,18 +302,18 @@ class WallpaperDetailsViewModel(
 
     @Immutable
     sealed interface WallpaperDetailsScreenEvent {
-        object ClickOnActionButton : WallpaperDetailsScreenEvent
-        object ClickOnDownload : WallpaperDetailsScreenEvent
+        data object ClickOnActionButton : WallpaperDetailsScreenEvent
+        data object ClickOnDownload : WallpaperDetailsScreenEvent
 
-        object GoToMaps : WallpaperDetailsScreenEvent
+        data object GoToMaps : WallpaperDetailsScreenEvent
 
         data class SelectWallpaperType(val type: WallpaperI.SelectedWallpaperType) :
             WallpaperDetailsScreenEvent
 
         data class SelectBaseWallpaper(val wallpaper: BaseWallpaper) : WallpaperDetailsScreenEvent
 
-        object DismissPermissionRequest : WallpaperDetailsScreenEvent
+        data object DismissPermissionRequest : WallpaperDetailsScreenEvent
 
-        object GoToInstallAppsPermissionsPage : WallpaperDetailsScreenEvent
+        data object GoToInstallAppsPermissionsPage : WallpaperDetailsScreenEvent
     }
 }

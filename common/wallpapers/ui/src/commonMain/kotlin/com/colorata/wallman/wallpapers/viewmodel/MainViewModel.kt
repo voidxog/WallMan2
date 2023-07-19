@@ -51,7 +51,7 @@ class MainViewModel(
 
     @Immutable
     sealed interface MainScreenEvent {
-        object RandomWallpaper : MainScreenEvent
+        data object RandomWallpaper : MainScreenEvent
         data class ClickOnWallpaper(val wallpaper: WallpaperI) : MainScreenEvent
     }
 }

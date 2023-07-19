@@ -79,7 +79,7 @@ class NavigationControllerImpl : NavigationController {
 
     @Immutable
     private sealed interface Event {
-        object Pop : Event
+        data object Pop : Event
 
         data class Navigate(val destination: Destination) : Event
 

@@ -120,6 +120,6 @@ class AboutViewModel(
 
     @Immutable
     sealed interface AboutScreenEvent {
-        object ClickOnVersion : AboutScreenEvent
+        data object ClickOnVersion : AboutScreenEvent
     }
 }
