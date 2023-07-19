@@ -9,6 +9,10 @@ import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.itemsIndexed
 import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
+import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
+import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridItemSpan
+import androidx.compose.foundation.lazy.staggeredgrid.itemsIndexed
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.LargeTopAppBar
 import androidx.compose.material3.MaterialTheme
@@ -75,10 +79,6 @@ private fun CategoriesScreen(
             visible = true
         })
     }
-    val animationSpec =
-        fade(animationSpec = MaterialTheme.animation.emphasized()) + slideVertically(
-            100f, animationSpec = MaterialTheme.animation.emphasized()
-        )
 
     val topBar = @Composable {
         LargeTopAppBar(title = {
@@ -86,49 +86,30 @@ private fun CategoriesScreen(
         })
     }
     val elementsSpacing = MaterialTheme.spacing.medium
-    if (windowSize.isCompact()) {
-        LazyColumn(
-            modifier,
-            verticalArrangement = Arrangement.spacedBy(elementsSpacing),
-            contentPadding = PaddingValues(horizontal = MaterialTheme.spacing.large)
-        ) {
-            item {
-                topBar()
-            }
-            itemsIndexed(animatedList) { index, it ->
-                CategoryCard(
-                    category = it, onClick = {
-                        state.onEvent(
-                            CategoriesViewModel.CategoriesScreenEvent.ClickOnCategory(
-                                index
-                            )
-                        )
-                    }, wallpapers = state.wallpapers
-                )
-            }
+    LazyVerticalStaggeredGrid(
+        StaggeredGridCells.Fixed(if (windowSize.isCompact()) 1 else 2),
+        modifier,
+        verticalItemSpacing = elementsSpacing,
+        horizontalArrangement = Arrangement.spacedBy(elementsSpacing),
+        contentPadding = PaddingValues(
+            horizontal =
+            if (windowSize.isCompact()) MaterialTheme.spacing.large
+            else MaterialTheme.spacing.extraLarge
+        )
+    ) {
+        item(span = StaggeredGridItemSpan.FullLine) {
+            topBar()
         }
-    } else {
-        LazyVerticalGrid(
-            GridCells.Fixed(2),
-            modifier,
-            verticalArrangement = Arrangement.spacedBy(elementsSpacing),
-            horizontalArrangement = Arrangement.spacedBy(elementsSpacing),
-            contentPadding = PaddingValues(horizontal = MaterialTheme.spacing.extraLarge)
-        ) {
-            item(span = { GridItemSpan(maxLineSpan) }) {
-                topBar()
-            }
-            itemsIndexed(animatedList) { index, it ->
-                CategoryCard(
-                    category = it, onClick = {
-                        state.onEvent(
-                            CategoriesViewModel.CategoriesScreenEvent.ClickOnCategory(
-                                index
-                            )
+        itemsIndexed(animatedList) { index, it ->
+            CategoryCard(
+                category = it, onClick = {
+                    state.onEvent(
+                        CategoriesViewModel.CategoriesScreenEvent.ClickOnCategory(
+                            index
                         )
-                    }, wallpapers = state.wallpapers
-                )
-            }
+                    )
+                }, wallpapers = state.wallpapers
+            )
         }
     }
 }

@@ -16,10 +16,11 @@ import com.colorata.wallman.settings.overview.viewmodel.SettingsViewModel
 @Composable
 fun SettingsItem(
     item: SettingsViewModel.SettingsItem,
-    onClick: () -> Unit
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier
 ) {
     Row(
-        Modifier
+        modifier
             .fillMaxWidth()
             .clickable {
                 onClick()
