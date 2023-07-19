@@ -6,6 +6,7 @@ import androidx.compose.animation.core.LinearOutSlowInEasing
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
+import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
@@ -14,6 +15,7 @@ import com.colorata.animateaslifestyle.animateVisibility
 import com.colorata.animateaslifestyle.fade
 import com.colorata.animateaslifestyle.isCompositionLaunched
 import com.colorata.animateaslifestyle.material3.isCompact
+import com.colorata.animateaslifestyle.material3.isNotCompact
 import com.colorata.animateaslifestyle.slideHorizontally
 import com.colorata.animateaslifestyle.slideVertically
 import com.colorata.animateaslifestyle.stagger.*
@@ -36,29 +38,26 @@ import com.colorata.wallman.widget.ui.shapePickerScreen
 fun Navigation(startDestination: Destination = Destinations.MainDestination()) {
     val navController = LocalGraph.current.coreModule.navigationController
     val windowSize = rememberWindowSize()
-    val navigator = remember {
-        movableContentOf {
-            Navigator(startDestination = startDestination)
-        }
-    }
     val route by navController.currentPath.collectAsState()
     val clickOnRoute =
         remember { { newRoute: String -> navController.resetRootTo(destination(newRoute)) } }
-    if (windowSize.isCompact()) {
-        Scaffold(bottomBar = {
-            BottomBar(route) { clickOnRoute(it) }
-        }) { padding ->
-            CompositionLocalProvider(LocalPaddings provides PaddingValues(bottom = padding.calculateBottomPadding())) {
-                navigator()
-            }
+
+    val isCompact = windowSize.isCompact()
+    Scaffold(bottomBar = {
+        if (isCompact) BottomBar(route) { clickOnRoute(it) }
+    }) { padding ->
+        CompositionLocalProvider(
+            LocalPaddings provides if (isCompact) PaddingValues(
+                bottom = padding.calculateBottomPadding()
+            ) else PaddingValues(start = 80.dp)
+        ) {
+            // Not using movableContentOf
+            // because it causes "node attached multiple times" exception
+            // and also ANR in android
+            Navigator(startDestination = startDestination)
         }
-    } else {
-        Box(Modifier.fillMaxSize()) {
-            CompositionLocalProvider(LocalPaddings provides PaddingValues(start = 80.dp)) {
-                navigator()
-            }
-            SideBar(currentRoute = route, onClick = clickOnRoute)
-        }
+
+        if (!isCompact) SideBar(currentRoute = route, onClick = clickOnRoute)
     }
 }
 

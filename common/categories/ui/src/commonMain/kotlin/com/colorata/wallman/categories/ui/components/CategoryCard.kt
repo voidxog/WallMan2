@@ -64,7 +64,9 @@ fun CategoryCard(
         androidx.compose.material3.Text(
             text = rememberString(string = category.locale.description),
             style = MaterialTheme.typography.bodyMedium,
-            modifier = Modifier.padding(horizontal = MaterialTheme.spacing.medium)
+            modifier = Modifier.padding(horizontal = MaterialTheme.spacing.medium),
+            minLines = 3,
+            maxLines = 3
         )
         Spacer(modifier = Modifier.height(MaterialTheme.spacing.large))
     }
