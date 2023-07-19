@@ -21,7 +21,7 @@ class CategoriesViewModel(
     private val navigation: NavigationController
 ) : ViewModel() {
     private val categories: ImmutableList<WallpaperCategory>
-        get() = WallpaperCategory.values().toList().toImmutableList()
+        get() = WallpaperCategory.entries.toImmutableList()
 
     private fun onClickCategoryCard(index: Int) {
         navigation.navigate(Destinations.CategoryDetailsDestination(categories[index]))

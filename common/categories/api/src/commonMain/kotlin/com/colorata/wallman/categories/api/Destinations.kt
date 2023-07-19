@@ -10,5 +10,5 @@ fun Destinations.CategoryDetailsDestination(category: WallpaperCategory? = null)
 ).withArgument(
     category, argumentName = "index", defaultValue = "0"
 ) {
-    WallpaperCategory.values().indexOf(it)
+    WallpaperCategory.entries.indexOf(it)
 }

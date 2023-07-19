@@ -21,7 +21,7 @@ actual class WallpaperManagerImpl(
     private val scope: CoroutineScope
 ) : WallpaperManager {
     private val settings = applicationSettings.settings()
-    private val wallpaperPacks by lazy { WallpaperPacks.values().toList() }
+    private val wallpaperPacks by lazy { WallpaperPacks.entries }
     private val cacheStorage by lazy { systemProvider.externalCacheDirectoryPath }
     private val _installedWallpaperPacks by lazy {
         appsProvider.installedApps().map { apps ->

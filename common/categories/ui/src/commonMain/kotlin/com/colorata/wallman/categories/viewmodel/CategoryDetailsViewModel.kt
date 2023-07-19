@@ -18,7 +18,7 @@ class CategoryDetailsViewModel(
     private val navigation: NavigationController,
     index: Int
 ) : ViewModel() {
-    private var category = WallpaperCategory.values()[index]
+    private var category = WallpaperCategory.entries[index]
 
     private val wallpapers = category.categoryWallpapers(repo.wallpapers).toImmutableList()
 

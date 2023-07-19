@@ -53,7 +53,7 @@ fun CacheScreen(modifier: Modifier = Modifier) {
 @Composable
 private fun CacheScreen(state: CacheViewModel.CacheScreenState, modifier: Modifier = Modifier) {
     val ripple = remember {
-        WallpaperPacks.values().toList().toPersistentList().mutate {
+        WallpaperPacks.entries.toPersistentList().mutate {
             it.removeAll { pack -> !pack.includesDynamic }
         }.toImmutableList()
     }
