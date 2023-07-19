@@ -1,7 +1,11 @@
 package com.colorata.wallman.settings.overview.ui
 
 import androidx.compose.foundation.gestures.Orientation
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.LargeTopAppBar
@@ -22,10 +26,16 @@ import com.colorata.animateaslifestyle.stagger.ExperimentalStaggerApi
 import com.colorata.animateaslifestyle.stagger.animateAsList
 import com.colorata.animateaslifestyle.stagger.staggerSpecOf
 import com.colorata.animateaslifestyle.stagger.toStaggerList
-import com.colorata.wallman.core.data.*
+import com.colorata.wallman.core.data.Destinations
+import com.colorata.wallman.core.data.MaterialNavGraphBuilder
+import com.colorata.wallman.core.data.Strings
+import com.colorata.wallman.core.data.animation
+import com.colorata.wallman.core.data.flatComposable
 import com.colorata.wallman.core.data.module.CoreModule
-import com.colorata.wallman.core.ui.spacing
+import com.colorata.wallman.core.data.rememberString
 import com.colorata.wallman.core.data.viewModel
+import com.colorata.wallman.core.ui.modifiers.navigationPadding
+import com.colorata.wallman.core.ui.spacing
 import com.colorata.wallman.settings.overview.api.SettingsOverviewDestination
 import com.colorata.wallman.settings.overview.ui.components.SettingsItem
 import com.colorata.wallman.settings.overview.viewmodel.SettingsViewModel
@@ -33,7 +43,7 @@ import com.colorata.wallman.settings.overview.viewmodel.SettingsViewModel
 context(CoreModule)
 fun MaterialNavGraphBuilder.settingsScreen() {
     flatComposable(Destinations.SettingsOverviewDestination(), hasContinuousChildren = true) {
-        SettingsScreen()
+        SettingsScreen(Modifier.navigationPadding())
     }
 }
 

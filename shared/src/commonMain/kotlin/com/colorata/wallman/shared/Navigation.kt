@@ -13,6 +13,8 @@ import androidx.compose.ui.unit.dp
 import com.colorata.animateaslifestyle.animateVisibility
 import com.colorata.animateaslifestyle.fade
 import com.colorata.animateaslifestyle.isCompositionLaunched
+import com.colorata.animateaslifestyle.material3.isCompact
+import com.colorata.animateaslifestyle.slideHorizontally
 import com.colorata.animateaslifestyle.slideVertically
 import com.colorata.animateaslifestyle.stagger.*
 import com.colorata.wallman.categories.ui.categoriesScreen
@@ -20,6 +22,7 @@ import com.colorata.wallman.categories.ui.categoryDetailsScreen
 import com.colorata.wallman.core.data.*
 import com.colorata.wallman.core.di.LocalGraph
 import com.colorata.wallman.core.ui.theme.LocalPaddings
+import com.colorata.wallman.core.ui.util.rememberWindowSize
 import com.colorata.wallman.settings.memory.ui.cacheScreen
 import com.colorata.wallman.settings.mirror.ui.mirrorScreen
 import com.colorata.wallman.settings.overview.ui.aboutScreen
@@ -32,37 +35,63 @@ import com.colorata.wallman.widget.ui.shapePickerScreen
 @Composable
 fun Navigation(startDestination: Destination = Destinations.MainDestination()) {
     val navController = LocalGraph.current.coreModule.navigationController
-    val graph = LocalGraph.current
-    Scaffold(bottomBar = {
-        val selected by navController.currentPath.collectAsState()
-        BottomBar(selected) { navController.resetRootTo(destination(it)) }
-    }) { padding ->
-        CompositionLocalProvider(LocalPaddings provides padding) {
-            navController.NavigationHost(
-                startDestination,
-                MaterialTheme.animation,
-                Modifier
-            ) {
-                with(graph.coreModule) {
-                    settingsScreen()
-                    aboutScreen()
-                    mirrorScreen()
-                }
-
-                with(graph.wallpapersModule) {
-                    mainScreen()
-                    wallpaperDetailsScreen()
-
-                    categoriesScreen()
-                    categoryDetailsScreen()
-
-                    cacheScreen()
-                }
-
-                with(graph.widgetModule) {
-                    shapePickerScreen()
-                }
+    val windowSize = rememberWindowSize()
+    val navigator = remember {
+        movableContentOf {
+            Navigator(startDestination = startDestination)
+        }
+    }
+    val route by navController.currentPath.collectAsState()
+    val clickOnRoute =
+        remember { { newRoute: String -> navController.resetRootTo(destination(newRoute)) } }
+    if (windowSize.isCompact()) {
+        Scaffold(bottomBar = {
+            BottomBar(route) { clickOnRoute(it) }
+        }) { padding ->
+            CompositionLocalProvider(LocalPaddings provides PaddingValues(bottom = padding.calculateBottomPadding())) {
+                navigator()
             }
+        }
+    } else {
+        Box(Modifier.fillMaxSize()) {
+            CompositionLocalProvider(LocalPaddings provides PaddingValues(start = 80.dp)) {
+                navigator()
+            }
+            SideBar(currentRoute = route, onClick = clickOnRoute)
+        }
+    }
+}
+
+@Composable
+private fun Navigator(
+    modifier: Modifier = Modifier,
+    startDestination: Destination = Destinations.MainDestination()
+) {
+    val graph = LocalGraph.current
+    val navController = graph.coreModule.navigationController
+    navController.NavigationHost(
+        startDestination,
+        MaterialTheme.animation,
+        modifier
+    ) {
+        with(graph.coreModule) {
+            settingsScreen()
+            aboutScreen()
+            mirrorScreen()
+        }
+
+        with(graph.wallpapersModule) {
+            mainScreen()
+            wallpaperDetailsScreen()
+
+            categoriesScreen()
+            categoryDetailsScreen()
+
+            cacheScreen()
+        }
+
+        with(graph.widgetModule) {
+            shapePickerScreen()
         }
     }
 }
@@ -110,7 +139,7 @@ fun BottomBar(currentRoute: String, onClick: (route: String) -> Unit) {
                     NavigationBarItem(
                         selected = selected,
                         onClick = {
-                            if (!selected) onClick(destination.path)
+                            if (!selected && barVisible) onClick(destination.path)
                         },
                         icon = {
                             Icon(
@@ -142,6 +171,67 @@ fun BottomBar(currentRoute: String, onClick: (route: String) -> Unit) {
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(height - 80.dp)
+            )
+        }
+    }
+}
+
+@OptIn(ExperimentalStaggerApi::class)
+@Composable
+private fun SideBar(currentRoute: String, onClick: (route: String) -> Unit) {
+    val stagger = remember {
+        staggerListOf(
+            { }, false, *quickAccessibleDestinations.toTypedArray()
+        )
+    }
+    LaunchedEffect(key1 = isCompositionLaunched(105)) {
+        stagger.animateAsList(this, spec = staggerSpecOf(itemsDelayMillis = 100) {
+            visible = true
+        })
+    }
+    val dp80inPx = 80.dp.toPx()
+    val sidebarVisible =
+        remember(currentRoute) { currentRoute in quickAccessibleDestinations.map { it.destination.path } }
+
+    NavigationRail(Modifier.animateVisibility(
+        sidebarVisible, remember(sidebarVisible) {
+            slideHorizontally(
+                -dp80inPx, animationSpec = tween()
+            ) + fade(
+                animationSpec = tween(
+                    if (sidebarVisible) (300 * 0.35f).toInt() else 300,
+                    if (sidebarVisible) (300 * 0.35f).toInt() else 0,
+                    if (sidebarVisible) LinearOutSlowInEasing else FastOutLinearInEasing
+                )
+            )
+        }
+    )) {
+        stagger.forEach {
+            val destination = it.value.destination
+            val selected = destination.path == currentRoute
+            NavigationRailItem(
+                selected = selected,
+                onClick = {
+                    if (!selected && sidebarVisible) onClick(destination.path)
+                },
+                icon = {
+                    Icon(
+                        imageVector = if (selected) it.value.filledIcon else it.value.outlinedIcon,
+                        contentDescription = ""
+                    )
+                }, label = { Text(text = rememberString(string = it.value.previewName)) },
+                alwaysShowLabel = false, modifier = Modifier.animateVisibility(
+                    it.visible,
+                    fade(
+                        animationSpec = tween(
+                            250,
+                            (250 * 0.35f).toInt()
+                        )
+                    ) + slideHorizontally(
+                        from = -dp80inPx,
+                        animationSpec = tween(250)
+                    )
+                )
             )
         }
     }

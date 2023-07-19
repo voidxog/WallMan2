@@ -33,6 +33,7 @@ import com.colorata.wallman.core.data.animation
 import com.colorata.wallman.core.data.flatComposable
 import com.colorata.wallman.core.data.rememberString
 import com.colorata.wallman.core.data.viewModel
+import com.colorata.wallman.core.ui.modifiers.navigationPadding
 import com.colorata.wallman.core.ui.spacing
 import com.colorata.wallman.core.ui.theme.LocalPaddings
 import com.colorata.wallman.wallpapers.WallpapersModule
@@ -42,7 +43,7 @@ import kotlinx.collections.immutable.toImmutableList
 context(WallpapersModule)
 fun MaterialNavGraphBuilder.categoriesScreen() {
     flatComposable(Destinations.CategoriesDestination(), hasContinuousChildren = true) {
-        CategoriesScreen()
+        CategoriesScreen(Modifier.navigationPadding())
     }
 }
 
@@ -66,11 +67,14 @@ private fun CategoriesScreen(
             visible = true
         })
     }
-    val animationSpec = fade(animationSpec = MaterialTheme.animation.emphasized()) + slideVertically(
-        100f,
-        animationSpec = MaterialTheme.animation.emphasized()
-    )
-    LazyColumn(modifier) {
+    val animationSpec =
+        fade(animationSpec = MaterialTheme.animation.emphasized()) + slideVertically(
+            100f,
+            animationSpec = MaterialTheme.animation.emphasized()
+        )
+    LazyColumn(
+        modifier
+    ) {
         item {
             LargeTopAppBar(title = {
                 Text(text = rememberString(string = Strings.categories))
@@ -85,7 +89,9 @@ private fun CategoriesScreen(
             ) {
                 CategoryCard(
                     category = it.value,
-                    wallpapers = remember(it.value) { it.value.categoryWallpapers(state.wallpapers).toImmutableList() },
+                    wallpapers = remember(it.value) {
+                        it.value.categoryWallpapers(state.wallpapers).toImmutableList()
+                    },
                     onClick = {
                         state.onEvent(
                             CategoriesViewModel.CategoriesScreenEvent.ClickOnCategory(

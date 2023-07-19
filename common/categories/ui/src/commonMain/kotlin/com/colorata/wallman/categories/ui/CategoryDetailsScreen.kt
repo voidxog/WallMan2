@@ -58,7 +58,6 @@ private fun CategoryDetailsScreen(
         wallpapers = animatedWallpapers,
         onRandomWallpaper = {
             state.onEvent(CategoryDetailsViewModel.CategoryDetailsScreenEvent.GoToRandomWallpaper)
-        },
-        withNavbar = false
+        }
     )
 }

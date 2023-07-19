@@ -6,9 +6,7 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
@@ -50,7 +48,6 @@ import com.colorata.animateaslifestyle.stagger.staggerSpecOf
 import com.colorata.wallman.core.data.animation
 import com.colorata.wallman.core.ui.components.ScreenBackground
 import com.colorata.wallman.core.ui.spacing
-import com.colorata.wallman.core.ui.theme.LocalPaddings
 import com.colorata.wallman.core.ui.util.rememberWindowSize
 import com.colorata.wallman.ui.icons.Shuffle
 import com.colorata.wallman.wallpapers.WallpaperI
@@ -66,12 +63,11 @@ fun FilteredWallpaperCards(
     onClick: (WallpaperI) -> Unit,
     name: String,
     modifier: Modifier = Modifier,
-    startItem: (@Composable LazyGridItemScope.() -> Unit)? = null,
+    startItem: @Composable() (LazyGridItemScope.() -> Unit)? = null,
     description: String = "",
     wallpapers: StaggerList<WallpaperI, Float>,
     onRandomWallpaper: () -> Unit,
-    backgroundImageBitmap: ImageBitmap? = null,
-    withNavbar: Boolean = true
+    backgroundImageBitmap: ImageBitmap? = null
 ) {
     val screenConfig = rememberWindowSize()
     var fabHeight by remember { mutableStateOf(0.dp) }
@@ -89,7 +85,8 @@ fun FilteredWallpaperCards(
     }
 
     Box(
-        modifier = modifier.fillMaxSize()
+        modifier = modifier
+            .fillMaxSize()
     ) {
         val scope = rememberCoroutineScope()
         val state = rememberLazyGridState()
@@ -114,7 +111,6 @@ fun FilteredWallpaperCards(
         }
         LazyVerticalGrid(
             columns = GridCells.Fixed(listDensity), state = state,
-            modifier = if (withNavbar) Modifier.padding(bottom = LocalPaddings.current.calculateBottomPadding()) else Modifier,
             contentPadding = PaddingValues(bottom = fabHeight)
         ) {
             item(span = { GridItemSpan(maxLineSpan) }) {
@@ -170,9 +166,6 @@ fun FilteredWallpaperCards(
                     }
                 }
             }
-            if (!withNavbar) item(span = { GridItemSpan(maxLineSpan) }) {
-                Spacer(modifier = Modifier.height(LocalPaddings.current.calculateBottomPadding()))
-            }
         }
 
         AnimatedFloatingActionButton(
@@ -182,7 +175,6 @@ fun FilteredWallpaperCards(
                 }
             },
             modifier = Modifier
-                .padding(bottom = if (withNavbar) LocalPaddings.current.calculateBottomPadding() else 0.dp)
                 .align(Alignment.BottomEnd)
                 .onSizeChanged {
                     fabHeight = density.run { it.height.toDp() }

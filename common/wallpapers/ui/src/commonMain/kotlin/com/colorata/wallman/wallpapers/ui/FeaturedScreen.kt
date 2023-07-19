@@ -19,6 +19,7 @@ import com.colorata.wallman.core.data.bitmapAsset
 import com.colorata.wallman.core.data.flatComposable
 import com.colorata.wallman.core.data.rememberString
 import com.colorata.wallman.core.data.viewModel
+import com.colorata.wallman.core.ui.modifiers.navigationPadding
 import com.colorata.wallman.core.ui.spacing
 import com.colorata.wallman.wallpapers.MainDestination
 import com.colorata.wallman.wallpapers.WallpaperI
@@ -30,7 +31,9 @@ import com.colorata.wallman.wallpapers.viewmodel.MainViewModel
 
 context(WallpapersModule)
 fun MaterialNavGraphBuilder.mainScreen() {
-    flatComposable(Destinations.MainDestination()) { FeaturedScreen() }
+    flatComposable(Destinations.MainDestination()) {
+        FeaturedScreen(Modifier.navigationPadding())
+    }
 }
 
 context(WallpapersModule)
@@ -49,19 +52,31 @@ private fun FeaturedScreen(state: MainViewModel.MainScreenState, modifier: Modif
     LaunchedEffect(selectedWallpaper) {
         currentImageAsset = selectedWallpaper?.firstPreviewRes()
     }
-    FilteredWallpaperCards(onClick = {
-        state.onEvent(MainViewModel.MainScreenEvent.ClickOnWallpaper(it))
-    }, wallpapers = remember(state.wallpapers) {
-        state.wallpapers.toStaggerList(
-            { 0f }, visible = false
-        )
-    }, startItem = {
-        FeaturedWallpapersCarousel(state.featuredWallpapers, onClick = {
+    FilteredWallpaperCards(
+        onClick = {
             state.onEvent(MainViewModel.MainScreenEvent.ClickOnWallpaper(it))
-        }, Modifier.padding(vertical = MaterialTheme.spacing.extraLarge), onWallpaperRotation = {
-            selectedWallpaper = it
-        })
-    }, name = rememberString(Strings.exploreNew), onRandomWallpaper = {
-        state.onEvent(MainViewModel.MainScreenEvent.RandomWallpaper)
-    }, backgroundImageBitmap = currentImageAsset?.let { bitmapAsset(it) }, modifier = modifier)
+        },
+        name = rememberString(Strings.exploreNew),
+        modifier = modifier,
+        startItem = {
+            FeaturedWallpapersCarousel(
+                state.featuredWallpapers,
+                onClick = {
+                    state.onEvent(MainViewModel.MainScreenEvent.ClickOnWallpaper(it))
+                },
+                Modifier.padding(vertical = MaterialTheme.spacing.extraLarge),
+                onWallpaperRotation = {
+                    selectedWallpaper = it
+                })
+        },
+        wallpapers = remember(state.wallpapers) {
+            state.wallpapers.toStaggerList(
+                { 0f }, visible = false
+            )
+        },
+        onRandomWallpaper = {
+            state.onEvent(MainViewModel.MainScreenEvent.RandomWallpaper)
+        },
+        backgroundImageBitmap = currentImageAsset?.let { bitmapAsset(it) }
+    )
 }

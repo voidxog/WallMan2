@@ -644,7 +644,10 @@ private fun BottomBar(
         modifier
             .then(
                 if (!fullWidth) Modifier
-                    .padding(MaterialTheme.spacing.extraLarge)
+                    .padding(
+                        horizontal = MaterialTheme.spacing.extraLarge,
+                        vertical = MaterialTheme.spacing.small
+                    )
                     .navigationBarsPadding()
                     .clip(CircleShape) else Modifier
             )
