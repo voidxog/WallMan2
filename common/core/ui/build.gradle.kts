@@ -2,6 +2,9 @@ plugins {
     composeMultiplatformSetup()
 }
 
+kotlin {
+
+}
 projectDependencies {
     modules {
         core.data()

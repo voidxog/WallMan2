@@ -1,14 +1,11 @@
 package com.colorata.wallman.settings.overview.ui
 
-import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.animation.core.tween
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Info
@@ -43,13 +40,12 @@ import com.colorata.animateaslifestyle.stagger.*
 import com.colorata.wallman.core.data.*
 import com.colorata.wallman.core.data.module.CoreModule
 import com.colorata.wallman.core.ui.R
-import com.colorata.wallman.core.ui.spacing
-import com.colorata.wallman.core.ui.theme.WallManPreviewTheme
-import com.colorata.wallman.core.data.viewModel
 import com.colorata.wallman.core.ui.components.ArcBorder
 import com.colorata.wallman.core.ui.modifiers.detectRotation
 import com.colorata.wallman.core.ui.modifiers.displayRotation
 import com.colorata.wallman.core.ui.modifiers.rememberRotationState
+import com.colorata.wallman.core.ui.spacing
+import com.colorata.wallman.core.ui.theme.WallManPreviewTheme
 import com.colorata.wallman.settings.about.api.AboutDestination
 import com.colorata.wallman.settings.overview.ui.components.AboutItem
 import com.colorata.wallman.settings.overview.viewmodel.AboutViewModel

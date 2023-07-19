@@ -2,11 +2,9 @@ package com.colorata.wallman.categories.viewmodel
 
 import androidx.compose.runtime.Immutable
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import app.cash.molecule.RecompositionClock
-import app.cash.molecule.launchMolecule
 import com.colorata.wallman.categories.api.WallpaperCategory
 import com.colorata.wallman.core.data.Destinations
+import com.colorata.wallman.core.data.lazyMolecule
 import com.colorata.wallman.core.data.module.NavigationController
 import com.colorata.wallman.wallpapers.*
 import kotlinx.collections.immutable.ImmutableList
@@ -32,16 +30,14 @@ class CategoryDetailsViewModel(
         navigation.navigate(Destinations.WallpaperDetailsDestination(wallpapers.random()))
     }
 
-    val state by lazy {
-        viewModelScope.launchMolecule(RecompositionClock.Immediate) {
-            return@launchMolecule CategoryDetailsScreenState(
-                wallpapers,
-                category
-            ) { event ->
-                when (event) {
-                    is CategoryDetailsScreenEvent.GoToWallpaper -> goToWallpaper(event.wallpaper)
-                    is CategoryDetailsScreenEvent.GoToRandomWallpaper -> goToRandomWallpaper()
-                }
+    val state by lazyMolecule {
+        CategoryDetailsScreenState(
+            wallpapers,
+            category
+        ) { event ->
+            when (event) {
+                is CategoryDetailsScreenEvent.GoToWallpaper -> goToWallpaper(event.wallpaper)
+                is CategoryDetailsScreenEvent.GoToRandomWallpaper -> goToRandomWallpaper()
             }
         }
     }

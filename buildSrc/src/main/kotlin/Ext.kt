@@ -1,5 +1,5 @@
-import gradle.kotlin.dsl.accessors._880216c2616ecdf7c3cb978160b24f37.kotlin
-import gradle.kotlin.dsl.accessors._880216c2616ecdf7c3cb978160b24f37.sourceSets
+import gradle.kotlin.dsl.accessors._fb1e36eb481082a315bbec520f7f46ed.kotlin
+import gradle.kotlin.dsl.accessors._fb1e36eb481082a315bbec520f7f46ed.sourceSets
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.getValue
 import org.gradle.kotlin.dsl.getting
@@ -22,7 +22,7 @@ fun KotlinCommonOptions.composeReports(path: String) {
     )
     freeCompilerArgs += listOf(
         "-P",
-        "plugin:androidx.compose.compiler.plugins.kotlin:suppressKotlinVersionCompatibilityCheck=1.8.21"
+        "plugin:androidx.compose.compiler.plugins.kotlin:suppressKotlinVersionCompatibilityCheck=1.9.0"
     )
 }
 

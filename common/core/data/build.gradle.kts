@@ -1,7 +1,6 @@
 plugins {
     multiplatformSetup()
     serialization()
-    molecule()
 }
 
 projectDependencies {

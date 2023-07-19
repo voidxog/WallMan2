@@ -3,8 +3,8 @@ package com.colorata.wallman.core.data
 import androidx.compose.runtime.Composable
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import app.cash.molecule.RecompositionClock
-import app.cash.molecule.launchMolecule
+import com.colorata.wallman.core.data.molecule.RecompositionMode
+import com.colorata.wallman.core.data.molecule.launchMolecule
 import kotlinx.coroutines.*
 import kotlin.coroutines.CoroutineContext
 
@@ -49,7 +49,7 @@ suspend inline fun <T> withMain(crossinline block: suspend () -> T) {
 }
 
 fun <T> ViewModel.lazyMolecule(content: @Composable () -> T) =
-    lazy { viewModelScope.launchMolecule(RecompositionClock.Immediate, content) }
+    lazy { viewModelScope.launchMolecule(RecompositionMode.Immediate, content) }
 
 fun <T> CoroutineScope.launchMolecule(content: @Composable () -> T) =
-    launchMolecule(RecompositionClock.Immediate, content)
+    launchMolecule(RecompositionMode.Immediate, content)

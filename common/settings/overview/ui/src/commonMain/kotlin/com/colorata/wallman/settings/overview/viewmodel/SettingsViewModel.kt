@@ -6,8 +6,6 @@ import androidx.compose.runtime.Immutable
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import app.cash.molecule.RecompositionClock
-import app.cash.molecule.launchMolecule
 import com.colorata.wallman.core.data.*
 import com.colorata.wallman.core.data.module.CoreModule
 import com.colorata.wallman.core.data.module.NavigationController
@@ -59,14 +57,12 @@ class SettingsViewModel(
         navigation.navigate(setting.destination)
     }
 
-    val state by lazy {
-        viewModelScope.launchMolecule(RecompositionClock.Immediate) {
-            return@launchMolecule SettingsScreenState(
-                items
-            ) { event ->
-                when (event) {
-                    is SettingsScreenEvent.GoToSettings -> onSettingsClick(event.setting)
-                }
+    val state by lazyMolecule {
+        SettingsScreenState(
+            items
+        ) { event ->
+            when (event) {
+                is SettingsScreenEvent.GoToSettings -> onSettingsClick(event.setting)
             }
         }
     }

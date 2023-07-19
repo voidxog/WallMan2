@@ -28,7 +28,7 @@ class LibraryVersions {
 
         const val glance = "1.0.0-alpha05"
 
-        const val compiler = "1.4.7"
+        const val compiler = "1.5.0"
     }
 
     object Accompanist {
@@ -37,7 +37,7 @@ class LibraryVersions {
     }
 
     object Kotlin {
-        const val version = "1.8.21"
+        const val version = "1.9.0"
         const val serialization = "1.5.0"
         const val collectionsImmutable = "0.3.5"
     }

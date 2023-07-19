@@ -11,13 +11,12 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import app.cash.molecule.RecompositionClock
-import app.cash.molecule.launchMolecule
-import com.colorata.wallman.core.data.module.CoreModule
-import com.colorata.wallman.core.data.module.IntentHandler
 import com.colorata.wallman.core.data.Polyglot
 import com.colorata.wallman.core.data.Strings
 import com.colorata.wallman.core.data.launchIO
+import com.colorata.wallman.core.data.lazyMolecule
+import com.colorata.wallman.core.data.module.CoreModule
+import com.colorata.wallman.core.data.module.IntentHandler
 import com.colorata.wallman.core.data.module.Logger
 import com.colorata.wallman.core.data.module.SystemProvider
 import com.colorata.wallman.core.data.module.throwable
@@ -102,15 +101,13 @@ class AboutViewModel(
         }
     }
 
-    val state by lazy {
-        viewModelScope.launchMolecule(RecompositionClock.Immediate) {
-            return@launchMolecule AboutScreenState(
-                items,
-                clicks
-            ) { event ->
-                when (event) {
-                    AboutScreenEvent.ClickOnVersion -> onClickOnVersion()
-                }
+    val state by lazyMolecule {
+        AboutScreenState(
+            items,
+            clicks
+        ) { event ->
+            when (event) {
+                AboutScreenEvent.ClickOnVersion -> onClickOnVersion()
             }
         }
     }

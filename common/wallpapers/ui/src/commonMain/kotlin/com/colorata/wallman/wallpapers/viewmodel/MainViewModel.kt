@@ -2,10 +2,8 @@ package com.colorata.wallman.wallpapers.viewmodel
 
 import androidx.compose.runtime.Immutable
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import app.cash.molecule.RecompositionClock
-import app.cash.molecule.launchMolecule
 import com.colorata.wallman.core.data.Destinations
+import com.colorata.wallman.core.data.lazyMolecule
 import com.colorata.wallman.core.data.module.NavigationController
 import com.colorata.wallman.wallpapers.WallpaperDetailsDestination
 import com.colorata.wallman.wallpapers.WallpaperI
@@ -32,16 +30,14 @@ class MainViewModel(
 
     private val wallpapers = repo.wallpapers
     private val featuredWallpapers = wallpapers.takeLast(5).toImmutableList()
-    val state by lazy {
-        viewModelScope.launchMolecule(RecompositionClock.Immediate) {
-            return@launchMolecule MainScreenState(
-                wallpapers.toImmutableList(),
-                featuredWallpapers
-            ) {
-                when (it) {
-                    is MainScreenEvent.RandomWallpaper -> goToRandomWallpaper()
-                    is MainScreenEvent.ClickOnWallpaper -> onWallpaperClick(it.wallpaper)
-                }
+    val state by lazyMolecule {
+        MainScreenState(
+            wallpapers.toImmutableList(),
+            featuredWallpapers
+        ) {
+            when (it) {
+                is MainScreenEvent.RandomWallpaper -> goToRandomWallpaper()
+                is MainScreenEvent.ClickOnWallpaper -> onWallpaperClick(it.wallpaper)
             }
         }
     }

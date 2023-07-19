@@ -1,4 +1,3 @@
-import gradle.kotlin.dsl.accessors._880216c2616ecdf7c3cb978160b24f37.implementation
 import org.gradle.kotlin.dsl.DependencyHandlerScope
 import org.gradle.kotlin.dsl.project
 import org.jetbrains.kotlin.gradle.plugin.KotlinDependencyHandler
@@ -12,7 +11,7 @@ fun KotlinDependencyHandler.modules(block: Modules.() -> Unit) {
 
 fun DependencyHandlerScope.projectModules(block: Modules.() -> Unit) {
     val modules = Modules {
-        implementation(project(it))
+        "implementation"(project(it))
     }
     modules.block()
 }
