@@ -9,6 +9,11 @@ import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
@@ -29,6 +34,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
@@ -50,6 +56,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.StrokeCap
@@ -86,13 +93,16 @@ import com.colorata.wallman.core.data.bitmapAsset
 import com.colorata.wallman.core.data.flatComposable
 import com.colorata.wallman.core.data.formatted
 import com.colorata.wallman.core.data.icons.InstallMobile
+import com.colorata.wallman.core.data.materialFadeThrough
 import com.colorata.wallman.core.data.materialSharedAxisX
 import com.colorata.wallman.core.data.materialSharedAxisY
+import com.colorata.wallman.core.data.materialSharedAxisZ
 import com.colorata.wallman.core.data.parameter
 import com.colorata.wallman.core.data.rememberString
 import com.colorata.wallman.core.data.simplifiedLocaleOf
 import com.colorata.wallman.core.data.viewModel
 import com.colorata.wallman.core.ui.LightDarkPreview
+import com.colorata.wallman.core.ui.components.GradientType
 import com.colorata.wallman.core.ui.components.ScreenBackground
 import com.colorata.wallman.core.ui.modifiers.rememberRotationState
 import com.colorata.wallman.core.ui.modifiers.detectRotation
@@ -141,7 +151,6 @@ private fun WallpaperDetailsScreen(
     state: WallpaperDetailsViewModel.WallpaperDetailsScreenState,
     modifier: Modifier = Modifier
 ) {
-    val wallpaper = state.wallpaper
     val selectedBaseWallpaper = state.selectedWallpaper
     val isPreview = LocalInspectionMode.current
     if (state.showPermissionRequest) {
@@ -151,6 +160,7 @@ private fun WallpaperDetailsScreen(
             state.onEvent(WallpaperDetailsViewModel.WallpaperDetailsScreenEvent.GoToInstallAppsPermissionsPage)
         })
     }
+
     val scrollState = rememberScrollState()
     val previewImage = bitmapAsset(state.selectedWallpaper.previewRes)
     val animationSpec =
@@ -167,13 +177,13 @@ private fun WallpaperDetailsScreen(
     }
 
     val windowSize = rememberWindowSize()
-    ScreenBackground(previewImage)
     WallManContentTheme(state.selectedWallpaper.previewRes) {
         Box(
             modifier
                 .fillMaxSize()
         ) {
             if (windowSize.widthSizeClass == WindowWidthSizeClass.Compact) {
+                ScreenBackground(previewImage)
                 Column(
                     Modifier
                         .verticalScroll(scrollState)
@@ -205,17 +215,25 @@ private fun WallpaperDetailsScreen(
                 )
             } else {
                 Row(Modifier.fillMaxSize()) {
-                    PreviewImage(
-                        resource = selectedBaseWallpaper.previewRes,
-                        downloadProgress = { state.downloadProgress },
-                        Modifier
-                            .weight(1f)
-                            .zIndex(3f)
-                            .animateVisibility(
-                                animList[0].visible,
-                                animationSpec
-                            )
-                    )
+                    Box(Modifier.weight(1f)) {
+                        ScreenBackground(
+                            previewImage,
+                            gradientType = GradientType.Horizontal,
+                            imageFraction = 1f
+                        )
+                        PreviewImage(
+                            resource = selectedBaseWallpaper.previewRes,
+                            downloadProgress = { state.downloadProgress },
+                            Modifier
+                                .padding(MaterialTheme.spacing.extraLarge)
+                                .fillMaxSize()
+                                .zIndex(3f)
+                                .animateVisibility(
+                                    animList[0].visible,
+                                    animationSpec
+                                )
+                        )
+                    }
                     Box(Modifier.weight(1f)) {
                         Column(
                             Modifier
@@ -232,7 +250,8 @@ private fun WallpaperDetailsScreen(
                                 .animateVisibility(
                                     animList[6].visible,
                                     animationSpec
-                                )
+                                ),
+                            fullWidth = false
                         )
                     }
                 }
@@ -297,19 +316,18 @@ private fun PreviewImage(
 ) {
     val shape = remember { ScallopShape(density = 100f) }
     val rotationState = rememberRotationState()
+    val animation = MaterialTheme.animation
+
     Box(
         modifier
             .detectRotation(rotationState)
-            .statusBarsPadding()
-            .fillMaxWidth(0.8f),
-        contentAlignment = Alignment.Center
+            .statusBarsPadding(), contentAlignment = Alignment.Center
     ) {
         Arc(
             progress = { downloadProgress() },
-            width = { progress ->
+            width = {
                 if (rotationState.isRotationInProgress) 8f
-                else if (progress == 100f) 1f
-                else 3f
+                else 0f
             },
             Modifier
                 .displayRotation(rotationState)
@@ -319,18 +337,15 @@ private fun PreviewImage(
         AnimatedContent(
             targetState = resource,
             transitionSpec = {
-                materialSharedAxisX(true, 100)
-            }, label = "",
-            contentAlignment = Alignment.Center,
-            modifier = Modifier
-                .displayRotation(rotationState, layer = 0.5f)
-                .clip(shape)
-                .size(290.dp)
+                fadeIn(animation.emphasized()) togetherWith fadeOut(animation.emphasized())
+            }, label = ""
         ) { imageName ->
             Image(
                 bitmap = bitmapAsset(imageName),
                 contentDescription = "",
                 modifier = Modifier
+                    .displayRotation(rotationState, layer = 0.5f)
+                    .clip(shape)
                     .size(300.dp)
                     .aspectRatio(1f),
                 contentScale = ContentScale.Crop
@@ -618,17 +633,28 @@ fun PermissionRequestDialog(
 @Composable
 private fun BottomBar(
     state: WallpaperDetailsViewModel.WallpaperDetailsScreenState,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    fullWidth: Boolean = true,
 ) {
+    val horizontalPadding =
+        if (fullWidth) MaterialTheme.spacing.extraLarge else MaterialTheme.spacing.medium
+    val verticalPadding =
+        if (fullWidth) MaterialTheme.spacing.large else MaterialTheme.spacing.small
     Row(
         modifier
+            .then(
+                if (!fullWidth) Modifier
+                    .padding(MaterialTheme.spacing.extraLarge)
+                    .navigationBarsPadding()
+                    .clip(CircleShape) else Modifier
+            )
             .background(MaterialTheme.colorScheme.surfaceVariant)
             .padding(
-                horizontal = MaterialTheme.spacing.extraLarge,
-                vertical = MaterialTheme.spacing.large
+                horizontal = horizontalPadding,
+                vertical = verticalPadding
             )
-            .navigationBarsPadding(),
-        horizontalArrangement = Arrangement.SpaceEvenly,
+            .then(if (fullWidth) Modifier.navigationBarsPadding() else Modifier),
+        horizontalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.extraSmall),
         verticalAlignment = Alignment.CenterVertically
     ) {
         OutlinedButton(
@@ -644,11 +670,11 @@ private fun BottomBar(
         ) {
             AnimatedContent(targetState = state.cacheState, transitionSpec = {
                 materialSharedAxisY(true, 100)
-            }) {
+            }, label = "") {
                 Text(text = rememberString(it.label))
             }
         }
-        Spacer(modifier = Modifier.width(MaterialTheme.spacing.extraSmall))
+
         Button(
             enabled = state.actionType.available, onClick = {
                 state.onEvent(WallpaperDetailsViewModel.WallpaperDetailsScreenEvent.ClickOnActionButton)
@@ -662,13 +688,13 @@ private fun BottomBar(
         ) {
             AnimatedContent(targetState = state.selectedWallpaperType.icon, transitionSpec = {
                 materialSharedAxisY(true, 100)
-            }) {
+            }, label = "") {
                 Icon(imageVector = it, contentDescription = "")
             }
             Spacer(modifier = Modifier.width(MaterialTheme.spacing.small))
             AnimatedContent(targetState = state.actionType.label, transitionSpec = {
                 materialSharedAxisY(true, 100)
-            }) {
+            }, label = "") {
                 Text(text = rememberString(string = it))
             }
         }

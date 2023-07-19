@@ -1,7 +1,6 @@
 package com.colorata.wallman.core.ui.components
 
 import androidx.compose.animation.AnimatedContent
-import androidx.compose.animation.SizeTransform
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.togetherWith
@@ -23,14 +22,13 @@ import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import com.colorata.wallman.core.data.animation
-import com.colorata.wallman.core.data.materialFadeThrough
-import com.colorata.wallman.core.data.materialSharedAxisX
 
 @Composable
 fun ScreenBackground(
     bitmap: ImageBitmap,
     modifier: Modifier = Modifier,
-    imageFraction: Float = 0.5f
+    imageFraction: Float = 0.5f,
+    gradientType: GradientType = GradientType.Vertical,
 ) {
     val surfaceColor = MaterialTheme.colorScheme.surface
     val animation = MaterialTheme.animation
@@ -49,15 +47,27 @@ fun ScreenBackground(
                     .drawWithContent {
                         drawContent()
                         drawRect(
-                            Brush.verticalGradient(
-                                listOf(Color.Transparent, surfaceColor), endY = size.height
-                            )
+                            gradientType.generateBrush(surfaceColor)
                         )
-
                     }
                     .fillMaxWidth()
                     .fillMaxHeight(imageFraction),
                 contentScale = ContentScale.Crop)
         }
     }
+}
+
+private fun GradientType.generateBrush(surfaceColor: Color): Brush {
+    val colors = listOf(Color.Transparent, surfaceColor)
+    return when (this) {
+        GradientType.Linear -> Brush.linearGradient(colors)
+        GradientType.Vertical -> Brush.verticalGradient(colors)
+        GradientType.Horizontal -> Brush.horizontalGradient(colors)
+    }
+}
+
+enum class GradientType {
+    Linear,
+    Vertical,
+    Horizontal
 }

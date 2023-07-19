@@ -144,7 +144,7 @@ fun FilteredWallpaperCards(
                     }
                 }
             }
-            itemsIndexed(sortedWallpapers, key = { index, it ->
+            itemsIndexed(sortedWallpapers, key = { _, it ->
                 it.hashCode()
             }) { index, it ->
                 val animationSpec =

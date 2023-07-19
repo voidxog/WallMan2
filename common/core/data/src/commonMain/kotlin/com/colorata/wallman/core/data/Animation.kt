@@ -78,13 +78,3 @@ val LocalAnimation = compositionLocalOf { Animation(DurationSpec(), EasingSpec()
 
 val MaterialTheme.animation: Animation
     @Composable @ReadOnlyComposable get() = LocalAnimation.current
-
-@Deprecated(
-    "Use MaterialTheme.animation instead",
-    replaceWith = ReplaceWith(
-        "MaterialTheme.animation",
-        "androidx.compose.material3.MaterialTheme"
-    )
-)
-val animation: Animation
-    @Composable get() = LocalAnimation.current

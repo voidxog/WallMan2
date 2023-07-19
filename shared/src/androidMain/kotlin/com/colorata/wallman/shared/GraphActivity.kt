@@ -29,7 +29,7 @@ abstract class GraphActivity : ComponentActivity() {
 
         graph.applyActivity(this)
 
-        Thread.setDefaultUncaughtExceptionHandler { thread, throwable ->
+        Thread.setDefaultUncaughtExceptionHandler { _, throwable ->
             graph.coreModule.logger.throwable(throwable)
             graph.coreModule.intentHandler.goToActivity(this::class)
             finish()

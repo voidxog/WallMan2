@@ -14,7 +14,7 @@ inline fun CoroutineScope.launchWithExceptionHandling(
     dispatcher: CoroutineContext,
     exceptionDispatcher: CoroutineContext,
 ): Job {
-    val handler = CoroutineExceptionHandler { coroutineContext, throwable ->
+    val handler = CoroutineExceptionHandler { _, throwable ->
         launch(exceptionDispatcher) {
             onError(throwable)
         }

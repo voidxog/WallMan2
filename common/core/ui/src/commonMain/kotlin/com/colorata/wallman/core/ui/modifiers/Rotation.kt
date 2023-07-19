@@ -127,17 +127,11 @@ fun Modifier.detectRotation(state: RotationState) = composed {
         }
 }
 
-fun Modifier.displayRotation(state: RotationState, layer: Float = 0f) = composed {
-    val translateX =
-        state.rotation.y * maxTranslation / 90f * layer
-    val translateY =
-        -state.rotation.x * maxTranslation / 90f * layer
-    graphicsLayer {
-        rotationY = state.rotation.y
-        rotationX = state.rotation.x
-        translationX = translateX
-        translationY = translateY
-    }
+fun Modifier.displayRotation(state: RotationState, layer: Float = 0f) = this then graphicsLayer {
+    rotationY = state.rotation.y
+    rotationX = state.rotation.x
+    translationX = state.rotation.y * maxTranslation / 90f * layer
+    translationY = -state.rotation.x * maxTranslation / 90f * layer
 }
 
 private fun getRotationAngles(
