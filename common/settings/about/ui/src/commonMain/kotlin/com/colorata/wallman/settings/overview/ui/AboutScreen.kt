@@ -4,7 +4,15 @@ import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
@@ -15,7 +23,10 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.LargeTopAppBar
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -31,21 +42,32 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.colorata.animateaslifestyle.animateVisibility
 import com.colorata.animateaslifestyle.fade
 import com.colorata.animateaslifestyle.material3.GroupedColumn
-import com.colorata.animateaslifestyle.material3.shapes.ScallopShape
+import com.colorata.animateaslifestyle.material3.isCompact
 import com.colorata.animateaslifestyle.shapes.Arc
-import com.colorata.animateaslifestyle.shapes.ExperimentalShapeApi
 import com.colorata.animateaslifestyle.shapes.Full
 import com.colorata.animateaslifestyle.slideVertically
-import com.colorata.animateaslifestyle.stagger.*
-import com.colorata.wallman.core.data.*
+import com.colorata.animateaslifestyle.stagger.ExperimentalStaggerApi
+import com.colorata.animateaslifestyle.stagger.StaggerList
+import com.colorata.animateaslifestyle.stagger.animateAsList
+import com.colorata.animateaslifestyle.stagger.staggerSpecOf
+import com.colorata.animateaslifestyle.stagger.toStaggerList
+import com.colorata.wallman.core.data.Destinations
+import com.colorata.wallman.core.data.MaterialNavGraphBuilder
+import com.colorata.wallman.core.data.Strings
+import com.colorata.wallman.core.data.animation
+import com.colorata.wallman.core.data.continuousComposable
 import com.colorata.wallman.core.data.module.CoreModule
+import com.colorata.wallman.core.data.rememberString
+import com.colorata.wallman.core.data.viewModel
 import com.colorata.wallman.core.ui.R
 import com.colorata.wallman.core.ui.components.ArcBorder
 import com.colorata.wallman.core.ui.modifiers.detectRotation
 import com.colorata.wallman.core.ui.modifiers.displayRotation
 import com.colorata.wallman.core.ui.modifiers.rememberRotationState
+import com.colorata.wallman.core.ui.shapes.ScallopShape
 import com.colorata.wallman.core.ui.spacing
 import com.colorata.wallman.core.ui.theme.WallManPreviewTheme
+import com.colorata.wallman.core.ui.util.rememberWindowSize
 import com.colorata.wallman.settings.about.api.AboutDestination
 import com.colorata.wallman.settings.overview.ui.components.AboutItem
 import com.colorata.wallman.settings.overview.viewmodel.AboutViewModel
@@ -72,59 +94,103 @@ fun AboutScreen(modifier: Modifier = Modifier) {
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalStaggerApi::class)
 @Composable
 private fun AboutScreen(state: AboutViewModel.AboutScreenState, modifier: Modifier = Modifier) {
+
     val animatedItems =
         remember(state.aboutItems) { state.aboutItems.toStaggerList({ 0f }, false) }
-    val defaultAnimation =
-        fade(animationSpec = MaterialTheme.animation.emphasized()) + slideVertically(
-            animationSpec = MaterialTheme.animation.emphasized()
-        )
 
     LaunchedEffect(key1 = Unit) {
         animatedItems.animateAsList(this, spec = staggerSpecOf {
             visible = true
         })
     }
-    Column(
-        horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = modifier.verticalScroll(rememberScrollState())
-    ) {
-        LargeTopAppBar(title = {
-            Text(text = rememberString(Strings.aboutWallMan))
-        })
-        Logo(
-            Modifier
-                .zIndex(3f)
-                .animateVisibility(
-                    animatedItems[0].visible,
-                    defaultAnimation
-                )
+    val defaultAnimation =
+        fade(animationSpec = MaterialTheme.animation.emphasized()) + slideVertically(
+            animationSpec = MaterialTheme.animation.emphasized()
         )
-        Spacer(modifier = Modifier.height(MaterialTheme.spacing.large))
-        GroupedColumn(
-            animatedItems,
-            Modifier
-                .padding(horizontal = MaterialTheme.spacing.large)
-                .clip(MaterialTheme.shapes.extraLarge),
-            verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.extraSmall),
-            outerCorner = MaterialTheme.spacing.large
+    val windowSize = rememberWindowSize()
+
+    if (windowSize.isCompact()) {
+        Column(
+            modifier.verticalScroll(rememberScrollState()),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.large)
         ) {
-            AboutItem(
-                item = it.value,
-                modifier = Modifier.animateVisibility(it.visible, defaultAnimation)
+            LargeTopAppBar(title = {
+                Text(text = rememberString(Strings.aboutWallMan))
+            })
+            Logo(
+                Modifier
+                    .zIndex(3f)
+                    .animateVisibility(
+                        animatedItems[0].visible,
+                        defaultAnimation
+                    )
             )
+            Actions(animatedItems)
         }
-        Box(
-            modifier = Modifier
-                .navigationBarsPadding()
-                .height(MaterialTheme.spacing.medium)
-        )
+    } else {
+        Row(
+            modifier,
+            horizontalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.large),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Logo(
+                Modifier
+                    .weight(1f)
+                    .zIndex(3f)
+                    .animateVisibility(
+                        animatedItems[0].visible,
+                        defaultAnimation
+                    )
+            )
+            Column(
+                Modifier
+                    .verticalScroll(rememberScrollState())
+                    .weight(1f),
+                verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.large)
+            ) {
+                LargeTopAppBar(title = {
+                    Text(text = rememberString(Strings.aboutWallMan))
+                })
+                Actions(animatedItems)
+            }
+        }
     }
 }
 
-@OptIn(ExperimentalShapeApi::class)
+@Composable
+private fun Actions(
+    animatedItems: StaggerList<AboutViewModel.AboutItem, Float>,
+    modifier: Modifier = Modifier
+) {
+    GroupedColumn(
+        animatedItems,
+        modifier
+            .padding(horizontal = MaterialTheme.spacing.large)
+            .clip(MaterialTheme.shapes.extraLarge),
+        verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.extraSmall),
+        outerCorner = MaterialTheme.spacing.large
+    ) {
+        AboutItem(
+            item = it.value,
+            modifier = Modifier.animateVisibility(
+                it.visible,
+                fade(animationSpec = MaterialTheme.animation.emphasized()) + slideVertically(
+                    animationSpec = MaterialTheme.animation.emphasized()
+                )
+            )
+        )
+    }
+    Box(
+        modifier = Modifier
+            .navigationBarsPadding()
+            .height(MaterialTheme.spacing.medium)
+    )
+}
+
 @Composable
 private fun Logo(modifier: Modifier = Modifier) {
-    val shape = remember { ScallopShape(density = 100f) }
+    val shape = remember { ScallopShape() }
     val rotationState = rememberRotationState()
     Box(
         modifier
@@ -138,9 +204,11 @@ private fun Logo(modifier: Modifier = Modifier) {
                 .background(Color(0xFF2F3032))
                 .fillMaxSize()
         )
-        val width by remember { derivedStateOf { if (rotationState.isRotationInProgress) 8f else 1f } }
         val animatedWidth =
-            animateFloatAsState(width, label = "").value * MaterialTheme.spacing.extraSmall
+            animateFloatAsState(
+                if (rotationState.isRotationInProgress) 8f else 1f,
+                label = ""
+            ).value * MaterialTheme.spacing.extraSmall
         ArcBorder(
             Arc.Full,
             BorderStroke(animatedWidth, MaterialTheme.colorScheme.primary),
@@ -197,6 +265,7 @@ private fun AboutScreenPreview() {
                     Strings.requiresAccountInGitlab,
                     Icons.Default.BugReport
                 ) {
+
                 }),
                 clicksOnVersion = 0
             ) { }
