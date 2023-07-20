@@ -4,13 +4,12 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
-import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
-import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridItemSpan
 import androidx.compose.foundation.lazy.staggeredgrid.items
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.LargeTopAppBar
@@ -24,9 +23,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.colorata.animateaslifestyle.animateVisibility
-import com.colorata.animateaslifestyle.fade
 import com.colorata.animateaslifestyle.material3.isCompact
-import com.colorata.animateaslifestyle.slideVertically
 import com.colorata.animateaslifestyle.stagger.ExperimentalStaggerApi
 import com.colorata.animateaslifestyle.stagger.animateAsList
 import com.colorata.animateaslifestyle.stagger.staggerSpecOf
@@ -39,10 +36,14 @@ import com.colorata.wallman.core.data.flatComposable
 import com.colorata.wallman.core.data.module.CoreModule
 import com.colorata.wallman.core.data.rememberString
 import com.colorata.wallman.core.data.viewModel
+import com.colorata.wallman.core.ui.modifiers.Padding
+import com.colorata.wallman.core.ui.modifiers.navigationBarPadding
 import com.colorata.wallman.core.ui.modifiers.navigationPadding
-import com.colorata.wallman.core.ui.spacing
+import com.colorata.wallman.core.ui.theme.emphasizedVerticalSlide
+import com.colorata.wallman.core.ui.theme.screenPadding
+import com.colorata.wallman.core.ui.theme.spacing
+import com.colorata.wallman.core.ui.util.LocalWindowSizeConfiguration
 import com.colorata.wallman.core.ui.util.fullLineItem
-import com.colorata.wallman.core.ui.util.rememberWindowSize
 import com.colorata.wallman.settings.overview.api.SettingsOverviewDestination
 import com.colorata.wallman.settings.overview.ui.components.SettingsItem
 import com.colorata.wallman.settings.overview.viewmodel.SettingsViewModel
@@ -74,18 +75,16 @@ private fun SettingsScreen(
             visible = true
         })
     }
-    val transition = fade(animationSpec = MaterialTheme.animation.emphasized()) + slideVertically(
-        100f,
-        animationSpec = MaterialTheme.animation.emphasized()
-    )
-    val windowSize = rememberWindowSize()
+
+    val windowSize = LocalWindowSizeConfiguration.current
     LazyVerticalStaggeredGrid(
         columns = StaggeredGridCells.Fixed(if (windowSize.isCompact()) 1 else 2),
         modifier = modifier
             .fillMaxSize()
-            .padding(horizontal = MaterialTheme.spacing.large),
+            .padding(horizontal = MaterialTheme.spacing.screenPadding),
         horizontalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.medium),
-        verticalItemSpacing = MaterialTheme.spacing.medium
+        verticalItemSpacing = MaterialTheme.spacing.medium,
+        contentPadding = PaddingValues(bottom = Padding.navigationBarPadding())
     ) {
         fullLineItem {
             LargeTopAppBar(title = {
@@ -100,7 +99,7 @@ private fun SettingsScreen(
                     .height(IntrinsicSize.Max)
                     .animateVisibility(
                         it.visible,
-                        transition
+                        MaterialTheme.animation.emphasizedVerticalSlide()
                     )
             ) {
                 SettingsItem(

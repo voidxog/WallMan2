@@ -47,7 +47,7 @@ import com.colorata.animateaslifestyle.stagger.asStaggerList
 import com.colorata.animateaslifestyle.stagger.staggerSpecOf
 import com.colorata.wallman.core.data.animation
 import com.colorata.wallman.core.ui.components.ScreenBackground
-import com.colorata.wallman.core.ui.spacing
+import com.colorata.wallman.core.ui.theme.spacing
 import com.colorata.wallman.core.ui.util.rememberWindowSize
 import com.colorata.wallman.ui.icons.Shuffle
 import com.colorata.wallman.wallpapers.WallpaperI

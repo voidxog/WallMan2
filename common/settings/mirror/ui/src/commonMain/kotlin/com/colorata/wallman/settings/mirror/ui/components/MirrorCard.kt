@@ -11,7 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.unit.sp
 import com.colorata.wallman.core.data.rememberString
-import com.colorata.wallman.core.ui.spacing
+import com.colorata.wallman.core.ui.theme.spacing
 import com.colorata.wallman.settings.mirror.api.Mirror
 
 @Composable

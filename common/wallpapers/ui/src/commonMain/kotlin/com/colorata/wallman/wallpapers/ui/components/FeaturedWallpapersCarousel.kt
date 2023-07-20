@@ -48,7 +48,7 @@ import com.colorata.wallman.core.data.animation
 import com.colorata.wallman.core.data.bitmapAsset
 import com.colorata.wallman.core.data.launchIO
 import com.colorata.wallman.core.data.rememberString
-import com.colorata.wallman.core.ui.spacing
+import com.colorata.wallman.core.ui.theme.spacing
 import com.colorata.wallman.core.ui.theme.WallManContentTheme
 import com.colorata.wallman.core.ui.theme.WallManPreviewTheme
 import com.colorata.wallman.wallpapers.WallpaperI

@@ -14,7 +14,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import com.colorata.wallman.core.data.animation
 import com.colorata.wallman.core.data.bitmapAsset
-import com.colorata.wallman.core.ui.spacing
+import com.colorata.wallman.core.ui.theme.spacing
 import kotlinx.collections.immutable.ImmutableList
 
 @Composable

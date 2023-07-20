@@ -20,7 +20,7 @@ import com.colorata.wallman.core.data.flatComposable
 import com.colorata.wallman.core.data.rememberString
 import com.colorata.wallman.core.data.viewModel
 import com.colorata.wallman.core.ui.modifiers.navigationPadding
-import com.colorata.wallman.core.ui.spacing
+import com.colorata.wallman.core.ui.theme.spacing
 import com.colorata.wallman.wallpapers.MainDestination
 import com.colorata.wallman.wallpapers.WallpaperI
 import com.colorata.wallman.wallpapers.WallpapersModule

@@ -25,7 +25,7 @@ import androidx.compose.ui.unit.dp
 import com.colorata.animateaslifestyle.material3.GroupedColumn
 import com.colorata.wallman.core.data.bitmapAsset
 import com.colorata.wallman.core.data.rememberString
-import com.colorata.wallman.core.ui.spacing
+import com.colorata.wallman.core.ui.theme.spacing
 import com.colorata.wallman.wallpapers.WallpaperI
 import com.colorata.wallman.wallpapers.countIcon
 import com.colorata.wallman.wallpapers.firstPreviewRes

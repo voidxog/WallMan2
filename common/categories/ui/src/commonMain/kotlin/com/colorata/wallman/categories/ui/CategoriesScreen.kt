@@ -14,11 +14,10 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Shape
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.colorata.animateaslifestyle.animateVisibility
-import com.colorata.animateaslifestyle.fade
 import com.colorata.animateaslifestyle.material3.isCompact
-import com.colorata.animateaslifestyle.slideVertically
 import com.colorata.animateaslifestyle.stagger.Element
 import com.colorata.animateaslifestyle.stagger.ExperimentalStaggerApi
 import com.colorata.animateaslifestyle.stagger.animateAsList
@@ -26,7 +25,7 @@ import com.colorata.animateaslifestyle.stagger.staggerSpecOf
 import com.colorata.animateaslifestyle.stagger.toStaggerList
 import com.colorata.wallman.categories.api.CategoriesDestination
 import com.colorata.wallman.categories.api.WallpaperCategory
-import com.colorata.wallman.categories.ui.components.CategoryCard
+import com.colorata.wallman.categories.ui.components.generateShapesForCard
 import com.colorata.wallman.categories.viewmodel.CategoriesViewModel
 import com.colorata.wallman.core.data.Destinations
 import com.colorata.wallman.core.data.MaterialNavGraphBuilder
@@ -35,11 +34,14 @@ import com.colorata.wallman.core.data.animation
 import com.colorata.wallman.core.data.flatComposable
 import com.colorata.wallman.core.data.rememberString
 import com.colorata.wallman.core.data.viewModel
-import com.colorata.wallman.core.ui.modifiers.navigationBottomPadding
+import com.colorata.wallman.core.ui.modifiers.Padding
+import com.colorata.wallman.core.ui.modifiers.navigationBarPadding
 import com.colorata.wallman.core.ui.modifiers.navigationPadding
-import com.colorata.wallman.core.ui.spacing
+import com.colorata.wallman.core.ui.theme.emphasizedVerticalSlide
+import com.colorata.wallman.core.ui.theme.screenPadding
+import com.colorata.wallman.core.ui.theme.spacing
+import com.colorata.wallman.core.ui.util.LocalWindowSizeConfiguration
 import com.colorata.wallman.core.ui.util.fullLineItem
-import com.colorata.wallman.core.ui.util.rememberWindowSize
 import com.colorata.wallman.wallpapers.WallpaperI
 import com.colorata.wallman.wallpapers.WallpapersModule
 import com.colorata.wallman.wallpapers.categoryWallpapers
@@ -66,7 +68,7 @@ fun CategoriesScreen(modifier: Modifier = Modifier) {
 private fun CategoriesScreen(
     state: CategoriesViewModel.CategoriesScreenState, modifier: Modifier = Modifier
 ) {
-    val windowSize = rememberWindowSize()
+    val windowSize = LocalWindowSizeConfiguration.current
     val animatedList = remember { state.categories.toStaggerList({ 0f }, false) }
     LaunchedEffect(key1 = true) {
         animatedList.animateAsList(this, spec = staggerSpecOf(itemsDelayMillis = 100) {
@@ -75,9 +77,12 @@ private fun CategoriesScreen(
     }
 
     val elementsSpacing = MaterialTheme.spacing.medium
-    val horizontalPadding =
-        if (windowSize.isCompact()) MaterialTheme.spacing.large
-        else MaterialTheme.spacing.extraLarge
+    val horizontalPadding = MaterialTheme.spacing.screenPadding
+
+    val shapes = MaterialTheme.shapes
+    val generatedShapes = remember {
+        List(animatedList.size) { generateShapesForCard(shapes) }.toImmutableList()
+    }
 
     LazyVerticalStaggeredGrid(
         StaggeredGridCells.Fixed(if (windowSize.isCompact()) 1 else 2),
@@ -87,7 +92,7 @@ private fun CategoriesScreen(
         contentPadding = PaddingValues(
             start = horizontalPadding,
             end = horizontalPadding,
-            bottom = navigationBottomPadding()
+            bottom = Padding.navigationBarPadding() + horizontalPadding
         )
     ) {
         fullLineItem {
@@ -103,7 +108,8 @@ private fun CategoriesScreen(
                             index
                         )
                     )
-                }, wallpapers = state.wallpapers
+                }, wallpapers = state.wallpapers,
+                generatedShapes[index]
             )
         }
     }
@@ -114,21 +120,20 @@ private fun CategoryCard(
     category: Element<WallpaperCategory, Float>,
     onClick: () -> Unit,
     wallpapers: ImmutableList<WallpaperI>,
+    shapes: ImmutableList<Shape>,
     modifier: Modifier = Modifier
 ) {
-    CategoryCard(
+    com.colorata.wallman.categories.ui.components.CategoryCard(
         category = category.value, wallpapers = remember(category.value) {
             category.value.categoryWallpapers(wallpapers).toImmutableList()
         },
+        shapes = shapes,
         onClick = {
             onClick()
         },
         modifier = modifier.animateVisibility(
             category.visible,
-            transition = fade(animationSpec = MaterialTheme.animation.emphasized()) +
-                    slideVertically(
-                        100f, animationSpec = MaterialTheme.animation.emphasized()
-                    )
+            transition = MaterialTheme.animation.emphasizedVerticalSlide()
         )
     )
 }

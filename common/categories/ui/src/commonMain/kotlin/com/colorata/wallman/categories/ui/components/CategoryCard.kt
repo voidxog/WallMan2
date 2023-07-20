@@ -6,27 +6,39 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Shapes
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
+import com.colorata.animateaslifestyle.shapes.degrees
 import com.colorata.wallman.categories.api.WallpaperCategory
 import com.colorata.wallman.core.data.bitmapAsset
+import com.colorata.wallman.core.data.mutate
 import com.colorata.wallman.core.data.rememberString
 import com.colorata.wallman.core.ui.LightDarkPreview
-import com.colorata.wallman.core.ui.spacing
+import com.colorata.wallman.core.ui.shapes.CleverShape
+import com.colorata.wallman.core.ui.shapes.FlowerShape
+import com.colorata.wallman.core.ui.shapes.OvalShape
+import com.colorata.wallman.core.ui.shapes.ScallopShape
+import com.colorata.wallman.core.ui.theme.spacing
 import com.colorata.wallman.core.ui.theme.WallManPreviewTheme
 import com.colorata.wallman.wallpapers.WallpaperI
 import com.colorata.wallman.wallpapers.firstPreviewRes
 import com.colorata.wallman.wallpapers.walls
 import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.persistentListOf
+import kotlinx.collections.immutable.toImmutableList
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CategoryCard(
     category: WallpaperCategory,
     wallpapers: ImmutableList<WallpaperI>,
+    shapes: ImmutableList<Shape>,
     onClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -39,13 +51,16 @@ fun CategoryCard(
                 .padding(MaterialTheme.spacing.medium)
                 .fillMaxWidth()
         ) {
-            for (i in 0..2) {
+            val roundedShape = MaterialTheme.shapes.large
+            val circle = CircleShape
+            val largeShapes = remember { persistentListOf(circle, roundedShape) }
+            for (index in 0..2) {
                 Image(
-                    bitmap = bitmapAsset(wallpapers[i].firstPreviewRes()),
+                    bitmap = bitmapAsset(wallpapers[index].firstPreviewRes()),
                     contentDescription = "",
                     modifier = Modifier
-                        .clip(CircleShape)
-                        .weight(if (i == 0) 2f else 1f)
+                        .clip(shapes[index])
+                        .weight(if (shapes[index] in largeShapes) 2f else 1f)
                         .height(80.dp),
                     contentScale = ContentScale.Crop
                 )
@@ -70,10 +85,28 @@ fun CategoryCard(
     }
 }
 
+internal fun generateShapesForCard(shapes: Shapes): ImmutableList<Shape> {
+    val roundedShape = shapes.large
+    val circle = CircleShape
+    val largeShapes = persistentListOf(circle, roundedShape)
+    return persistentListOf(
+        circle, ScallopShape(), FlowerShape(), roundedShape
+    ).shuffled().mutate {
+        if (circle in take(3) && roundedShape in take(3)) remove(
+            largeShapes.random()
+        )
+    }.toImmutableList()
+}
+
 @LightDarkPreview
 @Composable
 private fun CategorySample() {
+    val shapes = MaterialTheme.shapes
     WallManPreviewTheme {
-        CategoryCard(category = WallpaperCategory.Garden, walls, {})
+        CategoryCard(
+            category = WallpaperCategory.Garden,
+            walls,
+            remember { generateShapesForCard(shapes) },
+            {})
     }
 }

@@ -39,12 +39,10 @@ import androidx.compose.ui.unit.times
 import androidx.compose.ui.zIndex
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.colorata.animateaslifestyle.animateVisibility
-import com.colorata.animateaslifestyle.fade
 import com.colorata.animateaslifestyle.material3.GroupedColumn
 import com.colorata.animateaslifestyle.material3.isCompact
 import com.colorata.animateaslifestyle.shapes.Arc
 import com.colorata.animateaslifestyle.shapes.Full
-import com.colorata.animateaslifestyle.slideVertically
 import com.colorata.animateaslifestyle.stagger.ExperimentalStaggerApi
 import com.colorata.animateaslifestyle.stagger.StaggerList
 import com.colorata.animateaslifestyle.stagger.animateAsList
@@ -64,9 +62,11 @@ import com.colorata.wallman.core.ui.modifiers.detectRotation
 import com.colorata.wallman.core.ui.modifiers.displayRotation
 import com.colorata.wallman.core.ui.modifiers.rememberRotationState
 import com.colorata.wallman.core.ui.shapes.ScallopShape
-import com.colorata.wallman.core.ui.spacing
 import com.colorata.wallman.core.ui.theme.WallManPreviewTheme
-import com.colorata.wallman.core.ui.util.rememberWindowSize
+import com.colorata.wallman.core.ui.theme.emphasizedVerticalSlide
+import com.colorata.wallman.core.ui.theme.screenPadding
+import com.colorata.wallman.core.ui.theme.spacing
+import com.colorata.wallman.core.ui.util.LocalWindowSizeConfiguration
 import com.colorata.wallman.settings.about.api.AboutDestination
 import com.colorata.wallman.settings.overview.ui.components.AboutItem
 import com.colorata.wallman.settings.overview.viewmodel.AboutViewModel
@@ -94,24 +94,22 @@ fun AboutScreen(modifier: Modifier = Modifier) {
 @Composable
 private fun AboutScreen(state: AboutViewModel.AboutScreenState, modifier: Modifier = Modifier) {
 
-    val animatedItems =
-        remember(state.aboutItems) { state.aboutItems.toStaggerList({ 0f }, false) }
+    val animatedItems = remember(state.aboutItems) { state.aboutItems.toStaggerList({ 0f }, false) }
 
     LaunchedEffect(key1 = Unit) {
         animatedItems.animateAsList(this, spec = staggerSpecOf {
             visible = true
         })
     }
-    val defaultAnimation =
-        fade(animationSpec = MaterialTheme.animation.emphasized()) + slideVertically(
-            animationSpec = MaterialTheme.animation.emphasized()
-        )
-    val windowSize = rememberWindowSize()
+
+    val windowSize = LocalWindowSizeConfiguration.current
 
     if (windowSize.isCompact()) {
         Column(
             modifier
                 .verticalScroll(rememberScrollState())
+                .padding(bottom = MaterialTheme.spacing.screenPadding)
+                .padding(horizontal = MaterialTheme.spacing.screenPadding)
                 .navigationBarsPadding(),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.large)
@@ -123,8 +121,7 @@ private fun AboutScreen(state: AboutViewModel.AboutScreenState, modifier: Modifi
                 Modifier
                     .zIndex(3f)
                     .animateVisibility(
-                        animatedItems[0].visible,
-                        defaultAnimation
+                        animatedItems[0].visible, MaterialTheme.animation.emphasizedVerticalSlide()
                     )
             )
             Actions(animatedItems)
@@ -141,12 +138,14 @@ private fun AboutScreen(state: AboutViewModel.AboutScreenState, modifier: Modifi
                     .zIndex(3f)
                     .animateVisibility(
                         animatedItems[0].visible,
-                        defaultAnimation
+                        MaterialTheme.animation.emphasizedVerticalSlide()
                     )
             )
             Column(
                 Modifier
                     .verticalScroll(rememberScrollState())
+                    .padding(horizontal = MaterialTheme.spacing.screenPadding)
+                    .padding(bottom = MaterialTheme.spacing.large)
                     .navigationBarsPadding()
                     .weight(1f),
                 verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.large)
@@ -162,24 +161,19 @@ private fun AboutScreen(state: AboutViewModel.AboutScreenState, modifier: Modifi
 
 @Composable
 private fun Actions(
-    animatedItems: StaggerList<AboutViewModel.AboutItem, Float>,
-    modifier: Modifier = Modifier
+    animatedItems: StaggerList<AboutViewModel.AboutItem, Float>, modifier: Modifier = Modifier
 ) {
     GroupedColumn(
         animatedItems,
-        modifier
-            .padding(horizontal = MaterialTheme.spacing.large)
-            .clip(MaterialTheme.shapes.extraLarge),
+        modifier.clip(MaterialTheme.shapes.extraLarge),
         verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.extraSmall),
         outerCorner = MaterialTheme.spacing.large
     ) {
         AboutItem(
-            item = it.value,
-            modifier = Modifier.animateVisibility(
+            item = it.value, modifier =
+            Modifier.animateVisibility(
                 it.visible,
-                fade(animationSpec = MaterialTheme.animation.emphasized()) + slideVertically(
-                    animationSpec = MaterialTheme.animation.emphasized()
-                )
+                MaterialTheme.animation.emphasizedVerticalSlide()
             )
         )
     }
@@ -201,11 +195,9 @@ private fun Logo(modifier: Modifier = Modifier) {
                 .background(Color(0xFF2F3032))
                 .fillMaxSize()
         )
-        val animatedWidth =
-            animateFloatAsState(
-                if (rotationState.isRotationInProgress) 8f else 1f,
-                label = ""
-            ).value * MaterialTheme.spacing.extraSmall
+        val animatedWidth = animateFloatAsState(
+            if (rotationState.isRotationInProgress) 8f else 1f, label = ""
+        ).value * MaterialTheme.spacing.extraSmall
         ArcBorder(
             Arc.Full,
             BorderStroke(animatedWidth, MaterialTheme.colorScheme.primary),
@@ -233,38 +225,20 @@ private fun AboutScreenPreview() {
         val state = remember {
             AboutViewModel.AboutScreenState(
                 aboutItems = persistentListOf(AboutViewModel.AboutItem(
-                    Strings.versionOfWallMan,
-                    Strings.actualVersion,
-                    Icons.Default.Info
-                ) {
-                }, AboutViewModel.AboutItem(
-                    Strings.developer,
-                    Strings.colorata,
-                    Icons.Default.Person
-                ) {
-                }, AboutViewModel.AboutItem(
-                    Strings.groupInTelegram,
-                    Strings.tapToOpen,
-                    Icons.Default.Send
-                ) {
-                }, AboutViewModel.AboutItem(
-                    Strings.gitlab,
-                    Strings.tapToOpen,
-                    Icons.Default.Code
-                ) {
-                }, AboutViewModel.AboutItem(
-                    Strings.supportWithQiwi,
-                    Strings.tapToOpen,
-                    Icons.Default.CurrencyRuble
-                ) {
-                }, AboutViewModel.AboutItem(
-                    Strings.reportBug,
-                    Strings.requiresAccountInGitlab,
-                    Icons.Default.BugReport
+                    Strings.versionOfWallMan, Strings.actualVersion, Icons.Default.Info
+                ) {}, AboutViewModel.AboutItem(
+                    Strings.developer, Strings.colorata, Icons.Default.Person
+                ) {}, AboutViewModel.AboutItem(
+                    Strings.groupInTelegram, Strings.tapToOpen, Icons.Default.Send
+                ) {}, AboutViewModel.AboutItem(
+                    Strings.gitlab, Strings.tapToOpen, Icons.Default.Code
+                ) {}, AboutViewModel.AboutItem(
+                    Strings.supportWithQiwi, Strings.tapToOpen, Icons.Default.CurrencyRuble
+                ) {}, AboutViewModel.AboutItem(
+                    Strings.reportBug, Strings.requiresAccountInGitlab, Icons.Default.BugReport
                 ) {
 
-                }),
-                clicksOnVersion = 0
+                }), clicksOnVersion = 0
             ) { }
         }
         AboutScreen(state = state)

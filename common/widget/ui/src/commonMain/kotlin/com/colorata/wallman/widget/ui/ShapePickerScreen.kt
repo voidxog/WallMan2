@@ -41,7 +41,7 @@ import com.colorata.wallman.core.data.Strings
 import com.colorata.wallman.core.data.flatComposable
 import com.colorata.wallman.core.data.rememberString
 import com.colorata.wallman.core.data.viewModel
-import com.colorata.wallman.core.ui.spacing
+import com.colorata.wallman.core.ui.theme.spacing
 import com.colorata.wallman.widget.api.ShapePickerDestination
 import com.colorata.wallman.widget.api.WidgetModule
 import com.colorata.wallman.widget.viewmodel.ShapePickerViewModel

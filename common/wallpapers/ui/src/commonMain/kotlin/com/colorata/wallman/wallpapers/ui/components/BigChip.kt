@@ -29,7 +29,7 @@ import com.colorata.wallman.core.ui.DarkUIMode
 import com.colorata.wallman.core.ui.LightUIMode
 import com.colorata.wallman.core.ui.components.FontVariables
 import com.colorata.wallman.core.ui.components.Text
-import com.colorata.wallman.core.ui.spacing
+import com.colorata.wallman.core.ui.theme.spacing
 import com.colorata.wallman.core.ui.theme.WallManPreviewTheme
 
 @Composable

@@ -6,14 +6,12 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
-import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridItemSpan
 import androidx.compose.foundation.lazy.staggeredgrid.items
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.LargeTopAppBar
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -26,10 +24,12 @@ import com.colorata.wallman.core.data.Strings
 import com.colorata.wallman.core.data.continuousComposable
 import com.colorata.wallman.core.data.rememberString
 import com.colorata.wallman.core.data.viewModel
-import com.colorata.wallman.core.ui.modifiers.navigationBottomPadding
-import com.colorata.wallman.core.ui.spacing
+import com.colorata.wallman.core.ui.modifiers.Padding
+import com.colorata.wallman.core.ui.modifiers.navigationBarPadding
+import com.colorata.wallman.core.ui.theme.screenPadding
+import com.colorata.wallman.core.ui.theme.spacing
+import com.colorata.wallman.core.ui.util.LocalWindowSizeConfiguration
 import com.colorata.wallman.core.ui.util.fullLineItem
-import com.colorata.wallman.core.ui.util.rememberWindowSize
 import com.colorata.wallman.settings.memory.api.MemoryDestination
 import com.colorata.wallman.settings.memory.ui.components.CacheCard
 import com.colorata.wallman.settings.memory.viewmodel.CacheViewModel
@@ -63,17 +63,16 @@ private fun CacheScreen(state: CacheViewModel.CacheScreenState, modifier: Modifi
             it.removeAll { pack -> !pack.includesDynamic }
         }.toImmutableList()
     }
-    val windowSize = rememberWindowSize()
-    val bottomPadding = navigationBottomPadding()
-    LaunchedEffect(Unit) {
-        println(bottomPadding)
-    }
+
+    val windowSize = LocalWindowSizeConfiguration.current
     LazyVerticalStaggeredGrid(
         StaggeredGridCells.Fixed(if (windowSize.isCompact()) 1 else 2),
-        modifier.padding(horizontal = MaterialTheme.spacing.large),
+        modifier.padding(
+            horizontal = MaterialTheme.spacing.screenPadding
+        ),
         verticalItemSpacing = MaterialTheme.spacing.large,
         horizontalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.large),
-        contentPadding = PaddingValues(bottom = navigationBottomPadding())
+        contentPadding = PaddingValues(bottom = Padding.navigationBarPadding() + MaterialTheme.spacing.large)
     ) {
         fullLineItem {
             LargeTopAppBar(title = {
@@ -85,8 +84,7 @@ private fun CacheScreen(state: CacheViewModel.CacheScreenState, modifier: Modifi
                 pack,
                 rememberString(Strings.size, remember { pack.sizeInMb() }),
                 Modifier
-                    .clip(MaterialTheme.shapes.large)
-                    .background(MaterialTheme.colorScheme.surfaceVariant),
+                    ,
                 isCacheEnabled = remember(state) {
                     state.downloadedWallpaperPacks.any { downloaded -> downloaded == pack }
                 },

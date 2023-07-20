@@ -18,7 +18,7 @@ import androidx.compose.ui.unit.dp
 import com.colorata.animateaslifestyle.material3.groupedItems
 import com.colorata.wallman.core.data.*
 import com.colorata.wallman.core.data.module.CoreModule
-import com.colorata.wallman.core.ui.spacing
+import com.colorata.wallman.core.ui.theme.spacing
 import com.colorata.wallman.core.data.viewModel
 import com.colorata.wallman.settings.mirror.api.MirrorDestination
 import com.colorata.wallman.settings.mirror.ui.components.MirrorCard

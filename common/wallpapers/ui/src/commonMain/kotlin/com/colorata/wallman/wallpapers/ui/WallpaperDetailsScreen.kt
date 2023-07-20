@@ -11,8 +11,6 @@ import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
-import androidx.compose.animation.slideInHorizontally
-import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Canvas
@@ -56,7 +54,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.StrokeCap
@@ -93,10 +90,8 @@ import com.colorata.wallman.core.data.bitmapAsset
 import com.colorata.wallman.core.data.flatComposable
 import com.colorata.wallman.core.data.formatted
 import com.colorata.wallman.core.data.icons.InstallMobile
-import com.colorata.wallman.core.data.materialFadeThrough
 import com.colorata.wallman.core.data.materialSharedAxisX
 import com.colorata.wallman.core.data.materialSharedAxisY
-import com.colorata.wallman.core.data.materialSharedAxisZ
 import com.colorata.wallman.core.data.parameter
 import com.colorata.wallman.core.data.rememberString
 import com.colorata.wallman.core.data.simplifiedLocaleOf
@@ -107,7 +102,7 @@ import com.colorata.wallman.core.ui.components.ScreenBackground
 import com.colorata.wallman.core.ui.modifiers.rememberRotationState
 import com.colorata.wallman.core.ui.modifiers.detectRotation
 import com.colorata.wallman.core.ui.modifiers.displayRotation
-import com.colorata.wallman.core.ui.spacing
+import com.colorata.wallman.core.ui.theme.spacing
 import com.colorata.wallman.core.ui.theme.WallManContentTheme
 import com.colorata.wallman.core.ui.theme.WallManPreviewTheme
 import com.colorata.wallman.core.ui.util.rememberWindowSize

@@ -1,7 +1,7 @@
 package com.colorata.wallman.settings.memory.ui.components
 
-import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
@@ -16,7 +16,7 @@ import com.colorata.animateaslifestyle.material3.shapes.ScallopShape
 import com.colorata.animateaslifestyle.shapes.ExperimentalShapeApi
 import com.colorata.wallman.core.data.bitmapAsset
 import com.colorata.wallman.core.data.rememberString
-import com.colorata.wallman.core.ui.spacing
+import com.colorata.wallman.core.ui.theme.spacing
 import com.colorata.wallman.core.data.Strings
 import com.colorata.wallman.wallpapers.WallpaperPacks
 
@@ -32,7 +32,12 @@ fun CacheCard(
     onClearCache: () -> Unit = {},
     onDelete: () -> Unit = {}
 ) {
-    Column(modifier.padding(MaterialTheme.spacing.medium)) {
+    Column(
+        modifier
+            .clip(MaterialTheme.shapes.large)
+            .background(MaterialTheme.colorScheme.surfaceVariant)
+            .padding(MaterialTheme.spacing.medium)
+    ) {
         Row(Modifier.fillMaxWidth()) {
             Box(contentAlignment = Alignment.Center) {
                 Image(
