@@ -15,6 +15,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.colorata.animateaslifestyle.animateVisibility
 import com.colorata.animateaslifestyle.material3.isCompact
@@ -63,12 +64,34 @@ fun CategoriesScreen(modifier: Modifier = Modifier) {
     CategoriesScreen(state, modifier)
 }
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalStaggerApi::class)
 @Composable
 private fun CategoriesScreen(
     state: CategoriesViewModel.CategoriesScreenState, modifier: Modifier = Modifier
 ) {
+    // TODO: refactor when https://gitlab.com/colorata/wallman/-/issues/1 fixed
     val windowSize = LocalWindowSizeConfiguration.current
+    if (windowSize.isCompact()) {
+        CategoriesLayout(
+            StaggeredGridCells.Fixed(1),
+            state,
+            modifier
+        )
+    } else {
+        CategoriesLayout(
+            StaggeredGridCells.Fixed(2),
+            state,
+            modifier
+        )
+    }
+}
+
+@Composable
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalStaggerApi::class)
+private fun CategoriesLayout(
+    cells: StaggeredGridCells,
+    state: CategoriesViewModel.CategoriesScreenState,
+    modifier: Modifier = Modifier
+) {
     val animatedList = remember { state.categories.toStaggerList({ 0f }, false) }
     LaunchedEffect(key1 = true) {
         animatedList.animateAsList(this, spec = staggerSpecOf(itemsDelayMillis = 100) {
@@ -81,12 +104,11 @@ private fun CategoriesScreen(
 
     val shapes = MaterialTheme.shapes
     val generatedShapes = remember {
-        List(animatedList.size) { generateShapesForCard(shapes) }.toImmutableList()
+        List(state.categories.size) { generateShapesForCard(shapes) }.toImmutableList()
     }
-
     LazyVerticalStaggeredGrid(
-        StaggeredGridCells.Fixed(if (windowSize.isCompact()) 1 else 2),
-        modifier,
+        cells,
+        modifier = modifier,
         verticalItemSpacing = elementsSpacing,
         horizontalArrangement = Arrangement.spacedBy(elementsSpacing),
         contentPadding = PaddingValues(

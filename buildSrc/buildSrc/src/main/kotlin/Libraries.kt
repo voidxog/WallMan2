@@ -205,15 +205,6 @@ class Libs(val applier: (String) -> Unit) {
 
         fun materialColorUtilities() =
             applier("dev.sasikanth:material-color-utilities:1.0.0-alpha01")
-        fun materialMotionNavigation() =
-            applier("io.github.fornewid:material-motion-compose-navigation:${LibraryVersions.Compose.materialMotion}")
-
-        fun materialMotionCore() =
-            applier("io.github.fornewid:material-motion-compose-core:${LibraryVersions.Compose.materialMotion}")
-
-        fun coil() = applier(
-            "io.coil-kt:coil-compose:${LibraryVersions.Compose.coil}"
-        )
 
         fun navigation() = applier(
             "androidx.navigation:navigation-compose:${LibraryVersions.Compose.navigation}"

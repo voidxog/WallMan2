@@ -69,6 +69,22 @@ private fun SettingsScreen(
     state: SettingsViewModel.SettingsScreenState,
     modifier: Modifier = Modifier
 ) {
+    // TODO: refactor when https://gitlab.com/colorata/wallman/-/issues/1 fixed
+    val windowSize = LocalWindowSizeConfiguration.current
+    if (windowSize.isCompact()) {
+        SettingsScreenLayout(StaggeredGridCells.Fixed(1), state, modifier)
+    } else {
+        SettingsScreenLayout(StaggeredGridCells.Fixed(2), state, modifier)
+    }
+}
+
+@Composable
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalStaggerApi::class)
+private fun SettingsScreenLayout(
+    cells: StaggeredGridCells,
+    state: SettingsViewModel.SettingsScreenState,
+    modifier: Modifier = Modifier,
+) {
     val animatedItems = remember { state.settingsItems.toStaggerList({ 0f }, false) }
     LaunchedEffect(key1 = true) {
         animatedItems.animateAsList(this, spec = staggerSpecOf(itemsDelayMillis = 100) {
@@ -76,9 +92,8 @@ private fun SettingsScreen(
         })
     }
 
-    val windowSize = LocalWindowSizeConfiguration.current
     LazyVerticalStaggeredGrid(
-        columns = StaggeredGridCells.Fixed(if (windowSize.isCompact()) 1 else 2),
+        columns = cells,
         modifier = modifier
             .fillMaxSize()
             .padding(horizontal = MaterialTheme.spacing.screenPadding),

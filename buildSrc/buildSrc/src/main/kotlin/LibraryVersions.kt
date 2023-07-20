@@ -17,7 +17,7 @@ class LibraryVersions {
 
     object Compose {
         const val activity = "1.6.0"
-        const val base = "1.5.0-beta02"
+        const val base = "1.5.0-beta03"
         const val material3 = "1.2.0-alpha02"
 
         const val materialMotion = "1.0.3"

@@ -55,18 +55,32 @@ fun CacheScreen(modifier: Modifier = Modifier) {
     CacheScreen(state, modifier)
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun CacheScreen(state: CacheViewModel.CacheScreenState, modifier: Modifier = Modifier) {
+    val windowSize = LocalWindowSizeConfiguration.current
+    // TODO: refactor when https://gitlab.com/colorata/wallman/-/issues/1 fixed
+    if (windowSize.isCompact()) {
+        CacheScreenLayout(StaggeredGridCells.Fixed(1), state, modifier)
+    } else {
+        CacheScreenLayout(StaggeredGridCells.Fixed(2), state, modifier)
+    }
+}
+
+@Composable
+@OptIn(ExperimentalMaterial3Api::class)
+private fun CacheScreenLayout(
+    cells: StaggeredGridCells,
+    state: CacheViewModel.CacheScreenState,
+    modifier: Modifier = Modifier
+) {
     val ripple = remember {
         WallpaperPacks.entries.toPersistentList().mutate {
             it.removeAll { pack -> !pack.includesDynamic }
         }.toImmutableList()
     }
 
-    val windowSize = LocalWindowSizeConfiguration.current
     LazyVerticalStaggeredGrid(
-        StaggeredGridCells.Fixed(if (windowSize.isCompact()) 1 else 2),
+        cells,
         modifier.padding(
             horizontal = MaterialTheme.spacing.screenPadding
         ),
@@ -83,8 +97,7 @@ private fun CacheScreen(state: CacheViewModel.CacheScreenState, modifier: Modifi
             CacheCard(
                 pack,
                 rememberString(Strings.size, remember { pack.sizeInMb() }),
-                Modifier
-                    ,
+                Modifier,
                 isCacheEnabled = remember(state) {
                     state.downloadedWallpaperPacks.any { downloaded -> downloaded == pack }
                 },
