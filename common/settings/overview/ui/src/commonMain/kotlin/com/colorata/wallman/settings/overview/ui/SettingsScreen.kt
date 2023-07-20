@@ -41,6 +41,7 @@ import com.colorata.wallman.core.data.rememberString
 import com.colorata.wallman.core.data.viewModel
 import com.colorata.wallman.core.ui.modifiers.navigationPadding
 import com.colorata.wallman.core.ui.spacing
+import com.colorata.wallman.core.ui.util.fullLineItem
 import com.colorata.wallman.core.ui.util.rememberWindowSize
 import com.colorata.wallman.settings.overview.api.SettingsOverviewDestination
 import com.colorata.wallman.settings.overview.ui.components.SettingsItem
@@ -86,11 +87,10 @@ private fun SettingsScreen(
         horizontalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.medium),
         verticalItemSpacing = MaterialTheme.spacing.medium
     ) {
-        item(span = StaggeredGridItemSpan.FullLine) {
+        fullLineItem {
             LargeTopAppBar(title = {
                 Text(text = rememberString(string = Strings.more))
             })
-            Spacer(modifier = Modifier.height(MaterialTheme.spacing.medium))
         }
         items(animatedItems) {
             Column(

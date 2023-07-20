@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -111,7 +110,9 @@ private fun AboutScreen(state: AboutViewModel.AboutScreenState, modifier: Modifi
 
     if (windowSize.isCompact()) {
         Column(
-            modifier.verticalScroll(rememberScrollState()),
+            modifier
+                .verticalScroll(rememberScrollState())
+                .navigationBarsPadding(),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.large)
         ) {
@@ -146,6 +147,7 @@ private fun AboutScreen(state: AboutViewModel.AboutScreenState, modifier: Modifi
             Column(
                 Modifier
                     .verticalScroll(rememberScrollState())
+                    .navigationBarsPadding()
                     .weight(1f),
                 verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.large)
             ) {
@@ -181,11 +183,6 @@ private fun Actions(
             )
         )
     }
-    Box(
-        modifier = Modifier
-            .navigationBarsPadding()
-            .height(MaterialTheme.spacing.medium)
-    )
 }
 
 @Composable

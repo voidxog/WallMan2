@@ -2,16 +2,8 @@ package com.colorata.wallman.categories.ui
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.GridItemSpan
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.itemsIndexed
-import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
-import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridItemSpan
 import androidx.compose.foundation.lazy.staggeredgrid.itemsIndexed
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.LargeTopAppBar
@@ -43,8 +35,10 @@ import com.colorata.wallman.core.data.animation
 import com.colorata.wallman.core.data.flatComposable
 import com.colorata.wallman.core.data.rememberString
 import com.colorata.wallman.core.data.viewModel
+import com.colorata.wallman.core.ui.modifiers.navigationBottomPadding
 import com.colorata.wallman.core.ui.modifiers.navigationPadding
 import com.colorata.wallman.core.ui.spacing
+import com.colorata.wallman.core.ui.util.fullLineItem
 import com.colorata.wallman.core.ui.util.rememberWindowSize
 import com.colorata.wallman.wallpapers.WallpaperI
 import com.colorata.wallman.wallpapers.WallpapersModule
@@ -80,25 +74,26 @@ private fun CategoriesScreen(
         })
     }
 
-    val topBar = @Composable {
-        LargeTopAppBar(title = {
-            Text(text = rememberString(string = Strings.categories))
-        })
-    }
     val elementsSpacing = MaterialTheme.spacing.medium
+    val horizontalPadding =
+        if (windowSize.isCompact()) MaterialTheme.spacing.large
+        else MaterialTheme.spacing.extraLarge
+
     LazyVerticalStaggeredGrid(
         StaggeredGridCells.Fixed(if (windowSize.isCompact()) 1 else 2),
         modifier,
         verticalItemSpacing = elementsSpacing,
         horizontalArrangement = Arrangement.spacedBy(elementsSpacing),
         contentPadding = PaddingValues(
-            horizontal =
-            if (windowSize.isCompact()) MaterialTheme.spacing.large
-            else MaterialTheme.spacing.extraLarge
+            start = horizontalPadding,
+            end = horizontalPadding,
+            bottom = navigationBottomPadding()
         )
     ) {
-        item(span = StaggeredGridItemSpan.FullLine) {
-            topBar()
+        fullLineItem {
+            LargeTopAppBar(title = {
+                Text(text = rememberString(string = Strings.categories))
+            })
         }
         itemsIndexed(animatedList) { index, it ->
             CategoryCard(

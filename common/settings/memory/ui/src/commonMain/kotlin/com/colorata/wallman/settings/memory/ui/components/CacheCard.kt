@@ -26,12 +26,13 @@ import com.colorata.wallman.wallpapers.WallpaperPacks
 fun CacheCard(
     pack: WallpaperPacks,
     size: String,
+    modifier: Modifier = Modifier,
     isCacheEnabled: Boolean = false,
     isDeleteEnabled: Boolean = false,
     onClearCache: () -> Unit = {},
     onDelete: () -> Unit = {}
 ) {
-    Column(Modifier.padding(MaterialTheme.spacing.medium)) {
+    Column(modifier.padding(MaterialTheme.spacing.medium)) {
         Row(Modifier.fillMaxWidth()) {
             Box(contentAlignment = Alignment.Center) {
                 Image(
