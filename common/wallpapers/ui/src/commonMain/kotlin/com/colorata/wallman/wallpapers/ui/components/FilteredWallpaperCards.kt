@@ -3,6 +3,7 @@ package com.colorata.wallman.wallpapers.ui.components
 import androidx.compose.animation.core.EaseInSine
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -24,6 +25,7 @@ import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -32,23 +34,31 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.layout.onSizeChanged
+import androidx.compose.ui.layout.positionInParent
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import com.colorata.animateaslifestyle.animateVisibility
-import com.colorata.animateaslifestyle.fade
 import com.colorata.animateaslifestyle.material3.fab.AnimatedFloatingActionButton
 import com.colorata.animateaslifestyle.material3.fab.FabSize
-import com.colorata.animateaslifestyle.slideVertically
+import com.colorata.animateaslifestyle.material3.isCompact
 import com.colorata.animateaslifestyle.stagger.StaggerList
 import com.colorata.animateaslifestyle.stagger.animateAsGrid
 import com.colorata.animateaslifestyle.stagger.asStaggerList
 import com.colorata.animateaslifestyle.stagger.staggerSpecOf
 import com.colorata.wallman.core.data.animation
 import com.colorata.wallman.core.ui.components.ScreenBackground
+import com.colorata.wallman.core.ui.modifiers.Padding
+import com.colorata.wallman.core.ui.modifiers.navigationBottomPadding
+import com.colorata.wallman.core.ui.modifiers.navigationStartPadding
+import com.colorata.wallman.core.ui.modifiers.withoutHorizontalPadding
+import com.colorata.wallman.core.ui.theme.emphasizedVerticalSlide
+import com.colorata.wallman.core.ui.theme.screenPadding
 import com.colorata.wallman.core.ui.theme.spacing
-import com.colorata.wallman.core.ui.util.rememberWindowSize
+import com.colorata.wallman.core.ui.util.LocalWindowSizeConfiguration
 import com.colorata.wallman.ui.icons.Shuffle
 import com.colorata.wallman.wallpapers.WallpaperI
 import kotlinx.coroutines.delay
@@ -63,21 +73,22 @@ fun FilteredWallpaperCards(
     onClick: (WallpaperI) -> Unit,
     name: String,
     modifier: Modifier = Modifier,
-    startItem: @Composable() (LazyGridItemScope.() -> Unit)? = null,
+    startItem: @Composable (LazyGridItemScope.() -> Unit)? = null,
     description: String = "",
     wallpapers: StaggerList<WallpaperI, Float>,
     onRandomWallpaper: () -> Unit,
-    backgroundImageBitmap: ImageBitmap? = null
+    backgroundImageBitmap: ImageBitmap? = null,
+    applyNavigationPadding: Boolean = false
 ) {
-    val screenConfig = rememberWindowSize()
+    val windowSize = LocalWindowSizeConfiguration.current
     var fabHeight by remember { mutableStateOf(0.dp) }
     val sortedWallpapers =
         remember(wallpapers) {
             wallpapers.asStaggerList()
         }
     val density = LocalDensity.current
-    val listDensity = remember(screenConfig.widthSizeClass) {
-        when (screenConfig.widthSizeClass) {
+    val listDensity = remember(windowSize) {
+        when (windowSize.widthSizeClass) {
             WindowWidthSizeClass.Compact -> 2
             WindowWidthSizeClass.Medium -> 3
             else -> 4
@@ -109,15 +120,34 @@ fun FilteredWallpaperCards(
                 }
             )
         }
-        LazyVerticalGrid(
-            columns = GridCells.Fixed(listDensity), state = state,
-            contentPadding = PaddingValues(bottom = fabHeight)
-        ) {
-            item(span = { GridItemSpan(maxLineSpan) }) {
-                if (backgroundImageBitmap != null) {
-                    ScreenBackground(backgroundImageBitmap)
+        var backgroundOffset by remember { mutableFloatStateOf(0f) }
+        if (backgroundImageBitmap != null) {
+            ScreenBackground(
+                backgroundImageBitmap,
+                imageFraction = if (windowSize.isCompact()) 0.5f else 0.8f,
+                modifier = Modifier.graphicsLayer {
+                    translationY = backgroundOffset
                 }
-                Column {
+            )
+        }
+        val startPadding = if (applyNavigationPadding) Padding.navigationStartPadding() else 0.dp
+        LazyVerticalGrid(
+            columns = GridCells.Fixed(listDensity),
+            state = state,
+            contentPadding = PaddingValues(
+                bottom = fabHeight,
+                start = MaterialTheme.spacing.screenPadding + startPadding,
+                end = MaterialTheme.spacing.screenPadding
+            ),
+            horizontalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.large),
+            verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.large)
+        ) {
+            item(span = {
+                GridItemSpan(maxLineSpan)
+            }) {
+                Column(Modifier.onGloballyPositioned {
+                    backgroundOffset = it.positionInParent().y
+                }) {
                     LargeTopAppBar(
                         title = {
                             androidx.compose.material3.Text(text = name)
@@ -136,28 +166,34 @@ fun FilteredWallpaperCards(
                         )
                     }
                     if (startItem != null) {
-                        startItem()
+                        Box(
+                            Modifier.withoutHorizontalPadding(
+                                start = MaterialTheme.spacing.screenPadding + startPadding,
+                                end = MaterialTheme.spacing.screenPadding
+                            )
+                        ) {
+                            startItem()
+                        }
                     }
                 }
             }
             itemsIndexed(sortedWallpapers, key = { _, it ->
                 it.hashCode()
             }) { index, it ->
-                val animationSpec =
-                    fade(
-                        animationSpec = MaterialTheme.animation.emphasized()
-                    ) + slideVertically(
-                        animationSpec = MaterialTheme.animation.emphasized()
-                    )
                 WallpaperCard(
                     wallpaper = it.value, modifier = Modifier
+                        .graphicsLayer {
+                            if (index == selectedIndex) animatable.value.let {
+                                scaleX = it
+                                scaleY = it
+                            }
+                        }
                         .animateItemPlacement()
                         .animateVisibility(
                             it.visible,
-                            animationSpec
+                            MaterialTheme.animation.emphasizedVerticalSlide()
                         )
-                        .testTag("Wallpaper$index"),
-                    scale = { if (selectedIndex == index) animatable.value else 1f }
+                        .testTag("Wallpaper$index")
                 ) {
                     scope.launch {
                         selectedIndex = index
@@ -179,6 +215,7 @@ fun FilteredWallpaperCards(
                 .onSizeChanged {
                     fabHeight = density.run { it.height.toDp() }
                 }
+                .navigationBottomPadding()
                 .padding(MaterialTheme.spacing.large),
             delayMillis = 200,
             durationMillis = MaterialTheme.animation.durationSpec.long2,

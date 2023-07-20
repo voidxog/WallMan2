@@ -38,7 +38,6 @@ import kotlinx.collections.immutable.persistentListOf
 fun WallpaperCard(
     wallpaper: WallpaperI,
     modifier: Modifier = Modifier,
-    scale: () -> Float = { 1f },
     onClick: () -> Unit = { }
 ) {
     Box(modifier = modifier
@@ -64,7 +63,8 @@ fun WallpaperCard(
                                 contentDescription = "",
                                 modifier = Modifier
                                     .fillMaxHeight()
-                                    .fillMaxWidth(),
+                                    .fillMaxWidth()
+                                    .aspectRatio(1f),
                                 contentScale = ContentScale.Crop
                             )
 
@@ -117,17 +117,7 @@ fun WallpaperCard(
                 )
             },
             Modifier
-                .graphicsLayer {
-                    scale().let {
-                        scaleX = it
-                        scaleY = it
-                    }
-                }
-                .fillMaxSize()
-                .padding(
-                    horizontal = MaterialTheme.spacing.large,
-                    vertical = MaterialTheme.spacing.medium
-                ),
+                .fillMaxSize(),
             outerCorner = MaterialTheme.spacing.large,
             verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.extraSmall)
         ) {

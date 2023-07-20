@@ -1,7 +1,12 @@
 package com.colorata.wallman.categories.ui.components
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -14,18 +19,15 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
-import com.colorata.animateaslifestyle.shapes.degrees
 import com.colorata.wallman.categories.api.WallpaperCategory
 import com.colorata.wallman.core.data.bitmapAsset
 import com.colorata.wallman.core.data.mutate
 import com.colorata.wallman.core.data.rememberString
 import com.colorata.wallman.core.ui.LightDarkPreview
-import com.colorata.wallman.core.ui.shapes.CleverShape
 import com.colorata.wallman.core.ui.shapes.FlowerShape
-import com.colorata.wallman.core.ui.shapes.OvalShape
 import com.colorata.wallman.core.ui.shapes.ScallopShape
-import com.colorata.wallman.core.ui.theme.spacing
 import com.colorata.wallman.core.ui.theme.WallManPreviewTheme
+import com.colorata.wallman.core.ui.theme.spacing
 import com.colorata.wallman.wallpapers.WallpaperI
 import com.colorata.wallman.wallpapers.firstPreviewRes
 import com.colorata.wallman.wallpapers.walls

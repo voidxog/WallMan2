@@ -37,22 +37,23 @@ fun ScreenBackground(
     }, label = "") { image ->
         Box(
             modifier
-                .fillMaxSize()
+                .fillMaxHeight(imageFraction)
+                .fillMaxWidth()
                 .blur(5.dp)
                 .background(MaterialTheme.colorScheme.surface),
             contentAlignment = Alignment.TopCenter
         ) {
-            Image(image, contentDescription = null,
+            Image(
+                image, contentDescription = null,
                 Modifier
                     .drawWithContent {
                         drawContent()
                         drawRect(
                             gradientType.generateBrush(surfaceColor)
                         )
-                    }
-                    .fillMaxWidth()
-                    .fillMaxHeight(imageFraction),
-                contentScale = ContentScale.Crop)
+                    }.fillMaxSize(),
+                contentScale = ContentScale.Crop
+            )
         }
     }
 }

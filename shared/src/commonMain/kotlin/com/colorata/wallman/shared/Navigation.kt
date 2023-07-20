@@ -1,30 +1,62 @@
 package com.colorata.wallman.shared
 
 import android.os.Build
-import androidx.compose.animation.core.FastOutLinearInEasing
-import androidx.compose.animation.core.LinearOutSlowInEasing
-import androidx.compose.animation.core.tween
-import androidx.compose.foundation.layout.*
-import androidx.compose.material3.*
-import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
-import androidx.compose.runtime.*
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.asPaddingValues
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.navigationBars
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.NavigationRailItem
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
+import androidx.compose.material3.surfaceColorAtElevation
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import com.colorata.animateaslifestyle.animateVisibility
-import com.colorata.animateaslifestyle.fade
 import com.colorata.animateaslifestyle.isCompositionLaunched
 import com.colorata.animateaslifestyle.material3.isCompact
-import com.colorata.animateaslifestyle.material3.isNotCompact
-import com.colorata.animateaslifestyle.slideHorizontally
-import com.colorata.animateaslifestyle.slideVertically
-import com.colorata.animateaslifestyle.stagger.*
+import com.colorata.animateaslifestyle.scale
+import com.colorata.animateaslifestyle.stagger.ExperimentalStaggerApi
+import com.colorata.animateaslifestyle.stagger.animateAsList
+import com.colorata.animateaslifestyle.stagger.staggerListOf
+import com.colorata.animateaslifestyle.stagger.staggerSpecOf
+import com.colorata.animateaslifestyle.stagger.toPx
 import com.colorata.wallman.categories.ui.categoriesScreen
 import com.colorata.wallman.categories.ui.categoryDetailsScreen
-import com.colorata.wallman.core.data.*
+import com.colorata.wallman.core.data.Destination
+import com.colorata.wallman.core.data.Destinations
+import com.colorata.wallman.core.data.animation
+import com.colorata.wallman.core.data.destination
+import com.colorata.wallman.core.data.rememberString
 import com.colorata.wallman.core.di.LocalGraph
 import com.colorata.wallman.core.ui.theme.LocalPaddings
-import com.colorata.wallman.core.ui.util.rememberWindowSize
+import com.colorata.wallman.core.ui.theme.emphasizedHorizontalSlide
+import com.colorata.wallman.core.ui.theme.emphasizedVerticalSlide
+import com.colorata.wallman.core.ui.theme.spacing
+import com.colorata.wallman.core.ui.util.LocalWindowSizeConfiguration
 import com.colorata.wallman.settings.memory.ui.cacheScreen
 import com.colorata.wallman.settings.mirror.ui.mirrorScreen
 import com.colorata.wallman.settings.overview.ui.aboutScreen
@@ -37,7 +69,7 @@ import com.colorata.wallman.widget.ui.shapePickerScreen
 @Composable
 fun Navigation(startDestination: Destination = Destinations.MainDestination()) {
     val navController = LocalGraph.current.coreModule.navigationController
-    val windowSize = rememberWindowSize()
+    val windowSize = LocalWindowSizeConfiguration.current
     val route by navController.currentPath.collectAsState()
     val clickOnRoute =
         remember { { newRoute: String -> navController.resetRootTo(destination(newRoute)) } }
@@ -49,7 +81,7 @@ fun Navigation(startDestination: Destination = Destinations.MainDestination()) {
         CompositionLocalProvider(
             LocalPaddings provides if (isCompact) PaddingValues(
                 bottom = padding.calculateBottomPadding()
-            ) else PaddingValues(start = 80.dp)
+            ) else PaddingValues(start = 80.dp + MaterialTheme.spacing.large)
         ) {
             // Not using movableContentOf
             // because it causes "node attached multiple times" exception
@@ -57,7 +89,12 @@ fun Navigation(startDestination: Destination = Destinations.MainDestination()) {
             Navigator(startDestination = startDestination)
         }
 
-        if (!isCompact) SideBar(currentRoute = route, onClick = clickOnRoute)
+        Box(Modifier.fillMaxHeight(), contentAlignment = Alignment.Center) {
+            if (!isCompact) SideBar(
+                currentRoute = route,
+                onClick = clickOnRoute
+            )
+        }
     }
 }
 
@@ -117,17 +154,7 @@ fun BottomBar(currentRoute: String, onClick: (route: String) -> Unit) {
         remember(currentRoute) { currentRoute in quickAccessibleDestinations.map { it.destination.path } }
     Surface(
         tonalElevation = 3.dp, modifier = Modifier.animateVisibility(
-            barVisible, remember(barVisible) {
-                slideVertically(
-                    dp80inPx, animationSpec = tween()
-                ) + fade(
-                    animationSpec = tween(
-                        if (barVisible) (300 * 0.35f).toInt() else 300,
-                        if (barVisible) (300 * 0.35f).toInt() else 0,
-                        if (barVisible) LinearOutSlowInEasing else FastOutLinearInEasing
-                    )
-                )
-            }
+            barVisible, MaterialTheme.animation.emphasizedVerticalSlide(dp80inPx)
         )
     ) {
         Column {
@@ -152,15 +179,7 @@ fun BottomBar(currentRoute: String, onClick: (route: String) -> Unit) {
                             .testTag(destination.path)
                             .animateVisibility(
                                 it.visible,
-                                fade(
-                                    animationSpec = tween(
-                                        250,
-                                        (250 * 0.35f).toInt()
-                                    )
-                                ) + slideVertically(
-                                    from = 80f.dp.toPx(),
-                                    animationSpec = tween(250)
-                                )
+                                MaterialTheme.animation.emphasizedVerticalSlide(dp80inPx)
                             )
                             .height(80.dp)
                     )
@@ -177,7 +196,11 @@ fun BottomBar(currentRoute: String, onClick: (route: String) -> Unit) {
 
 @OptIn(ExperimentalStaggerApi::class)
 @Composable
-private fun SideBar(currentRoute: String, onClick: (route: String) -> Unit) {
+private fun SideBar(
+    currentRoute: String,
+    onClick: (route: String) -> Unit,
+    modifier: Modifier = Modifier
+) {
     val stagger = remember {
         staggerListOf(
             { }, false, *quickAccessibleDestinations.toTypedArray()
@@ -192,19 +215,18 @@ private fun SideBar(currentRoute: String, onClick: (route: String) -> Unit) {
     val sidebarVisible =
         remember(currentRoute) { currentRoute in quickAccessibleDestinations.map { it.destination.path } }
 
-    NavigationRail(Modifier.animateVisibility(
-        sidebarVisible, remember(sidebarVisible) {
-            slideHorizontally(
-                -dp80inPx, animationSpec = tween()
-            ) + fade(
-                animationSpec = tween(
-                    if (sidebarVisible) (300 * 0.35f).toInt() else 300,
-                    if (sidebarVisible) (300 * 0.35f).toInt() else 0,
-                    if (sidebarVisible) LinearOutSlowInEasing else FastOutLinearInEasing
-                )
+    Column(
+        modifier
+            .animateVisibility(
+                sidebarVisible,
+                MaterialTheme.animation.emphasizedHorizontalSlide(-dp80inPx) + scale(from = 0.8f)
             )
-        }
-    )) {
+            .padding(start = MaterialTheme.spacing.large)
+            .width(80.dp)
+            .clip(CircleShape)
+            .background(MaterialTheme.colorScheme.surfaceColorAtElevation(3.dp))
+            .padding(vertical = MaterialTheme.spacing.extraLarge),
+    ) {
         stagger.forEach {
             val destination = it.value.destination
             val selected = destination.path == currentRoute
@@ -218,18 +240,9 @@ private fun SideBar(currentRoute: String, onClick: (route: String) -> Unit) {
                         imageVector = if (selected) it.value.filledIcon else it.value.outlinedIcon,
                         contentDescription = ""
                     )
-                }, label = { Text(text = rememberString(string = it.value.previewName)) },
+                }, label = null/* { Text(text = rememberString(string = it.value.previewName)) }*/,
                 alwaysShowLabel = false, modifier = Modifier.animateVisibility(
-                    it.visible,
-                    fade(
-                        animationSpec = tween(
-                            250,
-                            (250 * 0.35f).toInt()
-                        )
-                    ) + slideHorizontally(
-                        from = -dp80inPx,
-                        animationSpec = tween(250)
-                    )
+                    it.visible, MaterialTheme.animation.emphasizedHorizontalSlide(-dp80inPx)
                 )
             )
         }

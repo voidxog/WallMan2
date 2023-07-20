@@ -1,5 +1,6 @@
 package com.colorata.wallman.wallpapers.ui
 
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -32,7 +33,7 @@ import com.colorata.wallman.wallpapers.viewmodel.MainViewModel
 context(WallpapersModule)
 fun MaterialNavGraphBuilder.mainScreen() {
     flatComposable(Destinations.MainDestination()) {
-        FeaturedScreen(Modifier.navigationPadding())
+        FeaturedScreen()
     }
 }
 
@@ -52,6 +53,7 @@ private fun FeaturedScreen(state: MainViewModel.MainScreenState, modifier: Modif
     LaunchedEffect(selectedWallpaper) {
         currentImageAsset = selectedWallpaper?.firstPreviewRes()
     }
+
     FilteredWallpaperCards(
         onClick = {
             state.onEvent(MainViewModel.MainScreenEvent.ClickOnWallpaper(it))
@@ -64,7 +66,7 @@ private fun FeaturedScreen(state: MainViewModel.MainScreenState, modifier: Modif
                 onClick = {
                     state.onEvent(MainViewModel.MainScreenEvent.ClickOnWallpaper(it))
                 },
-                Modifier.padding(vertical = MaterialTheme.spacing.extraLarge),
+                Modifier.fillMaxWidth().padding(vertical = MaterialTheme.spacing.extraLarge),
                 onWallpaperRotation = {
                     selectedWallpaper = it
                 })
@@ -77,6 +79,7 @@ private fun FeaturedScreen(state: MainViewModel.MainScreenState, modifier: Modif
         onRandomWallpaper = {
             state.onEvent(MainViewModel.MainScreenEvent.RandomWallpaper)
         },
-        backgroundImageBitmap = currentImageAsset?.let { bitmapAsset(it) }
+        backgroundImageBitmap = currentImageAsset?.let { bitmapAsset(it) },
+        applyNavigationPadding = true
     )
 }
