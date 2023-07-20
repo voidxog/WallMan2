@@ -23,6 +23,7 @@ import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -105,6 +106,7 @@ import com.colorata.wallman.core.ui.modifiers.displayRotation
 import com.colorata.wallman.core.ui.theme.spacing
 import com.colorata.wallman.core.ui.theme.WallManContentTheme
 import com.colorata.wallman.core.ui.theme.WallManPreviewTheme
+import com.colorata.wallman.core.ui.util.LocalWindowSizeConfiguration
 import com.colorata.wallman.core.ui.util.rememberWindowSize
 import com.colorata.wallman.ui.icons.SdCard
 import com.colorata.wallman.wallpapers.BaseWallpaper
@@ -142,10 +144,7 @@ fun WallpaperDetailsScreen(wallpaperHashCode: Int, modifier: Modifier = Modifier
 
 @OptIn(ExperimentalStaggerApi::class)
 @Composable
-private fun WallpaperDetailsScreen(
-    state: WallpaperDetailsViewModel.WallpaperDetailsScreenState,
-    modifier: Modifier = Modifier
-) {
+private fun WallpaperDetailsScreen(state: WallpaperDetailsViewModel.WallpaperDetailsScreenState, modifier: Modifier = Modifier) {
     val selectedBaseWallpaper = state.selectedWallpaper
     val isPreview = LocalInspectionMode.current
     if (state.showPermissionRequest) {
@@ -158,10 +157,7 @@ private fun WallpaperDetailsScreen(
 
     val scrollState = rememberScrollState()
     val previewImage = bitmapAsset(state.selectedWallpaper.previewRes)
-    val animationSpec =
-        fade(animationSpec = MaterialTheme.animation.emphasized()) + slideVertically(
-            animationSpec = MaterialTheme.animation.emphasized()
-        )
+    val animationSpec = fade(animationSpec = MaterialTheme.animation.emphasized()) + slideVertically(animationSpec = MaterialTheme.animation.emphasized())
     val animList = remember {
         List(8) { }.toStaggerList({ 0f }, visible = isPreview)
     }
@@ -171,83 +167,47 @@ private fun WallpaperDetailsScreen(
         })
     }
 
-    val windowSize = rememberWindowSize()
+    val windowSize = LocalWindowSizeConfiguration.current
     WallManContentTheme(state.selectedWallpaper.previewRes) {
-        Box(
-            modifier
+        Box(modifier
                 .fillMaxSize()
-        ) {
+                .background(MaterialTheme.colorScheme.surface)) {
             if (windowSize.widthSizeClass == WindowWidthSizeClass.Compact) {
                 ScreenBackground(previewImage)
-                Column(
-                    Modifier
+                Column(Modifier
                         .verticalScroll(scrollState)
                         .padding(MaterialTheme.spacing.extraLarge)
-                        .fillMaxSize(),
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.large)
-                ) {
-                    PreviewImage(
-                        resource = selectedBaseWallpaper.previewRes,
-                        downloadProgress = { state.downloadProgress },
-                        Modifier
+                        .fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.large)) {
+                    PreviewImage(resource = selectedBaseWallpaper.previewRes, downloadProgress = { state.downloadProgress }, Modifier
                             .zIndex(3f)
-                            .animateVisibility(
-                                animList[0].visible,
-                                animationSpec
-                            )
-                    )
+                            .animateVisibility(animList[0].visible, animationSpec))
                     DescriptionAndActions(state, visibilityList = animList)
                 }
-                BottomBar(
-                    state,
-                    Modifier
+                BottomBar(state, Modifier
                         .align(Alignment.BottomCenter)
-                        .animateVisibility(
-                            animList[6].visible,
-                            animationSpec
-                        )
-                )
+                        .animateVisibility(animList[6].visible, animationSpec))
             } else {
                 Row(Modifier.fillMaxSize()) {
                     Box(Modifier.weight(1f)) {
-                        ScreenBackground(
-                            previewImage,
-                            gradientType = GradientType.Horizontal,
-                            imageFraction = 1f
-                        )
-                        PreviewImage(
-                            resource = selectedBaseWallpaper.previewRes,
-                            downloadProgress = { state.downloadProgress },
-                            Modifier
+                        ScreenBackground(previewImage, gradientType = GradientType.Horizontal, imageFraction = 1f)
+                        PreviewImage(resource = selectedBaseWallpaper.previewRes, downloadProgress = { state.downloadProgress }, Modifier
                                 .padding(MaterialTheme.spacing.extraLarge)
                                 .fillMaxSize()
                                 .zIndex(3f)
-                                .animateVisibility(
-                                    animList[0].visible,
-                                    animationSpec
-                                )
-                        )
+                                .animateVisibility(animList[0].visible, animationSpec))
                     }
-                    Box(Modifier.weight(1f)) {
-                        Column(
-                            Modifier
+                    Box(Modifier
+                            .weight(1f)
+                            .fillMaxHeight()) {
+                        Column(Modifier
                                 .verticalScroll(scrollState)
                                 .padding(MaterialTheme.spacing.extraLarge)
-                                .fillMaxSize()
-                        ) {
+                                .fillMaxSize()) {
                             DescriptionAndActions(state, visibilityList = animList)
                         }
-                        BottomBar(
-                            state,
-                            Modifier
+                        BottomBar(state, Modifier
                                 .align(Alignment.BottomCenter)
-                                .animateVisibility(
-                                    animList[6].visible,
-                                    animationSpec
-                                ),
-                            fullWidth = false
-                        )
+                                .animateVisibility(animList[6].visible, animationSpec), fullWidth = false)
                     }
                 }
             }
@@ -259,157 +219,72 @@ private fun WallpaperDetailsScreen(
 @Composable
 private fun WallpaperDetailsPreview() {
     WallManPreviewTheme {
-        WallpaperDetailsScreen(
-            WallpaperDetailsViewModel.WallpaperDetailsScreenState(
-                walls[42],
-                actionType = WallpaperI.ActionType.Install(true),
-                cacheState = DynamicWallpaper.DynamicWallpaperCacheState.Cached,
-                downloadProgress = 50f,
-                selectedWallpaper = walls[42].dynamicWallpapers[0],
-                selectedWallpaperType = WallpaperI.SelectedWallpaperType.Dynamic,
-                wallpaperVariants = walls[42].staticWallpapers,
-                onEvent = { }
-            ))
+        WallpaperDetailsScreen(WallpaperDetailsViewModel.WallpaperDetailsScreenState(walls[42], actionType = WallpaperI.ActionType.Install(true), cacheState = DynamicWallpaper.DynamicWallpaperCacheState.Cached, downloadProgress = 50f, selectedWallpaper = walls[42].dynamicWallpapers[0], selectedWallpaperType = WallpaperI.SelectedWallpaperType.Dynamic, wallpaperVariants = walls[42].staticWallpapers, onEvent = { }))
     }
 }
 
 @Composable
-private fun Variants(
-    wallpaperVariants: ImmutableList<BaseWallpaper>,
-    selectedWallpaper: BaseWallpaper,
-    onClick: (updatedWallpaper: BaseWallpaper) -> Unit,
-    modifier: Modifier = Modifier
-) {
-    val variants =
-        remember(wallpaperVariants) {
-            wallpaperVariants.map { it.previewRes }.toImmutableList()
-        }
-    AnimatedContent(
-        targetState = variants,
-        transitionSpec = { materialSharedAxisX(true, 100) using SizeTransform(clip = false) },
-        label = "",
-        modifier = modifier
-    ) { updatedVariants ->
-        WallpaperVariants(
-            wallpapers = updatedVariants,
-            selectedWallpaper = selectedWallpaper.previewRes,
-            onClick = { updatedRes ->
-                onClick(
-                    wallpaperVariants.first { it.previewRes == updatedRes }
-                )
-            }
-        )
+private fun Variants(wallpaperVariants: ImmutableList<BaseWallpaper>, selectedWallpaper: BaseWallpaper, onClick: (updatedWallpaper: BaseWallpaper) -> Unit, modifier: Modifier = Modifier) {
+    val variants = remember(wallpaperVariants) {
+        wallpaperVariants.map { it.previewRes }.toImmutableList()
+    }
+    AnimatedContent(targetState = variants, transitionSpec = { materialSharedAxisX(true, 100) using SizeTransform(clip = false) }, label = "", modifier = modifier) { updatedVariants ->
+        WallpaperVariants(wallpapers = updatedVariants, selectedWallpaper = selectedWallpaper.previewRes, onClick = { updatedRes ->
+            onClick(wallpaperVariants.first { it.previewRes == updatedRes })
+        })
     }
 }
 
 @OptIn(ExperimentalShapeApi::class)
 @Composable
-private fun PreviewImage(
-    resource: String,
-    downloadProgress: () -> Float,
-    modifier: Modifier = Modifier
-) {
+private fun PreviewImage(resource: String, downloadProgress: () -> Float, modifier: Modifier = Modifier) {
     val shape = remember { ScallopShape(density = 100f) }
     val rotationState = rememberRotationState()
     val animation = MaterialTheme.animation
 
-    Box(
-        modifier
+    Box(modifier
             .detectRotation(rotationState)
-            .statusBarsPadding(), contentAlignment = Alignment.Center
-    ) {
-        Arc(
-            progress = { downloadProgress() },
-            width = {
-                if (rotationState.isRotationInProgress) 8f
-                else 0f
-            },
-            Modifier
+            .statusBarsPadding(), contentAlignment = Alignment.Center) {
+        Arc(progress = { downloadProgress() }, width = {
+            if (rotationState.isRotationInProgress) 8f
+            else 0f
+        }, Modifier
                 .displayRotation(rotationState)
-                .size(300.dp),
-            shape
-        )
-        AnimatedContent(
-            targetState = resource,
-            transitionSpec = {
-                fadeIn(animation.emphasized()) togetherWith fadeOut(animation.emphasized())
-            }, label = ""
-        ) { imageName ->
-            Image(
-                bitmap = bitmapAsset(imageName),
-                contentDescription = "",
-                modifier = Modifier
+                .size(300.dp), shape)
+        AnimatedContent(targetState = resource, transitionSpec = {
+            fadeIn(animation.emphasized()) togetherWith fadeOut(animation.emphasized())
+        }, label = "") { imageName ->
+            Image(bitmap = bitmapAsset(imageName), contentDescription = "", modifier = Modifier
                     .displayRotation(rotationState, layer = 0.5f)
                     .clip(shape)
                     .size(300.dp)
-                    .aspectRatio(1f),
-                contentScale = ContentScale.Crop
-            )
+                    .aspectRatio(1f), contentScale = ContentScale.Crop)
         }
-        Arc(
-            progress = { downloadProgress() },
-            width = { progress ->
-                if (rotationState.isRotationInProgress) 0f
-                else if (progress == 100f) 1f
-                else 3f
-            },
-            Modifier
+        Arc(progress = { downloadProgress() }, width = { progress ->
+            if (rotationState.isRotationInProgress) 0f
+            else if (progress == 100f) 1f
+            else 3f
+        }, Modifier
                 .displayRotation(rotationState, layer = 1f)
-                .size(300.dp),
-            shape
-        )
+                .size(300.dp), shape)
     }
 }
 
 @Composable
-private fun Arc(
-    progress: () -> Float,
-    width: (progress: Float) -> Float,
-    modifier: Modifier = Modifier,
-    shape: Shape = RectangleShape
-) {
-    val animatedProgress by animateFloatAsState(
-        progress(),
-        label = ""
-    )
-    val start = if (animatedProgress != 100f) rememberInfiniteTransition(label = "").animateFloat(
-        initialValue = -90f,
-        targetValue = 270f,
-        animationSpec = infiniteRepeatable(
-            animation = tween(
-                durationMillis = 5000,
-                easing = LinearEasing
-            ),
-            repeatMode = RepeatMode.Restart
-        ), label = ""
-    ).value else -90f
-    val animatedWidth =
-        MaterialTheme.spacing.extraSmall * animateFloatAsState(
-            targetValue = remember { derivedStateOf { width(animatedProgress) } }.value,
-            label = ""
-        ).value
+private fun Arc(progress: () -> Float, width: (progress: Float) -> Float, modifier: Modifier = Modifier, shape: Shape = RectangleShape) {
+    val animatedProgress by animateFloatAsState(progress(), label = "")
+    val start = if (animatedProgress != 100f) rememberInfiniteTransition(label = "").animateFloat(initialValue = -90f, targetValue = 270f, animationSpec = infiniteRepeatable(animation = tween(durationMillis = 5000, easing = LinearEasing), repeatMode = RepeatMode.Restart), label = "").value else -90f
+    val animatedWidth = MaterialTheme.spacing.extraSmall * animateFloatAsState(targetValue = remember { derivedStateOf { width(animatedProgress) } }.value, label = "").value
     val borderColor = MaterialTheme.colorScheme.primary
     val layoutDirection = LocalLayoutDirection.current
     val density = LocalDensity.current
-    Box(
-        modifier = modifier
-            .clip(shape)
-    ) {
-        Canvas(
-            modifier = Modifier
+    Box(modifier = modifier.clip(shape)) {
+        Canvas(modifier = Modifier
                 .fillMaxSize()
-                .drawOffscreen()
-        ) {
-            val border = BorderStroke(
-                animatedWidth,
-                borderColor
-            )
+                .drawOffscreen()) {
+            val border = BorderStroke(animatedWidth, borderColor)
             if (animatedWidth.value != 0f) {
-                drawOutline(
-                    shape.createOutline(size, layoutDirection, density),
-                    brush = border.brush,
-                    style = Stroke(border.width.toPx(), cap = StrokeCap.Round)
-                )
+                drawOutline(shape.createOutline(size, layoutDirection, density), brush = border.brush, style = Stroke(border.width.toPx(), cap = StrokeCap.Round))
                 drawMaskArc(arc(degrees(start), degrees(3.6f * animatedProgress)), border.brush)
             }
         }
@@ -417,151 +292,60 @@ private fun Arc(
 }
 
 @Composable
-fun DescriptionAndActions(
-    state: WallpaperDetailsViewModel.WallpaperDetailsScreenState,
-    visibilityList: StaggerList<Unit, Float>,
-    modifier: Modifier = Modifier
-) {
-    val animationSpec =
-        fade(animationSpec = MaterialTheme.animation.emphasized()) + slideVertically(
-            animationSpec = MaterialTheme.animation.emphasized()
-        )
+fun DescriptionAndActions(state: WallpaperDetailsViewModel.WallpaperDetailsScreenState, visibilityList: StaggerList<Unit, Float>, modifier: Modifier = Modifier) {
+    val animationSpec = fade(animationSpec = MaterialTheme.animation.emphasized()) + slideVertically(animationSpec = MaterialTheme.animation.emphasized())
     val wallpaper = state.wallpaper
     val selectedBaseWallpaper = state.selectedWallpaper
-    Column(
-        modifier,
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.large)
-    ) {
-        PreviewName(
-            selectedBaseWallpaper.previewName,
-            Modifier
+    Column(modifier, horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.large)) {
+        PreviewName(selectedBaseWallpaper.previewName, Modifier
                 .align(Alignment.Start)
-                .animateVisibility(
-                    visibilityList[1].visible,
-                    animationSpec
-                )
-        )
-        Description(
-            selectedBaseWallpaper.description,
-            Modifier
+                .animateVisibility(visibilityList[1].visible, animationSpec))
+        Description(selectedBaseWallpaper.description, Modifier
                 .align(Alignment.Start)
-                .animateVisibility(
-                    visibilityList[2].visible,
-                    animationSpec
-                )
-        )
-        WallpaperTypeSelector(
-            supportsDynamicWallpaper = remember(wallpaper) { wallpaper.supportsDynamicWallpapers() },
-            selectedWallpaperType = state.selectedWallpaperType,
-            onClick = {
-                state.onEvent(
-                    WallpaperDetailsViewModel.WallpaperDetailsScreenEvent.SelectWallpaperType(
-                        it
-                    )
-                )
-            },
-            Modifier.animateVisibility(
-                visibilityList[3].visible,
-                animationSpec
-            )
-        )
+                .animateVisibility(visibilityList[2].visible, animationSpec))
+        WallpaperTypeSelector(supportsDynamicWallpaper = remember(wallpaper) { wallpaper.supportsDynamicWallpapers() }, selectedWallpaperType = state.selectedWallpaperType, onClick = {
+            state.onEvent(WallpaperDetailsViewModel.WallpaperDetailsScreenEvent.SelectWallpaperType(it))
+        }, Modifier.animateVisibility(visibilityList[3].visible, animationSpec))
         val chips = remember {
             persistentListOf<Chip>().mutate {
-                if (selectedBaseWallpaper.coordinates != null) it.add(
-                    Chip(
-                        Strings.goToMaps,
-                        Icons.Default.LocationOn
-                    )
-                )
-                if (wallpaper.supportsDynamicWallpapers()) it.add(
-                    Chip(
-                        Strings.size.formatted(wallpaper.parent.sizeInMb()),
-                        Icons.Default.SdCard
-                    )
-                )
-                it.add(
-                    Chip(
-                        simplifiedLocaleOf(wallpaper.author),
-                        Icons.Filled.AccountCircle
-                    )
-                )
+                if (selectedBaseWallpaper.coordinates != null) it.add(Chip(Strings.goToMaps, Icons.Default.LocationOn))
+                if (wallpaper.supportsDynamicWallpapers()) it.add(Chip(Strings.size.formatted(wallpaper.parent.sizeInMb()), Icons.Default.SdCard))
+                it.add(Chip(simplifiedLocaleOf(wallpaper.author), Icons.Filled.AccountCircle))
             }
         }
-        Chips(
-            chips = chips, onClick = {
-                val index = chips.indexOf(it)
-                if (index == 0) state.onEvent(WallpaperDetailsViewModel.WallpaperDetailsScreenEvent.GoToMaps)
-            }, Modifier.animateVisibility(
-                visibilityList[4].visible,
-                animationSpec
-            )
-        )
-        Variants(
-            state.wallpaperVariants,
-            selectedWallpaper = state.selectedWallpaper,
-            onClick = {
-                state.onEvent(
-                    WallpaperDetailsViewModel.WallpaperDetailsScreenEvent.SelectBaseWallpaper(
-                        it
-                    )
-                )
-            },
-            Modifier.animateVisibility(
-                visibilityList[5].visible,
-                animationSpec
-            )
-        )
+        Chips(chips = chips, onClick = {
+            val index = chips.indexOf(it)
+            if (index == 0) state.onEvent(WallpaperDetailsViewModel.WallpaperDetailsScreenEvent.GoToMaps)
+        }, Modifier.animateVisibility(visibilityList[4].visible, animationSpec))
+        Variants(state.wallpaperVariants, selectedWallpaper = state.selectedWallpaper, onClick = {
+            state.onEvent(WallpaperDetailsViewModel.WallpaperDetailsScreenEvent.SelectBaseWallpaper(it))
+        }, Modifier.animateVisibility(visibilityList[5].visible, animationSpec))
         Spacer(Modifier.height(80.dp))
     }
 }
 
 @Composable
 private fun PreviewName(previewName: Polyglot, modifier: Modifier = Modifier) {
-    AnimatedContent(
-        targetState = previewName, transitionSpec = {
-            materialSharedAxisX(true, 100) using SizeTransform(clip = false)
-        },
-        modifier = modifier, label = ""
-    ) { name ->
-        Text(
-            text = rememberString(string = name),
-            style = MaterialTheme.typography.titleLarge,
-            textAlign = TextAlign.Start,
-            color = MaterialTheme.colorScheme.onSurface
-        )
+    AnimatedContent(targetState = previewName, transitionSpec = {
+        materialSharedAxisX(true, 100) using SizeTransform(clip = false)
+    }, modifier = modifier, label = "") { name ->
+        Text(text = rememberString(string = name), style = MaterialTheme.typography.titleLarge, textAlign = TextAlign.Start, color = MaterialTheme.colorScheme.onSurface)
     }
 }
 
 @Composable
 private fun Description(description: Polyglot, modifier: Modifier = Modifier) {
-    AnimatedContent(
-        targetState = description, transitionSpec = {
-            materialSharedAxisX(true, 100) using SizeTransform(clip = false)
-        },
-        modifier = modifier, label = ""
-    ) { animatedDescription ->
-        Text(
-            text = rememberString(string = animatedDescription),
-            style = MaterialTheme.typography.bodyMedium,
-            textAlign = TextAlign.Start,
-            color = MaterialTheme.colorScheme.onSurface
-        )
+    AnimatedContent(targetState = description, transitionSpec = {
+        materialSharedAxisX(true, 100) using SizeTransform(clip = false)
+    }, modifier = modifier, label = "") { animatedDescription ->
+        Text(text = rememberString(string = animatedDescription), style = MaterialTheme.typography.bodyMedium, textAlign = TextAlign.Start, color = MaterialTheme.colorScheme.onSurface)
     }
 }
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
-private fun Chips(
-    chips: ImmutableList<Chip>,
-    onClick: (Chip) -> Unit,
-    modifier: Modifier = Modifier
-) {
-    androidx.compose.foundation.layout.FlowRow(
-        modifier = modifier
-            .fillMaxWidth(),
-        horizontalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.small)
-    ) {
+private fun Chips(chips: ImmutableList<Chip>, onClick: (Chip) -> Unit, modifier: Modifier = Modifier) {
+    androidx.compose.foundation.layout.FlowRow(modifier = modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.small)) {
         chips.forEach { chip ->
             AssistChip(onClick = { onClick(chip) }, label = {
                 Text(text = rememberString(chip.previewName))
@@ -573,43 +357,22 @@ private fun Chips(
 }
 
 @Composable
-private fun WallpaperTypeSelector(
-    supportsDynamicWallpaper: Boolean,
-    selectedWallpaperType: WallpaperI.SelectedWallpaperType,
-    onClick: (WallpaperI.SelectedWallpaperType) -> Unit,
-    modifier: Modifier = Modifier
-) {
-    Row(
-        modifier
-    ) {
+private fun WallpaperTypeSelector(supportsDynamicWallpaper: Boolean, selectedWallpaperType: WallpaperI.SelectedWallpaperType, onClick: (WallpaperI.SelectedWallpaperType) -> Unit, modifier: Modifier = Modifier) {
+    Row(modifier) {
         if (supportsDynamicWallpaper) {
-            BigChip(
-                onClick = {
-                    onClick(WallpaperI.SelectedWallpaperType.Dynamic)
-                },
-                selected = selectedWallpaperType == WallpaperI.SelectedWallpaperType.Dynamic,
-                text = WallpaperI.SelectedWallpaperType.Dynamic.label,
-                Modifier.weight(1f)
-            )
+            BigChip(onClick = {
+                onClick(WallpaperI.SelectedWallpaperType.Dynamic)
+            }, selected = selectedWallpaperType == WallpaperI.SelectedWallpaperType.Dynamic, text = WallpaperI.SelectedWallpaperType.Dynamic.label, Modifier.weight(1f))
         }
         Spacer(modifier = Modifier.width(MaterialTheme.spacing.small))
-        BigChip(
-            onClick = {
-                onClick(WallpaperI.SelectedWallpaperType.Static)
-            },
-            selected = selectedWallpaperType == WallpaperI.SelectedWallpaperType.Static,
-            text = WallpaperI.SelectedWallpaperType.Static.label,
-            Modifier.weight(1f)
-        )
+        BigChip(onClick = {
+            onClick(WallpaperI.SelectedWallpaperType.Static)
+        }, selected = selectedWallpaperType == WallpaperI.SelectedWallpaperType.Static, text = WallpaperI.SelectedWallpaperType.Static.label, Modifier.weight(1f))
     }
 }
 
 @Composable
-fun PermissionRequestDialog(
-    onDismiss: () -> Unit,
-    onConfirm: () -> Unit,
-    modifier: Modifier = Modifier
-) {
+fun PermissionRequestDialog(onDismiss: () -> Unit, onConfirm: () -> Unit, modifier: Modifier = Modifier) {
     AlertDialog(onDismissRequest = {
         onDismiss()
     }, confirmButton = {
@@ -627,45 +390,23 @@ fun PermissionRequestDialog(
 
 @Composable
 private fun BottomBar(
-    state: WallpaperDetailsViewModel.WallpaperDetailsScreenState,
-    modifier: Modifier = Modifier,
-    fullWidth: Boolean = true,
+        state: WallpaperDetailsViewModel.WallpaperDetailsScreenState,
+        modifier: Modifier = Modifier,
+        fullWidth: Boolean = true,
 ) {
-    val horizontalPadding =
-        if (fullWidth) MaterialTheme.spacing.extraLarge else MaterialTheme.spacing.medium
-    val verticalPadding =
-        if (fullWidth) MaterialTheme.spacing.large else MaterialTheme.spacing.small
-    Row(
-        modifier
-            .then(
-                if (!fullWidth) Modifier
-                    .padding(
-                        horizontal = MaterialTheme.spacing.extraLarge,
-                        vertical = MaterialTheme.spacing.small
-                    )
+    val horizontalPadding = if (fullWidth) MaterialTheme.spacing.extraLarge else MaterialTheme.spacing.medium
+    val verticalPadding = if (fullWidth) MaterialTheme.spacing.large else MaterialTheme.spacing.small
+    Row(modifier
+            .then(if (!fullWidth) Modifier
+                    .padding(horizontal = MaterialTheme.spacing.extraLarge, vertical = MaterialTheme.spacing.small)
                     .navigationBarsPadding()
-                    .clip(CircleShape) else Modifier
-            )
+                    .clip(CircleShape) else Modifier)
             .background(MaterialTheme.colorScheme.surfaceVariant)
-            .padding(
-                horizontal = horizontalPadding,
-                vertical = verticalPadding
-            )
-            .then(if (fullWidth) Modifier.navigationBarsPadding() else Modifier),
-        horizontalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.extraSmall),
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        OutlinedButton(
-            onClick = {
-                state.onEvent(WallpaperDetailsViewModel.WallpaperDetailsScreenEvent.ClickOnDownload)
-            }, modifier = Modifier.weight(1f), shape = RoundedCornerShape(
-                MaterialTheme.spacing.extraLarge,
-                MaterialTheme.spacing.extraSmall,
-                MaterialTheme.spacing.extraSmall,
-                MaterialTheme.spacing.extraLarge
-            ),
-            enabled = state.selectedWallpaperType == WallpaperI.SelectedWallpaperType.Dynamic && state.wallpaper.supportsDynamicWallpapers()
-        ) {
+            .padding(horizontal = horizontalPadding, vertical = verticalPadding)
+            .then(if (fullWidth) Modifier.navigationBarsPadding() else Modifier), horizontalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.extraSmall), verticalAlignment = Alignment.CenterVertically) {
+        OutlinedButton(onClick = {
+            state.onEvent(WallpaperDetailsViewModel.WallpaperDetailsScreenEvent.ClickOnDownload)
+        }, modifier = Modifier.weight(1f), shape = RoundedCornerShape(MaterialTheme.spacing.extraLarge, MaterialTheme.spacing.extraSmall, MaterialTheme.spacing.extraSmall, MaterialTheme.spacing.extraLarge), enabled = state.selectedWallpaperType == WallpaperI.SelectedWallpaperType.Dynamic && state.wallpaper.supportsDynamicWallpapers()) {
             AnimatedContent(targetState = state.cacheState, transitionSpec = {
                 materialSharedAxisY(true, 100)
             }, label = "") {
@@ -673,17 +414,9 @@ private fun BottomBar(
             }
         }
 
-        Button(
-            enabled = state.actionType.available, onClick = {
-                state.onEvent(WallpaperDetailsViewModel.WallpaperDetailsScreenEvent.ClickOnActionButton)
-            }, modifier = Modifier.weight(1f),
-            shape = RoundedCornerShape(
-                MaterialTheme.spacing.extraSmall,
-                MaterialTheme.spacing.extraLarge,
-                MaterialTheme.spacing.extraLarge,
-                MaterialTheme.spacing.extraSmall
-            )
-        ) {
+        Button(enabled = state.actionType.available, onClick = {
+            state.onEvent(WallpaperDetailsViewModel.WallpaperDetailsScreenEvent.ClickOnActionButton)
+        }, modifier = Modifier.weight(1f), shape = RoundedCornerShape(MaterialTheme.spacing.extraSmall, MaterialTheme.spacing.extraLarge, MaterialTheme.spacing.extraLarge, MaterialTheme.spacing.extraSmall)) {
             AnimatedContent(targetState = state.selectedWallpaperType.icon, transitionSpec = {
                 materialSharedAxisY(true, 100)
             }, label = "") {

@@ -26,28 +26,28 @@ import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import kotlin.math.ln
 
 private val DarkColorScheme = darkColorScheme(
-    primary = Purple80, secondary = PurpleGrey80, tertiary = Pink80
+        primary = Purple80, secondary = PurpleGrey80, tertiary = Pink80
 )
 
 private val LightColorScheme = lightColorScheme(
-    primary = Purple40, secondary = PurpleGrey40, tertiary = Pink40
+        primary = Purple40, secondary = PurpleGrey40, tertiary = Pink40
 
-    /* Other default colors to override
-    background = Color(0xFFFFFBFE),
-    surface = Color(0xFFFFFBFE),
-    onPrimary = Color.White,
-    onSecondary = Color.White,
-    onTertiary = Color.White,
-    onBackground = Color(0xFF1C1B1F),
-    onSurface = Color(0xFF1C1B1F),
-    */
+        /* Other default colors to override
+        background = Color(0xFFFFFBFE),
+        surface = Color(0xFFFFFBFE),
+        onPrimary = Color.White,
+        onSecondary = Color.White,
+        onTertiary = Color.White,
+        onBackground = Color(0xFF1C1B1F),
+        onSurface = Color(0xFF1C1B1F),
+        */
 )
 
 @Composable
 fun WallManTheme(
-    darkTheme: Boolean = isSystemInDarkTheme(),
-    dynamicColor: Boolean = true,
-    content: @Composable () -> Unit
+        darkTheme: Boolean = isSystemInDarkTheme(),
+        dynamicColor: Boolean = true,
+        content: @Composable () -> Unit
 ) {
     val colorScheme = when {
         dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
@@ -66,15 +66,15 @@ fun WallManTheme(
         SideEffect {
             (view.context as Activity).window.apply {
                 WindowCompat.getInsetsController(this, view).isAppearanceLightStatusBars =
-                    !darkTheme
+                        !darkTheme
                 WindowCompat.getInsetsController(this, view).isAppearanceLightNavigationBars =
-                    !darkTheme
+                        !darkTheme
                 if (Build.VERSION.SDK_INT < 30) {
                     statusBarColor = surfaceColor.toArgb()
                     val alpha = ((4.5f * ln(3f + 1)) + 2f) / 100f
                     controller.setNavigationBarColor(
-                        surfaceTintColor.copy(alpha = alpha).compositeOver(surfaceColor),
-                        darkIcons = !darkTheme
+                            surfaceTintColor.copy(alpha = alpha).compositeOver(surfaceColor),
+                            darkIcons = !darkTheme
                     )
                 } else {
                     controller.setSystemBarsColor(Color.Transparent, darkIcons = !darkTheme)
@@ -84,11 +84,11 @@ fun WallManTheme(
         }
     }
     CompositionLocalProvider(
-        LocalSpacing provides Spacing()
+            LocalSpacing provides Spacing()
     ) {
         ProvideWindowSize {
             MaterialTheme(
-                colorScheme = colorScheme, typography = Typography
+                    colorScheme = colorScheme, typography = Typography
             ) {
                 Surface {
                     content()
@@ -101,30 +101,32 @@ fun WallManTheme(
 
 @Composable
 fun WallManPreviewTheme(
-    darkTheme: Boolean = isSystemInDarkTheme(),
-    colorScheme: ColorScheme? = null,
-    dynamicColor: Boolean = true,
-    content: @Composable () -> Unit
+        darkTheme: Boolean = isSystemInDarkTheme(),
+        colorScheme: ColorScheme? = null,
+        dynamicColor: Boolean = true,
+        content: @Composable () -> Unit
 ) {
     val finalColorScheme =
-        when {
-            colorScheme != null -> colorScheme
-            dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
-                val context = LocalContext.current
-                if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
-            }
+            when {
+                colorScheme != null -> colorScheme
+                dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
+                    val context = LocalContext.current
+                    if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
+                }
 
-            darkTheme -> DarkColorScheme
-            else -> LightColorScheme
-        }
+                darkTheme -> DarkColorScheme
+                else -> LightColorScheme
+            }
     CompositionLocalProvider(
-        LocalSpacing provides Spacing(),
-        LocalAnimationsPerformance provides AnimationsPerformance.Full
+            LocalSpacing provides Spacing(),
+            LocalAnimationsPerformance provides AnimationsPerformance.Full
     ) {
         ProvideWindowSize {
             MaterialTheme(
-                colorScheme = finalColorScheme, typography = Typography, content = content
-            )
+                    colorScheme = finalColorScheme, typography = Typography
+            ) {
+                content()
+            }
         }
     }
 }

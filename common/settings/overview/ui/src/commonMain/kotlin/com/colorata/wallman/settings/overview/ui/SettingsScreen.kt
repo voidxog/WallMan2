@@ -63,7 +63,6 @@ fun SettingsScreen(modifier: Modifier = Modifier) {
     SettingsScreen(state, modifier)
 }
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalStaggerApi::class)
 @Composable
 private fun SettingsScreen(
     state: SettingsViewModel.SettingsScreenState,

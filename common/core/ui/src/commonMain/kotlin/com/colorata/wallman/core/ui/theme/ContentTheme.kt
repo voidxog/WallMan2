@@ -4,8 +4,12 @@ import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.produceState
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asAndroidBitmap
@@ -71,7 +75,7 @@ fun ImageBitmap.extractColorScheme(darkTheme: Boolean): ColorScheme {
 }
 
 private val extractedColors =
-    memoizeHash({ assetName: String, _ -> assetName }) { _: String, pair: Pair<ImageBitmap, Boolean> ->
+    memoizeHash({ assetName: String, pair -> assetName to pair.second }) { _: String, pair: Pair<ImageBitmap, Boolean> ->
         val (bitmap, darkTheme) = pair
         bitmap.extractColorScheme(darkTheme)
     }
@@ -83,10 +87,11 @@ fun WallManContentTheme(
     content: @Composable () -> Unit
 ) {
     val image = bitmapAsset(assetName)
-
-    val colorScheme by produceState<ColorScheme?>(null, key1 = assetName) {
-        value = extractedColors(assetName, image to darkTheme)
+    var colorScheme by remember { mutableStateOf<ColorScheme?>(null) }
+    LaunchedEffect(assetName, darkTheme) {
+        colorScheme = extractedColors(assetName, image to darkTheme)
     }
+
     WallManPreviewTheme(darkTheme = darkTheme, colorScheme = colorScheme) {
         content()
     }
