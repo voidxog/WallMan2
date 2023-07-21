@@ -1,8 +1,10 @@
 package com.colorata.wallman.categories.ui.components
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -14,6 +16,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Shapes
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Shape
@@ -51,7 +54,12 @@ fun CategoryCard(
         Row(
             modifier = Modifier
                 .padding(MaterialTheme.spacing.medium)
-                .fillMaxWidth()
+                .fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(
+                MaterialTheme.spacing.small,
+                Alignment.CenterHorizontally
+            )
         ) {
             val roundedShape = MaterialTheme.shapes.large
             val circle = CircleShape
@@ -62,11 +70,10 @@ fun CategoryCard(
                     contentDescription = "",
                     modifier = Modifier
                         .clip(shapes[index])
-                        .weight(if (shapes[index] in largeShapes) 2f else 1f)
-                        .height(80.dp),
+                        .height(80.dp)
+                        .width(if (shapes[index] in largeShapes) 160.dp else 80.dp),
                     contentScale = ContentScale.Crop
                 )
-                Spacer(modifier = Modifier.width(MaterialTheme.spacing.small))
             }
         }
         androidx.compose.material3.Text(

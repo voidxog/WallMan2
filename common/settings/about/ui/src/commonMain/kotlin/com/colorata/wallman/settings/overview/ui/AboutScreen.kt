@@ -108,6 +108,7 @@ private fun AboutScreen(state: AboutViewModel.AboutScreenState, modifier: Modifi
     if (windowSize.isCompact()) {
         Column(
             modifier
+                .fillMaxSize()
                 .verticalScroll(rememberScrollState())
                 .padding(bottom = MaterialTheme.spacing.screenPadding)
                 .padding(horizontal = MaterialTheme.spacing.screenPadding)
@@ -130,7 +131,7 @@ private fun AboutScreen(state: AboutViewModel.AboutScreenState, modifier: Modifi
         }
     } else {
         Row(
-            modifier,
+            modifier.fillMaxSize(),
             horizontalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.large),
             verticalAlignment = Alignment.CenterVertically
         ) {

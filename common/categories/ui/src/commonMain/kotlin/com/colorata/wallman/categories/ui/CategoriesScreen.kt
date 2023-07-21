@@ -2,6 +2,7 @@ package com.colorata.wallman.categories.ui
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.foundation.lazy.staggeredgrid.itemsIndexed
@@ -107,7 +108,7 @@ private fun CategoriesLayout(
     }
     LazyVerticalStaggeredGrid(
         cells,
-        modifier = modifier,
+        modifier = modifier.fillMaxSize(),
         verticalItemSpacing = elementsSpacing,
         horizontalArrangement = Arrangement.spacedBy(elementsSpacing),
         contentPadding = PaddingValues(
