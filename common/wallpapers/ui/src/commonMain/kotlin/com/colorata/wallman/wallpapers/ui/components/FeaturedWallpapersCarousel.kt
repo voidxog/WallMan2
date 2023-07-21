@@ -81,14 +81,14 @@ fun FeaturedWallpapersCarousel(
     val anim = MaterialTheme.animation
     val scope = rememberCoroutineScope()
     val currentProgress = remember { Animatable(0f) }
-    val visibleWallpapers = remember { wallpapers.toStaggerList({ 0f }, visible = false) }
+    val visibleWallpapers = remember(wallpapers) { wallpapers.toStaggerList({ 0f }, visible = false) }
     var indicatorsVisible by remember { mutableStateOf(false) }
     val transition = fade(animationSpec = anim.emphasized()) + slideVertically(
         from = 100f,
         animationSpec = anim.emphasized()
     )
 
-    LaunchedEffect(Unit) {
+    LaunchedEffect(wallpapers) {
         launch {
             val page = state.currentPage
             visibleWallpapers[page % wallpapers.size].visible = true
