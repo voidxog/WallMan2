@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
@@ -121,7 +122,8 @@ private fun AboutScreen(state: AboutViewModel.AboutScreenState, modifier: Modifi
                 Modifier
                     .zIndex(3f)
                     .animateVisibility(
-                        animatedItems[0].visible, MaterialTheme.animation.emphasizedVerticalSlide()
+                        animatedItems[0].visible,
+                        MaterialTheme.animation.emphasizedVerticalSlide()
                     )
             )
             Actions(animatedItems)
@@ -161,7 +163,8 @@ private fun AboutScreen(state: AboutViewModel.AboutScreenState, modifier: Modifi
 
 @Composable
 private fun Actions(
-    animatedItems: StaggerList<AboutViewModel.AboutItem, Float>, modifier: Modifier = Modifier
+    animatedItems: StaggerList<AboutViewModel.AboutItem, Float>,
+    modifier: Modifier = Modifier
 ) {
     GroupedColumn(
         animatedItems,
@@ -170,8 +173,8 @@ private fun Actions(
         outerCorner = MaterialTheme.spacing.large
     ) {
         AboutItem(
-            item = it.value, modifier =
-            Modifier.animateVisibility(
+            item = it.value,
+            modifier = Modifier.animateVisibility(
                 it.visible,
                 MaterialTheme.animation.emphasizedVerticalSlide()
             )
@@ -185,33 +188,35 @@ private fun Logo(modifier: Modifier = Modifier) {
     val rotationState = rememberRotationState()
     Box(
         modifier
-            .size(300.dp)
-            .detectRotation(rotationState)
+            .detectRotation(rotationState), contentAlignment = Alignment.Center
     ) {
         Box(
             Modifier
                 .displayRotation(rotationState)
                 .clip(shape)
                 .background(Color(0xFF2F3032))
-                .fillMaxSize()
+                .fillMaxSize(0.9f)
+                .aspectRatio(1f)
         )
         val animatedWidth = animateFloatAsState(
-            if (rotationState.isRotationInProgress) 8f else 1f, label = ""
+            if (rotationState.isRotationInProgress) 8f else 1f,
+            label = ""
         ).value * MaterialTheme.spacing.extraSmall
         ArcBorder(
             Arc.Full,
             BorderStroke(animatedWidth, MaterialTheme.colorScheme.primary),
             Modifier
                 .displayRotation(rotationState, layer = 1f)
-                .fillMaxSize(),
-            shape
+                .fillMaxSize(0.9f)
+                .aspectRatio(1f), shape
         ) {
             Image(
                 painter = painterResource(id = R.drawable.ic_launcher_foreground),
                 contentDescription = "",
                 modifier = Modifier
+                    .scale(1.3f)
                     .fillMaxSize()
-                    .scale(1.3f),
+                    .aspectRatio(1f),
                 contentScale = ContentScale.Crop
             )
         }
@@ -224,21 +229,39 @@ private fun AboutScreenPreview() {
     WallManPreviewTheme {
         val state = remember {
             AboutViewModel.AboutScreenState(
-                aboutItems = persistentListOf(AboutViewModel.AboutItem(
-                    Strings.versionOfWallMan, Strings.actualVersion, Icons.Default.Info
-                ) {}, AboutViewModel.AboutItem(
-                    Strings.developer, Strings.colorata, Icons.Default.Person
-                ) {}, AboutViewModel.AboutItem(
-                    Strings.groupInTelegram, Strings.tapToOpen, Icons.Default.Send
-                ) {}, AboutViewModel.AboutItem(
-                    Strings.gitlab, Strings.tapToOpen, Icons.Default.Code
-                ) {}, AboutViewModel.AboutItem(
-                    Strings.supportWithQiwi, Strings.tapToOpen, Icons.Default.CurrencyRuble
-                ) {}, AboutViewModel.AboutItem(
-                    Strings.reportBug, Strings.requiresAccountInGitlab, Icons.Default.BugReport
-                ) {
+                aboutItems = persistentListOf(
+                    AboutViewModel.AboutItem(
+                        Strings.versionOfWallMan,
+                        Strings.actualVersion,
+                        Icons.Default.Info
+                    ) {},
+                    AboutViewModel.AboutItem(
+                        Strings.developer,
+                        Strings.colorata,
+                        Icons.Default.Person
+                    ) {},
+                    AboutViewModel.AboutItem(
+                        Strings.groupInTelegram,
+                        Strings.tapToOpen,
+                        Icons.Default.Send
+                    ) {},
+                    AboutViewModel.AboutItem(
+                        Strings.gitlab,
+                        Strings.tapToOpen,
+                        Icons.Default.Code
+                    ) {},
+                    AboutViewModel.AboutItem(
+                        Strings.supportWithQiwi,
+                        Strings.tapToOpen,
+                        Icons.Default.CurrencyRuble
+                    ) {},
+                    AboutViewModel.AboutItem(
+                        Strings.reportBug,
+                        Strings.requiresAccountInGitlab,
+                        Icons.Default.BugReport
+                    ) {
 
-                }), clicksOnVersion = 0
+                    }), clicksOnVersion = 0
             ) { }
         }
         AboutScreen(state = state)

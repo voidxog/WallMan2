@@ -48,7 +48,7 @@ fun WallpaperVariants(
                         .height(200.dp)
                         .weight(
                             animateFloatAsState(
-                                targetValue = if (selectedWallpaper == wallpaper) 5f else 1f,
+                                targetValue = if (selectedWallpaper == wallpaper) 4f else 1f,
                                 label = "Wallpaper width animation",
                                 animationSpec = MaterialTheme.animation.standard()
                             ).value
