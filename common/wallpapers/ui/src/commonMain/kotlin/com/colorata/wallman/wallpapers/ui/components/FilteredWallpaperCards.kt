@@ -39,6 +39,7 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.layout.positionInParent
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
@@ -67,8 +68,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @OptIn(
-    ExperimentalMaterial3Api::class,
-    ExperimentalFoundationApi::class
+    ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class
 )
 @Composable
 fun FilteredWallpaperCards(
@@ -84,10 +84,9 @@ fun FilteredWallpaperCards(
 ) {
     val windowSize = LocalWindowSizeConfiguration.current
     var fabHeight by remember { mutableStateOf(0.dp) }
-    val sortedWallpapers =
-        remember(wallpapers) {
-            wallpapers.asStaggerList()
-        }
+    val sortedWallpapers = remember(wallpapers) {
+        wallpapers.asStaggerList()
+    }
     val density = LocalDensity.current
     val listDensity = remember(windowSize) {
         when (windowSize.widthSizeClass) {
@@ -98,8 +97,7 @@ fun FilteredWallpaperCards(
     }
 
     Box(
-        modifier = modifier
-            .fillMaxSize()
+        modifier = modifier.fillMaxSize()
     ) {
         val scope = rememberCoroutineScope()
         val state = rememberLazyGridState()
@@ -113,24 +111,21 @@ fun FilteredWallpaperCards(
             sortedWallpapers.forEachIndexed { index, element ->
                 element.visible = index !in state.layoutInfo.visibleItemsInfo.map { it.index }
             }
-            sortedWallpapers.animateAsGrid(
-                this,
+            sortedWallpapers.animateAsGrid(this,
                 cells = listDensity,
                 startIndex = if (state.firstVisibleItemIndex !in sortedWallpapers.indices) sortedWallpapers.lastIndex else state.firstVisibleItemIndex,
                 spec = staggerSpecOf(itemsDelayMillis = 100) {
                     visible = true
-                }
-            )
+                })
         }
-        var backgroundOffset by remember { mutableFloatStateOf(0f) }
+        val configuration = LocalConfiguration.current
+        var backgroundOffset by remember { mutableFloatStateOf(with(density) { -configuration.screenHeightDp.dp.toPx() }) }
         if (backgroundImageBitmap != null) {
-            ScreenBackground(
-                backgroundImageBitmap,
+            ScreenBackground(backgroundImageBitmap,
                 imageFraction = if (windowSize.isCompact()) 0.5f else 0.8f,
                 modifier = Modifier.graphicsLayer {
                     translationY = backgroundOffset
-                }
-            )
+                })
         }
         val startPadding = if (applyNavigationPadding) Padding.navigationStartPadding() else 0.dp
         LazyVerticalGrid(
@@ -183,21 +178,18 @@ fun FilteredWallpaperCards(
             itemsIndexed(sortedWallpapers, key = { _, it ->
                 it.hashCode()
             }) { index, it ->
-                WallpaperCard(
-                    wallpaper = it.value, modifier = Modifier
-                        .graphicsLayer {
-                            if (index == selectedIndex) animatable.value.let {
-                                scaleX = it
-                                scaleY = it
-                            }
+                WallpaperCard(wallpaper = it.value, modifier = Modifier
+                    .graphicsLayer {
+                        if (index == selectedIndex) animatable.value.let {
+                            scaleX = it
+                            scaleY = it
                         }
-                        .animateItemPlacement()
-                        .animateVisibility(
-                            it.visible,
-                            MaterialTheme.animation.emphasizedVerticalSlide()
-                        )
-                        .testTag("Wallpaper")
-                ) {
+                    }
+                    .animateItemPlacement()
+                    .animateVisibility(
+                        it.visible, MaterialTheme.animation.emphasizedVerticalSlide()
+                    )
+                    .testTag("Wallpaper")) {
                     scope.launch {
                         selectedIndex = index
                         delay(50)
@@ -207,12 +199,11 @@ fun FilteredWallpaperCards(
             }
         }
 
-        AnimatedFloatingActionButton(
-            onClick = {
-                scope.launch {
-                    onRandomWallpaper()
-                }
-            },
+        AnimatedFloatingActionButton(onClick = {
+            scope.launch {
+                onRandomWallpaper()
+            }
+        },
             modifier = Modifier
                 .align(Alignment.BottomEnd)
                 .onSizeChanged {
@@ -223,8 +214,7 @@ fun FilteredWallpaperCards(
                 .padding(MaterialTheme.spacing.large),
             delayMillis = 200,
             durationMillis = MaterialTheme.animation.durationSpec.long2,
-            size = FabSize.Large
-        ) {
+            size = FabSize.Large) {
             Icon(imageVector = Icons.Default.Shuffle, contentDescription = "Shuffle")
         }
     }

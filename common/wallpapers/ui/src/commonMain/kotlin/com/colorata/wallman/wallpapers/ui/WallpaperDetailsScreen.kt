@@ -149,13 +149,6 @@ private fun WallpaperDetailsScreen(
 ) {
     val selectedBaseWallpaper = state.selectedWallpaper
     val isPreview = LocalInspectionMode.current
-    if (state.showPermissionRequest) {
-        PermissionRequestDialog(onDismiss = {
-            state.onEvent(WallpaperDetailsViewModel.WallpaperDetailsScreenEvent.DismissPermissionRequest)
-        }, onConfirm = {
-            state.onEvent(WallpaperDetailsViewModel.WallpaperDetailsScreenEvent.GoToInstallAppsPermissionsPage)
-        })
-    }
 
     val scrollState = rememberScrollState()
     val previewImage = bitmapAsset(state.selectedWallpaper.previewRes)
@@ -172,6 +165,14 @@ private fun WallpaperDetailsScreen(
 
     val windowSize = LocalWindowSizeConfiguration.current
     WallManContentTheme(state.selectedWallpaper.previewRes) {
+        if (state.showPermissionRequest) {
+            PermissionRequestDialog(onDismiss = {
+                state.onEvent(WallpaperDetailsViewModel.WallpaperDetailsScreenEvent.DismissPermissionRequest)
+            }, onConfirm = {
+                state.onEvent(WallpaperDetailsViewModel.WallpaperDetailsScreenEvent.GoToInstallAppsPermissionsPage)
+            })
+        }
+
         Box(
             modifier
                 .fillMaxSize()

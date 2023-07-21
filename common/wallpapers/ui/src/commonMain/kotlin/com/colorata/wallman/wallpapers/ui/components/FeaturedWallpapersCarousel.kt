@@ -16,6 +16,7 @@ import androidx.compose.foundation.pager.PageSize
 import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -49,6 +50,8 @@ import com.colorata.wallman.core.data.animation
 import com.colorata.wallman.core.data.bitmapAsset
 import com.colorata.wallman.core.data.launchIO
 import com.colorata.wallman.core.data.rememberString
+import com.colorata.wallman.core.ui.modifiers.Padding
+import com.colorata.wallman.core.ui.modifiers.navigationStartPadding
 import com.colorata.wallman.core.ui.theme.spacing
 import com.colorata.wallman.core.ui.theme.WallManContentTheme
 import com.colorata.wallman.core.ui.theme.WallManPreviewTheme
@@ -142,7 +145,7 @@ fun FeaturedWallpapersCarousel(
     ) {
         HorizontalPager(
             state,
-            contentPadding = PaddingValues(horizontal = 96.dp),
+            contentPadding = PaddingValues(horizontal = 96.dp + Padding.navigationStartPadding()),
             modifier = Modifier
                 .fillMaxWidth()
                 .height(384.dp),
@@ -181,6 +184,7 @@ fun FeaturedWallpapersCarousel(
                             visibleWallpapers[index % wallpapers.size].visible,
                             transition
                         )
+                        .clip(RoundedCornerShape(cornerRadius))
                         .clickable {
                             scope.launch {
                                 if (state.currentPage != index) state.animateScrollToPage(
