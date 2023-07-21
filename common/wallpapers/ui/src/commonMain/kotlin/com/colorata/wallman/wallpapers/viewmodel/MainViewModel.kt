@@ -12,7 +12,8 @@ import com.colorata.wallman.wallpapers.WallpapersRepository
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
 
-fun WallpapersModule.MainViewModel() = MainViewModel(wallpapersRepository, navigationController)
+fun WallpapersModule.MainViewModel() =
+    MainViewModel(wallpapersRepository, navigationController)
 
 class MainViewModel(
     private val repo: WallpapersRepository,
@@ -29,7 +30,8 @@ class MainViewModel(
         navigation.navigate(Destinations.WallpaperDetailsDestination(wallpaper))
 
     private val wallpapers = repo.wallpapers
-    private val featuredWallpapers = wallpapers.takeLast(5).toImmutableList()
+    private val featuredWallpapers = wallpapers.takeLast(15).toImmutableList()
+
     val state by lazyMolecule {
         MainScreenState(
             wallpapers.toImmutableList(),

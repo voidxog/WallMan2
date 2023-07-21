@@ -18,5 +18,7 @@ projectDependencies {
     internal {
         androidX.dataStore()
         ktor.library()
+
+        compose.material3WindowSize()
     }
 }

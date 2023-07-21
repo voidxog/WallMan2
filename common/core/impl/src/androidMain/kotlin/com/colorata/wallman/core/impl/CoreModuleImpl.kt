@@ -2,6 +2,7 @@ package com.colorata.wallman.core.impl
 
 import android.app.Activity
 import android.app.Application
+import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import com.colorata.wallman.core.data.module.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -39,9 +40,15 @@ class CoreModuleImpl(private val application: Application) : CoreModule {
     override val navigationController: NavigationController by lazy {
         NavigationControllerImpl()
     }
+
+    override var windowProvider: WindowProvider = WindowProvider.NoopWindowProvider
 }
 
 fun CoreModuleImpl.applyActivity(activity: Activity) {
     permissionHandler = PermissionHandlerImpl(activity)
     intentHandler.setActivityContext(activity)
+}
+
+fun CoreModuleImpl.applyWindowSize(windowSize: WindowSizeClass) {
+    windowProvider = WindowProviderImpl(windowSize)
 }

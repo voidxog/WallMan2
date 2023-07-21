@@ -13,6 +13,7 @@ interface CoreModule {
     val downloadHandler: DownloadHandler
     val applicationSettings: ApplicationSettings
     val navigationController: NavigationController
+    val windowProvider: WindowProvider
 }
 
 val CoreModule.loadables: List<Loadable>

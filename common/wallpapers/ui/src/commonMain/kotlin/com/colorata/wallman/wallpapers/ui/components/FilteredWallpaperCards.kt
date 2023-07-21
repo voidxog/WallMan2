@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
@@ -52,6 +53,7 @@ import com.colorata.animateaslifestyle.stagger.staggerSpecOf
 import com.colorata.wallman.core.data.animation
 import com.colorata.wallman.core.ui.components.ScreenBackground
 import com.colorata.wallman.core.ui.modifiers.Padding
+import com.colorata.wallman.core.ui.modifiers.runWhen
 import com.colorata.wallman.core.ui.modifiers.navigationBottomPadding
 import com.colorata.wallman.core.ui.modifiers.navigationStartPadding
 import com.colorata.wallman.core.ui.modifiers.withoutHorizontalPadding
@@ -215,7 +217,8 @@ fun FilteredWallpaperCards(
                 .onSizeChanged {
                     fabHeight = density.run { it.height.toDp() }
                 }
-                .navigationBottomPadding()
+                .runWhen(applyNavigationPadding) { navigationBottomPadding() }
+                .runWhen(!applyNavigationPadding) { navigationBarsPadding() }
                 .padding(MaterialTheme.spacing.large),
             delayMillis = 200,
             durationMillis = MaterialTheme.animation.durationSpec.long2,

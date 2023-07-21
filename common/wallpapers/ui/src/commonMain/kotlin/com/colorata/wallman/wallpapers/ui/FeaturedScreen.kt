@@ -11,6 +11,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.colorata.animateaslifestyle.material3.isCompact
 import com.colorata.animateaslifestyle.stagger.ExperimentalStaggerApi
 import com.colorata.animateaslifestyle.stagger.toStaggerList
 import com.colorata.wallman.core.data.Destinations
@@ -22,6 +23,7 @@ import com.colorata.wallman.core.data.rememberString
 import com.colorata.wallman.core.data.viewModel
 import com.colorata.wallman.core.ui.modifiers.navigationPadding
 import com.colorata.wallman.core.ui.theme.spacing
+import com.colorata.wallman.core.ui.util.LocalWindowSizeConfiguration
 import com.colorata.wallman.wallpapers.MainDestination
 import com.colorata.wallman.wallpapers.WallpaperI
 import com.colorata.wallman.wallpapers.WallpapersModule
@@ -29,6 +31,7 @@ import com.colorata.wallman.wallpapers.firstPreviewRes
 import com.colorata.wallman.wallpapers.ui.components.FeaturedWallpapersCarousel
 import com.colorata.wallman.wallpapers.ui.components.FilteredWallpaperCards
 import com.colorata.wallman.wallpapers.viewmodel.MainViewModel
+import kotlinx.collections.immutable.toImmutableList
 
 context(WallpapersModule)
 fun MaterialNavGraphBuilder.mainScreen() {
@@ -54,6 +57,10 @@ private fun FeaturedScreen(state: MainViewModel.MainScreenState, modifier: Modif
         currentImageAsset = selectedWallpaper?.firstPreviewRes()
     }
 
+    val windowSize = LocalWindowSizeConfiguration.current
+    val featuredWallpapers = remember(windowSize, state.featuredWallpapers) {
+        state.featuredWallpapers.takeLast(if (windowSize.isCompact()) 5 else 10).toImmutableList()
+    }
     FilteredWallpaperCards(
         onClick = {
             state.onEvent(MainViewModel.MainScreenEvent.ClickOnWallpaper(it))
@@ -62,11 +69,13 @@ private fun FeaturedScreen(state: MainViewModel.MainScreenState, modifier: Modif
         modifier = modifier,
         startItem = {
             FeaturedWallpapersCarousel(
-                state.featuredWallpapers,
+                featuredWallpapers,
                 onClick = {
                     state.onEvent(MainViewModel.MainScreenEvent.ClickOnWallpaper(it))
                 },
-                Modifier.fillMaxWidth().padding(vertical = MaterialTheme.spacing.extraLarge),
+                Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = MaterialTheme.spacing.extraLarge),
                 onWallpaperRotation = {
                     selectedWallpaper = it
                 })
