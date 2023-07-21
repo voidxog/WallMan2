@@ -49,6 +49,12 @@ class AppDefaultPlugin : Plugin<Project> {
                         "proguard-rules.pro"
                     )
                 }
+                getByName("nonMinifiedRelease") {
+                    proguardFiles(
+                        it.getDefaultProguardFile("proguard-android.txt"),
+                        "proguard-rules.pro"
+                    )
+                }
             }
             it.buildFeatures {
                 compose = true

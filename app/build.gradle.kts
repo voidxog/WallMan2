@@ -4,6 +4,7 @@ plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     id("org.jetbrains.kotlin.plugin.serialization")
+    id("androidx.baselineprofile")
 }
 
 apply<AppDefaultPlugin>()
@@ -24,9 +25,11 @@ android {
 }
 
 dependencies {
+    implementation("androidx.profileinstaller:profileinstaller:1.3.0")
     testImplementation(Libraries.Test.junit)
     androidTestImplementation(Libraries.Test.androidXJunit)
     androidTestImplementation(Libraries.Compose.uiTest)
+    "baselineProfile"(project(":app:baselineprofile"))
 
     debugImplementation(Libraries.Compose.uiToolingManifest)
     debugImplementation(Libraries.Compose.uiTooling)

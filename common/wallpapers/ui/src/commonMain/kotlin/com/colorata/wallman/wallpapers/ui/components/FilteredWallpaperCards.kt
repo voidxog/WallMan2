@@ -142,7 +142,8 @@ fun FilteredWallpaperCards(
                 end = MaterialTheme.spacing.screenPadding
             ),
             horizontalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.large),
-            verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.large)
+            verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.large),
+            modifier = Modifier.testTag("WallpaperList")
         ) {
             item(span = {
                 GridItemSpan(maxLineSpan)
@@ -195,7 +196,7 @@ fun FilteredWallpaperCards(
                             it.visible,
                             MaterialTheme.animation.emphasizedVerticalSlide()
                         )
-                        .testTag("Wallpaper$index")
+                        .testTag("Wallpaper")
                 ) {
                     scope.launch {
                         selectedIndex = index

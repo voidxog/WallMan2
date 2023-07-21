@@ -28,4 +28,3 @@ rootDir
         val calculated = it.absolutePath.replace(rootDir.absolutePath, "").replace("/", ":")
         include(calculated)
     }
-

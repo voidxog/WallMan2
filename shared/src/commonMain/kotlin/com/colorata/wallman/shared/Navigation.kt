@@ -31,9 +31,12 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.testTagsAsResourceId
 import androidx.compose.ui.unit.dp
 import com.colorata.animateaslifestyle.animateVisibility
 import com.colorata.animateaslifestyle.isCompositionLaunched
@@ -66,6 +69,7 @@ import com.colorata.wallman.wallpapers.ui.mainScreen
 import com.colorata.wallman.wallpapers.ui.wallpaperDetailsScreen
 import com.colorata.wallman.widget.ui.shapePickerScreen
 
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun Navigation(startDestination: Destination = Destinations.MainDestination()) {
     val navController = LocalGraph.current.coreModule.navigationController
@@ -77,7 +81,7 @@ fun Navigation(startDestination: Destination = Destinations.MainDestination()) {
     val isCompact = windowSize.isCompact()
     Scaffold(bottomBar = {
         if (isCompact) BottomBar(route) { clickOnRoute(it) }
-    }) { padding ->
+    }, modifier = Modifier.semantics { testTagsAsResourceId = true }) { padding ->
         CompositionLocalProvider(
             LocalPaddings provides if (isCompact) PaddingValues(
                 bottom = padding.calculateBottomPadding()
