@@ -7,7 +7,7 @@ buildscript {
         maven("https://s01.oss.sonatype.org/content/repositories/snapshots")
     }
     dependencies {
-        classpath("com.android.tools.build:gradle:7.4.2")
+        classpath("com.android.tools.build:gradle:8.0.2")
         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.9.0")
         classpath("org.jetbrains.kotlin:kotlin-serialization:1.9.0")
         classpath("androidx.navigation:navigation-safe-args-gradle-plugin:2.6.0")

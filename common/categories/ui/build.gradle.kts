@@ -13,3 +13,5 @@ projectDependencies {
         categories.api()
     }
 }
+
+androidNamespace("categories.ui")

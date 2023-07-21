@@ -10,3 +10,5 @@ projectDependencies {
         settings.about.api()
     }
 }
+
+androidNamespace("settings.about.ui")

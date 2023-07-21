@@ -11,3 +11,5 @@ projectDependencies {
         core.data()
     }
 }
+
+androidNamespace("core.di")

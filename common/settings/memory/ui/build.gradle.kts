@@ -12,3 +12,5 @@ projectDependencies {
         settings.memory.api()
     }
 }
+
+androidNamespace("settings.memory.ui")

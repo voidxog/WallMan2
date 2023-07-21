@@ -12,3 +12,5 @@ projectDependencies {
         compose.material3()
     }
 }
+
+androidNamespace("wallpapers.api")

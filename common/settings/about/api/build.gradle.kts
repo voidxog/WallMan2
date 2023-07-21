@@ -7,3 +7,5 @@ projectDependencies {
         core.data()
     }
 }
+
+androidNamespace("settings.about.api")

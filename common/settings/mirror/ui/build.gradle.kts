@@ -10,3 +10,5 @@ projectDependencies {
         settings.mirror.api()
     }
 }
+
+androidNamespace("settings.mirror.ui")

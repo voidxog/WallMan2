@@ -9,3 +9,5 @@ projectDependencies {
         wallpapers.api()
     }
 }
+
+androidNamespace("wallpapers.impl")

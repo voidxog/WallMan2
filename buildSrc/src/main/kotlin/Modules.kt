@@ -55,7 +55,7 @@ class Modules(private val applier: (moduleName: String) -> Unit) {
         fun api() = applier("$prefix:api")
         fun impl() = applier("$prefix:impl")
         fun ui() = applier("$prefix:ui")
-        fun uiWidget() = applier("$prefix:ui-widget")
+        fun uiWidget() = applier("$prefix:ui_widget")
     }
 
     val settings = Settings()

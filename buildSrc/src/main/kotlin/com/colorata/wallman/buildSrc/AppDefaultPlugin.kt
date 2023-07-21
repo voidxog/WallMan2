@@ -49,15 +49,6 @@ class AppDefaultPlugin : Plugin<Project> {
                         "proguard-rules.pro"
                     )
                 }
-                create("benchmark") {
-                    initWith(getByName("release"))
-                    signingConfig = it.signingConfigs.getByName("debug")
-                    isDebuggable = false
-                    proguardFiles(
-                        it.getDefaultProguardFile("proguard-android.txt"),
-                        "benchmark-rules.pro"
-                    )
-                }
             }
             it.buildFeatures {
                 compose = true

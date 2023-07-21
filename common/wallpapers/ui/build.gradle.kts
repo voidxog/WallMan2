@@ -9,3 +9,5 @@ projectDependencies {
         core.ui()
     }
 }
+
+androidNamespace("wallpapers.ui")

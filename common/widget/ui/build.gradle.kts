@@ -10,3 +10,5 @@ projectDependencies {
         widget.api()
     }
 }
+
+androidNamespace("widget.ui")

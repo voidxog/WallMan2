@@ -15,3 +15,5 @@ projectDependencies {
         compose.material3()
     }
 }
+
+androidNamespace("core.data")

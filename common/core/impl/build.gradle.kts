@@ -22,3 +22,5 @@ projectDependencies {
         compose.material3WindowSize()
     }
 }
+
+androidNamespace("core.impl")

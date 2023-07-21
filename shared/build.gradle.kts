@@ -36,6 +36,4 @@ projectDependencies(androidUnitTestBlock = {}, commonTestBlock = {}) {
     }
 }
 
-android {
-    namespace = App.id
-}
+androidNamespace("shared")

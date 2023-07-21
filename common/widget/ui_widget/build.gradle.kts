@@ -20,3 +20,5 @@ projectDependencies(
         wallpapers.api()
     }
 }
+
+androidNamespace("widget.ui_widget")

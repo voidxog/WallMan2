@@ -1,3 +1,4 @@
+import gradle.kotlin.dsl.accessors._fb1e36eb481082a315bbec520f7f46ed.android
 import gradle.kotlin.dsl.accessors._fb1e36eb481082a315bbec520f7f46ed.kotlin
 import gradle.kotlin.dsl.accessors._fb1e36eb481082a315bbec520f7f46ed.sourceSets
 import org.gradle.api.Project
@@ -86,4 +87,10 @@ fun KotlinDependencyHandler.external(block: Libs.() -> Unit) {
 fun KotlinDependencyHandler.internal(block: Libs.() -> Unit) {
     val libs = Libs { implementation(it) }
     libs.block()
+}
+
+fun Project.androidNamespace(namespace: String) {
+    android {
+        this.namespace = "com.colorata.wallman.$namespace"
+    }
 }

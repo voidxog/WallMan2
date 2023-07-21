@@ -30,3 +30,5 @@ projectDependencies {
         androidX.palette()
     }
 }
+
+androidNamespace("core.ui")
