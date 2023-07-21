@@ -1,8 +1,9 @@
 plugins {
     multiplatformSetup()
+    serialization()
 }
 
-projectDependencies {
+projectDependencies(commonTestBlock = {}) {
     modules {
         core.data()
         categories.api()

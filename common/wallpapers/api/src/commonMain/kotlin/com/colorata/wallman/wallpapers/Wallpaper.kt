@@ -4,17 +4,30 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.runtime.Immutable
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.colorata.wallman.categories.api.WallpaperCategory
-import com.colorata.wallman.core.data.*
+import com.colorata.wallman.core.data.Coordinates
+import com.colorata.wallman.core.data.Polyglot
+import com.colorata.wallman.core.data.Strings
 import com.colorata.wallman.core.data.module.IntentHandler
-import com.colorata.wallman.ui.icons.*
+import com.colorata.wallman.core.data.serialization.Json
+import com.colorata.wallman.core.data.serialization.SerializableImmutableList
+import com.colorata.wallman.core.data.serialization.SerializableImmutableMap
+import com.colorata.wallman.core.data.simplifiedLocaleOf
+import com.colorata.wallman.ui.icons.Bolt
+import com.colorata.wallman.ui.icons.Filter2
+import com.colorata.wallman.ui.icons.Filter3
+import com.colorata.wallman.ui.icons.Filter4
+import com.colorata.wallman.ui.icons.Filter6
+import com.colorata.wallman.ui.icons.Image
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
-
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.encodeToString
 
 @Immutable
+@Serializable
 data class WallpaperI(
-    val dynamicWallpapers: ImmutableList<DynamicWallpaper>,
-    val staticWallpapers: ImmutableList<StaticWallpaper>,
+    val dynamicWallpapers: SerializableImmutableList<DynamicWallpaper>,
+    val staticWallpapers: SerializableImmutableList<StaticWallpaper>,
     val parent: WallpaperPacks,
     val category: WallpaperCategory,
     val author: String
@@ -48,6 +61,7 @@ fun IntentHandler.goToLiveWallpaper(wallpaper: DynamicWallpaper) {
 }
 
 @Immutable
+@Serializable
 data class DynamicWallpaper(
     override val previewName: Polyglot,
     override val shortName: Polyglot = previewName,
@@ -69,6 +83,7 @@ data class DynamicWallpaper(
 fun DynamicWallpaper.fullServiceName() = parent.packageServiceName + serviceName
 
 @Immutable
+@Serializable
 data class StaticWallpaper(
     override val previewName: Polyglot,
     override val shortName: Polyglot = previewName,

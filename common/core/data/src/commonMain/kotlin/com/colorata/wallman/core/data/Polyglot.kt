@@ -2,9 +2,10 @@ package com.colorata.wallman.core.data
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
-import kotlinx.collections.immutable.ImmutableMap
+import com.colorata.wallman.core.data.serialization.SerializableImmutableMap
 import kotlinx.collections.immutable.persistentMapOf
-import java.util.*
+import kotlinx.serialization.Serializable
+import java.util.Locale
 import kotlin.reflect.KProperty
 
 interface LocaleCurrent {
@@ -39,9 +40,10 @@ fun rememberString(string: Polyglot) =
 
 operator fun LocaleCurrent.getValue(thisObj: Any?, property: KProperty<*>) = value
 
+@Serializable
 data class Polyglot(
     val default: String,
-    val languageMap: ImmutableMap<String, String>
+    val languageMap: SerializableImmutableMap<String, String>
 ) : LocaleCurrent {
     override val value: String
         get() = languageMap[Locale.getDefault().language] ?: default
