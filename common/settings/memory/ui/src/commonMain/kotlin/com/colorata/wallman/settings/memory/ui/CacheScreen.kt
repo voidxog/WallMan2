@@ -12,20 +12,28 @@ import androidx.compose.material3.LargeTopAppBar
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.colorata.animateaslifestyle.animateVisibility
 import com.colorata.animateaslifestyle.material3.isCompact
+import com.colorata.animateaslifestyle.stagger.ExperimentalStaggerApi
+import com.colorata.animateaslifestyle.stagger.animateAsList
+import com.colorata.animateaslifestyle.stagger.staggerSpecOf
+import com.colorata.animateaslifestyle.stagger.toStaggerList
 import com.colorata.wallman.core.data.Destinations
 import com.colorata.wallman.core.data.MaterialNavGraphBuilder
 import com.colorata.wallman.core.data.Strings
+import com.colorata.wallman.core.data.animation
 import com.colorata.wallman.core.data.continuousComposable
 import com.colorata.wallman.core.data.rememberString
 import com.colorata.wallman.core.data.viewModel
 import com.colorata.wallman.core.ui.modifiers.Padding
 import com.colorata.wallman.core.ui.modifiers.navigationBarPadding
+import com.colorata.wallman.core.ui.theme.emphasizedVerticalSlide
 import com.colorata.wallman.core.ui.theme.screenPadding
 import com.colorata.wallman.core.ui.theme.spacing
 import com.colorata.wallman.core.ui.util.LocalWindowSizeConfiguration
@@ -67,7 +75,7 @@ private fun CacheScreen(state: CacheViewModel.CacheScreenState, modifier: Modifi
 }
 
 @Composable
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalStaggerApi::class)
 private fun CacheScreenLayout(
     cells: StaggeredGridCells,
     state: CacheViewModel.CacheScreenState,
@@ -76,7 +84,13 @@ private fun CacheScreenLayout(
     val ripple = remember {
         WallpaperPacks.entries.toPersistentList().mutate {
             it.removeAll { pack -> !pack.includesDynamic }
-        }.toImmutableList()
+        }.toImmutableList().toStaggerList({ 0f }, visible = false)
+    }
+
+    LaunchedEffect(key1 = true) {
+        ripple.animateAsList(this, spec = staggerSpecOf(itemsDelayMillis = 100) {
+            visible = true
+        })
     }
 
     LazyVerticalStaggeredGrid(
@@ -93,11 +107,15 @@ private fun CacheScreenLayout(
                 Text(text = rememberString(Strings.memoryOptimization))
             })
         }
-        items(ripple) { pack ->
+        items(ripple) { animated ->
+            val pack = animated.value
             CacheCard(
                 pack,
                 rememberString(Strings.size, remember { pack.sizeInMb() }),
-                Modifier,
+                Modifier.animateVisibility(
+                    animated.visible,
+                    MaterialTheme.animation.emphasizedVerticalSlide()
+                ),
                 isCacheEnabled = remember(state) {
                     state.downloadedWallpaperPacks.any { downloaded -> downloaded == pack }
                 },
