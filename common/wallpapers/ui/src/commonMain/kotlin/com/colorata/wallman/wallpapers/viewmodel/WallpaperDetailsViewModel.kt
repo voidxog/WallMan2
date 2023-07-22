@@ -112,14 +112,16 @@ class WallpaperDetailsViewModel(
             val selectedType by selectedWallpaperType.collectAsState()
             val downloadState by downloadState.collectAsState()
             val isLiveInstalled by isLiveWallpaperInstalled.collectAsState()
+            val baseWallpaper by selectedBaseWallpaper.collectAsState()
             val available =
                 (selectedType == WallpaperI.SelectedWallpaperType.Dynamic && downloadState == DynamicWallpaper.DynamicWallpaperCacheState.Installed) || selectedType == WallpaperI.SelectedWallpaperType.Static
-            LaunchedEffect(selectedType, isLiveInstalled, available) {
+            LaunchedEffect(selectedType, isLiveInstalled, available, baseWallpaper) {
                 if (selectedType == WallpaperI.SelectedWallpaperType.Dynamic && isLiveInstalled) actionType.emit(
                     WallpaperI.ActionType.Installed
                 ) else actionType.emit(WallpaperI.ActionType.Install(available))
             }
         }
+
         viewModelScope.launchIO({ logger.throwable(it) }) {
             wallpaperManager.currentlyInstalledDynamicWallpaper().collect { liveWallpaper ->
                 isLiveWallpaperInstalled.value =
@@ -243,6 +245,10 @@ class WallpaperDetailsViewModel(
         else update
     }
 
+    private fun selectBaseWallpaper(wallpaper: BaseWallpaper) {
+        selectedBaseWallpaper.value = wallpaper
+    }
+
     val state by lazyMolecule {
         val cacheState by downloadState.collectAsState()
         val downloadProgress by progress.collectAsState()
@@ -271,8 +277,7 @@ class WallpaperDetailsViewModel(
 
                 is WallpaperDetailsScreenEvent.SelectWallpaperType -> selectWallpaperType(event.type)
 
-                is WallpaperDetailsScreenEvent.SelectBaseWallpaper -> selectedBaseWallpaper.value =
-                    event.wallpaper
+                is WallpaperDetailsScreenEvent.SelectBaseWallpaper -> selectBaseWallpaper(event.wallpaper)
 
                 WallpaperDetailsScreenEvent.DismissPermissionRequest -> this.showPermissionRequest.value =
                     false
