@@ -383,7 +383,6 @@ private fun Arc(
         Canvas(
             modifier = Modifier
                 .fillMaxSize()
-                .drawOffscreen()
         ) {
             val border = BorderStroke(animatedWidth, borderColor)
             if (animatedWidth.value != 0f) {
