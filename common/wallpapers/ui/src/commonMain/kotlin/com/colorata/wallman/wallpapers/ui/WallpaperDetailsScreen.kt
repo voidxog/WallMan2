@@ -316,11 +316,13 @@ private fun PreviewImage(
             .fillMaxSize(0.9f)
             .aspectRatio(1f), shape
         )
-        AnimatedContent(targetState = resource, transitionSpec = {
-            fadeIn(animation.emphasized()) togetherWith fadeOut(animation.emphasized())
-        }, label = "", modifier = Modifier
-            .fillMaxSize(0.9f)
-            .aspectRatio(1f)) { imageName ->
+        AnimatedContent(
+            targetState = resource, transitionSpec = {
+                fadeIn(animation.emphasized()) togetherWith fadeOut(animation.emphasized())
+            }, label = "", modifier = Modifier
+                .fillMaxSize(0.9f)
+                .aspectRatio(1f)
+        ) { imageName ->
             Image(
                 bitmap = bitmapAsset(imageName), contentDescription = "", modifier = Modifier
                     .displayRotation(rotationState, layer = 0.5f)
@@ -597,7 +599,10 @@ private fun BottomBar(
                 MaterialTheme.spacing.extraSmall,
                 MaterialTheme.spacing.extraLarge
             ),
-            enabled = state.selectedWallpaperType == WallpaperI.SelectedWallpaperType.Dynamic && state.wallpaper.supportsDynamicWallpapers()
+            enabled = state.selectedWallpaperType == WallpaperI.SelectedWallpaperType.Dynamic &&
+                    remember(
+                        state.wallpaper
+                    ) { state.wallpaper.supportsDynamicWallpapers() }
         ) {
             AnimatedContent(targetState = state.cacheState, transitionSpec = {
                 materialSharedAxisY(true, 100)

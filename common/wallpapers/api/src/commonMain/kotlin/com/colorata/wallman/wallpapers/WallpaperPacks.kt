@@ -14,7 +14,8 @@ enum class WallpaperPacks(
     val id: Int,
     val checksum: Long,
     val includesDynamic: Boolean = true,
-    val previewRes: String
+    val previewRes: String,
+    val minSdk: Int = 0
 ) {
     P(
         urlPart = "P",
@@ -23,7 +24,8 @@ enum class WallpaperPacks(
         packageName = "com.google.pixel.livewallpaper.pulley",
         id = 0,
         checksum = 7294917,
-        previewRes = "p_pulley_preview"
+        previewRes = "p_pulley_preview",
+        minSdk = 28
     ),
     P1(
         urlPart = "P1",
@@ -32,7 +34,8 @@ enum class WallpaperPacks(
         packageName = "com.breel.geswallpapers",
         id = 1,
         checksum = 85330559,
-        previewRes = "p1_moab_preview"
+        previewRes = "p1_moab_preview",
+        minSdk = 29
     ),
     P2(
         urlPart = "P2",
@@ -41,7 +44,8 @@ enum class WallpaperPacks(
         packageName = "com.breel.wallpapers",
         id = 2,
         checksum = 169453255,
-        previewRes = "p2_honolulu_preview"
+        previewRes = "p2_honolulu_preview",
+        minSdk = 30
     ),
     P3(
         urlPart = "P3",
@@ -50,7 +54,8 @@ enum class WallpaperPacks(
         packageName = "com.breel.wallpapers18",
         id = 3,
         checksum = 167338589,
-        previewRes = "p3_fiji_preview"
+        previewRes = "p3_fiji_preview",
+        minSdk = 30
     ),
     P4(
         urlPart = "P4",
@@ -59,7 +64,8 @@ enum class WallpaperPacks(
         packageName = "com.breel.wallpapers19",
         id = 4,
         checksum = 47202066,
-        previewRes = "p4_arabia_preview"
+        previewRes = "p4_arabia_preview",
+        minSdk = 30
     ),
     P4A(
         urlPart = "P4A",
@@ -68,7 +74,8 @@ enum class WallpaperPacks(
         packageName = "com.breel.wallpapers20a",
         id = 5,
         checksum = 9889771,
-        previewRes = "p4a_gradient_preview"
+        previewRes = "p4a_gradient_preview",
+        minSdk = 30
     ),
     P5(
         urlPart = "P5",
@@ -77,7 +84,8 @@ enum class WallpaperPacks(
         packageName = "com.breel.wallpapers20",
         id = 6,
         checksum = 50256888,
-        previewRes = "p5_stack_preview"
+        previewRes = "p5_stack_preview",
+        minSdk = 30
     ),
     P6(
         urlPart = "P6",
@@ -87,7 +95,8 @@ enum class WallpaperPacks(
         packageServiceName = "com.google.pixel.wallpapers21",
         id = 7,
         checksum = 162961629,
-        previewRes = "p6_blooming_botanicals_v1_preview"
+        previewRes = "p6_blooming_botanicals_v1_preview",
+        minSdk = 28
     ),
     P6_EXT(
         urlPart = "P6_EXT",
@@ -97,7 +106,8 @@ enum class WallpaperPacks(
         packageServiceName = "com.google.pixel.wallpapers22.lightfieldflower",
         id = 8,
         checksum = 191212605,
-        previewRes = "p6_ext_boat_orchid"
+        previewRes = "p6_ext_boat_orchid",
+        minSdk = 31
     ),
     P6A(
         urlPart = "P6A",
@@ -137,7 +147,8 @@ enum class WallpaperPacks(
         packageServiceName = "com.trzpro",
         id = 12,
         checksum = 47208128,
-        previewRes = "pfold_licorice_preview"
+        previewRes = "pfold_licorice_preview",
+        minSdk = 28
     )
 }
 

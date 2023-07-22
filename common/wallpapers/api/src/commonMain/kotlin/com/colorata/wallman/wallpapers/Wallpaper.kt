@@ -1,5 +1,6 @@
 package com.colorata.wallman.wallpapers
 
+import android.os.Build
 import androidx.compose.material.icons.Icons
 import androidx.compose.runtime.Immutable
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -66,7 +67,8 @@ data class DynamicWallpaper(
     val serviceName: String,
     override val previewRes: String,
     override val parent: WallpaperPacks,
-    override val coordinates: Coordinates? = null
+    override val coordinates: Coordinates? = null,
+    val compatibilityChecker: CompatibilityChecker = trueCompatibilityChecker()
 ) : BaseWallpaper {
 
     enum class DynamicWallpaperCacheState(val label: Polyglot) {
@@ -109,7 +111,7 @@ fun BaseWallpaper.canBe(other: BaseWallpaper) =
             && coordinates == other.coordinates
 
 fun WallpaperI.firstWallpaperSet() =
-    if (dynamicWallpapers.isNotEmpty()) dynamicWallpapers
+    if (supportsDynamicWallpapers()) dynamicWallpapers
     else if (staticWallpapers.isNotEmpty()) staticWallpapers
     else error("No wallpaper found fo $this")
 
@@ -131,7 +133,8 @@ fun WallpaperI.countIcon() =
 
 fun WallpaperI.baseWallpapers(): List<BaseWallpaper> = dynamicWallpapers + staticWallpapers
 
-fun WallpaperI.supportsDynamicWallpapers() = dynamicWallpapers.isNotEmpty()
+fun WallpaperI.supportsDynamicWallpapers() =
+    dynamicWallpapers.isNotEmpty() && dynamicWallpapers.all { it.compatibilityChecker.isCompatible() }
 
 fun WallpaperI.shortName() = firstBaseWallpaper().shortName
 
@@ -162,6 +165,8 @@ class WallpaperDSL {
 
     var previewRes: String = "p7a_realr_light_preview"
     var coordinates: Coordinates? = null
+
+    var compatibilityChecker: CompatibilityChecker = trueCompatibilityChecker()
     fun create(): WallpaperI {
         return WallpaperI(
             dynamicWallpapers.toImmutableList(),
@@ -185,7 +190,8 @@ class WallpaperDSL {
                 serviceName = dsl.serviceName,
                 previewRes = dsl.previewRes ?: previewRes,
                 parent = parent,
-                coordinates = dsl.coordinates ?: coordinates
+                coordinates = dsl.coordinates ?: coordinates,
+                compatibilityChecker = AndroidVersionCompatibilityChecker(parent.minSdk)
             )
         )
     }
@@ -208,6 +214,12 @@ class WallpaperDSL {
         )
     }
 }
+
+var WallpaperDSL.minSdk: Int
+    get() = Build.VERSION_CODES.BASE
+    set(value) {
+        compatibilityChecker = AndroidVersionCompatibilityChecker(value)
+    }
 
 class DynamicWallpaperDSL {
     var shortName: Polyglot? = null

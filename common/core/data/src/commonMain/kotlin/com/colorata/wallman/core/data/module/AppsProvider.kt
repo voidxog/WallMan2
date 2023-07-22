@@ -12,21 +12,5 @@ interface AppsProvider: Loadable {
 
     fun deleteApp(packageName: String): Result<Unit>
 
-    object NoopAppsProvider : AppsProvider {
-        override fun installedApps(): StateFlow<List<String>> {
-            return MutableStateFlow(listOf())
-        }
-
-        override fun installApp(path: String): Result<Unit> {
-            return Result.Success(Unit)
-        }
-
-        override fun deleteApp(packageName: String): Result<Unit> {
-            return Result.Success(Unit)
-        }
-
-        override fun load() {}
-
-        override fun unload() {}
-    }
+    fun update()
 }

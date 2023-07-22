@@ -64,6 +64,10 @@ class AppsProviderImpl(private val context: Context) : AppsProvider {
         }.getOrElse { Result.Error(it) }
     }
 
+    override fun update() {
+        _installedApps.value = getInstalledApps()
+    }
+
     override fun unload() {
         if (receiver != null) {
             context.unregisterReceiver(receiver)
@@ -79,7 +83,7 @@ class AppsProviderImpl(private val context: Context) : AppsProvider {
         intentFilter.addAction(Intent.ACTION_PACKAGE_FULLY_REMOVED)
         intentFilter.addDataScheme("package")
         receiver = PackageReceiver {
-            _installedApps.value = getInstalledApps()
+            update()
         }
         context.registerReceiver(receiver, intentFilter)
     }

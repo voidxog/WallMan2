@@ -57,6 +57,11 @@ abstract class GraphActivity : ComponentActivity() {
         graph.coreModule.loadables.forEach { it.load() }
     }
 
+    override fun onResume() {
+        super.onResume()
+        graph.coreModule.appsProvider.update()
+    }
+
     override fun onStop() {
         super.onStop()
         graph.coreModule.loadables.forEach { it.unload() }
