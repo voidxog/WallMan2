@@ -37,15 +37,14 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
 
-fun WallpapersModule.WallpaperDetailsViewModel(wallpaperHashCode: Int) =
-    WallpaperDetailsViewModel(
-        wallpapersRepository,
-        wallpaperHashCode,
-        wallpaperManager,
-        intentHandler,
-        permissionHandler,
-        logger
-    )
+fun WallpapersModule.WallpaperDetailsViewModel(wallpaperHashCode: Int) = WallpaperDetailsViewModel(
+    wallpapersRepository,
+    wallpaperHashCode,
+    wallpaperManager,
+    intentHandler,
+    permissionHandler,
+    logger
+)
 
 class WallpaperDetailsViewModel(
     private val repo: WallpapersRepository,
@@ -114,9 +113,7 @@ class WallpaperDetailsViewModel(
             val downloadState by downloadState.collectAsState()
             val isLiveInstalled by isLiveWallpaperInstalled.collectAsState()
             val available =
-                (selectedType == WallpaperI.SelectedWallpaperType.Dynamic
-                        && downloadState == DynamicWallpaper.DynamicWallpaperCacheState.Installed)
-                        || selectedType == WallpaperI.SelectedWallpaperType.Static
+                (selectedType == WallpaperI.SelectedWallpaperType.Dynamic && downloadState == DynamicWallpaper.DynamicWallpaperCacheState.Installed) || selectedType == WallpaperI.SelectedWallpaperType.Static
             LaunchedEffect(selectedType, isLiveInstalled, available) {
                 if (selectedType == WallpaperI.SelectedWallpaperType.Dynamic && isLiveInstalled) actionType.emit(
                     WallpaperI.ActionType.Installed
@@ -126,9 +123,9 @@ class WallpaperDetailsViewModel(
         viewModelScope.launchIO({ logger.throwable(it) }) {
             wallpaperManager.currentlyInstalledDynamicWallpaper().collect { liveWallpaper ->
                 isLiveWallpaperInstalled.value =
-                    if (liveWallpaper == null || !wallpaper.supportsDynamicWallpapers()) false else
-                        wallpaper.dynamicWallpapers[selectedWallpaperIndex.value]
-                            .isSameAs(liveWallpaper)
+                    if (liveWallpaper == null || !wallpaper.supportsDynamicWallpapers()) false else wallpaper.dynamicWallpapers[selectedWallpaperIndex.value].isSameAs(
+                        liveWallpaper
+                    )
             }
         }
 
@@ -197,31 +194,26 @@ class WallpaperDetailsViewModel(
         viewModelScope.launchIO({ logger.throwable(it) }) {
             val action = actionType.value
             when {
-                action is WallpaperI.ActionType.Install &&
-                        selectedWallpaperType.value == WallpaperI.SelectedWallpaperType.Dynamic &&
-                        action.available -> {
+                action is WallpaperI.ActionType.Install && selectedWallpaperType.value == WallpaperI.SelectedWallpaperType.Dynamic && action.available -> {
                     val selectedWallpaper = selectedBaseWallpaper.value
                     require(selectedWallpaper is DynamicWallpaper) { "Selected Wallpaper is not dynamic" }
                     intentHandler.goToLiveWallpaper(selectedWallpaper)
                 }
 
-                action is WallpaperI.ActionType.Install &&
-                        selectedWallpaperType.value == WallpaperI.SelectedWallpaperType.Static &&
-                        action.available -> {
+                action is WallpaperI.ActionType.Install && selectedWallpaperType.value == WallpaperI.SelectedWallpaperType.Static && action.available -> {
                     val selectedWallpaper = selectedBaseWallpaper.value
                     require(selectedWallpaper is StaticWallpaper) { "Selected Wallpaper is not static" }
-                    wallpaperManager.installStaticWallpaper(selectedWallpaper)
-                        .collect {
-                            actionType.value = when (it) {
-                                is Result.Loading -> WallpaperI.ActionType.Installing
-                                is Result.Error -> {
-                                    logger.throwable(it.throwable)
-                                    WallpaperI.ActionType.Error
-                                }
-
-                                is Result.Success -> WallpaperI.ActionType.Installed
+                    wallpaperManager.installStaticWallpaper(selectedWallpaper).collect {
+                        actionType.value = when (it) {
+                            is Result.Loading -> WallpaperI.ActionType.Installing
+                            is Result.Error -> {
+                                logger.throwable(it.throwable)
+                                WallpaperI.ActionType.Error
                             }
+
+                            is Result.Success -> WallpaperI.ActionType.Installed
                         }
+                    }
                 }
             }
         }
@@ -232,14 +224,20 @@ class WallpaperDetailsViewModel(
         val updatedVariants = getDisplayedWallpaperVariants()
         wallpaperVariants.value = updatedVariants
         val selectedBase = selectedBaseWallpaper.value
-        val updatedBaseWallpaper = updatedVariants.find { it.canBe(selectedBase) }
-        if (updatedBaseWallpaper != null) selectedBaseWallpaper.value = updatedBaseWallpaper
+        if (updatedVariants.isNotEmpty()) {
+            val updatedBaseWallpaper = updatedVariants.find { it.canBe(selectedBase) }
+            if (updatedBaseWallpaper != null) selectedBaseWallpaper.value = updatedBaseWallpaper
+        } else {
+            selectedBaseWallpaper.value =
+                if (type == WallpaperI.SelectedWallpaperType.Dynamic && wallpaper.supportsDynamicWallpapers())
+                    wallpaper.dynamicWallpapers.first()
+                else wallpaper.staticWallpapers.first()
+        }
     }
 
     private fun getDisplayedWallpaperVariants(): ImmutableList<BaseWallpaper> {
         val update =
-            if (selectedWallpaperType.value == WallpaperI.SelectedWallpaperType.Dynamic)
-                wallpaper.dynamicWallpapers
+            if (selectedWallpaperType.value == WallpaperI.SelectedWallpaperType.Dynamic) wallpaper.dynamicWallpapers
             else wallpaper.staticWallpapers
         return if (update.size == 1) persistentListOf()
         else update
@@ -276,8 +274,8 @@ class WallpaperDetailsViewModel(
                 is WallpaperDetailsScreenEvent.SelectBaseWallpaper -> selectedBaseWallpaper.value =
                     event.wallpaper
 
-                WallpaperDetailsScreenEvent.DismissPermissionRequest ->
-                    this.showPermissionRequest.value = false
+                WallpaperDetailsScreenEvent.DismissPermissionRequest -> this.showPermissionRequest.value =
+                    false
 
                 WallpaperDetailsScreenEvent.GoToInstallAppsPermissionsPage -> {
                     intentHandler.goToPermissionPage(PermissionPage.InstallUnknownApps)
