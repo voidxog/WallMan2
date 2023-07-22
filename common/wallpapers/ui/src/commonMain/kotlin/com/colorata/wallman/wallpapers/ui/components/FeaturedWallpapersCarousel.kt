@@ -160,7 +160,7 @@ fun FeaturedWallpapersCarousel(
             contentPadding = PaddingValues(horizontal =
             remember(containerWidth) {
                 (containerWidth - 192.dp).coerceAtLeast(0.dp) / 2
-            } + Padding.navigationStartPadding()),
+            } + Padding.navigationStartPadding() / 2),
             modifier = Modifier
                 .fillMaxWidth()
                 .height(384.dp),
