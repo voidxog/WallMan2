@@ -22,14 +22,17 @@ object Strings {
     val exploreNew = simplifiedLocaleOf("Explore new", "Познавайте больше")
     val goToMaps = simplifiedLocaleOf("Go to maps", "Найти на карте")
     val ok = simplifiedLocaleOf("Ok", "Ок")
+    val confirm = simplifiedLocaleOf("Confirm", "Подтвердить")
     val size = simplifiedLocaleOf("Size: %s MB", "Размер: %s MB")
     val categories = simplifiedLocaleOf("Categories", "Категории")
     val adaptWallpaperToTheme =
         simplifiedLocaleOf("Adapt wallpaper to theme", "Адаптировать обои под тему")
 
-    val mapsAppNotInstalled = simplifiedLocaleOf("Maps app is not installed", "Приложение для карт не установлено")
+    val mapsAppNotInstalled =
+        simplifiedLocaleOf("Maps app is not installed", "Приложение для карт не установлено")
     val wallpaperNotFound = simplifiedLocaleOf("Wallpaper not found", "Обои не найдены")
-    val browserNotInstalled = simplifiedLocaleOf("Browser is not installed", "Браузер не установлен")
+    val browserNotInstalled =
+        simplifiedLocaleOf("Browser is not installed", "Браузер не установлен")
     val permissionNeeded = simplifiedLocaleOf("Permission needed", "Нужно разрешение")
     val permissionNeededDescription =
         simplifiedLocaleOf(
@@ -38,6 +41,15 @@ object Strings {
             "WallMan нужно разрешение \"Устанавливать неизвестные приложения\", " +
                     "потому что паки обоев являются приложениями"
         )
+
+    val performanceWarning = simplifiedLocaleOf(
+        "Download anyway?",
+        "Все равно скачать?"
+    )
+    val performanceWarningDescription = simplifiedLocaleOf(
+        "These wallpapers can be demanding on performance. On low-performance devices, they can slow down and consume more power.",
+        "Эти обои могут быть требовательны к производительности. На малопроизводительных устройствах они могут тормозить и потреблять больше энергии"
+    )
 
     val remove = simplifiedLocaleOf("Remove", "Удалить")
     val install = simplifiedLocaleOf("Install", "Установить")

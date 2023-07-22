@@ -29,6 +29,7 @@ import com.colorata.wallman.wallpapers.WallpapersRepository
 import com.colorata.wallman.wallpapers.canBe
 import com.colorata.wallman.wallpapers.firstBaseWallpaper
 import com.colorata.wallman.wallpapers.goToLiveWallpaper
+import com.colorata.wallman.wallpapers.isPerformanceDemanding
 import com.colorata.wallman.wallpapers.isSameAs
 import com.colorata.wallman.wallpapers.supportsDynamicWallpapers
 import kotlinx.collections.immutable.ImmutableList
@@ -76,6 +77,8 @@ class WallpaperDetailsViewModel(
     private val selectedBaseWallpaper = MutableStateFlow(wallpaper.firstBaseWallpaper())
     private val wallpaperVariants = MutableStateFlow(getDisplayedWallpaperVariants())
     private val showPermissionRequest = MutableStateFlow(false)
+    private val showPerformanceWarning = MutableStateFlow(false)
+    private val performanceWarningProceeded = MutableStateFlow(false)
 
     init {
         viewModelScope.launchIO({ logger.throwable(it) }) {
@@ -158,7 +161,9 @@ class WallpaperDetailsViewModel(
                 }
 
                 DynamicWallpaper.DynamicWallpaperCacheState.NotCached -> {
-                    downloadJob = launchIO({ logger.throwable(it) }) {
+                    if (!performanceWarningProceeded.value && wallpaper.isPerformanceDemanding()) showPerformanceWarning.value =
+                        true
+                    else downloadJob = launchIO({ logger.throwable(it) }) {
                         wallpaperManager.downloadWallpaperPack(
                             wallpaper.parent
                         ).collect {
@@ -257,6 +262,7 @@ class WallpaperDetailsViewModel(
         val selectedWallpaper by selectedBaseWallpaper.collectAsState()
         val wallpaperVariants by wallpaperVariants.collectAsState()
         val showPermissionRequest by showPermissionRequest.collectAsState()
+        val showPerformanceWarning by showPerformanceWarning.collectAsState()
         return@lazyMolecule WallpaperDetailsScreenState(
             wallpaper,
             selectedWallpaper,
@@ -265,7 +271,8 @@ class WallpaperDetailsViewModel(
             cacheState,
             selectedType,
             action,
-            showPermissionRequest
+            showPermissionRequest,
+            showPerformanceWarning
         ) { event ->
             when (event) {
                 WallpaperDetailsScreenEvent.ClickOnActionButton -> onActionButtonClick()
@@ -286,6 +293,16 @@ class WallpaperDetailsViewModel(
                     intentHandler.goToPermissionPage(PermissionPage.InstallUnknownApps)
                     this.showPermissionRequest.value = false
                 }
+
+                WallpaperDetailsScreenEvent.ProceedPerformanceWarning -> {
+                    performanceWarningProceeded.value = true
+                    this.showPerformanceWarning.value = false
+                    onDownloadClick()
+                }
+
+                WallpaperDetailsScreenEvent.DismissPerformanceWarning -> {
+                    this.showPerformanceWarning.value = false
+                }
             }
         }
     }
@@ -300,6 +317,7 @@ class WallpaperDetailsViewModel(
         val selectedWallpaperType: WallpaperI.SelectedWallpaperType,
         val actionType: WallpaperI.ActionType,
         val showPermissionRequest: Boolean = false,
+        val showPerformanceWarning: Boolean = false,
         val onEvent: (WallpaperDetailsScreenEvent) -> Unit
     )
 
@@ -318,5 +336,8 @@ class WallpaperDetailsViewModel(
         data object DismissPermissionRequest : WallpaperDetailsScreenEvent
 
         data object GoToInstallAppsPermissionsPage : WallpaperDetailsScreenEvent
+
+        data object ProceedPerformanceWarning : WallpaperDetailsScreenEvent
+        data object DismissPerformanceWarning : WallpaperDetailsScreenEvent
     }
 }

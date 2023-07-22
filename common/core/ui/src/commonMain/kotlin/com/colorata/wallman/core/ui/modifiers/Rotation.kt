@@ -1,5 +1,6 @@
 package com.colorata.wallman.core.ui.modifiers
 
+import android.os.Build
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.Easing
 import androidx.compose.animation.core.animateFloatAsState
@@ -15,6 +16,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.onGloballyPositioned
@@ -127,11 +130,16 @@ fun Modifier.detectRotation(state: RotationState) = composed {
         }
 }
 
-fun Modifier.displayRotation(state: RotationState, layer: Float = 0f) = this then graphicsLayer {
-    rotationY = state.rotation.y
-    rotationX = state.rotation.x
-    translationX = state.rotation.y * maxTranslation / 90f * layer
-    translationY = -state.rotation.x * maxTranslation / 90f * layer
+fun Modifier.displayRotation(
+    state: RotationState,
+    layer: Float = 0f
+) = this then runWhen(Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+    graphicsLayer {
+        rotationY = state.rotation.y
+        rotationX = state.rotation.x
+        translationX = state.rotation.y * maxTranslation / 90f * layer
+        translationY = -state.rotation.x * maxTranslation / 90f * layer
+    }
 }
 
 private fun getRotationAngles(

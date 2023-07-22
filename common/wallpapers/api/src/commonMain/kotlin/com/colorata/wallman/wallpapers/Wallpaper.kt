@@ -51,6 +51,11 @@ data class WallpaperI(
     }
 }
 
+fun WallpaperI.isPerformanceDemanding() =
+    if (supportsDynamicWallpapers())
+        dynamicWallpapers.any { it.performance == DynamicWallpaper.Performance.Demanding }
+    else false
+
 fun IntentHandler.goToLiveWallpaper(wallpaper: DynamicWallpaper) {
     goToLiveWallpaper(
         wallpaper.parent.packageName,
@@ -68,7 +73,8 @@ data class DynamicWallpaper(
     override val previewRes: String,
     override val parent: WallpaperPacks,
     override val coordinates: Coordinates? = null,
-    val compatibilityChecker: CompatibilityChecker = trueCompatibilityChecker()
+    val compatibilityChecker: CompatibilityChecker = trueCompatibilityChecker(),
+    val performance: Performance = Performance.Normal
 ) : BaseWallpaper {
 
     enum class DynamicWallpaperCacheState(val label: Polyglot) {
@@ -76,6 +82,11 @@ data class DynamicWallpaper(
         Installed(label = Strings.remove),
         NotCached(label = Strings.download),
         Downloading(label = Strings.cancel)
+    }
+
+    enum class Performance {
+        Normal,
+        Demanding
     }
 }
 
@@ -167,6 +178,7 @@ class WallpaperDSL {
     var coordinates: Coordinates? = null
 
     var compatibilityChecker: CompatibilityChecker = trueCompatibilityChecker()
+    var performance: DynamicWallpaper.Performance = DynamicWallpaper.Performance.Normal
     fun create(): WallpaperI {
         return WallpaperI(
             dynamicWallpapers.toImmutableList(),
@@ -191,7 +203,8 @@ class WallpaperDSL {
                 previewRes = dsl.previewRes ?: previewRes,
                 parent = parent,
                 coordinates = dsl.coordinates ?: coordinates,
-                compatibilityChecker = AndroidVersionCompatibilityChecker(parent.minSdk)
+                compatibilityChecker = AndroidVersionCompatibilityChecker(parent.minSdk),
+                performance = dsl.performance ?: performance
             )
         )
     }
@@ -229,6 +242,7 @@ class DynamicWallpaperDSL {
 
     var previewRes: String? = null
     var coordinates: Coordinates? = null
+    var performance: DynamicWallpaper.Performance? = null
 }
 
 class StaticWallpaperDSL {
@@ -1872,6 +1886,7 @@ val walls by createWallpapers {
         parent = WallpaperPacks.P6_EXT
         category = WallpaperCategory.Garden
         author = "Andrew Zuckerman"
+        performance = DynamicWallpaper.Performance.Demanding
 
         previewName = simplifiedLocaleOf("Flamingo Flower", "Антуриум")
         description = simplifiedLocaleOf(
@@ -1893,6 +1908,7 @@ val walls by createWallpapers {
         parent = WallpaperPacks.P6_EXT
         category = WallpaperCategory.Garden
         author = "Andrew Zuckerman"
+        performance = DynamicWallpaper.Performance.Demanding
 
         previewName = simplifiedLocaleOf("Persian Buttercup", "Лютик азиатский")
         description = simplifiedLocaleOf(
@@ -1914,6 +1930,7 @@ val walls by createWallpapers {
         parent = WallpaperPacks.P6_EXT
         category = WallpaperCategory.Garden
         author = "Andrew Zuckerman"
+        performance = DynamicWallpaper.Performance.Demanding
 
         previewName = simplifiedLocaleOf("Maki Dahlia", "Георгина \"Маки\"")
         description = simplifiedLocaleOf(
@@ -1935,6 +1952,7 @@ val walls by createWallpapers {
         parent = WallpaperPacks.P6_EXT
         category = WallpaperCategory.Garden
         author = "Andrew Zuckerman"
+        performance = DynamicWallpaper.Performance.Demanding
 
         previewName = simplifiedLocaleOf("Boat Orchid", "Цимбидиум")
         description = simplifiedLocaleOf(

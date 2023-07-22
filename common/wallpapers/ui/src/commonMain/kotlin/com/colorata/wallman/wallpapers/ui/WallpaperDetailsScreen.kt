@@ -39,6 +39,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.LocationOn
+import androidx.compose.material.icons.filled.Warning
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.AssistChip
 import androidx.compose.material3.Button
@@ -170,6 +171,13 @@ private fun WallpaperDetailsScreen(
                 state.onEvent(WallpaperDetailsViewModel.WallpaperDetailsScreenEvent.DismissPermissionRequest)
             }, onConfirm = {
                 state.onEvent(WallpaperDetailsViewModel.WallpaperDetailsScreenEvent.GoToInstallAppsPermissionsPage)
+            })
+        }
+        if (state.showPerformanceWarning) {
+            PerformanceWarningDialog(onDismiss = {
+                state.onEvent(WallpaperDetailsViewModel.WallpaperDetailsScreenEvent.DismissPerformanceWarning)
+            }, onConfirm = {
+                state.onEvent(WallpaperDetailsViewModel.WallpaperDetailsScreenEvent.ProceedPerformanceWarning)
             })
         }
 
@@ -557,6 +565,31 @@ fun PermissionRequestDialog(
         Text(rememberString(Strings.permissionNeeded))
     }, text = {
         Text(rememberString(Strings.permissionNeededDescription))
+    }, modifier = modifier)
+}
+
+@Composable
+fun PerformanceWarningDialog(
+    onDismiss: () -> Unit,
+    onConfirm: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    AlertDialog(onDismissRequest = {
+        onDismiss()
+    }, confirmButton = {
+        Button(onClick = { onConfirm() }) {
+            Text(rememberString(Strings.download))
+        }
+    }, dismissButton = {
+        OutlinedButton(onClick = { onDismiss() }) {
+            Text(rememberString(Strings.cancel))
+        }
+    }, icon = {
+        Icon(Icons.Default.Warning, contentDescription = null)
+    }, title = {
+        Text(rememberString(Strings.performanceWarning))
+    }, text = {
+        Text(rememberString(Strings.performanceWarningDescription))
     }, modifier = modifier)
 }
 
