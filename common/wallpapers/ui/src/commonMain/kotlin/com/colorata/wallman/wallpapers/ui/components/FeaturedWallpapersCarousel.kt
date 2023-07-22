@@ -29,15 +29,19 @@ import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.geometry.RoundRect
+import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.ClipOp
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.drawscope.clipPath
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.layout.onSizeChanged
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.toSize
 import androidx.compose.ui.util.lerp
 import com.colorata.animateaslifestyle.animateVisibility
 import com.colorata.animateaslifestyle.fade
@@ -82,15 +86,19 @@ fun FeaturedWallpapersCarousel(
     val state = rememberPagerState(Int.MAX_VALUE / 2) {
         Int.MAX_VALUE
     }
+    val density = LocalDensity.current
     val anim = MaterialTheme.animation
     val scope = rememberCoroutineScope()
     val currentProgress = remember { Animatable(0f) }
-    val visibleWallpapers = remember(wallpapers) { wallpapers.toStaggerList({ 0f }, visible = false) }
+    val visibleWallpapers =
+        remember(wallpapers) { wallpapers.toStaggerList({ 0f }, visible = false) }
     var indicatorsVisible by remember { mutableStateOf(false) }
     val transition = fade(animationSpec = anim.emphasized()) + slideVertically(
         from = 100f,
         animationSpec = anim.emphasized()
     )
+
+    var containerWidth by remember { mutableStateOf(0.dp) }
 
     LaunchedEffect(wallpapers) {
         launch {
@@ -139,13 +147,20 @@ fun FeaturedWallpapersCarousel(
         }
     }
     Column(
-        modifier.fillMaxWidth(),
+        modifier
+            .fillMaxWidth()
+            .onSizeChanged {
+                containerWidth = density.run { it.width.toDp() }
+            },
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.large)
     ) {
         HorizontalPager(
             state,
-            contentPadding = PaddingValues(horizontal = 96.dp + Padding.navigationStartPadding()),
+            contentPadding = PaddingValues(horizontal =
+            remember(containerWidth) {
+                (containerWidth - 192.dp).coerceAtLeast(0.dp) / 2
+            } + Padding.navigationStartPadding()),
             modifier = Modifier
                 .fillMaxWidth()
                 .height(384.dp),
@@ -163,9 +178,14 @@ fun FeaturedWallpapersCarousel(
             val clickHandler = remember {
                 {
                     scope.launch {
-                        isSelected = true
-                        delay(50)
-                        onClick(currentWallpaper)
+                        if (state.currentPage != index) state.animateScrollToPage(
+                            index,
+                            animationSpec = anim.emphasized(anim.durationSpec.extraLong4)
+                        ) else {
+                            isSelected = true
+                            delay(50)
+                            onClick(currentWallpaper)
+                        }
                     }
                 }
             }
@@ -186,14 +206,7 @@ fun FeaturedWallpapersCarousel(
                         )
                         .clip(RoundedCornerShape(cornerRadius))
                         .clickable {
-                            scope.launch {
-                                if (state.currentPage != index) state.animateScrollToPage(
-                                    index,
-                                    animationSpec = anim.emphasized(anim.durationSpec.extraLong4)
-                                ) else {
-                                    clickHandler()
-                                }
-                            }
+                            clickHandler()
                         }
                         .testTag("Wallpaper")
                         .graphicsLayer {
@@ -275,7 +288,7 @@ fun FeaturedWallpapersCarousel(
             horizontalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.small)
         ) {
             wallpapers.forEachIndexed { index, _ ->
-                val pageOffset by remember {
+                val pageOffset by remember(wallpapers) {
                     derivedStateOf {
                         (state.currentPage % wallpapers.size - index + state.currentPageOffsetFraction).absoluteValue.coerceIn(
                             0f,
@@ -283,7 +296,7 @@ fun FeaturedWallpapersCarousel(
                         )
                     }
                 }
-                val isSelected by remember { derivedStateOf { state.currentPage % wallpapers.size == index } }
+                val isSelected by remember(wallpapers) { derivedStateOf { state.currentPage % wallpapers.size == index } }
                 val animatedWidth by animateDpAsState(
                     12.dp + 24.dp * (1f - pageOffset),
                     label = ""
