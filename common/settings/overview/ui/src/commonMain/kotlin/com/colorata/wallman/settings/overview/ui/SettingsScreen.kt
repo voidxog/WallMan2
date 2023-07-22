@@ -108,13 +108,13 @@ private fun SettingsScreenLayout(
         items(animatedItems) {
             Column(
                 modifier = Modifier
-                    .clip(MaterialTheme.shapes.large)
-                    .background(MaterialTheme.colorScheme.surfaceVariant)
-                    .height(IntrinsicSize.Max)
                     .animateVisibility(
                         it.visible,
                         MaterialTheme.animation.emphasizedVerticalSlide()
                     )
+                    .clip(MaterialTheme.shapes.large)
+                    .background(MaterialTheme.colorScheme.surfaceVariant)
+                    .height(IntrinsicSize.Max)
             ) {
                 SettingsItem(
                     item = it.value,

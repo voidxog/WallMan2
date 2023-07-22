@@ -8,9 +8,7 @@ import com.colorata.wallman.core.data.Coordinates
 import com.colorata.wallman.core.data.Polyglot
 import com.colorata.wallman.core.data.Strings
 import com.colorata.wallman.core.data.module.IntentHandler
-import com.colorata.wallman.core.data.serialization.Json
 import com.colorata.wallman.core.data.serialization.SerializableImmutableList
-import com.colorata.wallman.core.data.serialization.SerializableImmutableMap
 import com.colorata.wallman.core.data.simplifiedLocaleOf
 import com.colorata.wallman.ui.icons.Bolt
 import com.colorata.wallman.ui.icons.Filter2
@@ -21,7 +19,6 @@ import com.colorata.wallman.ui.icons.Image
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.serialization.Serializable
-import kotlinx.serialization.encodeToString
 
 @Immutable
 @Serializable
