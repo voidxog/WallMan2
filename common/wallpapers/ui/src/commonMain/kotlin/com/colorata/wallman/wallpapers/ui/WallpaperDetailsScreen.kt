@@ -1,5 +1,6 @@
 package com.colorata.wallman.wallpapers.ui
 
+import android.os.Build
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.SizeTransform
 import androidx.compose.animation.core.LinearEasing
@@ -56,6 +57,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.BlendMode
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.StrokeCap
@@ -103,6 +106,7 @@ import com.colorata.wallman.core.ui.components.GradientType
 import com.colorata.wallman.core.ui.components.ScreenBackground
 import com.colorata.wallman.core.ui.modifiers.detectRotation
 import com.colorata.wallman.core.ui.modifiers.displayRotation
+import com.colorata.wallman.core.ui.modifiers.drawWithMask
 import com.colorata.wallman.core.ui.modifiers.rememberRotationState
 import com.colorata.wallman.core.ui.theme.WallManContentTheme
 import com.colorata.wallman.core.ui.theme.WallManPreviewTheme
@@ -379,19 +383,29 @@ private fun Arc(
     val borderColor = MaterialTheme.colorScheme.primary
     val layoutDirection = LocalLayoutDirection.current
     val density = LocalDensity.current
+    val border = BorderStroke(animatedWidth, borderColor)
     Box(modifier = modifier.clip(shape)) {
         Canvas(
             modifier = Modifier
+                .drawWithMask {
+                    if (animatedWidth.value != 0f) {
+                        drawArc(
+                            border.brush,
+                            start + 3.6f * animatedProgress,
+                            360f - 3.6f * animatedProgress,
+                            useCenter = true,
+                            blendMode = BlendMode.DstOut
+                        )
+                    }
+                }
                 .fillMaxSize()
         ) {
-            val border = BorderStroke(animatedWidth, borderColor)
             if (animatedWidth.value != 0f) {
                 drawOutline(
                     shape.createOutline(size, layoutDirection, density),
                     brush = border.brush,
                     style = Stroke(border.width.toPx(), cap = StrokeCap.Round)
                 )
-                drawMaskArc(arc(degrees(start), degrees(3.6f * animatedProgress)), border.brush)
             }
         }
     }
