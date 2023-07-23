@@ -14,7 +14,7 @@ fun WallpapersModule.CategoryDetailsViewModel(index: Int) =
     CategoryDetailsViewModel(wallpapersRepository, navigationController, index)
 
 class CategoryDetailsViewModel(
-    repo: WallpapersRepository,
+    private val repo: WallpapersRepository,
     private val navigation: NavigationController,
     index: Int
 ) : ViewModel() {
@@ -22,12 +22,18 @@ class CategoryDetailsViewModel(
 
     private val wallpapers = category.categoryWallpapers(repo.wallpapers).toImmutableList()
 
-    private fun goToWallpaper(wallpaper: WallpaperI) {
-        navigation.navigate(Destinations.WallpaperDetailsDestination(wallpaper))
+    private fun goToWallpaper(index: Int) {
+        navigation.navigate(Destinations.WallpaperDetailsDestination(index))
     }
 
     private fun goToRandomWallpaper() {
-        navigation.navigate(Destinations.WallpaperDetailsDestination(wallpapers.random()))
+        navigation.navigate(
+            Destinations.WallpaperDetailsDestination(
+                repo.wallpapers.indexOf(
+                    wallpapers.random()
+                )
+            )
+        )
     }
 
     val state by lazyMolecule {
@@ -36,7 +42,12 @@ class CategoryDetailsViewModel(
             category
         ) { event ->
             when (event) {
-                is CategoryDetailsScreenEvent.GoToWallpaper -> goToWallpaper(event.wallpaper)
+                is CategoryDetailsScreenEvent.GoToWallpaper -> goToWallpaper(
+                    repo.wallpapers.indexOf(
+                        event.wallpaper
+                    )
+                )
+
                 is CategoryDetailsScreenEvent.GoToRandomWallpaper -> goToRandomWallpaper()
             }
         }

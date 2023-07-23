@@ -1,6 +1,5 @@
 package com.colorata.wallman.wallpapers
 
-import androidx.annotation.DrawableRes
 import com.colorata.wallman.core.data.Polyglot
 import com.colorata.wallman.core.data.Strings
 

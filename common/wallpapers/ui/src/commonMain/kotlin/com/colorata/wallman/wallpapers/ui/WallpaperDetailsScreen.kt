@@ -1,6 +1,5 @@
 package com.colorata.wallman.wallpapers.ui
 
-import android.os.Build
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.SizeTransform
 import androidx.compose.animation.core.LinearEasing
@@ -58,7 +57,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.BlendMode
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.StrokeCap
@@ -76,10 +74,6 @@ import com.colorata.animateaslifestyle.animateVisibility
 import com.colorata.animateaslifestyle.fade
 import com.colorata.animateaslifestyle.material3.shapes.ScallopShape
 import com.colorata.animateaslifestyle.shapes.ExperimentalShapeApi
-import com.colorata.animateaslifestyle.shapes.arc
-import com.colorata.animateaslifestyle.shapes.degrees
-import com.colorata.animateaslifestyle.shapes.drawMaskArc
-import com.colorata.animateaslifestyle.shapes.drawOffscreen
 import com.colorata.animateaslifestyle.slideVertically
 import com.colorata.animateaslifestyle.stagger.ExperimentalStaggerApi
 import com.colorata.animateaslifestyle.stagger.StaggerList
@@ -133,15 +127,15 @@ import kotlinx.collections.immutable.toImmutableList
 context(WallpapersModule)
 fun MaterialNavGraphBuilder.wallpaperDetailsScreen() {
     flatComposable(Destinations.WallpaperDetailsDestination()) {
-        val hashCode by parameter()
-        WallpaperDetailsScreen(wallpaperHashCode = hashCode?.toInt() ?: 0)
+        val index by parameter()
+        WallpaperDetailsScreen(wallpaperIndex = index?.toInt() ?: 0)
     }
 }
 
 context(WallpapersModule)
 @Composable
-fun WallpaperDetailsScreen(wallpaperHashCode: Int, modifier: Modifier = Modifier) {
-    val viewModel = viewModel { WallpaperDetailsViewModel(wallpaperHashCode) }
+fun WallpaperDetailsScreen(wallpaperIndex: Int, modifier: Modifier = Modifier) {
+    val viewModel = viewModel { WallpaperDetailsViewModel(wallpaperIndex) }
     val state by viewModel.state.collectAsStateWithLifecycle()
     WallpaperDetailsScreen(state, modifier)
 }

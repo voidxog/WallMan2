@@ -2,8 +2,6 @@ package com.colorata.wallman.widget.api
 
 import com.colorata.wallman.wallpapers.DynamicWallpaper
 import com.colorata.wallman.wallpapers.WallpaperI
-import com.colorata.wallman.wallpapers.WallpaperProvider
-import kotlinx.coroutines.flow.StateFlow
 
 interface EverydayWidget {
 

@@ -38,9 +38,9 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
 
-fun WallpapersModule.WallpaperDetailsViewModel(wallpaperHashCode: Int) = WallpaperDetailsViewModel(
+fun WallpapersModule.WallpaperDetailsViewModel(wallpaperIndex: Int) = WallpaperDetailsViewModel(
     wallpapersRepository,
-    wallpaperHashCode,
+    wallpaperIndex,
     wallpaperManager,
     intentHandler,
     permissionHandler,
@@ -49,15 +49,15 @@ fun WallpapersModule.WallpaperDetailsViewModel(wallpaperHashCode: Int) = Wallpap
 
 class WallpaperDetailsViewModel(
     private val repo: WallpapersRepository,
-    private val wallpaperHashCode: Int,
+    private val wallpaperIndex: Int,
     private val wallpaperManager: WallpaperManager,
     private val intentHandler: IntentHandler,
     private val permissionHandler: PermissionHandler,
     private val logger: Logger
 ) : ViewModel() {
-
+    
     private val wallpaper: WallpaperI by lazy {
-        repo.wallpapers.find { it.hashCode() == wallpaperHashCode } ?: repo.wallpapers.first()
+        repo.wallpapers[wallpaperIndex]
     }
 
     private val progress = MutableStateFlow(100f)

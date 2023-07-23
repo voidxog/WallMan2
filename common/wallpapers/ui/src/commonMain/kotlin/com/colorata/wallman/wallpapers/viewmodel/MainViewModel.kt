@@ -22,12 +22,12 @@ class MainViewModel(
 
     private fun goToRandomWallpaper() {
         navigation.navigate(
-            Destinations.WallpaperDetailsDestination(repo.wallpapers.random())
+            Destinations.WallpaperDetailsDestination(repo.wallpapers.indices.random())
         )
     }
 
-    private fun onWallpaperClick(wallpaper: WallpaperI) =
-        navigation.navigate(Destinations.WallpaperDetailsDestination(wallpaper))
+    private fun onWallpaperClick(wallpaperIndex: Int) =
+        navigation.navigate(Destinations.WallpaperDetailsDestination(wallpaperIndex))
 
     private val wallpapers = repo.wallpapers
     private val featuredWallpapers = wallpapers.takeLast(15).toImmutableList()
@@ -39,7 +39,7 @@ class MainViewModel(
         ) {
             when (it) {
                 is MainScreenEvent.RandomWallpaper -> goToRandomWallpaper()
-                is MainScreenEvent.ClickOnWallpaper -> onWallpaperClick(it.wallpaper)
+                is MainScreenEvent.ClickOnWallpaper -> onWallpaperClick(repo.wallpapers.indexOf(it.wallpaper))
             }
         }
     }
