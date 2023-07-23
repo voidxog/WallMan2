@@ -1,15 +1,14 @@
 package com.colorata.wallman.shared
 
-import androidx.compose.animation.AnimatedContentTransitionScope
-import androidx.compose.animation.EnterTransition
-import androidx.compose.animation.ExitTransition
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.outlined.Info
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.navigation.NavBackStackEntry
 import com.colorata.wallman.categories.api.CategoriesDestination
-import com.colorata.wallman.core.data.*
+import com.colorata.wallman.core.data.Destination
+import com.colorata.wallman.core.data.Destinations
+import com.colorata.wallman.core.data.Polyglot
+import com.colorata.wallman.core.data.Strings
 import com.colorata.wallman.settings.overview.api.SettingsOverviewDestination
 import com.colorata.wallman.ui.icons.AutoAwesome
 import com.colorata.wallman.ui.icons.Folder
@@ -27,7 +26,7 @@ internal val quickAccessibleDestinations = persistentListOf(
     QuickNavigationDestination(
         destination = Destinations.MainDestination(),
         filledIcon = Icons.Filled.AutoAwesome,
-        previewName = Strings.main
+        previewName = Strings.explore
     ),
     QuickNavigationDestination(
         destination = Destinations.CategoriesDestination(),

@@ -17,6 +17,7 @@ object Strings {
         simplifiedLocaleOf("Dynamic (Not available)", "Динамические (Недоступно)")
     val static = simplifiedLocaleOf("Static", "Статические")
     val main = simplifiedLocaleOf("Main", "Главная")
+    val explore = simplifiedLocaleOf("Explore", "Познавайте")
     val features = simplifiedLocaleOf("Features", "Функции")
     val more = simplifiedLocaleOf("More", "Больше")
     val exploreNew = simplifiedLocaleOf("Explore new", "Познавайте больше")
