@@ -19,7 +19,7 @@
 - **Picturesque places** - the best creations of nature
 - **Flight of fancy** - abstract and beatutiful wallpapers
 - **Your little garden** - beautifully shot flowers
-- **Birdies** - plumage of elegant birds
+- **Birdies** - elegant plumage of elegant birds
 
 ## 📱 Requirements
 
