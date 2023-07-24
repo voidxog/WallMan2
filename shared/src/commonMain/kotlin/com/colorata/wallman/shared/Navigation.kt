@@ -5,7 +5,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.asPaddingValues
@@ -26,7 +25,6 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -39,13 +37,8 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.testTagsAsResourceId
 import androidx.compose.ui.unit.dp
 import com.colorata.animateaslifestyle.animateVisibility
-import com.colorata.animateaslifestyle.isCompositionLaunched
 import com.colorata.animateaslifestyle.material3.isCompact
 import com.colorata.animateaslifestyle.scale
-import com.colorata.animateaslifestyle.stagger.ExperimentalStaggerApi
-import com.colorata.animateaslifestyle.stagger.animateAsList
-import com.colorata.animateaslifestyle.stagger.staggerListOf
-import com.colorata.animateaslifestyle.stagger.staggerSpecOf
 import com.colorata.animateaslifestyle.stagger.toPx
 import com.colorata.wallman.categories.ui.categoriesScreen
 import com.colorata.wallman.categories.ui.categoryDetailsScreen
@@ -55,6 +48,10 @@ import com.colorata.wallman.core.data.animation
 import com.colorata.wallman.core.data.destination
 import com.colorata.wallman.core.data.rememberString
 import com.colorata.wallman.core.di.LocalGraph
+import com.colorata.wallman.core.ui.list.VisibilityColumn
+import com.colorata.wallman.core.ui.list.VisibilityRow
+import com.colorata.wallman.core.ui.list.animatedAtLaunch
+import com.colorata.wallman.core.ui.list.rememberVisibilityList
 import com.colorata.wallman.core.ui.theme.LocalPaddings
 import com.colorata.wallman.core.ui.theme.emphasizedHorizontalSlide
 import com.colorata.wallman.core.ui.theme.emphasizedVerticalSlide
@@ -136,22 +133,15 @@ private fun Navigator(
     }
 }
 
-@OptIn(ExperimentalStaggerApi::class)
 @Composable
 fun BottomBar(currentRoute: String, onClick: (route: String) -> Unit) {
-    val stagger = remember {
-        staggerListOf(
-            { }, false, *quickAccessibleDestinations.toTypedArray()
-        )
-    }
+    val visibleItems = rememberVisibilityList {
+        quickAccessibleDestinations
+    }.animatedAtLaunch()
+
     val height =
         80.dp + if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) WindowInsets.navigationBars.asPaddingValues()
             .calculateBottomPadding() else 0.dp
-    LaunchedEffect(key1 = isCompositionLaunched(105)) {
-        stagger.animateAsList(this, spec = staggerSpecOf(itemsDelayMillis = 100) {
-            visible = true
-        })
-    }
 
     val dp80inPx = 80.dp.toPx()
     val barVisible =
@@ -162,32 +152,28 @@ fun BottomBar(currentRoute: String, onClick: (route: String) -> Unit) {
         )
     ) {
         Column {
-            Row {
-                stagger.forEach {
-                    val destination = it.value.destination
-                    val selected = currentRoute == destination.path
-                    NavigationBarItem(
-                        selected = selected,
-                        onClick = {
-                            if (!selected && barVisible) onClick(destination.path)
-                        },
-                        icon = {
-                            Icon(
-                                imageVector = if (selected) it.value.filledIcon else it.value.outlinedIcon,
-                                contentDescription = ""
-                            )
-                        },
-                        label = { Text(text = rememberString(string = it.value.previewName)) },
-                        alwaysShowLabel = false,
-                        modifier = Modifier
-                            .testTag(destination.path)
-                            .animateVisibility(
-                                it.visible,
-                                MaterialTheme.animation.emphasizedVerticalSlide(dp80inPx)
-                            )
-                            .height(80.dp)
-                    )
-                }
+            VisibilityRow(
+                visibleItems,
+                transition = { MaterialTheme.animation.emphasizedVerticalSlide(dp80inPx) }) { it, modifier ->
+                val destination = it.destination
+                val selected = currentRoute == destination.path
+                NavigationBarItem(
+                    selected = selected,
+                    onClick = {
+                        if (!selected && barVisible) onClick(destination.path)
+                    },
+                    icon = {
+                        Icon(
+                            imageVector = if (selected) it.filledIcon else it.outlinedIcon,
+                            contentDescription = ""
+                        )
+                    },
+                    label = { Text(text = rememberString(string = it.previewName)) },
+                    alwaysShowLabel = false,
+                    modifier = modifier
+                        .testTag(destination.path)
+                        .height(80.dp)
+                )
             }
             Spacer(
                 modifier = Modifier
@@ -198,28 +184,22 @@ fun BottomBar(currentRoute: String, onClick: (route: String) -> Unit) {
     }
 }
 
-@OptIn(ExperimentalStaggerApi::class)
 @Composable
 private fun SideBar(
     currentRoute: String,
     onClick: (route: String) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val stagger = remember {
-        staggerListOf(
-            { }, false, *quickAccessibleDestinations.toTypedArray()
-        )
-    }
-    LaunchedEffect(key1 = isCompositionLaunched(105)) {
-        stagger.animateAsList(this, spec = staggerSpecOf(itemsDelayMillis = 100) {
-            visible = true
-        })
-    }
+    val stagger = rememberVisibilityList {
+        quickAccessibleDestinations
+    }.animatedAtLaunch()
+
     val dp80inPx = 80.dp.toPx()
     val sidebarVisible =
         remember(currentRoute) { currentRoute in quickAccessibleDestinations.map { it.destination.path } }
 
-    Column(
+    VisibilityColumn(
+        stagger,
         modifier
             .animateVisibility(
                 sidebarVisible,
@@ -230,25 +210,22 @@ private fun SideBar(
             .clip(CircleShape)
             .background(MaterialTheme.colorScheme.surfaceColorAtElevation(3.dp))
             .padding(vertical = MaterialTheme.spacing.extraLarge),
+        transition = { MaterialTheme.animation.emphasizedHorizontalSlide(-dp80inPx) }
     ) {
-        stagger.forEach {
-            val destination = it.value.destination
-            val selected = destination.path == currentRoute
-            NavigationRailItem(
-                selected = selected,
-                onClick = {
-                    if (!selected && sidebarVisible) onClick(destination.path)
-                },
-                icon = {
-                    Icon(
-                        imageVector = if (selected) it.value.filledIcon else it.value.outlinedIcon,
-                        contentDescription = ""
-                    )
-                }, label = null/* { Text(text = rememberString(string = it.value.previewName)) }*/,
-                alwaysShowLabel = false, modifier = Modifier.animateVisibility(
-                    it.visible, MaterialTheme.animation.emphasizedHorizontalSlide(-dp80inPx)
+        val destination = it.destination
+        val selected = destination.path == currentRoute
+        NavigationRailItem(
+            selected = selected,
+            onClick = {
+                if (!selected && sidebarVisible) onClick(destination.path)
+            },
+            icon = {
+                Icon(
+                    imageVector = if (selected) it.filledIcon else it.outlinedIcon,
+                    contentDescription = ""
                 )
-            )
-        }
+            }, label = null/* { Text(text = rememberString(string = it.value.previewName)) }*/,
+            alwaysShowLabel = false
+        )
     }
 }

@@ -5,25 +5,18 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
-import androidx.compose.foundation.lazy.staggeredgrid.itemsIndexed
+import androidx.compose.foundation.lazy.staggeredgrid.rememberLazyStaggeredGridState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.LargeTopAppBar
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Shape
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.colorata.animateaslifestyle.animateVisibility
 import com.colorata.animateaslifestyle.material3.isCompact
-import com.colorata.animateaslifestyle.stagger.Element
-import com.colorata.animateaslifestyle.stagger.ExperimentalStaggerApi
-import com.colorata.animateaslifestyle.stagger.animateAsList
-import com.colorata.animateaslifestyle.stagger.staggerSpecOf
-import com.colorata.animateaslifestyle.stagger.toStaggerList
 import com.colorata.wallman.categories.api.CategoriesDestination
 import com.colorata.wallman.categories.api.WallpaperCategory
 import com.colorata.wallman.categories.ui.components.generateShapesForCard
@@ -31,14 +24,15 @@ import com.colorata.wallman.categories.viewmodel.CategoriesViewModel
 import com.colorata.wallman.core.data.Destinations
 import com.colorata.wallman.core.data.MaterialNavGraphBuilder
 import com.colorata.wallman.core.data.Strings
-import com.colorata.wallman.core.data.animation
 import com.colorata.wallman.core.data.flatComposable
 import com.colorata.wallman.core.data.rememberString
 import com.colorata.wallman.core.data.viewModel
+import com.colorata.wallman.core.ui.list.animatedAsGridAtLaunch
+import com.colorata.wallman.core.ui.list.rememberVisibilityList
+import com.colorata.wallman.core.ui.list.visibilityItemsIndexed
 import com.colorata.wallman.core.ui.modifiers.Padding
 import com.colorata.wallman.core.ui.modifiers.navigationBarPadding
 import com.colorata.wallman.core.ui.modifiers.navigationPadding
-import com.colorata.wallman.core.ui.theme.emphasizedVerticalSlide
 import com.colorata.wallman.core.ui.theme.screenPadding
 import com.colorata.wallman.core.ui.theme.spacing
 import com.colorata.wallman.core.ui.util.LocalWindowSizeConfiguration
@@ -72,13 +66,13 @@ private fun CategoriesScreen(
     val windowSize = LocalWindowSizeConfiguration.current
     if (windowSize.isCompact()) {
         CategoriesLayout(
-            StaggeredGridCells.Fixed(1),
+            1,
             state,
             modifier
         )
     } else {
         CategoriesLayout(
-            StaggeredGridCells.Fixed(2),
+            2,
             state,
             modifier
         )
@@ -86,18 +80,16 @@ private fun CategoriesScreen(
 }
 
 @Composable
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalStaggerApi::class)
+@OptIn(ExperimentalMaterial3Api::class)
 private fun CategoriesLayout(
-    cells: StaggeredGridCells,
+    cellsCount: Int,
     state: CategoriesViewModel.CategoriesScreenState,
     modifier: Modifier = Modifier
 ) {
-    val animatedList = remember { state.categories.toStaggerList({ 0f }, false) }
-    LaunchedEffect(key1 = true) {
-        animatedList.animateAsList(this, spec = staggerSpecOf(itemsDelayMillis = 100) {
-            visible = true
-        })
-    }
+    val gridState = rememberLazyStaggeredGridState()
+    val animatedList = rememberVisibilityList {
+        state.categories
+    }.animatedAsGridAtLaunch(cellsCount, gridState, indexOffset = 1)
 
     val elementsSpacing = MaterialTheme.spacing.medium
     val horizontalPadding = MaterialTheme.spacing.screenPadding
@@ -107,7 +99,8 @@ private fun CategoriesLayout(
         List(state.categories.size) { generateShapesForCard(shapes) }.toImmutableList()
     }
     LazyVerticalStaggeredGrid(
-        cells,
+        StaggeredGridCells.Fixed(cellsCount),
+        state = gridState,
         modifier = modifier.fillMaxSize(),
         verticalItemSpacing = elementsSpacing,
         horizontalArrangement = Arrangement.spacedBy(elementsSpacing),
@@ -122,7 +115,7 @@ private fun CategoriesLayout(
                 Text(text = rememberString(string = Strings.categories))
             })
         }
-        itemsIndexed(animatedList) { index, it ->
+        visibilityItemsIndexed(animatedList) { index, it ->
             CategoryCard(
                 category = it, onClick = {
                     state.onEvent(
@@ -139,24 +132,21 @@ private fun CategoriesLayout(
 
 @Composable
 private fun CategoryCard(
-    category: Element<WallpaperCategory, Float>,
+    category: WallpaperCategory,
     onClick: () -> Unit,
     wallpapers: ImmutableList<WallpaperI>,
     shapes: ImmutableList<Shape>,
     modifier: Modifier = Modifier
 ) {
     com.colorata.wallman.categories.ui.components.CategoryCard(
-        category = category.value, wallpapers = remember(category.value) {
-            category.value.categoryWallpapers(wallpapers).toImmutableList()
+        category = category, wallpapers = remember(category) {
+            category.categoryWallpapers(wallpapers).toImmutableList()
         },
         shapes = shapes,
         onClick = {
             onClick()
         },
-        modifier = modifier.animateVisibility(
-            category.visible,
-            transition = MaterialTheme.animation.emphasizedVerticalSlide()
-        )
+        modifier
     )
 }
 

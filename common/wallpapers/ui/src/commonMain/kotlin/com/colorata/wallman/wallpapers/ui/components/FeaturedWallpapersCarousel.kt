@@ -10,7 +10,17 @@ import androidx.compose.animation.core.tween
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PageSize
 import androidx.compose.foundation.pager.PagerState
@@ -20,7 +30,15 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -42,21 +60,19 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.lerp
 import com.colorata.animateaslifestyle.animateVisibility
-import com.colorata.animateaslifestyle.fade
-import com.colorata.animateaslifestyle.slideVertically
 import com.colorata.animateaslifestyle.stagger.ExperimentalStaggerApi
-import com.colorata.animateaslifestyle.stagger.animateAsList
-import com.colorata.animateaslifestyle.stagger.staggerSpecOf
-import com.colorata.animateaslifestyle.stagger.toStaggerList
 import com.colorata.wallman.core.data.animation
 import com.colorata.wallman.core.data.bitmapAsset
 import com.colorata.wallman.core.data.launchIO
 import com.colorata.wallman.core.data.rememberString
+import com.colorata.wallman.core.ui.list.animateVisibility
+import com.colorata.wallman.core.ui.list.rememberVisibilityList
 import com.colorata.wallman.core.ui.modifiers.Padding
 import com.colorata.wallman.core.ui.modifiers.navigationStartPadding
-import com.colorata.wallman.core.ui.theme.spacing
 import com.colorata.wallman.core.ui.theme.WallManContentTheme
 import com.colorata.wallman.core.ui.theme.WallManPreviewTheme
+import com.colorata.wallman.core.ui.theme.emphasizedVerticalSlide
+import com.colorata.wallman.core.ui.theme.spacing
 import com.colorata.wallman.wallpapers.WallpaperI
 import com.colorata.wallman.wallpapers.firstBaseWallpaper
 import com.colorata.wallman.wallpapers.firstPreviewRes
@@ -88,29 +104,22 @@ fun FeaturedWallpapersCarousel(
     val anim = MaterialTheme.animation
     val scope = rememberCoroutineScope()
     val currentProgress = remember { Animatable(0f) }
-    val visibleWallpapers =
-        remember(wallpapers) { wallpapers.toStaggerList({ 0f }, visible = false) }
+    val visibleWallpapers = rememberVisibilityList { wallpapers }
     var indicatorsVisible by remember { mutableStateOf(false) }
-    val transition = fade(animationSpec = anim.emphasized()) + slideVertically(
-        from = 100f,
-        animationSpec = anim.emphasized()
-    )
 
     var containerWidth by remember { mutableStateOf(0.dp) }
 
     LaunchedEffect(wallpapers) {
         launch {
             val page = state.currentPage
-            visibleWallpapers[page % wallpapers.size].visible = true
+            visibleWallpapers.visible[page % wallpapers.size] = true
             delay(100)
-            visibleWallpapers[(page - 1) % wallpapers.size].visible = true
-            visibleWallpapers[(page + 1) % wallpapers.size].visible = true
-            visibleWallpapers.animateAsList(
-                this,
-                startIndex = page % wallpapers.size,
-                spec = staggerSpecOf {
-                    visible = true
-                })
+            visibleWallpapers.visible[(page - 1) % wallpapers.size] = true
+            visibleWallpapers.visible[(page + 1) % wallpapers.size] = true
+            visibleWallpapers.animateVisibility(
+                visible = true,
+                startIndex = page % wallpapers.size
+            )
         }
         delay(300)
         indicatorsVisible = true
@@ -199,8 +208,8 @@ fun FeaturedWallpapersCarousel(
                 Box(
                     Modifier
                         .animateVisibility(
-                            visibleWallpapers[index % wallpapers.size].visible,
-                            transition
+                            visibleWallpapers.visible[index % wallpapers.size],
+                            MaterialTheme.animation.emphasizedVerticalSlide()
                         )
                         .clip(RoundedCornerShape(cornerRadius))
                         .clickable {
@@ -282,7 +291,7 @@ fun FeaturedWallpapersCarousel(
             }
         }
         Row(
-            Modifier.animateVisibility(indicatorsVisible, transition),
+            Modifier.animateVisibility(indicatorsVisible, MaterialTheme.animation.emphasizedVerticalSlide()),
             horizontalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.small)
         ) {
             wallpapers.forEachIndexed { index, _ ->

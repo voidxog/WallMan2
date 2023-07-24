@@ -12,8 +12,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.colorata.animateaslifestyle.material3.isCompact
-import com.colorata.animateaslifestyle.stagger.ExperimentalStaggerApi
-import com.colorata.animateaslifestyle.stagger.toStaggerList
 import com.colorata.wallman.core.data.Destinations
 import com.colorata.wallman.core.data.MaterialNavGraphBuilder
 import com.colorata.wallman.core.data.Strings
@@ -47,7 +45,6 @@ fun FeaturedScreen(modifier: Modifier = Modifier) {
     FeaturedScreen(state, modifier)
 }
 
-@OptIn(ExperimentalStaggerApi::class)
 @Composable
 private fun FeaturedScreen(state: MainViewModel.MainScreenState, modifier: Modifier = Modifier) {
     var selectedWallpaper by remember { mutableStateOf<WallpaperI?>(null) }
@@ -79,11 +76,7 @@ private fun FeaturedScreen(state: MainViewModel.MainScreenState, modifier: Modif
                     selectedWallpaper = it
                 })
         },
-        wallpapers = remember(state.wallpapers) {
-            state.wallpapers.toStaggerList(
-                { 0f }, visible = false
-            )
-        },
+        wallpapers = state.wallpapers,
         onRandomWallpaper = {
             state.onEvent(MainViewModel.MainScreenEvent.RandomWallpaper)
         },

@@ -2,11 +2,8 @@ package com.colorata.wallman.categories.ui
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.colorata.animateaslifestyle.stagger.ExperimentalStaggerApi
-import com.colorata.animateaslifestyle.stagger.toStaggerList
 import com.colorata.wallman.categories.api.CategoryDetailsDestination
 import com.colorata.wallman.categories.viewmodel.CategoryDetailsViewModel
 import com.colorata.wallman.core.data.Destinations
@@ -34,20 +31,11 @@ fun CategoryDetailsScreen(categoryIndex: Int, modifier: Modifier = Modifier) {
     CategoryDetailsScreen(state, modifier)
 }
 
-@OptIn(ExperimentalStaggerApi::class)
 @Composable
 private fun CategoryDetailsScreen(
     state: CategoryDetailsViewModel.CategoryDetailsScreenState,
     modifier: Modifier = Modifier
 ) {
-    val animatedWallpapers =
-        remember(state.wallpapers) {
-            state.wallpapers.toStaggerList(
-                { 0f },
-                visible = false
-            )
-        }
-
     FilteredWallpaperCards(
         onClick = {
             state.onEvent(CategoryDetailsViewModel.CategoryDetailsScreenEvent.GoToWallpaper(it))
@@ -55,7 +43,7 @@ private fun CategoryDetailsScreen(
         rememberString(state.category.locale.name),
         modifier,
         description = rememberString(state.category.locale.description),
-        wallpapers = animatedWallpapers,
+        wallpapers = state.wallpapers,
         onRandomWallpaper = {
             state.onEvent(CategoryDetailsViewModel.CategoryDetailsScreenEvent.GoToRandomWallpaper)
         }

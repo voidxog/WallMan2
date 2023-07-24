@@ -49,7 +49,6 @@ import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -75,11 +74,6 @@ import com.colorata.animateaslifestyle.fade
 import com.colorata.animateaslifestyle.material3.shapes.ScallopShape
 import com.colorata.animateaslifestyle.shapes.ExperimentalShapeApi
 import com.colorata.animateaslifestyle.slideVertically
-import com.colorata.animateaslifestyle.stagger.ExperimentalStaggerApi
-import com.colorata.animateaslifestyle.stagger.StaggerList
-import com.colorata.animateaslifestyle.stagger.animateAsList
-import com.colorata.animateaslifestyle.stagger.staggerSpecOf
-import com.colorata.animateaslifestyle.stagger.toStaggerList
 import com.colorata.wallman.core.data.Destinations
 import com.colorata.wallman.core.data.MaterialNavGraphBuilder
 import com.colorata.wallman.core.data.Polyglot
@@ -98,12 +92,16 @@ import com.colorata.wallman.core.data.viewModel
 import com.colorata.wallman.core.ui.LightDarkPreview
 import com.colorata.wallman.core.ui.components.GradientType
 import com.colorata.wallman.core.ui.components.ScreenBackground
+import com.colorata.wallman.core.ui.list.VisibilityList
+import com.colorata.wallman.core.ui.list.animatedAtLaunch
+import com.colorata.wallman.core.ui.list.rememberVisibilityList
 import com.colorata.wallman.core.ui.modifiers.detectRotation
 import com.colorata.wallman.core.ui.modifiers.displayRotation
 import com.colorata.wallman.core.ui.modifiers.drawWithMask
 import com.colorata.wallman.core.ui.modifiers.rememberRotationState
 import com.colorata.wallman.core.ui.theme.WallManContentTheme
 import com.colorata.wallman.core.ui.theme.WallManPreviewTheme
+import com.colorata.wallman.core.ui.theme.emphasizedVerticalSlide
 import com.colorata.wallman.core.ui.theme.spacing
 import com.colorata.wallman.core.ui.util.LocalWindowSizeConfiguration
 import com.colorata.wallman.ui.icons.SdCard
@@ -140,7 +138,6 @@ fun WallpaperDetailsScreen(wallpaperIndex: Int, modifier: Modifier = Modifier) {
     WallpaperDetailsScreen(state, modifier)
 }
 
-@OptIn(ExperimentalStaggerApi::class)
 @Composable
 private fun WallpaperDetailsScreen(
     state: WallpaperDetailsViewModel.WallpaperDetailsScreenState,
@@ -151,16 +148,10 @@ private fun WallpaperDetailsScreen(
 
     val scrollState = rememberScrollState()
     val previewImage = bitmapAsset(state.selectedWallpaper.previewRes)
-    val animationSpec =
-        fade(animationSpec = MaterialTheme.animation.emphasized()) + slideVertically(animationSpec = MaterialTheme.animation.emphasized())
-    val animList = remember {
-        List(8) { }.toStaggerList({ 0f }, visible = isPreview)
-    }
-    LaunchedEffect(Unit) {
-        animList.animateAsList(this, spec = staggerSpecOf {
-            visible = true
-        })
-    }
+    val animationSpec = MaterialTheme.animation.emphasizedVerticalSlide()
+    val animList = rememberVisibilityList {
+        List(8) {}
+    }.animatedAtLaunch()
 
     val windowSize = LocalWindowSizeConfiguration.current
     WallManContentTheme(state.selectedWallpaper.previewRes) {
@@ -199,14 +190,14 @@ private fun WallpaperDetailsScreen(
                         downloadProgress = { state.downloadProgress },
                         Modifier
                             .zIndex(3f)
-                            .animateVisibility(animList[0].visible, animationSpec)
+                            .animateVisibility(animList.visible[0], animationSpec)
                     )
                     DescriptionAndActions(state, visibilityList = animList)
                 }
                 BottomBar(
                     state, Modifier
                         .align(Alignment.BottomCenter)
-                        .animateVisibility(animList[6].visible, animationSpec)
+                        .animateVisibility(animList.visible[6], animationSpec)
                 )
             } else {
                 Row(Modifier.fillMaxSize()) {
@@ -223,7 +214,7 @@ private fun WallpaperDetailsScreen(
                                 .padding(MaterialTheme.spacing.extraLarge)
                                 .fillMaxSize()
                                 .zIndex(3f)
-                                .animateVisibility(animList[0].visible, animationSpec)
+                                .animateVisibility(animList.visible[0], animationSpec)
                         )
                     }
                     Box(
@@ -245,7 +236,7 @@ private fun WallpaperDetailsScreen(
                             state,
                             Modifier
                                 .align(Alignment.BottomCenter)
-                                .animateVisibility(animList[6].visible, animationSpec),
+                                .animateVisibility(animList.visible[6], animationSpec),
                             fullWidth = false
                         )
                     }
@@ -408,11 +399,10 @@ private fun Arc(
 @Composable
 fun DescriptionAndActions(
     state: WallpaperDetailsViewModel.WallpaperDetailsScreenState,
-    visibilityList: StaggerList<Unit, Float>,
+    visibilityList: VisibilityList<Unit>,
     modifier: Modifier = Modifier
 ) {
-    val animationSpec =
-        fade(animationSpec = MaterialTheme.animation.emphasized()) + slideVertically(animationSpec = MaterialTheme.animation.emphasized())
+    val animationSpec = MaterialTheme.animation.emphasizedVerticalSlide()
     val wallpaper = state.wallpaper
     val selectedBaseWallpaper = state.selectedWallpaper
     Column(
@@ -423,12 +413,12 @@ fun DescriptionAndActions(
         PreviewName(
             selectedBaseWallpaper.previewName, Modifier
                 .align(Alignment.Start)
-                .animateVisibility(visibilityList[1].visible, animationSpec)
+                .animateVisibility(visibilityList.visible[1], animationSpec)
         )
         Description(
             selectedBaseWallpaper.description, Modifier
                 .align(Alignment.Start)
-                .animateVisibility(visibilityList[2].visible, animationSpec)
+                .animateVisibility(visibilityList.visible[2], animationSpec)
         )
         WallpaperTypeSelector(
             supportsDynamicWallpaper = remember(wallpaper) { wallpaper.supportsDynamicWallpapers() },
@@ -440,7 +430,7 @@ fun DescriptionAndActions(
                     )
                 )
             },
-            Modifier.animateVisibility(visibilityList[3].visible, animationSpec)
+            Modifier.animateVisibility(visibilityList.visible[3], animationSpec)
         )
         val chips = remember {
             persistentListOf<Chip>().mutate {
@@ -463,14 +453,14 @@ fun DescriptionAndActions(
         Chips(chips = chips, onClick = {
             val index = chips.indexOf(it)
             if (index == 0) state.onEvent(WallpaperDetailsViewModel.WallpaperDetailsScreenEvent.GoToMaps)
-        }, Modifier.animateVisibility(visibilityList[4].visible, animationSpec))
+        }, Modifier.animateVisibility(visibilityList.visible[4], animationSpec))
         Variants(state.wallpaperVariants, selectedWallpaper = state.selectedWallpaper, onClick = {
             state.onEvent(
                 WallpaperDetailsViewModel.WallpaperDetailsScreenEvent.SelectBaseWallpaper(
                     it
                 )
             )
-        }, Modifier.animateVisibility(visibilityList[5].visible, animationSpec))
+        }, Modifier.animateVisibility(visibilityList.visible[5], animationSpec))
         Spacer(Modifier.height(80.dp))
     }
 }

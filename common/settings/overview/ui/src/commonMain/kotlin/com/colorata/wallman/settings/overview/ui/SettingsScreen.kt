@@ -10,36 +10,29 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
-import androidx.compose.foundation.lazy.staggeredgrid.items
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.LargeTopAppBar
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.colorata.animateaslifestyle.animateVisibility
 import com.colorata.animateaslifestyle.material3.isCompact
-import com.colorata.animateaslifestyle.stagger.ExperimentalStaggerApi
-import com.colorata.animateaslifestyle.stagger.animateAsList
-import com.colorata.animateaslifestyle.stagger.staggerSpecOf
-import com.colorata.animateaslifestyle.stagger.toStaggerList
 import com.colorata.wallman.core.data.Destinations
 import com.colorata.wallman.core.data.MaterialNavGraphBuilder
 import com.colorata.wallman.core.data.Strings
-import com.colorata.wallman.core.data.animation
 import com.colorata.wallman.core.data.flatComposable
 import com.colorata.wallman.core.data.module.CoreModule
 import com.colorata.wallman.core.data.rememberString
 import com.colorata.wallman.core.data.viewModel
+import com.colorata.wallman.core.ui.list.animatedAsGridAtLaunch
+import com.colorata.wallman.core.ui.list.rememberVisibilityList
+import com.colorata.wallman.core.ui.list.visibilityItems
 import com.colorata.wallman.core.ui.modifiers.Padding
 import com.colorata.wallman.core.ui.modifiers.navigationBarPadding
 import com.colorata.wallman.core.ui.modifiers.navigationPadding
-import com.colorata.wallman.core.ui.theme.emphasizedVerticalSlide
 import com.colorata.wallman.core.ui.theme.screenPadding
 import com.colorata.wallman.core.ui.theme.spacing
 import com.colorata.wallman.core.ui.util.LocalWindowSizeConfiguration
@@ -71,28 +64,24 @@ private fun SettingsScreen(
     // TODO: refactor when https://gitlab.com/colorata/wallman/-/issues/1 fixed
     val windowSize = LocalWindowSizeConfiguration.current
     if (windowSize.isCompact()) {
-        SettingsScreenLayout(StaggeredGridCells.Fixed(1), state, modifier)
+        SettingsScreenLayout(1, state, modifier)
     } else {
-        SettingsScreenLayout(StaggeredGridCells.Fixed(2), state, modifier)
+        SettingsScreenLayout(2, state, modifier)
     }
 }
 
 @Composable
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalStaggerApi::class)
+@OptIn(ExperimentalMaterial3Api::class)
 private fun SettingsScreenLayout(
-    cells: StaggeredGridCells,
+    cellsCount: Int,
     state: SettingsViewModel.SettingsScreenState,
     modifier: Modifier = Modifier,
 ) {
-    val animatedItems = remember { state.settingsItems.toStaggerList({ 0f }, false) }
-    LaunchedEffect(key1 = true) {
-        animatedItems.animateAsList(this, spec = staggerSpecOf(itemsDelayMillis = 100) {
-            visible = true
-        })
-    }
+    val animatedItems =
+        rememberVisibilityList { state.settingsItems }.animatedAsGridAtLaunch(cellsCount)
 
     LazyVerticalStaggeredGrid(
-        columns = cells,
+        columns = StaggeredGridCells.Fixed(cellsCount),
         modifier = modifier
             .fillMaxSize()
             .padding(horizontal = MaterialTheme.spacing.screenPadding),
@@ -105,21 +94,17 @@ private fun SettingsScreenLayout(
                 Text(text = rememberString(string = Strings.more))
             })
         }
-        items(animatedItems) {
+        visibilityItems(animatedItems) {
             Column(
                 modifier = Modifier
-                    .animateVisibility(
-                        it.visible,
-                        MaterialTheme.animation.emphasizedVerticalSlide()
-                    )
                     .clip(MaterialTheme.shapes.large)
                     .background(MaterialTheme.colorScheme.surfaceVariant)
                     .height(IntrinsicSize.Max)
             ) {
                 SettingsItem(
-                    item = it.value,
+                    item = it,
                     onClick = {
-                        state.onEvent(SettingsViewModel.SettingsScreenEvent.GoToSettings(it.value))
+                        state.onEvent(SettingsViewModel.SettingsScreenEvent.GoToSettings(it))
                     }
                 )
             }

@@ -14,7 +14,6 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyGridItemScope
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.itemsIndexed
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -43,27 +42,25 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
-import com.colorata.animateaslifestyle.animateVisibility
 import com.colorata.animateaslifestyle.material3.fab.AnimatedFloatingActionButton
 import com.colorata.animateaslifestyle.material3.fab.FabSize
 import com.colorata.animateaslifestyle.material3.isCompact
-import com.colorata.animateaslifestyle.stagger.StaggerList
-import com.colorata.animateaslifestyle.stagger.animateAsGrid
-import com.colorata.animateaslifestyle.stagger.asStaggerList
-import com.colorata.animateaslifestyle.stagger.staggerSpecOf
 import com.colorata.wallman.core.data.animation
+import com.colorata.wallman.core.ui.list.animatedAsGridAtLaunch
+import com.colorata.wallman.core.ui.list.rememberVisibilityList
+import com.colorata.wallman.core.ui.list.visibilityItemsIndexed
 import com.colorata.wallman.core.ui.components.ScreenBackground
 import com.colorata.wallman.core.ui.modifiers.Padding
 import com.colorata.wallman.core.ui.modifiers.runWhen
 import com.colorata.wallman.core.ui.modifiers.navigationBottomPadding
 import com.colorata.wallman.core.ui.modifiers.navigationStartPadding
 import com.colorata.wallman.core.ui.modifiers.withoutHorizontalPadding
-import com.colorata.wallman.core.ui.theme.emphasizedVerticalSlide
 import com.colorata.wallman.core.ui.theme.screenPadding
 import com.colorata.wallman.core.ui.theme.spacing
 import com.colorata.wallman.core.ui.util.LocalWindowSizeConfiguration
 import com.colorata.wallman.ui.icons.Shuffle
 import com.colorata.wallman.wallpapers.WallpaperI
+import kotlinx.collections.immutable.ImmutableList
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -77,17 +74,13 @@ fun FilteredWallpaperCards(
     modifier: Modifier = Modifier,
     startItem: @Composable (LazyGridItemScope.() -> Unit)? = null,
     description: String = "",
-    wallpapers: StaggerList<WallpaperI, Float>,
+    wallpapers: ImmutableList<WallpaperI>,
     onRandomWallpaper: () -> Unit,
     backgroundImageBitmap: ImageBitmap? = null,
     applyNavigationPadding: Boolean = false
 ) {
     val windowSize = LocalWindowSizeConfiguration.current
     var fabHeight by remember { mutableStateOf(0.dp) }
-    val sortedWallpapers = remember(wallpapers) {
-        wallpapers.asStaggerList()
-    }
-    val density = LocalDensity.current
     val listDensity = remember(windowSize) {
         when (windowSize.widthSizeClass) {
             WindowWidthSizeClass.Compact -> 2
@@ -95,28 +88,24 @@ fun FilteredWallpaperCards(
             else -> 4
         }
     }
+    val state = rememberLazyGridState()
+    val sortedWallpapers =
+        rememberVisibilityList { wallpapers }.animatedAsGridAtLaunch(
+            cells = listDensity,
+            gridState = state,
+            indexOffset = 1
+        )
+    val density = LocalDensity.current
 
     Box(
         modifier = modifier.fillMaxSize()
     ) {
         val scope = rememberCoroutineScope()
-        val state = rememberLazyGridState()
         var selectedIndex: Int? by remember { mutableStateOf(null) }
         val animatable = remember { androidx.compose.animation.core.Animatable(1f) }
         LaunchedEffect(key1 = selectedIndex) {
             if (selectedIndex != null) animatable.animateTo(1.1f, tween(200, easing = EaseInSine))
             else animatable.animateTo(1.0f, tween(100, easing = EaseInSine))
-        }
-        LaunchedEffect(key1 = sortedWallpapers) {
-            sortedWallpapers.forEachIndexed { index, element ->
-                element.visible = index !in state.layoutInfo.visibleItemsInfo.map { it.index }
-            }
-            sortedWallpapers.animateAsGrid(this,
-                cells = listDensity,
-                startIndex = if (state.firstVisibleItemIndex !in sortedWallpapers.indices) sortedWallpapers.lastIndex else state.firstVisibleItemIndex,
-                spec = staggerSpecOf(itemsDelayMillis = 100) {
-                    visible = true
-                })
         }
         val configuration = LocalConfiguration.current
         var backgroundOffset by remember { mutableFloatStateOf(with(density) { -configuration.screenHeightDp.dp.toPx() }) }
@@ -175,10 +164,10 @@ fun FilteredWallpaperCards(
                     }
                 }
             }
-            itemsIndexed(sortedWallpapers, key = { _, it ->
+            visibilityItemsIndexed(sortedWallpapers, key = { _, it ->
                 it.hashCode()
             }) { index, it ->
-                WallpaperCard(wallpaper = it.value, modifier = Modifier
+                WallpaperCard(wallpaper = it, modifier = Modifier
                     .graphicsLayer {
                         if (index == selectedIndex) animatable.value.let {
                             scaleX = it
@@ -186,14 +175,11 @@ fun FilteredWallpaperCards(
                         }
                     }
                     .animateItemPlacement()
-                    .animateVisibility(
-                        it.visible, MaterialTheme.animation.emphasizedVerticalSlide()
-                    )
                     .testTag("Wallpaper")) {
                     scope.launch {
                         selectedIndex = index
                         delay(50)
-                        onClick(it.value)
+                        onClick(it)
                     }
                 }
             }

@@ -22,9 +22,9 @@ import com.colorata.wallman.core.data.continuousComposable
 import com.colorata.wallman.core.data.module.CoreModule
 import com.colorata.wallman.core.data.rememberString
 import com.colorata.wallman.core.data.viewModel
-import com.colorata.wallman.core.ui.animatedlist.animatedAsGridAtLaunch
-import com.colorata.wallman.core.ui.animatedlist.rememberVisibilityList
-import com.colorata.wallman.core.ui.animatedlist.visibilityItems
+import com.colorata.wallman.core.ui.list.animatedAsGridAtLaunch
+import com.colorata.wallman.core.ui.list.rememberVisibilityList
+import com.colorata.wallman.core.ui.list.visibilityItems
 import com.colorata.wallman.core.ui.theme.screenPadding
 import com.colorata.wallman.core.ui.theme.spacing
 import com.colorata.wallman.core.ui.util.LocalWindowSizeConfiguration
