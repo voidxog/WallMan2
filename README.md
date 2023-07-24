@@ -74,15 +74,8 @@
 To contribute to this
 project, [clone a repository](https://docs.gitlab.com/ee/gitlab-basics/start-using-git.html#clone-a-repository).
 
-Then, follow this table:
-
-| 🤖 Android                                                                                                                                                                    |
-|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Create file `local.properties` with `sdk.dir` property(your path to `Android Sdk`);                                                                                           |
-| To run in release build variant, create `key.jks` file;                                                                                                                       |
-| To run on device, just run play button in `Intellij Idea` or `Android Studio`(or run gradle task  `Gradle(Task bar) -> WallMan -> app -> Tasks -> install -> installRelease`) |
-| To package apk, go to `Gradle(Task bar) -> WallMan -> app -> Tasks -> other -> packageRelease`. Apk is located at `app/build/outputs/apk/release/`                            |
-
+There is guide how to build:
+- [For Android](docs/build-android.md)
 ## 💬 Messaging
 
 [Telegram](https://t.me/colorataNews)
