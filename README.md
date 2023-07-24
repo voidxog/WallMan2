@@ -9,12 +9,30 @@
 **You can get legacy version [here](https://gitlab.com/colorata/WallMan-legacy)**
 
 **Experiments are located [here](https://gitlab.com/colorata/wallman-experimental)**
+
+## ❔ What is WallMan?
+
+**WallMan is beautiful app** to get dynamic and static wallpapers including categories:
+
+- **Appulse** - Solar System
+- **Wonders of the world** - the best creations of mankind
+- **Picturesque places** - the best creations of nature
+- **Flight of fancy** - abstract and beatutiful wallpapers
+- **Your little garden** - beautifully shot flowers
+- **Birdies** - plumage of elegant birds
+
+## 📱 Requirements
+
+- **Android 8** or later for **static only** wallpapers
+- **Android 11** or later for **most** dynamic wallpapers
+- **Android 12** or later for **all** dynamic wallpapers support
+- Modern Android device(e.g. super-low-performance Android device from 2017 is not fully supported)
 ## 👀 Current Look
 
 | 🤖 Android                                                                                                       |                                                                                                                  |
 |------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------|
-| <img src="https://github.com/Colorata/Assets/assets/79582543/7bbdab2e-c6d2-4db4-97c6-fdc4031ca757" width="200"/> | <img src="https://github.com/Colorata/Assets/assets/79582543/4287f9b2-7ff0-404a-b4af-f478eb8a7168" width="200"/> |
-| <img src="https://github.com/Colorata/Assets/assets/79582543/ab3bbeb6-2c47-4465-a8d2-1bd0a2742e6a" width="200"/> | <img src="https://github.com/Colorata/Assets/assets/79582543/6f3a5ea6-8f10-4237-8aba-852a069084d5" width="200"/> |
+| <img src="https://github.com/Colorata/Assets/assets/79582543/7224de47-1313-4157-8663-31a0223d7113" width="200"/> | <img src="https://github.com/Colorata/Assets/assets/79582543/d7c19d57-f8ed-4e86-a1b3-480be153f36b" width="200"/> |
+| <img src="https://github.com/Colorata/Assets/assets/79582543/781b013f-c190-42c6-9bf2-bae20d852108" width="200"/> | <img src="https://github.com/Colorata/Assets/assets/79582543/475d89bd-c4c0-4969-b01a-a7fed92c64f7" width="200"/> |
 
 ## 📦 Features
 
@@ -46,10 +64,10 @@
 
 ## 📲 Install
 
-| Variant/Platform  | Description                                  | 🤖 Android                                      | 🐧 Linux       | 🪟 Windows     |
-|-------------------|----------------------------------------------|-------------------------------------------------|----------------|----------------|
-| 🚧 **Preview**    | Gets the latest features, lack of stability. | [Apk File](https://t.me/colorataNewsPreview/11) | Coming soon... | Coming soon... |
-| 🏁 **Production** | Stable and rare release.                     | Coming soon...                                  | Coming soon... | Coming soon... |
+| Variant/Platform  | Description                                  | 🤖 Android                               | 🐧 Linux       | 🪟 Windows     |
+|-------------------|----------------------------------------------|------------------------------------------|----------------|----------------|
+| 🚧 **Preview**    | Gets the latest features, lack of stability. |                                          | Coming soon... | Coming soon... |
+| 🏁 **Production** | Stable and rare release.                     | [Telegram](https://t.me/colorataNews/16) | Coming soon... | Coming soon... |
 
 ## 👋 Contribution
 
@@ -58,12 +76,12 @@ project, [clone a repository](https://docs.gitlab.com/ee/gitlab-basics/start-usi
 
 Then, follow this table:
 
-| 🤖 Android                                                                                              |
-|---------------------------------------------------------------------------------------------------------|
-| Create file `local.properties` with `sdk.dir` property(your path to `Android Sdk`);                     |
-| To run in release build variant, create `key.jks` file;                                                 |
-| To run on device, just run play button in `Intellij Idea` or `Android Studio`                           |
-| To package apk, go to `Gradle(Task bar) -> WallMan -> other -> packagePreviewApk(or packageReleaseApk)` |
+| 🤖 Android                                                                                                                                                                    |
+|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Create file `local.properties` with `sdk.dir` property(your path to `Android Sdk`);                                                                                           |
+| To run in release build variant, create `key.jks` file;                                                                                                                       |
+| To run on device, just run play button in `Intellij Idea` or `Android Studio`(or run gradle task  `Gradle(Task bar) -> WallMan -> app -> Tasks -> install -> installRelease`) |
+| To package apk, go to `Gradle(Task bar) -> WallMan -> app -> Tasks -> other -> packageRelease`. Apk is located at `app/build/outputs/apk/release/`                            |
 
 ## 💬 Messaging
 
