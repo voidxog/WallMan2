@@ -36,7 +36,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.times
 import androidx.compose.ui.zIndex
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.colorata.animateaslifestyle.animateVisibility
 import com.colorata.animateaslifestyle.material3.isCompact
 import com.colorata.animateaslifestyle.shapes.Arc
 import com.colorata.animateaslifestyle.shapes.Full
@@ -49,11 +48,12 @@ import com.colorata.wallman.core.data.module.CoreModule
 import com.colorata.wallman.core.data.rememberString
 import com.colorata.wallman.core.data.viewModel
 import com.colorata.wallman.core.ui.R
+import com.colorata.wallman.core.ui.animation.animateVisibility
+import com.colorata.wallman.core.ui.components.ArcBorder
 import com.colorata.wallman.core.ui.list.VisibilityColumn
 import com.colorata.wallman.core.ui.list.VisibilityList
 import com.colorata.wallman.core.ui.list.animatedAtLaunch
 import com.colorata.wallman.core.ui.list.rememberVisibilityList
-import com.colorata.wallman.core.ui.components.ArcBorder
 import com.colorata.wallman.core.ui.modifiers.detectRotation
 import com.colorata.wallman.core.ui.modifiers.displayRotation
 import com.colorata.wallman.core.ui.modifiers.rememberRotationState

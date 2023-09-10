@@ -59,12 +59,12 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.lerp
-import com.colorata.animateaslifestyle.animateVisibility
 import com.colorata.animateaslifestyle.stagger.ExperimentalStaggerApi
 import com.colorata.wallman.core.data.animation
 import com.colorata.wallman.core.data.bitmapAsset
 import com.colorata.wallman.core.data.launchIO
 import com.colorata.wallman.core.data.rememberString
+import com.colorata.wallman.core.ui.animation.animateVisibility
 import com.colorata.wallman.core.ui.list.animateVisibility
 import com.colorata.wallman.core.ui.list.rememberVisibilityList
 import com.colorata.wallman.core.ui.modifiers.Padding

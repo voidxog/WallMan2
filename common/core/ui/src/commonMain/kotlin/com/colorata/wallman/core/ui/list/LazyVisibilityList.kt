@@ -17,9 +17,9 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.colorata.animateaslifestyle.Transition
-import com.colorata.animateaslifestyle.animateVisibility
 import com.colorata.animateaslifestyle.fade
 import com.colorata.wallman.core.data.animation
+import com.colorata.wallman.core.ui.animation.animateVisibility
 import com.colorata.wallman.core.ui.theme.emphasizedVerticalSlide
 
 fun <T> LazyListScope.visibilityItemsIndexed(

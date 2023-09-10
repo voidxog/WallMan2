@@ -69,7 +69,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.colorata.animateaslifestyle.animateVisibility
 import com.colorata.animateaslifestyle.material3.shapes.ScallopShape
 import com.colorata.animateaslifestyle.shapes.ExperimentalShapeApi
 import com.colorata.wallman.core.data.Destinations
@@ -88,6 +87,7 @@ import com.colorata.wallman.core.data.rememberString
 import com.colorata.wallman.core.data.simplifiedLocaleOf
 import com.colorata.wallman.core.data.viewModel
 import com.colorata.wallman.core.ui.LightDarkPreview
+import com.colorata.wallman.core.ui.animation.animateVisibility
 import com.colorata.wallman.core.ui.components.GradientType
 import com.colorata.wallman.core.ui.components.ScreenBackground
 import com.colorata.wallman.core.ui.list.VisibilityList

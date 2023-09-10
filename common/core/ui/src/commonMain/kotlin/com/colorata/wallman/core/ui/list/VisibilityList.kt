@@ -20,8 +20,8 @@ import androidx.compose.runtime.toMutableStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.colorata.animateaslifestyle.Transition
-import com.colorata.animateaslifestyle.animateVisibility
 import com.colorata.wallman.core.data.animation
+import com.colorata.wallman.core.ui.animation.animateVisibility
 import com.colorata.wallman.core.ui.theme.emphasizedVerticalSlide
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList

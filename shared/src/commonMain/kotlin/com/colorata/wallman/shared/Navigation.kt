@@ -36,7 +36,6 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.testTagsAsResourceId
 import androidx.compose.ui.unit.dp
-import com.colorata.animateaslifestyle.animateVisibility
 import com.colorata.animateaslifestyle.material3.isCompact
 import com.colorata.animateaslifestyle.scale
 import com.colorata.animateaslifestyle.stagger.toPx
@@ -48,6 +47,7 @@ import com.colorata.wallman.core.data.animation
 import com.colorata.wallman.core.data.destination
 import com.colorata.wallman.core.data.rememberString
 import com.colorata.wallman.core.di.LocalGraph
+import com.colorata.wallman.core.ui.animation.animateVisibility
 import com.colorata.wallman.core.ui.list.VisibilityColumn
 import com.colorata.wallman.core.ui.list.VisibilityRow
 import com.colorata.wallman.core.ui.list.animatedAtLaunch
