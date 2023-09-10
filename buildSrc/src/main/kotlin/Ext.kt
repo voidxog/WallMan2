@@ -1,6 +1,6 @@
-import gradle.kotlin.dsl.accessors._fb1e36eb481082a315bbec520f7f46ed.android
-import gradle.kotlin.dsl.accessors._fb1e36eb481082a315bbec520f7f46ed.kotlin
-import gradle.kotlin.dsl.accessors._fb1e36eb481082a315bbec520f7f46ed.sourceSets
+import gradle.kotlin.dsl.accessors._2f7c4038d688958f735d9a197a6b910f.android
+import gradle.kotlin.dsl.accessors._2f7c4038d688958f735d9a197a6b910f.kotlin
+import gradle.kotlin.dsl.accessors._2f7c4038d688958f735d9a197a6b910f.sourceSets
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.getValue
 import org.gradle.kotlin.dsl.getting

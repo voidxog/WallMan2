@@ -1,6 +1,6 @@
 object Libraries {
     object Android {
-        const val gradlePlugin = "com.android.tools.build:gradle:8.0.2"
+        const val gradlePlugin = "com.android.tools.build:gradle:8.3.0-alpha03"
     }
 
     object AndroidX {
@@ -96,7 +96,7 @@ class Libs(val applier: (String) -> Unit) {
     val android = Android()
 
     inner class Android {
-        fun gradlePlugin() = applier("com.android.tools.build:gradle:8.0.2")
+        fun gradlePlugin() = applier("com.android.tools.build:gradle:8.3.0-alpha03")
     }
 
     val androidX = AndroidX()

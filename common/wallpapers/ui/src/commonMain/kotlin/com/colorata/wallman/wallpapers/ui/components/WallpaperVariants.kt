@@ -3,7 +3,12 @@ package com.colorata.wallman.wallpapers.ui.components
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -14,6 +19,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import com.colorata.wallman.core.data.animation
 import com.colorata.wallman.core.data.bitmapAsset
+import com.colorata.wallman.core.ui.modifiers.disabledWhen
 import com.colorata.wallman.core.ui.theme.spacing
 import kotlinx.collections.immutable.ImmutableList
 
@@ -22,7 +28,8 @@ fun WallpaperVariants(
     wallpapers: ImmutableList<String>,
     selectedWallpaper: String,
     onClick: (wallpaper: String) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    disableNotSelected: Boolean = false
 ) {
     Column(
         modifier.fillMaxWidth(),
@@ -42,6 +49,7 @@ fun WallpaperVariants(
                     contentDescription = "",
                     modifier = Modifier
                         .clip(CircleShape)
+                        .disabledWhen(selectedWallpaper != wallpaper && disableNotSelected)
                         .clickable {
                             onClick(wallpaper)
                         }

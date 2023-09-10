@@ -70,10 +70,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.colorata.animateaslifestyle.animateVisibility
-import com.colorata.animateaslifestyle.fade
 import com.colorata.animateaslifestyle.material3.shapes.ScallopShape
 import com.colorata.animateaslifestyle.shapes.ExperimentalShapeApi
-import com.colorata.animateaslifestyle.slideVertically
 import com.colorata.wallman.core.data.Destinations
 import com.colorata.wallman.core.data.MaterialNavGraphBuilder
 import com.colorata.wallman.core.data.Polyglot
@@ -269,7 +267,8 @@ private fun Variants(
     wallpaperVariants: ImmutableList<BaseWallpaper>,
     selectedWallpaper: BaseWallpaper,
     onClick: (updatedWallpaper: BaseWallpaper) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    disableNotSelected: Boolean = false
 ) {
     val variants = remember(wallpaperVariants) {
         wallpaperVariants.map { it.previewRes }.toImmutableList()
@@ -285,7 +284,9 @@ private fun Variants(
             selectedWallpaper = selectedWallpaper.previewRes,
             onClick = { updatedRes ->
                 onClick(wallpaperVariants.first { it.previewRes == updatedRes })
-            })
+            },
+            disableNotSelected = disableNotSelected
+        )
     }
 }
 
@@ -430,7 +431,8 @@ fun DescriptionAndActions(
                     )
                 )
             },
-            Modifier.animateVisibility(visibilityList.visible[3], animationSpec)
+            Modifier.animateVisibility(visibilityList.visible[3], animationSpec),
+            disableNotSelected = state.actionType == WallpaperI.ActionType.Installing
         )
         val chips = remember {
             persistentListOf<Chip>().mutate {
@@ -454,13 +456,19 @@ fun DescriptionAndActions(
             val index = chips.indexOf(it)
             if (index == 0) state.onEvent(WallpaperDetailsViewModel.WallpaperDetailsScreenEvent.GoToMaps)
         }, Modifier.animateVisibility(visibilityList.visible[4], animationSpec))
-        Variants(state.wallpaperVariants, selectedWallpaper = state.selectedWallpaper, onClick = {
-            state.onEvent(
-                WallpaperDetailsViewModel.WallpaperDetailsScreenEvent.SelectBaseWallpaper(
-                    it
+        Variants(
+            state.wallpaperVariants,
+            selectedWallpaper = state.selectedWallpaper,
+            onClick = {
+                state.onEvent(
+                    WallpaperDetailsViewModel.WallpaperDetailsScreenEvent.SelectBaseWallpaper(
+                        it
+                    )
                 )
-            )
-        }, Modifier.animateVisibility(visibilityList.visible[5], animationSpec))
+            },
+            Modifier.animateVisibility(visibilityList.visible[5], animationSpec),
+            disableNotSelected = state.actionType == WallpaperI.ActionType.Installing
+        )
         Spacer(Modifier.height(80.dp))
     }
 }
@@ -519,7 +527,8 @@ private fun WallpaperTypeSelector(
     supportsDynamicWallpaper: Boolean,
     selectedWallpaperType: WallpaperI.SelectedWallpaperType,
     onClick: (WallpaperI.SelectedWallpaperType) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    disableNotSelected: Boolean = false
 ) {
     Row(modifier) {
         if (supportsDynamicWallpaper) {
@@ -529,7 +538,8 @@ private fun WallpaperTypeSelector(
                 },
                 selected = selectedWallpaperType == WallpaperI.SelectedWallpaperType.Dynamic,
                 text = WallpaperI.SelectedWallpaperType.Dynamic.label,
-                Modifier.weight(1f)
+                Modifier.weight(1f),
+                enabled = selectedWallpaperType == WallpaperI.SelectedWallpaperType.Dynamic || !disableNotSelected
             )
         }
         Spacer(modifier = Modifier.width(MaterialTheme.spacing.small))
@@ -539,7 +549,8 @@ private fun WallpaperTypeSelector(
             },
             selected = selectedWallpaperType == WallpaperI.SelectedWallpaperType.Static,
             text = WallpaperI.SelectedWallpaperType.Static.label,
-            Modifier.weight(1f)
+            Modifier.weight(1f),
+            enabled = selectedWallpaperType == WallpaperI.SelectedWallpaperType.Static || !disableNotSelected
         )
     }
 }

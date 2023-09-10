@@ -55,7 +55,7 @@ class WallpaperDetailsViewModel(
     private val permissionHandler: PermissionHandler,
     private val logger: Logger
 ) : ViewModel() {
-    
+
     private val wallpaper: WallpaperI by lazy {
         repo.wallpapers[wallpaperIndex]
     }
@@ -282,9 +282,15 @@ class WallpaperDetailsViewModel(
                     if (coordinates != null) intentHandler.goToMaps(coordinates)
                 }
 
-                is WallpaperDetailsScreenEvent.SelectWallpaperType -> selectWallpaperType(event.type)
+                is WallpaperDetailsScreenEvent.SelectWallpaperType ->
+                    if (action != WallpaperI.ActionType.Installing) selectWallpaperType(
+                        event.type
+                    )
 
-                is WallpaperDetailsScreenEvent.SelectBaseWallpaper -> selectBaseWallpaper(event.wallpaper)
+                is WallpaperDetailsScreenEvent.SelectBaseWallpaper ->
+                    if (action != WallpaperI.ActionType.Installing) selectBaseWallpaper(
+                        event.wallpaper
+                    )
 
                 WallpaperDetailsScreenEvent.DismissPermissionRequest -> this.showPermissionRequest.value =
                     false

@@ -29,8 +29,9 @@ import com.colorata.wallman.core.ui.DarkUIMode
 import com.colorata.wallman.core.ui.LightUIMode
 import com.colorata.wallman.core.ui.components.FontVariables
 import com.colorata.wallman.core.ui.components.Text
-import com.colorata.wallman.core.ui.theme.spacing
+import com.colorata.wallman.core.ui.modifiers.disabledWhen
 import com.colorata.wallman.core.ui.theme.WallManPreviewTheme
+import com.colorata.wallman.core.ui.theme.spacing
 
 @Composable
 fun BigChip(
@@ -57,10 +58,11 @@ fun BigChip(
                 shape = RoundedCornerShape(roundness)
                 clip = true
             }
+            .disabledWhen(!enabled)
             .drawBehind {
                 drawRect(background)
             }
-            .clickable(enabled) {
+            .clickable {
                 onClick()
             }
     ) {
