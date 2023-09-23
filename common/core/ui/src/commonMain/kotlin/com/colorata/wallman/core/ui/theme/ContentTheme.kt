@@ -7,7 +7,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.produceState
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.Color
@@ -75,7 +74,7 @@ fun ImageBitmap.extractColorScheme(darkTheme: Boolean): ColorScheme {
 }
 
 private val extractedColors =
-    memoizeHash({ assetName: String, pair -> assetName to pair.second }) { _: String, pair: Pair<ImageBitmap, Boolean> ->
+    memoizeHash({ assetName: String, (_, darkTheme) -> assetName to darkTheme }) { _: String, pair: Pair<ImageBitmap, Boolean> ->
         val (bitmap, darkTheme) = pair
         bitmap.extractColorScheme(darkTheme)
     }

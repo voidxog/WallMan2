@@ -3,6 +3,7 @@ package com.colorata.wallman.core.ui.components
 import androidx.annotation.FloatRange
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -70,6 +71,7 @@ fun Text(
     )
 }
 
+@Immutable
 data class FontVariables(
     @FloatRange(from = 100.0, to = 1000.0) val weight: Float = 400f,
     @FloatRange(from = 25.0, to = 151.0) val width: Float = 100f,

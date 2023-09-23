@@ -4,10 +4,9 @@ import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.animateIntAsState
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -17,6 +16,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
@@ -50,9 +50,17 @@ fun BigChip(
         targetValue = if (selected) 20 else 50, label = "Roundness",
         animationSpec = MaterialTheme.animation.emphasizedDecelerate()
     )
-    Row(
-        horizontalArrangement = Arrangement.Center,
-        verticalAlignment = Alignment.CenterVertically,
+    val weight by animateFloatAsState(
+        targetValue = if (selected) 900f else 400f, label = "Weight",
+        animationSpec = MaterialTheme.animation.emphasizedDecelerate()
+    )
+    val color by animateColorAsState(
+        targetValue = if (selected) MaterialTheme.colorScheme.onTertiary else MaterialTheme.colorScheme.onSurfaceVariant,
+        label = "Color",
+        animationSpec = MaterialTheme.animation.emphasizedDecelerate()
+    )
+    Text(
+        text = rememberString(string = text),
         modifier = modifier
             .graphicsLayer {
                 shape = RoundedCornerShape(roundness)
@@ -65,26 +73,17 @@ fun BigChip(
             .clickable {
                 onClick()
             }
-    ) {
-        Text(
-            text = rememberString(string = text),
-            modifier = Modifier.padding(vertical = MaterialTheme.spacing.large),
-            fontVariables = FontVariables(
-                weight = animateFloatAsState(
-                    targetValue = if (selected) 900f else 400f, label = "Weight",
-                    animationSpec = MaterialTheme.animation.emphasizedDecelerate()
-                ).value
-            ),
-            color = animateColorAsState(
-                targetValue = if (selected) MaterialTheme.colorScheme.onTertiary else MaterialTheme.colorScheme.onSurfaceVariant,
-                label = "Color",
-                animationSpec = MaterialTheme.animation.emphasizedDecelerate()
-            ).value
-        )
-    }
+            .padding(vertical = MaterialTheme.spacing.large)
+            .wrapContentHeight(align = Alignment.CenterVertically),
+        fontVariables = FontVariables(
+            weight = weight
+        ),
+        color = color,
+        textAlign = TextAlign.Center
+    )
 }
 
-private class SelectProvider: PreviewParameterProvider<Boolean> {
+private class SelectProvider : PreviewParameterProvider<Boolean> {
     override val values: Sequence<Boolean>
         get() = sequenceOf(false, true)
 }
@@ -99,7 +98,7 @@ private class SelectProvider: PreviewParameterProvider<Boolean> {
 private fun BigChipPreview(@PreviewParameter(SelectProvider::class) selected: Boolean) {
     WallManPreviewTheme {
         BigChip(
-            onClick = {  },
+            onClick = { },
             selected = selected,
             text = remember { simplifiedLocaleOf("Select") },
             Modifier.width(200.dp)

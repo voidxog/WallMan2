@@ -1,6 +1,8 @@
 package com.colorata.wallman.wallpapers.ui
 
 import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.AnimatedContentTransitionScope
+import androidx.compose.animation.ContentTransform
 import androidx.compose.animation.SizeTransform
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.RepeatMode
@@ -20,6 +22,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
@@ -63,7 +66,6 @@ import androidx.compose.ui.graphics.drawOutline
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -95,6 +97,8 @@ import com.colorata.wallman.core.ui.modifiers.detectRotation
 import com.colorata.wallman.core.ui.modifiers.displayRotation
 import com.colorata.wallman.core.ui.modifiers.drawWithMask
 import com.colorata.wallman.core.ui.modifiers.rememberRotationState
+import com.colorata.wallman.core.ui.modifiers.runWhen
+import com.colorata.wallman.core.ui.shapes.RoundedCornerShapeStartEnd
 import com.colorata.wallman.core.ui.shapes.ScallopShape
 import com.colorata.wallman.core.ui.theme.WallManContentTheme
 import com.colorata.wallman.core.ui.theme.WallManPreviewTheme
@@ -143,7 +147,6 @@ private fun WallpaperDetailsScreen(
     modifier: Modifier = Modifier
 ) {
     val selectedBaseWallpaper = state.selectedWallpaper
-    val isPreview = LocalInspectionMode.current
 
     val scrollState = rememberScrollState()
     val previewImage = bitmapAsset(state.selectedWallpaper.previewRes)
@@ -161,6 +164,7 @@ private fun WallpaperDetailsScreen(
                 state.onEvent(WallpaperDetailsViewModel.WallpaperDetailsScreenEvent.GoToInstallAppsPermissionsPage)
             })
         }
+
         if (state.showPerformanceWarning) {
             PerformanceWarningDialog(onDismiss = {
                 state.onEvent(WallpaperDetailsViewModel.WallpaperDetailsScreenEvent.DismissPerformanceWarning)
@@ -388,7 +392,9 @@ private fun Arc(
                             start + 3.6f * animatedProgress,
                             360f - 3.6f * animatedProgress,
                             useCenter = true,
-                            blendMode = BlendMode.DstOut
+                            blendMode = BlendMode.DstOut,
+                            topLeft = -center,
+                            size = size * 2F
                         )
                     }
                 }
@@ -469,9 +475,7 @@ fun DescriptionAndActions(
             selectedWallpaper = state.selectedWallpaper,
             onClick = {
                 state.onEvent(
-                    WallpaperDetailsViewModel.WallpaperDetailsScreenEvent.SelectBaseWallpaper(
-                        it
-                    )
+                    WallpaperDetailsViewModel.WallpaperDetailsScreenEvent.SelectBaseWallpaper(it)
                 )
             },
             Modifier.animateVisibility(visibilityList.visible[5], animationSpec),
@@ -516,7 +520,7 @@ private fun Chips(
     onClick: (Chip) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    androidx.compose.foundation.layout.FlowRow(
+    FlowRow(
         modifier = modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.small)
     ) {
@@ -538,7 +542,7 @@ private fun WallpaperTypeSelector(
     modifier: Modifier = Modifier,
     disableNotSelected: Boolean = false
 ) {
-    Row(modifier) {
+    Row(modifier, horizontalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.small)) {
         if (supportsDynamicWallpaper) {
             BigChip(
                 onClick = {
@@ -550,7 +554,6 @@ private fun WallpaperTypeSelector(
                 enabled = selectedWallpaperType == WallpaperI.SelectedWallpaperType.Dynamic || !disableNotSelected
             )
         }
-        Spacer(modifier = Modifier.width(MaterialTheme.spacing.small))
         BigChip(
             onClick = {
                 onClick(WallpaperI.SelectedWallpaperType.Static)
@@ -615,22 +618,28 @@ private fun BottomBar(
     modifier: Modifier = Modifier,
     fullWidth: Boolean = true,
 ) {
+    val spacing = MaterialTheme.spacing
     val horizontalPadding =
-        if (fullWidth) MaterialTheme.spacing.extraLarge else MaterialTheme.spacing.medium
+        if (fullWidth) spacing.extraLarge else spacing.medium
     val verticalPadding =
-        if (fullWidth) MaterialTheme.spacing.large else MaterialTheme.spacing.small
+        if (fullWidth) spacing.large else spacing.small
+
+    val transitionSpec = remember<AnimatedContentTransitionScope<*>.() -> ContentTransform> {
+        {
+            materialSharedAxisY(true, 100) using SizeTransform(false)
+        }
+    }
     Row(
         modifier
-            .then(
-                if (!fullWidth) Modifier
-                    .widthIn(max = 400.dp)
+            .runWhen(!fullWidth) {
+                widthIn(max = 400.dp)
                     .padding(
-                        horizontal = MaterialTheme.spacing.extraLarge,
-                        vertical = MaterialTheme.spacing.small
+                        horizontal = spacing.extraLarge,
+                        vertical = spacing.small
                     )
                     .navigationBarsPadding()
-                    .clip(CircleShape) else Modifier
-            )
+                    .clip(CircleShape)
+            }
             .background(MaterialTheme.colorScheme.surfaceVariant)
             .padding(horizontal = horizontalPadding, vertical = verticalPadding)
             .then(if (fullWidth) Modifier.navigationBarsPadding() else Modifier),
@@ -642,20 +651,18 @@ private fun BottomBar(
                 state.onEvent(WallpaperDetailsViewModel.WallpaperDetailsScreenEvent.ClickOnDownload)
             },
             modifier = Modifier.weight(1f),
-            shape = RoundedCornerShape(
+            shape = RoundedCornerShapeStartEnd(
                 MaterialTheme.spacing.extraLarge,
-                MaterialTheme.spacing.extraSmall,
-                MaterialTheme.spacing.extraSmall,
-                MaterialTheme.spacing.extraLarge
+                MaterialTheme.spacing.extraSmall
             ),
             enabled = state.selectedWallpaperType == WallpaperI.SelectedWallpaperType.Dynamic &&
-                    remember(
-                        state.wallpaper
-                    ) { state.wallpaper.supportsDynamicWallpapers() }
+                    remember(state.wallpaper) { state.wallpaper.supportsDynamicWallpapers() }
         ) {
-            AnimatedContent(targetState = state.cacheState, transitionSpec = {
-                materialSharedAxisY(true, 100)
-            }, label = "") {
+            AnimatedContent(
+                targetState = state.cacheState,
+                transitionSpec = transitionSpec,
+                label = ""
+            ) {
                 Text(text = rememberString(it.label))
             }
         }
@@ -666,22 +673,24 @@ private fun BottomBar(
                 state.onEvent(WallpaperDetailsViewModel.WallpaperDetailsScreenEvent.ClickOnActionButton)
             },
             modifier = Modifier.weight(1f),
-            shape = RoundedCornerShape(
+            shape = RoundedCornerShapeStartEnd(
                 MaterialTheme.spacing.extraSmall,
                 MaterialTheme.spacing.extraLarge,
-                MaterialTheme.spacing.extraLarge,
-                MaterialTheme.spacing.extraSmall
-            )
+            ),
         ) {
-            AnimatedContent(targetState = state.selectedWallpaperType.icon, transitionSpec = {
-                materialSharedAxisY(true, 100)
-            }, label = "") {
+            AnimatedContent(
+                targetState = state.selectedWallpaperType.icon,
+                transitionSpec = transitionSpec,
+                label = ""
+            ) {
                 Icon(imageVector = it, contentDescription = "")
             }
             Spacer(modifier = Modifier.width(MaterialTheme.spacing.small))
-            AnimatedContent(targetState = state.actionType.label, transitionSpec = {
-                materialSharedAxisY(true, 100)
-            }, label = "") {
+            AnimatedContent(
+                targetState = state.actionType.label,
+                transitionSpec = transitionSpec,
+                label = ""
+            ) {
                 Text(text = rememberString(string = it))
             }
         }

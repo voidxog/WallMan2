@@ -47,7 +47,7 @@ fun WallpaperCard(
     Column(
         modifier
             .clip(
-                com.colorata.wallman.core.ui.shapes.RoundedCornerShape(
+                com.colorata.wallman.core.ui.shapes.RoundedCornerShapeTopBottom(
                     bottom = MaterialTheme.spacing.extraSmall,
                     top = MaterialTheme.spacing.large
                 )
@@ -98,7 +98,7 @@ fun WallpaperCard(
             maxLines = 2,
             modifier = Modifier
                 .clip(
-                    com.colorata.wallman.core.ui.shapes.RoundedCornerShape(
+                    com.colorata.wallman.core.ui.shapes.RoundedCornerShapeTopBottom(
                         top = MaterialTheme.spacing.extraSmall,
                         bottom = MaterialTheme.spacing.large
                     )
