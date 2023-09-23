@@ -3,7 +3,7 @@ plugins {
     serialization()
 }
 
-projectDependencies {
+projectDependencies(commonTestBlock = {}) {
     external {
         kotlin.coroutines()
         kotlin.collectionsImmutable()

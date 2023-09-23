@@ -69,8 +69,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.colorata.animateaslifestyle.material3.shapes.ScallopShape
-import com.colorata.animateaslifestyle.shapes.ExperimentalShapeApi
 import com.colorata.wallman.core.data.Destinations
 import com.colorata.wallman.core.data.MaterialNavGraphBuilder
 import com.colorata.wallman.core.data.Polyglot
@@ -290,14 +288,22 @@ private fun Variants(
     }
 }
 
-@OptIn(ExperimentalShapeApi::class)
 @Composable
 private fun PreviewImage(
     resource: String,
     downloadProgress: () -> Float,
     modifier: Modifier = Modifier
 ) {
-    val shape = remember { ScallopShape(density = 100f) }
+    val shape = remember {
+        listOf(
+            com.colorata.wallman.core.ui.shapes.ScallopShape(density = 100f, degreeMultiplier = 6f),
+            com.colorata.wallman.core.ui.shapes.ScallopShape(density = 100f, degreeMultiplier = 8f),
+            RoundedCornerShape(30),
+            RoundedCornerShape(10),
+            CircleShape,
+            com.colorata.wallman.core.ui.shapes.ScallopShape(density = 100f),
+        ).random()
+    }
     val rotationState = rememberRotationState()
     val animation = MaterialTheme.animation
 

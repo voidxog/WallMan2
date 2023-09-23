@@ -70,7 +70,7 @@ fun <T> LazyStaggeredGridScope.visibilityItemsIndexed(
 fun <T> LazyStaggeredGridScope.visibilityItems(
     items: VisibilityList<T>,
     key: ((item: T) -> Any)? = null,
-    contentType: (item: T) -> Any? = { null },
+    contentType: (item: T) -> Any? = { 0 },
     span: ((item: T) -> StaggeredGridItemSpan)? = null,
     transition: @Composable (item: T) -> Transition = { MaterialTheme.animation.emphasizedVerticalSlide() },
     itemContent: @Composable LazyStaggeredGridItemScope.(item: T) -> Unit
@@ -88,7 +88,7 @@ fun <T> LazyStaggeredGridScope.visibilityItems(
 fun <T> LazyGridScope.visibilityItemsIndexed(
     items: VisibilityList<T>,
     key: ((index: Int, item: T) -> Any)? = null,
-    contentType: (index: Int, item: T) -> Any? = { _, _ -> null },
+    contentType: (index: Int, item: T) -> Any? = { _, _ -> 0 },
     span: (LazyGridItemSpanScope.(index: Int, item: T) -> GridItemSpan)? = null,
     transition: @Composable (index: Int, item: T) -> Transition = { _, _ -> MaterialTheme.animation.emphasizedVerticalSlide() },
     itemContent: @Composable LazyGridItemScope.(index: Int, item: T) -> Unit

@@ -171,7 +171,10 @@ fun FeaturedWallpapersCarousel(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(384.dp),
-            pageSize = PageSize.Fixed(192.dp)
+            pageSize = PageSize.Fixed(192.dp),
+            key = { index ->
+                wallpapers[index % wallpapers.size].hashCode()
+            }
         ) { index ->
             var isSelected by remember { mutableStateOf(false) }
             val scale by animateFloatAsState(
