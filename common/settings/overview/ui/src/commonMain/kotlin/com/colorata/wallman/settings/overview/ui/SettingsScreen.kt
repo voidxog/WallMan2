@@ -1,12 +1,8 @@
 package com.colorata.wallman.settings.overview.ui
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
@@ -16,8 +12,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.colorata.animateaslifestyle.material3.isCompact
 import com.colorata.wallman.core.data.Destinations
@@ -27,6 +23,7 @@ import com.colorata.wallman.core.data.flatComposable
 import com.colorata.wallman.core.data.module.CoreModule
 import com.colorata.wallman.core.data.rememberString
 import com.colorata.wallman.core.data.viewModel
+import com.colorata.wallman.core.ui.components.ListItem
 import com.colorata.wallman.core.ui.list.animatedAsGridAtLaunch
 import com.colorata.wallman.core.ui.list.rememberVisibilityList
 import com.colorata.wallman.core.ui.list.visibilityItems
@@ -38,7 +35,6 @@ import com.colorata.wallman.core.ui.theme.spacing
 import com.colorata.wallman.core.ui.util.LocalWindowSizeConfiguration
 import com.colorata.wallman.core.ui.util.fullLineItem
 import com.colorata.wallman.settings.overview.api.SettingsOverviewDestination
-import com.colorata.wallman.settings.overview.ui.components.SettingsItem
 import com.colorata.wallman.settings.overview.viewmodel.SettingsViewModel
 
 context(CoreModule)
@@ -95,19 +91,9 @@ private fun SettingsScreenLayout(
             })
         }
         visibilityItems(animatedItems) {
-            Column(
-                modifier = Modifier
-                    .clip(MaterialTheme.shapes.large)
-                    .background(MaterialTheme.colorScheme.surfaceVariant)
-                    .height(IntrinsicSize.Max)
-            ) {
-                SettingsItem(
-                    item = it,
-                    onClick = {
-                        state.onEvent(SettingsViewModel.SettingsScreenEvent.GoToSettings(it))
-                    }
-                )
-            }
+            ListItem(
+                remember { ListItem(it.name, it.description, it.icon) },
+                onClick = { state.onEvent(SettingsViewModel.SettingsScreenEvent.GoToSettings(it)) })
         }
     }
 }

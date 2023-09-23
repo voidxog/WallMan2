@@ -50,6 +50,7 @@ import com.colorata.wallman.core.data.viewModel
 import com.colorata.wallman.core.ui.R
 import com.colorata.wallman.core.ui.animation.animateVisibility
 import com.colorata.wallman.core.ui.components.ArcBorder
+import com.colorata.wallman.core.ui.components.ListItem
 import com.colorata.wallman.core.ui.list.VisibilityColumn
 import com.colorata.wallman.core.ui.list.VisibilityList
 import com.colorata.wallman.core.ui.list.animatedAtLaunch
@@ -64,7 +65,6 @@ import com.colorata.wallman.core.ui.theme.screenPadding
 import com.colorata.wallman.core.ui.theme.spacing
 import com.colorata.wallman.core.ui.util.LocalWindowSizeConfiguration
 import com.colorata.wallman.settings.about.api.AboutDestination
-import com.colorata.wallman.settings.overview.ui.components.AboutItem
 import com.colorata.wallman.settings.overview.viewmodel.AboutViewModel
 import com.colorata.wallman.ui.icons.BugReport
 import com.colorata.wallman.ui.icons.Code
@@ -89,11 +89,8 @@ fun AboutScreen(modifier: Modifier = Modifier) {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun AboutScreen(state: AboutViewModel.AboutScreenState, modifier: Modifier = Modifier) {
-
     val animatedItems = rememberVisibilityList { state.aboutItems }.animatedAtLaunch()
-
     val windowSize = LocalWindowSizeConfiguration.current
-
     if (windowSize.isCompact()) {
         Column(
             modifier
@@ -161,11 +158,8 @@ private fun Actions(
         modifier,
         verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.medium)
     ) {
-        AboutItem(
-            it,
-            Modifier
-                .clip(MaterialTheme.shapes.large)
-                .background(MaterialTheme.colorScheme.surfaceVariant)
+        ListItem(
+            remember { ListItem(it.name, it.description, it.icon) }, onClick = { it.onClick() }
         )
     }
 }
