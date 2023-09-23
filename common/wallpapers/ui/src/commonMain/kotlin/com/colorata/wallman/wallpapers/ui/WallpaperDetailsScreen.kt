@@ -95,6 +95,7 @@ import com.colorata.wallman.core.ui.modifiers.detectRotation
 import com.colorata.wallman.core.ui.modifiers.displayRotation
 import com.colorata.wallman.core.ui.modifiers.drawWithMask
 import com.colorata.wallman.core.ui.modifiers.rememberRotationState
+import com.colorata.wallman.core.ui.shapes.ScallopShape
 import com.colorata.wallman.core.ui.theme.WallManContentTheme
 import com.colorata.wallman.core.ui.theme.WallManPreviewTheme
 import com.colorata.wallman.core.ui.theme.emphasizedVerticalSlide
@@ -117,6 +118,8 @@ import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.mutate
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toImmutableList
+import kotlin.random.Random
+import kotlin.random.nextInt
 
 context(WallpapersModule)
 fun MaterialNavGraphBuilder.wallpaperDetailsScreen() {
@@ -288,6 +291,12 @@ private fun Variants(
     }
 }
 
+private fun getRandomShape(): Shape =
+    when (Random.nextBoolean()) {
+        true -> ScallopShape(density = 100f, degreeMultiplier = Random.nextInt(2..10).toFloat())
+        false -> RoundedCornerShape(Random.nextInt(10..50))
+    }
+
 @Composable
 private fun PreviewImage(
     resource: String,
@@ -295,14 +304,7 @@ private fun PreviewImage(
     modifier: Modifier = Modifier
 ) {
     val shape = remember {
-        listOf(
-            com.colorata.wallman.core.ui.shapes.ScallopShape(density = 100f, degreeMultiplier = 6f),
-            com.colorata.wallman.core.ui.shapes.ScallopShape(density = 100f, degreeMultiplier = 8f),
-            RoundedCornerShape(30),
-            RoundedCornerShape(10),
-            CircleShape,
-            com.colorata.wallman.core.ui.shapes.ScallopShape(density = 100f),
-        ).random()
+        getRandomShape()
     }
     val rotationState = rememberRotationState()
     val animation = MaterialTheme.animation

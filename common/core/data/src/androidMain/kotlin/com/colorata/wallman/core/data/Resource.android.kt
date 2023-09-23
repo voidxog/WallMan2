@@ -2,10 +2,12 @@ package com.colorata.wallman.core.data
 
 import android.content.Context
 import android.graphics.BitmapFactory
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.graphics.painter.Painter
@@ -30,7 +32,11 @@ private fun mapResourceToId(resource: Resource.Drawable): Int =
         Resource.Drawable.SQUARE -> androidx.core.R.drawable.ic_call_answer
     }
 
-actual class BitmapAssetStore(private val context: Context, private val scope: CoroutineScope) {
+actual class BitmapAssetStore(
+    private val context: Context,
+    private val scope: CoroutineScope,
+    private val defaultColor: Color
+) {
     private val lock = Any()
     private val assets = mutableMapOf<String, ImageBitmap>()
     actual fun get(assetName: String): ImageBitmap {
@@ -62,15 +68,16 @@ actual class BitmapAssetStore(private val context: Context, private val scope: C
 fun ProvideBitmapAssetStore(content: @Composable () -> Unit) {
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
-    val store = remember { BitmapAssetStore(context, scope) }
+    val color = MaterialTheme.colorScheme.surfaceVariant
+    val store = remember { BitmapAssetStore(context, scope, color) }
     CompositionLocalProvider(LocalBitmapAssetStore provides store) {
         content()
     }
 }
 
+
 @Composable
 actual fun bitmapAsset(assetName: String): ImageBitmap {
     val store = LocalBitmapAssetStore.current
-    val bitmap = remember { store.get(assetName) }
-    return bitmap
+    return remember(assetName) { store.get(assetName) }
 }
