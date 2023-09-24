@@ -28,7 +28,7 @@ import kotlin.math.min
  * @param function ***polar*** coordinates system function. Theta(angle) in radians is given. Should return calculated radius
  * @see MaterialPaths.scallopPath
  */
-fun polarBasedPath(
+inline fun polarBasedPath(
     size: Size,
     scratch: Boolean = false,
     density: Float = 45f,
@@ -127,6 +127,7 @@ fun rectanglePath(
 /**
  * Just Pi, but in [Float]
  */
+@PublishedApi
 internal const val pi = PI.toFloat()
 
 /**

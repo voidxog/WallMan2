@@ -2,12 +2,16 @@ package com.colorata.wallman.settings.mirror.ui.components
 
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.unit.sp
 import com.colorata.wallman.core.data.rememberString
@@ -26,14 +30,15 @@ fun MirrorCard(
     )
     Column(
         modifier
+            .clip(MaterialTheme.shapes.large)
             .clickable { onClick() }
             .drawBehind {
                 drawRect(animatedBackground)
             }
             .padding(MaterialTheme.spacing.large)
-            .fillMaxWidth()) {
+            .fillMaxWidth(),
+        verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.small)) {
         Text(text = rememberString(mirror.name), fontSize = 20.sp)
-        Spacer(modifier = Modifier.height(MaterialTheme.spacing.small))
         Text(
             text = mirror.url,
             fontSize = 16.sp,

@@ -13,7 +13,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import com.colorata.animateaslifestyle.material3.isCompact
 import com.colorata.wallman.core.data.Destinations
 import com.colorata.wallman.core.data.MaterialNavGraphBuilder
@@ -93,9 +92,7 @@ private fun MirrorScreenLayout(
                 selected = state.selectedMirror == mirror,
                 onClick = {
                     state.onEvent(MirrorViewModel.MirrorScreenEvent.SelectMirror(mirror))
-                },
-                modifier = Modifier
-                    .clip(MaterialTheme.shapes.large)
+                }
             )
         }
     }
