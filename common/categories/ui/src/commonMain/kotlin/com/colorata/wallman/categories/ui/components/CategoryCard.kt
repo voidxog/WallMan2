@@ -1,18 +1,19 @@
 package com.colorata.wallman.categories.ui.components
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material3.Card
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Shapes
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -37,7 +38,6 @@ import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toImmutableList
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CategoryCard(
     category: WallpaperCategory,
@@ -46,13 +46,16 @@ fun CategoryCard(
     onClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    Card(
-        onClick = onClick,
-        modifier = modifier, shape = MaterialTheme.shapes.extraLarge
+    Column(
+        modifier
+            .clip(MaterialTheme.shapes.extraLarge)
+            .background(MaterialTheme.colorScheme.surfaceVariant)
+            .padding(MaterialTheme.spacing.large)
+            .clickable(onClick = onClick),
+        verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.small)
     ) {
         Row(
-            modifier = Modifier
-                .padding(MaterialTheme.spacing.medium)
+            modifier = modifier
                 .fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(
@@ -61,8 +64,7 @@ fun CategoryCard(
             )
         ) {
             val roundedShape = MaterialTheme.shapes.large
-            val circle = CircleShape
-            val largeShapes = remember { persistentListOf(circle, roundedShape) }
+            val largeShapes = remember { persistentListOf(CircleShape, roundedShape) }
             for (index in 0..2) {
                 Image(
                     bitmap = bitmapAsset(wallpapers[index].firstPreviewRes()),
@@ -75,21 +77,14 @@ fun CategoryCard(
                 )
             }
         }
-        androidx.compose.material3.Text(
+        Text(
             text = rememberString(string = category.locale.name),
             style = MaterialTheme.typography.headlineMedium,
-            modifier = Modifier.padding(
-                start = MaterialTheme.spacing.medium,
-                end = MaterialTheme.spacing.medium,
-                bottom = MaterialTheme.spacing.small
-            )
         )
-        androidx.compose.material3.Text(
+        Text(
             text = rememberString(string = category.locale.description),
-            style = MaterialTheme.typography.bodyMedium,
-            modifier = Modifier.padding(horizontal = MaterialTheme.spacing.medium)
+            style = MaterialTheme.typography.bodyMedium
         )
-        Spacer(modifier = Modifier.height(MaterialTheme.spacing.large))
     }
 }
 
@@ -100,7 +95,8 @@ internal fun generateShapesForCard(shapes: Shapes): ImmutableList<Shape> {
     return persistentListOf(
         circle, ScallopShape(), FlowerShape(), roundedShape
     ).shuffled().mutate {
-        if (circle in take(3) && roundedShape in take(3)) remove(
+        val taken = take(3)
+        if (circle in taken && roundedShape in taken) remove(
             largeShapes.random()
         )
     }.toImmutableList()

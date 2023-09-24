@@ -22,12 +22,12 @@ import com.colorata.wallman.core.data.animation
 import com.colorata.wallman.core.ui.animation.animateVisibility
 import com.colorata.wallman.core.ui.theme.emphasizedVerticalSlide
 
-fun <T> LazyListScope.visibilityItemsIndexed(
+inline fun <T> LazyListScope.visibilityItemsIndexed(
     items: VisibilityList<T>,
-    key: ((index: Int, item: T) -> Any)? = null,
-    contentType: (index: Int, item: T) -> Any? = { _, _ -> null },
-    transition: @Composable (index: Int, item: T) -> Transition = { _, _ -> fade() },
-    itemContent: @Composable LazyItemScope.(index: Int, item: T) -> Unit
+    noinline key: ((index: Int, item: T) -> Any)? = null,
+    crossinline contentType: (index: Int, item: T) -> Any? = { _, _ -> null },
+    crossinline transition: @Composable (index: Int, item: T) -> Transition = { _, _ -> fade() },
+    crossinline itemContent: @Composable LazyItemScope.(index: Int, item: T) -> Unit
 ) {
     itemsIndexed(items, key, contentType) { index, item ->
         Box(Modifier.animateVisibility(items.visible[index], transition(index, item))) {
@@ -36,12 +36,12 @@ fun <T> LazyListScope.visibilityItemsIndexed(
     }
 }
 
-fun <T> LazyListScope.visibilityItems(
+inline fun <T> LazyListScope.visibilityItems(
     items: VisibilityList<T>,
-    key: ((item: T) -> Any)? = null,
-    contentType: (item: T) -> Any? = { null },
-    transition: @Composable (item: T) -> Transition = { fade() },
-    itemContent: @Composable LazyItemScope.(item: T) -> Unit
+    noinline key: ((item: T) -> Any)? = null,
+    crossinline contentType: (item: T) -> Any? = { null },
+    crossinline transition: @Composable (item: T) -> Transition = { fade() },
+    crossinline itemContent: @Composable LazyItemScope.(item: T) -> Unit
 ) {
     visibilityItemsIndexed(
         items,
@@ -52,13 +52,13 @@ fun <T> LazyListScope.visibilityItems(
     }
 }
 
-fun <T> LazyStaggeredGridScope.visibilityItemsIndexed(
+inline fun <T> LazyStaggeredGridScope.visibilityItemsIndexed(
     items: VisibilityList<T>,
-    key: ((index: Int, item: T) -> Any)? = null,
-    contentType: (index: Int, item: T) -> Any? = { _, _ -> null },
-    span: ((index: Int, item: T) -> StaggeredGridItemSpan)? = null,
-    transition: @Composable (index: Int, item: T) -> Transition = { _, _ -> MaterialTheme.animation.emphasizedVerticalSlide() },
-    itemContent: @Composable LazyStaggeredGridItemScope.(index: Int, item: T) -> Unit
+    noinline key: ((index: Int, item: T) -> Any)? = null,
+    crossinline contentType: (index: Int, item: T) -> Any? = { _, _ -> null },
+    noinline span: ((index: Int, item: T) -> StaggeredGridItemSpan)? = null,
+    crossinline transition: @Composable (index: Int, item: T) -> Transition = { _, _ -> MaterialTheme.animation.emphasizedVerticalSlide() },
+    crossinline itemContent: @Composable LazyStaggeredGridItemScope.(index: Int, item: T) -> Unit
 ) {
     itemsIndexed(items, key, contentType, span) { index, item ->
         Box(Modifier.animateVisibility(items.visible[index], transition(index, item))) {
@@ -67,13 +67,13 @@ fun <T> LazyStaggeredGridScope.visibilityItemsIndexed(
     }
 }
 
-fun <T> LazyStaggeredGridScope.visibilityItems(
+inline fun <T> LazyStaggeredGridScope.visibilityItems(
     items: VisibilityList<T>,
-    key: ((item: T) -> Any)? = null,
-    contentType: (item: T) -> Any? = { 0 },
-    span: ((item: T) -> StaggeredGridItemSpan)? = null,
-    transition: @Composable (item: T) -> Transition = { MaterialTheme.animation.emphasizedVerticalSlide() },
-    itemContent: @Composable LazyStaggeredGridItemScope.(item: T) -> Unit
+    noinline key: ((item: T) -> Any)? = null,
+    crossinline contentType: (item: T) -> Any? = { 0 },
+    noinline span: ((item: T) -> StaggeredGridItemSpan)? = null,
+    crossinline transition: @Composable (item: T) -> Transition = { MaterialTheme.animation.emphasizedVerticalSlide() },
+    crossinline itemContent: @Composable LazyStaggeredGridItemScope.(item: T) -> Unit
 ) {
     visibilityItemsIndexed(
         items,
@@ -85,13 +85,13 @@ fun <T> LazyStaggeredGridScope.visibilityItems(
     }
 }
 
-fun <T> LazyGridScope.visibilityItemsIndexed(
+inline fun <T> LazyGridScope.visibilityItemsIndexed(
     items: VisibilityList<T>,
-    key: ((index: Int, item: T) -> Any)? = null,
-    contentType: (index: Int, item: T) -> Any? = { _, _ -> 0 },
-    span: (LazyGridItemSpanScope.(index: Int, item: T) -> GridItemSpan)? = null,
-    transition: @Composable (index: Int, item: T) -> Transition = { _, _ -> MaterialTheme.animation.emphasizedVerticalSlide() },
-    itemContent: @Composable LazyGridItemScope.(index: Int, item: T) -> Unit
+    noinline key: ((index: Int, item: T) -> Any)? = null,
+    crossinline contentType: (index: Int, item: T) -> Any? = { _, _ -> 0 },
+    noinline span: (LazyGridItemSpanScope.(index: Int, item: T) -> GridItemSpan)? = null,
+    crossinline transition: @Composable (index: Int, item: T) -> Transition = { _, _ -> MaterialTheme.animation.emphasizedVerticalSlide() },
+    crossinline itemContent: @Composable LazyGridItemScope.(index: Int, item: T) -> Unit
 ) {
     itemsIndexed(items, key, span, contentType) { index, item ->
         Box(Modifier.animateVisibility(items.visible[index], transition(index, item))) {
@@ -100,13 +100,13 @@ fun <T> LazyGridScope.visibilityItemsIndexed(
     }
 }
 
-fun <T> LazyGridScope.visibilityItems(
+inline fun <T> LazyGridScope.visibilityItems(
     items: VisibilityList<T>,
-    key: ((item: T) -> Any)? = null,
-    contentType: (item: T) -> Any? = { null },
-    span: (LazyGridItemSpanScope.(item: T) -> GridItemSpan)? = null,
-    transition: @Composable (item: T) -> Transition = { MaterialTheme.animation.emphasizedVerticalSlide() },
-    itemContent: @Composable LazyGridItemScope.(item: T) -> Unit
+    noinline key: ((item: T) -> Any)? = null,
+    crossinline contentType: (item: T) -> Any? = { null },
+    noinline span: (LazyGridItemSpanScope.(item: T) -> GridItemSpan)? = null,
+    crossinline transition: @Composable (item: T) -> Transition = { MaterialTheme.animation.emphasizedVerticalSlide() },
+    crossinline itemContent: @Composable LazyGridItemScope.(item: T) -> Unit
 ) {
     visibilityItemsIndexed(
         items,
