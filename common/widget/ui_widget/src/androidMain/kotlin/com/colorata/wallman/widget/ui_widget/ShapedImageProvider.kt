@@ -1,6 +1,10 @@
 package com.colorata.wallman.widget.ui_widget
 
-import android.graphics.*
+import android.graphics.Bitmap
+import android.graphics.Canvas
+import android.graphics.Paint
+import android.graphics.PorterDuff
+import android.graphics.PorterDuffXfermode
 import androidx.annotation.DrawableRes
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
@@ -27,7 +31,7 @@ class ShapedImageProvider(val shape: Bitmap, val image: Bitmap) {
 @Composable
 fun rememberShapedImageBitmap(@DrawableRes shape: Int, image: Bitmap): Bitmap {
     val context = LocalContext.current
-    return remember {
+    return remember(shape, image) {
         val width = image.width
         val height = image.height
         ShapedImageProvider(

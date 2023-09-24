@@ -32,7 +32,7 @@ data class WidgetState(
                         content()
                     }
                 }
-                widget.update(context = context, glanceId = glanceId)
+                widget.update(context = context, id = glanceId)
             }
         }
     }
