@@ -177,8 +177,8 @@ private fun Logo(modifier: Modifier = Modifier) {
                 .displayRotation(rotationState)
                 .clip(shape)
                 .background(Color(0xFF2F3032))
-                .fillMaxSize(0.9f)
                 .aspectRatio(1f)
+                .fillMaxSize(0.9f)
         )
         val animatedWidth = animateFloatAsState(
             if (rotationState.isRotationInProgress) 8f else 1f,
@@ -189,23 +189,22 @@ private fun Logo(modifier: Modifier = Modifier) {
             BorderStroke(animatedWidth, MaterialTheme.colorScheme.primary),
             Modifier
                 .displayRotation(rotationState, layer = 1f)
-                .fillMaxSize(0.9f)
-                .aspectRatio(1f), shape
+                .aspectRatio(1f)
+                .fillMaxSize(0.9f), shape
         ) {
             Image(
                 painter = painterResource(id = R.drawable.ic_launcher_foreground),
                 contentDescription = "",
                 modifier = Modifier
                     .scale(1.3f)
-                    .fillMaxSize()
-                    .aspectRatio(1f),
+                    .fillMaxSize(),
                 contentScale = ContentScale.Crop
             )
         }
     }
 }
 
-@Preview
+@Preview(widthDp = 1000, heightDp = 400)
 @Composable
 private fun AboutScreenPreview() {
     WallManPreviewTheme {
