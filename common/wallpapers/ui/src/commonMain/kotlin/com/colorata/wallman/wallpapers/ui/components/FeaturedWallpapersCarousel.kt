@@ -59,7 +59,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.lerp
-import com.colorata.animateaslifestyle.stagger.ExperimentalStaggerApi
 import com.colorata.wallman.core.data.animation
 import com.colorata.wallman.core.data.bitmapAsset
 import com.colorata.wallman.core.data.launchIO
@@ -88,7 +87,7 @@ private fun PagerState.calculateOffsetForIndex(index: Int) =
     (currentPage - index + currentPageOffsetFraction)
         .absoluteValue.coerceIn(0f, 1f)
 
-@OptIn(ExperimentalFoundationApi::class, ExperimentalStaggerApi::class)
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun FeaturedWallpapersCarousel(
     wallpapers: ImmutableList<WallpaperI>,
@@ -126,10 +125,11 @@ fun FeaturedWallpapersCarousel(
     }
     LaunchedEffect(Unit) {
         while (true) {
+            // Using launchIO because `animateTo` function can throw exception if stopped
             launchIO({}) {
                 val page = state.currentPage
                 currentProgress.animateTo(
-                    1f, animationSpec = tween(5000, easing = LinearEasing)
+                    1f, animationSpec = tween(3000, easing = LinearEasing)
                 )
                 if (state.currentPage == page && currentProgress.value == 1f) state.animateScrollToPage(
                     state.currentPage + 1,
@@ -137,7 +137,6 @@ fun FeaturedWallpapersCarousel(
                 )
                 currentProgress.animateTo(0f)
             }.join()
-            delay(1000)
         }
     }
     LaunchedEffect(Unit) {
@@ -334,10 +333,10 @@ fun FeaturedWallpapersCarousel(
     }
 }
 
-@Preview
+@Preview(widthDp = 400, heightDp = 600)
 @Composable
 private fun FeaturedWallpapersPreview() {
     WallManPreviewTheme {
-        FeaturedWallpapersCarousel(walls.subList(0, 10), onClick = {})
+        FeaturedWallpapersCarousel(walls.subList(0, 10), onClick = {}, modifier = Modifier.fillMaxSize())
     }
 }

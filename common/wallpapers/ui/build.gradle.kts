@@ -7,6 +7,7 @@ projectDependencies {
         wallpapers.api()
         core.data()
         core.ui()
+        categories.api()
     }
 }
 

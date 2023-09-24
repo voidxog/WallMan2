@@ -22,16 +22,16 @@ import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
 import com.colorata.animateaslifestyle.AnimationsPerformance
 import com.colorata.animateaslifestyle.LocalAnimationsPerformance
-import com.colorata.wallman.core.data.ProvideBitmapAssetStore
+import com.colorata.wallman.core.ui.util.ProvideBitmapAssetStorePreview
 import com.colorata.wallman.core.ui.util.ProvideWindowSize
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import kotlin.math.ln
 
-private val DarkColorScheme = darkColorScheme(
+internal val DarkColorScheme = darkColorScheme(
     primary = Purple80, secondary = PurpleGrey80, tertiary = Pink80
 )
 
-private val LightColorScheme = lightColorScheme(
+internal val LightColorScheme = lightColorScheme(
     primary = Purple40, secondary = PurpleGrey40, tertiary = Pink40
 
     /* Other default colors to override
@@ -123,12 +123,14 @@ fun WallManPreviewTheme(
         LocalSpacing provides Spacing(),
         LocalAnimationsPerformance provides AnimationsPerformance.Full
     ) {
-        ProvideBitmapAssetStore {
+        ProvideBitmapAssetStorePreview {
             ProvideWindowSize {
                 MaterialTheme(
                     colorScheme = finalColorScheme, typography = Typography
                 ) {
-                    content()
+                    Surface {
+                        content()
+                    }
                 }
             }
         }

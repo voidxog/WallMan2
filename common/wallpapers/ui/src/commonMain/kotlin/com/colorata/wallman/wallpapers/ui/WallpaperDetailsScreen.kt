@@ -4,47 +4,24 @@ import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedContentTransitionScope
 import androidx.compose.animation.ContentTransform
 import androidx.compose.animation.SizeTransform
-import androidx.compose.animation.core.LinearEasing
-import androidx.compose.animation.core.RepeatMode
-import androidx.compose.animation.core.animateFloat
-import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.animation.core.infiniteRepeatable
-import androidx.compose.animation.core.rememberInfiniteTransition
-import androidx.compose.animation.core.tween
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
-import androidx.compose.animation.togetherWith
-import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.Canvas
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ExperimentalLayoutApi
-import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.AccountCircle
-import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material.icons.filled.Warning
 import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.AssistChip
 import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -52,78 +29,47 @@ import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.BlendMode
-import androidx.compose.ui.graphics.RectangleShape
-import androidx.compose.ui.graphics.Shape
-import androidx.compose.ui.graphics.StrokeCap
-import androidx.compose.ui.graphics.drawOutline
-import androidx.compose.ui.graphics.drawscope.Stroke
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.platform.LocalLayoutDirection
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.colorata.wallman.core.data.Destinations
 import com.colorata.wallman.core.data.MaterialNavGraphBuilder
-import com.colorata.wallman.core.data.Polyglot
 import com.colorata.wallman.core.data.Strings
 import com.colorata.wallman.core.data.animation
 import com.colorata.wallman.core.data.bitmapAsset
 import com.colorata.wallman.core.data.flatComposable
-import com.colorata.wallman.core.data.formatted
 import com.colorata.wallman.core.data.icons.InstallMobile
-import com.colorata.wallman.core.data.materialSharedAxisX
 import com.colorata.wallman.core.data.materialSharedAxisY
 import com.colorata.wallman.core.data.parameter
 import com.colorata.wallman.core.data.rememberString
-import com.colorata.wallman.core.data.simplifiedLocaleOf
 import com.colorata.wallman.core.data.viewModel
 import com.colorata.wallman.core.ui.LightDarkPreview
 import com.colorata.wallman.core.ui.animation.animateVisibility
 import com.colorata.wallman.core.ui.components.GradientType
 import com.colorata.wallman.core.ui.components.ScreenBackground
-import com.colorata.wallman.core.ui.list.VisibilityList
 import com.colorata.wallman.core.ui.list.animatedAtLaunch
 import com.colorata.wallman.core.ui.list.rememberVisibilityList
-import com.colorata.wallman.core.ui.modifiers.detectRotation
-import com.colorata.wallman.core.ui.modifiers.displayRotation
-import com.colorata.wallman.core.ui.modifiers.drawWithMask
-import com.colorata.wallman.core.ui.modifiers.rememberRotationState
 import com.colorata.wallman.core.ui.modifiers.runWhen
 import com.colorata.wallman.core.ui.shapes.RoundedCornerShapeStartEnd
-import com.colorata.wallman.core.ui.shapes.ScallopShape
 import com.colorata.wallman.core.ui.theme.WallManContentTheme
 import com.colorata.wallman.core.ui.theme.WallManPreviewTheme
 import com.colorata.wallman.core.ui.theme.emphasizedVerticalSlide
 import com.colorata.wallman.core.ui.theme.spacing
 import com.colorata.wallman.core.ui.util.LocalWindowSizeConfiguration
-import com.colorata.wallman.ui.icons.SdCard
-import com.colorata.wallman.wallpapers.BaseWallpaper
-import com.colorata.wallman.wallpapers.Chip
 import com.colorata.wallman.wallpapers.DynamicWallpaper
 import com.colorata.wallman.wallpapers.WallpaperDetailsDestination
 import com.colorata.wallman.wallpapers.WallpaperI
 import com.colorata.wallman.wallpapers.WallpapersModule
-import com.colorata.wallman.wallpapers.sizeInMb
 import com.colorata.wallman.wallpapers.supportsDynamicWallpapers
-import com.colorata.wallman.wallpapers.ui.components.BigChip
-import com.colorata.wallman.wallpapers.ui.components.WallpaperVariants
+import com.colorata.wallman.wallpapers.ui.components.DescriptionAndActions
+import com.colorata.wallman.wallpapers.ui.components.PreviewImage
 import com.colorata.wallman.wallpapers.viewmodel.WallpaperDetailsViewModel
 import com.colorata.wallman.wallpapers.walls
-import kotlinx.collections.immutable.ImmutableList
-import kotlinx.collections.immutable.mutate
-import kotlinx.collections.immutable.persistentListOf
-import kotlinx.collections.immutable.toImmutableList
-import kotlin.random.Random
-import kotlin.random.nextInt
 
 context(WallpapersModule)
 fun MaterialNavGraphBuilder.wallpaperDetailsScreen() {
@@ -263,305 +209,6 @@ private fun WallpaperDetailsPreview() {
                 selectedWallpaperType = WallpaperI.SelectedWallpaperType.Dynamic,
                 wallpaperVariants = walls[42].staticWallpapers,
                 onEvent = { })
-        )
-    }
-}
-
-@Composable
-private fun Variants(
-    wallpaperVariants: ImmutableList<BaseWallpaper>,
-    selectedWallpaper: BaseWallpaper,
-    onClick: (updatedWallpaper: BaseWallpaper) -> Unit,
-    modifier: Modifier = Modifier,
-    disableNotSelected: Boolean = false
-) {
-    val variants = remember(wallpaperVariants) {
-        wallpaperVariants.map { it.previewRes }.toImmutableList()
-    }
-    AnimatedContent(
-        targetState = variants,
-        transitionSpec = { materialSharedAxisX(true, 100) using SizeTransform(clip = false) },
-        label = "",
-        modifier = modifier
-    ) { updatedVariants ->
-        WallpaperVariants(
-            wallpapers = updatedVariants,
-            selectedWallpaper = selectedWallpaper.previewRes,
-            onClick = { updatedRes ->
-                onClick(wallpaperVariants.first { it.previewRes == updatedRes })
-            },
-            disableNotSelected = disableNotSelected
-        )
-    }
-}
-
-private fun getRandomShape(): Shape =
-    when (Random.nextBoolean()) {
-        true -> ScallopShape(density = 100f, degreeMultiplier = Random.nextInt(2..10).toFloat())
-        false -> RoundedCornerShape(Random.nextInt(10..50))
-    }
-
-@Composable
-private fun PreviewImage(
-    resource: String,
-    downloadProgress: () -> Float,
-    modifier: Modifier = Modifier
-) {
-    val shape = remember {
-        getRandomShape()
-    }
-    val rotationState = rememberRotationState()
-    val animation = MaterialTheme.animation
-
-    Box(
-        modifier
-            .detectRotation(rotationState)
-            .statusBarsPadding(), contentAlignment = Alignment.Center
-    ) {
-        Arc(progress = { downloadProgress() }, width = {
-            if (rotationState.isRotationInProgress) 8f
-            else 0f
-        }, Modifier
-            .displayRotation(rotationState)
-            .fillMaxSize(0.9f)
-            .aspectRatio(1f), shape
-        )
-        AnimatedContent(
-            targetState = resource, transitionSpec = {
-                fadeIn(animation.emphasized()) togetherWith fadeOut(animation.emphasized())
-            }, label = "", modifier = Modifier
-                .fillMaxSize(0.9f)
-                .aspectRatio(1f)
-        ) { imageName ->
-            Image(
-                bitmap = bitmapAsset(imageName), contentDescription = "", modifier = Modifier
-                    .displayRotation(rotationState, layer = 0.5f)
-                    .clip(shape)
-                    .fillMaxSize()
-                    .aspectRatio(1f), contentScale = ContentScale.Crop
-            )
-        }
-        Arc(progress = { downloadProgress() }, width = { progress ->
-            if (rotationState.isRotationInProgress) 0f
-            else if (progress == 100f) 1f
-            else 3f
-        }, Modifier
-            .displayRotation(rotationState, layer = 1f)
-            .fillMaxSize(0.9f)
-            .aspectRatio(1f), shape
-        )
-    }
-}
-
-@Composable
-private fun Arc(
-    progress: () -> Float,
-    width: (progress: Float) -> Float,
-    modifier: Modifier = Modifier,
-    shape: Shape = RectangleShape
-) {
-    val animatedProgress by animateFloatAsState(progress(), label = "")
-    val start = if (animatedProgress != 100f) rememberInfiniteTransition(label = "").animateFloat(
-        initialValue = -90f,
-        targetValue = 270f,
-        animationSpec = infiniteRepeatable(
-            animation = tween(
-                durationMillis = 5000,
-                easing = LinearEasing
-            ), repeatMode = RepeatMode.Restart
-        ),
-        label = ""
-    ).value else -90f
-    val animatedWidth =
-        MaterialTheme.spacing.extraSmall * animateFloatAsState(targetValue = remember {
-            derivedStateOf {
-                width(animatedProgress)
-            }
-        }.value, label = "").value
-    val borderColor = MaterialTheme.colorScheme.primary
-    val layoutDirection = LocalLayoutDirection.current
-    val density = LocalDensity.current
-    val border = BorderStroke(animatedWidth, borderColor)
-    Box(modifier = modifier.clip(shape)) {
-        Canvas(
-            modifier = Modifier
-                .drawWithMask {
-                    if (animatedWidth.value != 0f) {
-                        drawArc(
-                            border.brush,
-                            start + 3.6f * animatedProgress,
-                            360f - 3.6f * animatedProgress,
-                            useCenter = true,
-                            blendMode = BlendMode.DstOut,
-                            topLeft = -center,
-                            size = size * 2F
-                        )
-                    }
-                }
-                .fillMaxSize()
-        ) {
-            if (animatedWidth.value != 0f) {
-                drawOutline(
-                    shape.createOutline(size, layoutDirection, density),
-                    brush = border.brush,
-                    style = Stroke(border.width.toPx(), cap = StrokeCap.Round)
-                )
-            }
-        }
-    }
-}
-
-@Composable
-fun DescriptionAndActions(
-    state: WallpaperDetailsViewModel.WallpaperDetailsScreenState,
-    visibilityList: VisibilityList<Unit>,
-    modifier: Modifier = Modifier
-) {
-    val animationSpec = MaterialTheme.animation.emphasizedVerticalSlide()
-    val wallpaper = state.wallpaper
-    val selectedBaseWallpaper = state.selectedWallpaper
-    Column(
-        modifier,
-        horizontalAlignment = Alignment.Start,
-        verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.large)
-    ) {
-        PreviewName(
-            selectedBaseWallpaper.previewName, Modifier
-                .align(Alignment.Start)
-                .animateVisibility(visibilityList.visible[1], animationSpec)
-        )
-        Description(
-            selectedBaseWallpaper.description, Modifier
-                .align(Alignment.Start)
-                .animateVisibility(visibilityList.visible[2], animationSpec)
-        )
-        WallpaperTypeSelector(
-            supportsDynamicWallpaper = remember(wallpaper) { wallpaper.supportsDynamicWallpapers() },
-            selectedWallpaperType = state.selectedWallpaperType,
-            onClick = {
-                state.onEvent(
-                    WallpaperDetailsViewModel.WallpaperDetailsScreenEvent.SelectWallpaperType(
-                        it
-                    )
-                )
-            },
-            Modifier.animateVisibility(visibilityList.visible[3], animationSpec),
-            disableNotSelected = state.actionType == WallpaperI.ActionType.Installing
-        )
-        val chips = remember {
-            persistentListOf<Chip>().mutate {
-                if (selectedBaseWallpaper.coordinates != null) it.add(
-                    Chip(
-                        Strings.goToMaps,
-                        Icons.Default.LocationOn
-                    )
-                )
-                if (wallpaper.supportsDynamicWallpapers()) it.add(
-                    Chip(
-                        Strings.size.formatted(
-                            wallpaper.parent.sizeInMb()
-                        ), Icons.Default.SdCard
-                    )
-                )
-                it.add(Chip(simplifiedLocaleOf(wallpaper.author), Icons.Filled.AccountCircle))
-            }
-        }
-        Chips(chips = chips, onClick = {
-            val index = chips.indexOf(it)
-            if (index == 0) state.onEvent(WallpaperDetailsViewModel.WallpaperDetailsScreenEvent.GoToMaps)
-        }, Modifier.animateVisibility(visibilityList.visible[4], animationSpec))
-        Variants(
-            state.wallpaperVariants,
-            selectedWallpaper = state.selectedWallpaper,
-            onClick = {
-                state.onEvent(
-                    WallpaperDetailsViewModel.WallpaperDetailsScreenEvent.SelectBaseWallpaper(it)
-                )
-            },
-            Modifier.animateVisibility(visibilityList.visible[5], animationSpec),
-            disableNotSelected = state.actionType == WallpaperI.ActionType.Installing
-        )
-        Spacer(Modifier.height(80.dp))
-    }
-}
-
-@Composable
-private fun PreviewName(previewName: Polyglot, modifier: Modifier = Modifier) {
-    AnimatedContent(targetState = previewName, transitionSpec = {
-        materialSharedAxisX(true, 100) using SizeTransform(clip = false)
-    }, modifier = modifier, label = "") { name ->
-        Text(
-            text = rememberString(string = name),
-            style = MaterialTheme.typography.titleLarge,
-            textAlign = TextAlign.Start,
-            color = MaterialTheme.colorScheme.onSurface
-        )
-    }
-}
-
-@Composable
-private fun Description(description: Polyglot, modifier: Modifier = Modifier) {
-    AnimatedContent(targetState = description, transitionSpec = {
-        materialSharedAxisX(true, 100) using SizeTransform(clip = false)
-    }, modifier = modifier, label = "") { animatedDescription ->
-        Text(
-            text = rememberString(string = animatedDescription),
-            style = MaterialTheme.typography.bodyMedium,
-            textAlign = TextAlign.Start,
-            color = MaterialTheme.colorScheme.onSurface
-        )
-    }
-}
-
-@OptIn(ExperimentalLayoutApi::class)
-@Composable
-private fun Chips(
-    chips: ImmutableList<Chip>,
-    onClick: (Chip) -> Unit,
-    modifier: Modifier = Modifier
-) {
-    FlowRow(
-        modifier = modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.small)
-    ) {
-        chips.forEach { chip ->
-            AssistChip(onClick = { onClick(chip) }, label = {
-                Text(text = rememberString(chip.previewName))
-            }, leadingIcon = {
-                Icon(imageVector = chip.icon, contentDescription = "")
-            })
-        }
-    }
-}
-
-@Composable
-private fun WallpaperTypeSelector(
-    supportsDynamicWallpaper: Boolean,
-    selectedWallpaperType: WallpaperI.SelectedWallpaperType,
-    onClick: (WallpaperI.SelectedWallpaperType) -> Unit,
-    modifier: Modifier = Modifier,
-    disableNotSelected: Boolean = false
-) {
-    Row(modifier, horizontalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.small)) {
-        if (supportsDynamicWallpaper) {
-            BigChip(
-                onClick = {
-                    onClick(WallpaperI.SelectedWallpaperType.Dynamic)
-                },
-                selected = selectedWallpaperType == WallpaperI.SelectedWallpaperType.Dynamic,
-                text = WallpaperI.SelectedWallpaperType.Dynamic.label,
-                Modifier.weight(1f),
-                enabled = selectedWallpaperType == WallpaperI.SelectedWallpaperType.Dynamic || !disableNotSelected
-            )
-        }
-        BigChip(
-            onClick = {
-                onClick(WallpaperI.SelectedWallpaperType.Static)
-            },
-            selected = selectedWallpaperType == WallpaperI.SelectedWallpaperType.Static,
-            text = WallpaperI.SelectedWallpaperType.Static.label,
-            Modifier.weight(1f),
-            enabled = selectedWallpaperType == WallpaperI.SelectedWallpaperType.Static || !disableNotSelected
         )
     }
 }

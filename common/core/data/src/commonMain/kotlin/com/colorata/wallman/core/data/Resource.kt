@@ -17,7 +17,7 @@ sealed interface Resource {
     }
 }
 
-expect class BitmapAssetStore {
+interface BitmapAssetStore {
     fun get(assetName: String): ImageBitmap
 }
 

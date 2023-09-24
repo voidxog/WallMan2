@@ -19,6 +19,7 @@ import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.runtime.toMutableStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalInspectionMode
 import com.colorata.animateaslifestyle.Transition
 import com.colorata.wallman.core.data.animation
 import com.colorata.wallman.core.ui.animation.animateVisibility
@@ -30,6 +31,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 private const val DELAY_BETWEEN_ITEMS = 100L
+
 @Stable
 interface VisibilityList<T> : ImmutableList<T> {
     val visible: SnapshotStateList<Boolean>
@@ -168,10 +170,20 @@ fun <T> Iterable<T>.toVisibilityList(visible: Boolean): VisibilityList<T> =
 
 @Composable
 fun <T> rememberVisibilityList(
-    visible: Boolean = false,
+    visible: Boolean = LocalInspectionMode.current,
     builder: @DisallowComposableCalls () -> List<T>
 ): VisibilityList<T> {
     return remember { builder().toVisibilityList(visible) }
+}
+
+@Composable
+fun rememberVisibilityList(
+    count: Int,
+    visible: Boolean = LocalInspectionMode.current,
+): VisibilityList<Unit> {
+    return rememberVisibilityList(visible) {
+        List(count) { }
+    }
 }
 
 @Composable

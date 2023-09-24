@@ -7,7 +7,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.graphics.painter.Painter
@@ -32,14 +31,13 @@ private fun mapResourceToId(resource: Resource.Drawable): Int =
         Resource.Drawable.SQUARE -> androidx.core.R.drawable.ic_call_answer
     }
 
-actual class BitmapAssetStore(
+private class AndroidBitmapAssetStore(
     private val context: Context,
-    private val scope: CoroutineScope,
-    private val defaultColor: Color
-) {
+    private val scope: CoroutineScope
+): BitmapAssetStore {
     private val lock = Any()
     private val assets = mutableMapOf<String, ImageBitmap>()
-    actual fun get(assetName: String): ImageBitmap {
+    override fun get(assetName: String): ImageBitmap {
         val asset = assets[assetName]
         if (asset == null) {
             val notCached = getNotCached(assetName)
@@ -68,8 +66,7 @@ actual class BitmapAssetStore(
 fun ProvideBitmapAssetStore(content: @Composable () -> Unit) {
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
-    val color = MaterialTheme.colorScheme.surfaceVariant
-    val store = remember { BitmapAssetStore(context, scope, color) }
+    val store = remember { AndroidBitmapAssetStore(context, scope) }
     CompositionLocalProvider(LocalBitmapAssetStore provides store) {
         content()
     }

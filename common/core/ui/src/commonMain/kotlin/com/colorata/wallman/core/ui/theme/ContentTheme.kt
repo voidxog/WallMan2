@@ -1,9 +1,14 @@
 package com.colorata.wallman.core.ui.theme
 
+import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.ColorScheme
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
+import androidx.compose.material3.dynamicDarkColorScheme
+import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -12,8 +17,12 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asAndroidBitmap
+import androidx.compose.ui.platform.LocalContext
+import com.colorata.animateaslifestyle.AnimationsPerformance
+import com.colorata.animateaslifestyle.LocalAnimationsPerformance
 import com.colorata.wallman.core.data.bitmapAsset
 import com.colorata.wallman.core.data.memoizeHash
+import com.colorata.wallman.core.ui.util.ProvideWindowSize
 import dev.sasikanth.material.color.utilities.hct.Hct
 import dev.sasikanth.material.color.utilities.quantize.QuantizerCelebi
 import dev.sasikanth.material.color.utilities.scheme.Scheme
@@ -91,7 +100,28 @@ fun WallManContentTheme(
         colorScheme = extractedColors(assetName, image to darkTheme)
     }
 
-    WallManPreviewTheme(darkTheme = darkTheme, colorScheme = colorScheme) {
-        content()
+    val scheme = colorScheme
+    val finalColorScheme =
+        when {
+            scheme != null -> scheme
+            Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
+                val context = LocalContext.current
+                if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
+            }
+
+            darkTheme -> DarkColorScheme
+            else -> LightColorScheme
+        }
+    CompositionLocalProvider(
+        LocalSpacing provides Spacing(),
+        LocalAnimationsPerformance provides AnimationsPerformance.Full
+    ) {
+        ProvideWindowSize {
+            MaterialTheme(
+                colorScheme = finalColorScheme, typography = Typography
+            ) {
+                content()
+            }
+        }
     }
 }
