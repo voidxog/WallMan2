@@ -5,5 +5,5 @@ object App {
     const val minSdk = 26
 
     const val versionCode = 5
-    const val versionName = "UpsideDownCake-Preview04"
+    const val versionName = "Tiramisu02"
 }
