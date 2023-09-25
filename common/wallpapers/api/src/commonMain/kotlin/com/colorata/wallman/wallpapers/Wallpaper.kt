@@ -52,11 +52,24 @@ data class WallpaperI(
     }
 }
 
+@Immutable
 @Serializable
 data class WallpaperOptions(
     val isRetro: Boolean = false,
     val isNew: Boolean = false
 )
+
+inline fun WallpaperOptions.hasBadge() = isNew || isRetro
+
+fun List<WallpaperI>.unifiedOptions(): WallpaperOptions {
+    val mapped = map { it.options }
+    val isNew = mapped.filter { it.isNew }.size >= size / 2
+    val isRetro = mapped.filter { it.isRetro }.size >= size / 2
+    return WallpaperOptions(
+        isRetro = isRetro,
+        isNew = isNew
+    )
+}
 
 fun WallpaperI.isPerformanceDemanding() =
     if (supportsDynamicWallpapers())

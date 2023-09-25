@@ -5,10 +5,12 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.contentColorFor
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import com.colorata.wallman.core.ui.LightDarkPreview
@@ -20,7 +22,8 @@ import com.colorata.wallman.core.ui.theme.spacing
 @Composable
 fun PixelatedBadge(
     text: String,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    containerColor: Color = MaterialTheme.colorScheme.tertiaryContainer
 ) {
     val spacing = MaterialTheme.spacing
     androidx.compose.material3.Text(
@@ -28,14 +31,15 @@ fun PixelatedBadge(
         fontFamily = remember { FontFamily(Font(R.font.sf_pixelate)) },
         modifier = modifier
             .background(
-                color = MaterialTheme.colorScheme.tertiaryContainer,
+                color = containerColor,
                 shape = remember {
                     LeafShape(spacing)
                 }
             )
             .padding(MaterialTheme.spacing.medium)
             .wrapContentHeight(Alignment.CenterVertically),
-        style = MaterialTheme.typography.labelMedium
+        style = MaterialTheme.typography.labelMedium,
+        color = contentColorFor(containerColor)
     )
 }
 

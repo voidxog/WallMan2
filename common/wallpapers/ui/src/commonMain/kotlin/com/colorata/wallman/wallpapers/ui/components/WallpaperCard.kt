@@ -87,14 +87,10 @@ fun WallpaperCard(
             )
             val options = wallpaper.options
             if (options.isNew || options.isRetro) {
-                PixelatedBadge(
-                    rememberString(
-                        when {
-                            options.isNew -> Strings.new
-                            else -> Strings.retro
-                        }
-                    ),
-                    Modifier.padding(MaterialTheme.spacing.medium).align(Alignment.TopStart)
+                OptionsBadge(
+                    options, Modifier
+                        .padding(MaterialTheme.spacing.medium)
+                        .align(Alignment.TopStart)
                 )
             }
             val countIcon = remember(wallpaper) { wallpaper.countIcon() }
