@@ -157,16 +157,23 @@ suspend fun <T> VisibilityList<T>.animateVisibilityAsGrid(
 }
 
 internal class VisibilityListImpl<T>(
-    initial: ImmutableList<T>, visible: Boolean = false
+    initial: ImmutableList<T>, visible: (Int, T) -> Boolean = { _, _ -> false }
 ) : VisibilityList<T>, ImmutableList<T> by initial {
-    override val visible = initial.map { visible }.toMutableStateList()
+    override val visible = initial.mapIndexed { index, t -> visible(index, t) }.toMutableStateList()
 }
 
 fun <T> VisibilityList(visible: Boolean, vararg values: T): VisibilityList<T> =
+    VisibilityListImpl(values.toList().toImmutableList()) { _, _ -> visible }
+
+fun <T> VisibilityList(vararg values: T, visible: (Int, T) -> Boolean): VisibilityList<T> =
     VisibilityListImpl(values.toList().toImmutableList(), visible)
 
 fun <T> Iterable<T>.toVisibilityList(visible: Boolean): VisibilityList<T> =
-    VisibilityListImpl(toImmutableList(), visible)
+    VisibilityListImpl(toImmutableList()) { _, _ -> visible }
+
+
+inline fun <reified T> VisibilityList<T>.withOffset(offset: Int): VisibilityList<T> =
+    VisibilityList(*subList(offset, lastIndex).toTypedArray()) { index, _ -> this.visible[index] }
 
 @Composable
 fun <T> rememberVisibilityList(

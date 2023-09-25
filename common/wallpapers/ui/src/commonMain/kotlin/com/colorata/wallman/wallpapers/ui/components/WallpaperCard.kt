@@ -7,6 +7,8 @@ import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
@@ -28,14 +30,22 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.colorata.wallman.core.data.Strings
 import com.colorata.wallman.core.data.bitmapAsset
 import com.colorata.wallman.core.data.rememberString
+import com.colorata.wallman.core.ui.LightDarkPreview
+import com.colorata.wallman.core.ui.components.PixelatedBadge
+import com.colorata.wallman.core.ui.shapes.LeafShape
+import com.colorata.wallman.core.ui.theme.WallManPreviewTheme
 import com.colorata.wallman.core.ui.theme.spacing
 import com.colorata.wallman.wallpapers.WallpaperI
+import com.colorata.wallman.wallpapers.WallpaperOptions
 import com.colorata.wallman.wallpapers.countIcon
 import com.colorata.wallman.wallpapers.firstPreviewRes
 import com.colorata.wallman.wallpapers.shortName
+import com.colorata.wallman.wallpapers.walls
 
 
 @Composable
@@ -75,6 +85,18 @@ fun WallpaperCard(
                     .aspectRatio(1f),
                 contentScale = ContentScale.Crop
             )
+            val options = wallpaper.options
+            if (options.isNew || options.isRetro) {
+                PixelatedBadge(
+                    rememberString(
+                        when {
+                            options.isNew -> Strings.new
+                            else -> Strings.retro
+                        }
+                    ),
+                    Modifier.padding(MaterialTheme.spacing.medium).align(Alignment.TopStart)
+                )
+            }
             val countIcon = remember(wallpaper) { wallpaper.countIcon() }
             if (countIcon != null) {
                 Icon(
@@ -109,5 +131,13 @@ fun WallpaperCard(
                 .height(50.dp)
                 .wrapContentHeight(align = Alignment.CenterVertically)
         )
+    }
+}
+
+@Preview(widthDp = 200, heightDp = 250)
+@Composable
+private fun WallpaperCardPreview() {
+    WallManPreviewTheme {
+        WallpaperCard(walls.last().copy(options = WallpaperOptions(isRetro = true)))
     }
 }

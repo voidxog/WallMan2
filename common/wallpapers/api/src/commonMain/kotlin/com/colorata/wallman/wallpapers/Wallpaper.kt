@@ -28,7 +28,8 @@ data class WallpaperI(
     val staticWallpapers: SerializableImmutableList<StaticWallpaper>,
     val parent: WallpaperPacks,
     val category: WallpaperCategory,
-    val author: String
+    val author: String,
+    val options: WallpaperOptions
 ) {
     @Immutable
     sealed class ActionType(val available: Boolean, val label: Polyglot) {
@@ -50,6 +51,12 @@ data class WallpaperI(
         Static(label = Strings.static, icon = Icons.Default.Image)
     }
 }
+
+@Serializable
+data class WallpaperOptions(
+    val isRetro: Boolean = false,
+    val isNew: Boolean = false
+)
 
 fun WallpaperI.isPerformanceDemanding() =
     if (supportsDynamicWallpapers())
@@ -179,13 +186,16 @@ class WallpaperDSL {
 
     var compatibilityChecker: CompatibilityChecker = trueCompatibilityChecker()
     var performance: DynamicWallpaper.Performance = DynamicWallpaper.Performance.Normal
+
+    private var options: WallpaperOptions = WallpaperOptions()
     fun create(): WallpaperI {
         return WallpaperI(
             dynamicWallpapers.toImmutableList(),
             staticWallpapers.toImmutableList(),
             parent,
             category,
-            author
+            author,
+            options
         )
     }
 
@@ -226,6 +236,19 @@ class WallpaperDSL {
             )
         )
     }
+
+    fun options(block: OptionsDSL.() -> Unit) {
+        val dsl = OptionsDSL()
+        dsl.block()
+        options = dsl.options()
+    }
+}
+
+class OptionsDSL {
+    var isNew = false
+    var isRetro = false
+
+    fun options() = WallpaperOptions(isRetro = isRetro, isNew = isNew)
 }
 
 var WallpaperDSL.minSdk: Int
@@ -2009,6 +2032,10 @@ val walls by createWallpapers {
         staticWallpaper {
             remoteUrl = "pfold_porcelain_preview"
         }
+
+        options {
+            isNew = true
+        }
     }
 
 
@@ -2031,6 +2058,10 @@ val walls by createWallpapers {
             previewRes = "p7a_arctic_dark_preview"
             remoteUrl = "p7a_arctic_dark_preview"
         }
+
+        options {
+            isNew = true
+        }
     }
 
 
@@ -2052,6 +2083,10 @@ val walls by createWallpapers {
         staticWallpaper {
             previewRes = "p7a_carbon_dark_preview"
             remoteUrl = "p7a_carbon_dark_preview"
+        }
+
+        options {
+            isNew = true
         }
     }
 
@@ -2076,6 +2111,10 @@ val walls by createWallpapers {
             previewRes = "p7a_cotton_dark_preview"
             remoteUrl = "p7a_cotton_dark_preview"
         }
+
+        options {
+            isNew = true
+        }
     }
 
 
@@ -2097,6 +2136,10 @@ val walls by createWallpapers {
         staticWallpaper {
             previewRes = "p7a_realr_dark_preview"
             remoteUrl = "p7a_realr_dark_preview"
+        }
+
+        options {
+            isNew = true
         }
     }
 }

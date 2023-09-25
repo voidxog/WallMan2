@@ -1,0 +1,48 @@
+package com.colorata.wallman.core.ui.components
+
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
+import com.colorata.wallman.core.ui.LightDarkPreview
+import com.colorata.wallman.core.ui.R
+import com.colorata.wallman.core.ui.shapes.LeafShape
+import com.colorata.wallman.core.ui.theme.WallManPreviewTheme
+import com.colorata.wallman.core.ui.theme.spacing
+
+@Composable
+fun PixelatedBadge(
+    text: String,
+    modifier: Modifier = Modifier
+) {
+    val spacing = MaterialTheme.spacing
+    androidx.compose.material3.Text(
+        text,
+        fontFamily = remember { FontFamily(Font(R.font.sf_pixelate)) },
+        modifier = modifier
+            .background(
+                color = MaterialTheme.colorScheme.tertiaryContainer,
+                shape = remember {
+                    LeafShape(spacing)
+                }
+            )
+            .padding(MaterialTheme.spacing.medium)
+            .wrapContentHeight(Alignment.CenterVertically),
+        style = MaterialTheme.typography.labelMedium
+    )
+}
+
+@LightDarkPreview
+@Composable
+private fun PixelatedBadgePreview() {
+    WallManPreviewTheme {
+        PixelatedBadge("RETRO")
+    }
+}

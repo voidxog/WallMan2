@@ -29,6 +29,9 @@ object Strings {
     val adaptWallpaperToTheme =
         simplifiedLocaleOf("Adapt wallpaper to theme", "Адаптировать обои под тему")
 
+    val new = simplifiedLocaleOf("NEW")
+    val retro = simplifiedLocaleOf("RETRO")
+
     val mapsAppNotInstalled =
         simplifiedLocaleOf("Maps app is not installed", "Приложение для карт не установлено")
     val wallpaperNotFound = simplifiedLocaleOf("Wallpaper not found", "Обои не найдены")
