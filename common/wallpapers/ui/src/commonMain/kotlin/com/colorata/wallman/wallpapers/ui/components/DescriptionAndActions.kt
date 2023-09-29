@@ -27,7 +27,7 @@ import com.colorata.wallman.core.ui.list.VisibilityList
 import com.colorata.wallman.core.ui.list.animatedAtLaunch
 import com.colorata.wallman.core.ui.list.rememberVisibilityList
 import com.colorata.wallman.core.ui.theme.WallManPreviewTheme
-import com.colorata.wallman.core.ui.theme.emphasizedVerticalSlide
+import com.colorata.wallman.core.ui.theme.emphasizedEnterExit
 import com.colorata.wallman.core.ui.theme.spacing
 import com.colorata.wallman.ui.icons.SdCard
 import com.colorata.wallman.wallpapers.BaseWallpaper
@@ -49,7 +49,7 @@ internal fun DescriptionAndActions(
     visibilityList: VisibilityList<Unit>,
     modifier: Modifier = Modifier
 ) {
-    val animationSpec = MaterialTheme.animation.emphasizedVerticalSlide()
+    val animationSpec = MaterialTheme.animation.emphasizedEnterExit()
     val wallpaper = state.wallpaper
     val selectedBaseWallpaper = state.selectedWallpaper
     Column(

@@ -60,7 +60,7 @@ import com.colorata.wallman.core.ui.modifiers.displayRotation
 import com.colorata.wallman.core.ui.modifiers.rememberRotationState
 import com.colorata.wallman.core.ui.shapes.ScallopShape
 import com.colorata.wallman.core.ui.theme.WallManPreviewTheme
-import com.colorata.wallman.core.ui.theme.emphasizedVerticalSlide
+import com.colorata.wallman.core.ui.theme.emphasizedEnterExit
 import com.colorata.wallman.core.ui.theme.screenPadding
 import com.colorata.wallman.core.ui.theme.spacing
 import com.colorata.wallman.core.ui.util.LocalWindowSizeConfiguration
@@ -110,7 +110,7 @@ private fun AboutScreen(state: AboutViewModel.AboutScreenState, modifier: Modifi
                     .zIndex(3f)
                     .animateVisibility(
                         visible = animatedItems.visible[0],
-                        MaterialTheme.animation.emphasizedVerticalSlide()
+                        MaterialTheme.animation.emphasizedEnterExit()
                     )
             )
             Actions(animatedItems)
@@ -127,7 +127,7 @@ private fun AboutScreen(state: AboutViewModel.AboutScreenState, modifier: Modifi
                     .zIndex(3f)
                     .animateVisibility(
                         animatedItems.visible[0],
-                        MaterialTheme.animation.emphasizedVerticalSlide()
+                        MaterialTheme.animation.emphasizedEnterExit()
                     )
             )
             Column(

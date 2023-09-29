@@ -53,8 +53,8 @@ import com.colorata.wallman.core.ui.list.VisibilityRow
 import com.colorata.wallman.core.ui.list.animatedAtLaunch
 import com.colorata.wallman.core.ui.list.rememberVisibilityList
 import com.colorata.wallman.core.ui.theme.LocalPaddings
-import com.colorata.wallman.core.ui.theme.emphasizedHorizontalSlide
-import com.colorata.wallman.core.ui.theme.emphasizedVerticalSlide
+import com.colorata.wallman.core.ui.theme.emphasizedHorizontalEnterExit
+import com.colorata.wallman.core.ui.theme.emphasizedEnterExit
 import com.colorata.wallman.core.ui.theme.spacing
 import com.colorata.wallman.core.ui.util.LocalWindowSizeConfiguration
 import com.colorata.wallman.settings.memory.ui.cacheScreen
@@ -148,13 +148,13 @@ fun BottomBar(currentRoute: String, onClick: (route: String) -> Unit) {
         remember(currentRoute) { currentRoute in quickAccessibleDestinations.map { it.destination.path } }
     Surface(
         tonalElevation = 3.dp, modifier = Modifier.animateVisibility(
-            barVisible, MaterialTheme.animation.emphasizedVerticalSlide(dp80inPx)
+            barVisible, MaterialTheme.animation.emphasizedEnterExit(dp80inPx, Alignment.Bottom)
         )
     ) {
         Column {
             VisibilityRow(
                 visibleItems,
-                transition = { MaterialTheme.animation.emphasizedVerticalSlide(dp80inPx) }) { it, modifier ->
+                transition = { MaterialTheme.animation.emphasizedEnterExit(dp80inPx) }) { it, modifier ->
                 val destination = it.destination
                 val selected = currentRoute == destination.path
                 NavigationBarItem(
@@ -203,14 +203,14 @@ private fun SideBar(
         modifier
             .animateVisibility(
                 sidebarVisible,
-                MaterialTheme.animation.emphasizedHorizontalSlide(-dp80inPx) + scale(from = 0.8f)
+                MaterialTheme.animation.emphasizedHorizontalEnterExit(-dp80inPx)
             )
             .padding(start = MaterialTheme.spacing.large)
             .width(80.dp)
             .clip(CircleShape)
             .background(MaterialTheme.colorScheme.surfaceColorAtElevation(3.dp))
             .padding(vertical = MaterialTheme.spacing.extraLarge),
-        transition = { MaterialTheme.animation.emphasizedHorizontalSlide(-dp80inPx) }
+        transition = { MaterialTheme.animation.emphasizedHorizontalEnterExit(-dp80inPx) }
     ) {
         val destination = it.destination
         val selected = destination.path == currentRoute

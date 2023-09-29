@@ -6,7 +6,7 @@ import kotlin.reflect.KClass
 interface IntentHandler {
     fun goToUrl(url: String)
 
-    fun <T : Any> goToActivity(activity: KClass<T>)
+    fun <T : Any> goToActivity(activity: KClass<T>, data: Map<String, String> = mapOf())
 
     fun goToLiveWallpaper(packageName: String, serviceName: String)
 

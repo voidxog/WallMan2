@@ -70,7 +70,7 @@ import com.colorata.wallman.core.ui.modifiers.Padding
 import com.colorata.wallman.core.ui.modifiers.navigationStartPadding
 import com.colorata.wallman.core.ui.theme.WallManContentTheme
 import com.colorata.wallman.core.ui.theme.WallManPreviewTheme
-import com.colorata.wallman.core.ui.theme.emphasizedVerticalSlide
+import com.colorata.wallman.core.ui.theme.emphasizedEnterExit
 import com.colorata.wallman.core.ui.theme.spacing
 import com.colorata.wallman.wallpapers.WallpaperI
 import com.colorata.wallman.wallpapers.firstBaseWallpaper
@@ -211,7 +211,7 @@ fun FeaturedWallpapersCarousel(
                     Modifier
                         .animateVisibility(
                             visibleWallpapers.visible[index % wallpapers.size],
-                            MaterialTheme.animation.emphasizedVerticalSlide()
+                            MaterialTheme.animation.emphasizedEnterExit()
                         )
                         .clip(RoundedCornerShape(cornerRadius))
                         .clickable {
@@ -293,7 +293,7 @@ fun FeaturedWallpapersCarousel(
             }
         }
         Row(
-            Modifier.animateVisibility(indicatorsVisible, MaterialTheme.animation.emphasizedVerticalSlide()),
+            Modifier.animateVisibility(indicatorsVisible, MaterialTheme.animation.emphasizedEnterExit()),
             horizontalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.small)
         ) {
             wallpapers.forEachIndexed { index, _ ->

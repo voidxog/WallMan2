@@ -23,7 +23,7 @@ import androidx.compose.ui.platform.LocalInspectionMode
 import com.colorata.animateaslifestyle.Transition
 import com.colorata.wallman.core.data.animation
 import com.colorata.wallman.core.ui.animation.animateVisibility
-import com.colorata.wallman.core.ui.theme.emphasizedVerticalSlide
+import com.colorata.wallman.core.ui.theme.emphasizedEnterExit
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.CoroutineScope
@@ -293,7 +293,7 @@ fun <T> VisibilityColumn(
     modifier: Modifier = Modifier,
     horizontalAlignment: Alignment.Horizontal = Alignment.Start,
     verticalArrangement: Arrangement.Vertical = Arrangement.Top,
-    transition: @Composable (item: T) -> Transition = { MaterialTheme.animation.emphasizedVerticalSlide() },
+    transition: @Composable (item: T) -> Transition = { MaterialTheme.animation.emphasizedEnterExit() },
     content: @Composable ColumnScope.(item: T) -> Unit
 ) {
     Column(
@@ -315,7 +315,7 @@ fun <T> VisibilityRow(
     modifier: Modifier = Modifier,
     verticalAlignment: Alignment.Vertical = Alignment.Top,
     horizontalArrangement: Arrangement.Horizontal = Arrangement.Start,
-    transition: @Composable (item: T) -> Transition = { MaterialTheme.animation.emphasizedVerticalSlide() },
+    transition: @Composable (item: T) -> Transition = { MaterialTheme.animation.emphasizedEnterExit() },
     content: @Composable RowScope.(item: T, modifier: Modifier) -> Unit
 ) {
     Row(

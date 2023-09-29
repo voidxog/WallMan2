@@ -20,7 +20,7 @@ import com.colorata.animateaslifestyle.Transition
 import com.colorata.animateaslifestyle.fade
 import com.colorata.wallman.core.data.animation
 import com.colorata.wallman.core.ui.animation.animateVisibility
-import com.colorata.wallman.core.ui.theme.emphasizedVerticalSlide
+import com.colorata.wallman.core.ui.theme.emphasizedEnterExit
 
 inline fun <T> LazyListScope.visibilityItemsIndexed(
     items: VisibilityList<T>,
@@ -57,7 +57,7 @@ inline fun <T> LazyStaggeredGridScope.visibilityItemsIndexed(
     noinline key: ((index: Int, item: T) -> Any)? = null,
     crossinline contentType: (index: Int, item: T) -> Any? = { _, _ -> null },
     noinline span: ((index: Int, item: T) -> StaggeredGridItemSpan)? = null,
-    crossinline transition: @Composable (index: Int, item: T) -> Transition = { _, _ -> MaterialTheme.animation.emphasizedVerticalSlide() },
+    crossinline transition: @Composable (index: Int, item: T) -> Transition = { _, _ -> MaterialTheme.animation.emphasizedEnterExit() },
     crossinline itemContent: @Composable LazyStaggeredGridItemScope.(index: Int, item: T) -> Unit
 ) {
     itemsIndexed(items, key, contentType, span) { index, item ->
@@ -72,7 +72,7 @@ inline fun <T> LazyStaggeredGridScope.visibilityItems(
     noinline key: ((item: T) -> Any)? = null,
     crossinline contentType: (item: T) -> Any? = { 0 },
     noinline span: ((item: T) -> StaggeredGridItemSpan)? = null,
-    crossinline transition: @Composable (item: T) -> Transition = { MaterialTheme.animation.emphasizedVerticalSlide() },
+    crossinline transition: @Composable (item: T) -> Transition = { MaterialTheme.animation.emphasizedEnterExit() },
     crossinline itemContent: @Composable LazyStaggeredGridItemScope.(item: T) -> Unit
 ) {
     visibilityItemsIndexed(
@@ -90,7 +90,7 @@ inline fun <T> LazyGridScope.visibilityItemsIndexed(
     noinline key: ((index: Int, item: T) -> Any)? = null,
     crossinline contentType: (index: Int, item: T) -> Any? = { _, _ -> 0 },
     noinline span: (LazyGridItemSpanScope.(index: Int, item: T) -> GridItemSpan)? = null,
-    crossinline transition: @Composable (index: Int, item: T) -> Transition = { _, _ -> MaterialTheme.animation.emphasizedVerticalSlide() },
+    crossinline transition: @Composable (index: Int, item: T) -> Transition = { _, _ -> MaterialTheme.animation.emphasizedEnterExit() },
     crossinline itemContent: @Composable LazyGridItemScope.(index: Int, item: T) -> Unit
 ) {
     itemsIndexed(items, key, span, contentType) { index, item ->
@@ -105,7 +105,7 @@ inline fun <T> LazyGridScope.visibilityItems(
     noinline key: ((item: T) -> Any)? = null,
     crossinline contentType: (item: T) -> Any? = { null },
     noinline span: (LazyGridItemSpanScope.(item: T) -> GridItemSpan)? = null,
-    crossinline transition: @Composable (item: T) -> Transition = { MaterialTheme.animation.emphasizedVerticalSlide() },
+    crossinline transition: @Composable (item: T) -> Transition = { MaterialTheme.animation.emphasizedEnterExit() },
     crossinline itemContent: @Composable LazyGridItemScope.(item: T) -> Unit
 ) {
     visibilityItemsIndexed(

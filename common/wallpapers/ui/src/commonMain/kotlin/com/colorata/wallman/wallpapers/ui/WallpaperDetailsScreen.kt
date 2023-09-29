@@ -58,7 +58,7 @@ import com.colorata.wallman.core.ui.modifiers.runWhen
 import com.colorata.wallman.core.ui.shapes.RoundedCornerShapeStartEnd
 import com.colorata.wallman.core.ui.theme.WallManContentTheme
 import com.colorata.wallman.core.ui.theme.WallManPreviewTheme
-import com.colorata.wallman.core.ui.theme.emphasizedVerticalSlide
+import com.colorata.wallman.core.ui.theme.emphasizedEnterExit
 import com.colorata.wallman.core.ui.theme.spacing
 import com.colorata.wallman.core.ui.util.LocalWindowSizeConfiguration
 import com.colorata.wallman.wallpapers.DynamicWallpaper
@@ -96,7 +96,7 @@ private fun WallpaperDetailsScreen(
 
     val scrollState = rememberScrollState()
     val previewImage = bitmapAsset(state.selectedWallpaper.previewRes)
-    val animationSpec = MaterialTheme.animation.emphasizedVerticalSlide()
+    val animationSpec = MaterialTheme.animation.emphasizedEnterExit()
     val animList = rememberVisibilityList {
         List(8) {}
     }.animatedAtLaunch()
@@ -119,6 +119,7 @@ private fun WallpaperDetailsScreen(
             })
         }
 
+        val bottomBarAnimationSpec = MaterialTheme.animation.emphasizedEnterExit(scaleAlignment = Alignment.Bottom)
         Box(
             modifier
                 .fillMaxSize()
@@ -146,7 +147,7 @@ private fun WallpaperDetailsScreen(
                 BottomBar(
                     state, Modifier
                         .align(Alignment.BottomCenter)
-                        .animateVisibility(animList.visible[6], animationSpec)
+                        .animateVisibility(animList.visible[6], bottomBarAnimationSpec)
                 )
             } else {
                 Row(Modifier.fillMaxSize()) {
@@ -185,7 +186,7 @@ private fun WallpaperDetailsScreen(
                             state,
                             Modifier
                                 .align(Alignment.BottomCenter)
-                                .animateVisibility(animList.visible[6], animationSpec),
+                                .animateVisibility(animList.visible[6], bottomBarAnimationSpec),
                             fullWidth = false
                         )
                     }

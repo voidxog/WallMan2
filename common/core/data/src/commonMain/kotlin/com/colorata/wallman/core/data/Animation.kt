@@ -29,7 +29,7 @@ data class EasingSpec(
     override val standardAccelerate: Easing = CubicBezierEasing(0.3f, 0f, 1f, 1f)
 ) : AnimationSpec<Easing>
 
-data class Animation(val durationSpec: DurationSpec, val easingSpec: EasingSpec) {
+data class Animation(val durationSpec: DurationSpec, val easingSpec: EasingSpec, val animationType: AnimationType) {
     fun <T> emphasized(
         durationMillis: Int = durationSpec.long2, delayMillis: Int = 0
     ): FiniteAnimationSpec<T> = tween(durationMillis, delayMillis, easingSpec.emphasized)
@@ -55,6 +55,12 @@ data class Animation(val durationSpec: DurationSpec, val easingSpec: EasingSpec)
     ): FiniteAnimationSpec<T> = tween(durationMillis, delayMillis, easingSpec.standardAccelerate)
 }
 
+enum class AnimationType {
+    Slide,
+    Scale,
+    Fade
+}
+
 data class DurationSpec(
     val short1: Int = 50,
     val short2: Int = 100,
@@ -74,7 +80,7 @@ data class DurationSpec(
     val extraLong4: Int = 1000
 )
 
-val LocalAnimation = compositionLocalOf { Animation(DurationSpec(), EasingSpec()) }
+val LocalAnimation = compositionLocalOf { Animation(DurationSpec(), EasingSpec(), AnimationType.Slide) }
 
 val MaterialTheme.animation: Animation
     @Composable @ReadOnlyComposable get() = LocalAnimation.current

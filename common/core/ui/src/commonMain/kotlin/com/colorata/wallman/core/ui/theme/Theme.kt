@@ -86,7 +86,7 @@ fun WallManTheme(
         }
     }
     CompositionLocalProvider(
-        LocalSpacing provides remember { Spacing() }
+        LocalSpacing provides remember { Spacing() },
     ) {
         ProvideWindowSize {
             MaterialTheme(

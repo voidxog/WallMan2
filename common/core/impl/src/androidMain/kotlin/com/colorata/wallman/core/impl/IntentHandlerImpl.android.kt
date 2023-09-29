@@ -32,9 +32,12 @@ class IntentHandlerImpl(private var context: Context) : IntentHandler {
         }
     }
 
-    override fun <T : Any> goToActivity(activity: KClass<T>) {
+    override fun <T : Any> goToActivity(activity: KClass<T>, data: Map<String, String>) {
         Intent(context, activity.java).apply {
             addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            data.forEach { (key, any) ->
+                putExtra(key, any)
+            }
         }.start()
     }
 

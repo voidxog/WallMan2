@@ -6,8 +6,14 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.colorata.wallman.core.data.Animation
+import com.colorata.wallman.core.data.DurationSpec
+import com.colorata.wallman.core.data.EasingSpec
+import com.colorata.wallman.core.data.LocalAnimation
 import com.colorata.wallman.core.data.module.loadables
 import com.colorata.wallman.core.data.module.throwable
 import com.colorata.wallman.core.di.LocalGraph
@@ -15,6 +21,8 @@ import com.colorata.wallman.core.di.impl.applyActivity
 import com.colorata.wallman.core.impl.applyWindowSize
 import com.colorata.wallman.core.ui.theme.WallManTheme
 import com.colorata.wallman.core.ui.util.LocalWindowSizeConfiguration
+
+private const val RESTART_COUNT_KEY = "restart_count"
 
 abstract class GraphActivity : ComponentActivity() {
 
@@ -33,12 +41,29 @@ abstract class GraphActivity : ComponentActivity() {
 
         Thread.setDefaultUncaughtExceptionHandler { _, throwable ->
             graph.coreModule.logger.throwable(throwable)
-            graph.coreModule.intentHandler.goToActivity(this::class)
+            val restartCount = intent.extras?.getString(RESTART_COUNT_KEY)?.toIntOrNull() ?: 0
+            println(restartCount)
+            if (restartCount == 0) graph.coreModule.intentHandler.goToActivity(
+                this::class,
+                mapOf(RESTART_COUNT_KEY to "1")
+            )
             finish()
         }
 
         setContent {
-            CompositionLocalProvider(LocalGraph provides graph) {
+            val settings by graph.coreModule.applicationSettings.settings()
+                .collectAsStateWithLifecycle()
+
+            CompositionLocalProvider(
+                LocalGraph provides graph,
+                LocalAnimation provides remember(settings.animationType) {
+                    Animation(
+                        DurationSpec(),
+                        EasingSpec(),
+                        settings.animationType
+                    )
+                }
+            ) {
                 WallManTheme {
                     val windowSize = LocalWindowSizeConfiguration.current
                     remember(windowSize) { graph.coreModule.applyWindowSize(windowSize) }
