@@ -1,6 +1,7 @@
 package com.colorata.wallman.core.ui.components
 
 import androidx.compose.animation.core.Animatable
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -14,41 +15,54 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
+import com.colorata.animateaslifestyle.isCompositionLaunched
 import com.colorata.wallman.core.data.animation
 import com.colorata.wallman.core.ui.LightDarkPreview
+import com.colorata.wallman.core.ui.modifiers.RotationState
+import com.colorata.wallman.core.ui.modifiers.detectRotation
+import com.colorata.wallman.core.ui.modifiers.displayRotation
+import com.colorata.wallman.core.ui.modifiers.rememberRotationState
 import com.colorata.wallman.core.ui.theme.WallManPreviewTheme
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @Composable
-fun PreviewContainer(key: Any?, modifier: Modifier = Modifier, content: @Composable () -> Unit) {
-    val borderWidth = remember { Animatable(0.1f) }
+fun PreviewContainer(key: Any?, modifier: Modifier = Modifier, content: @Composable (RotationState) -> Unit) {
+    val borderWidth = remember { Animatable(1f) }
     val animation = MaterialTheme.animation
-    val duration = MaterialTheme.animation.durationSpec.extraLong4 * 3
+    val duration = MaterialTheme.animation.durationSpec.extraLong4 * 1.5f
+    val compositionLaunched = isCompositionLaunched()
     LaunchedEffect(key) {
+        if (!compositionLaunched) return@LaunchedEffect
         launch {
             delay(duration.toLong())
-            borderWidth.animateTo(0f, animation.emphasized())
+            borderWidth.animateTo(1f, animation.emphasized())
         }
-        borderWidth.animateTo(4f, animation.emphasized())
+        borderWidth.animateTo(8f, animation.emphasized())
     }
+    val state = rememberRotationState()
     Box(
-        modifier.border(
-            borderWidth.value.dp,
-            MaterialTheme.colorScheme.primary,
-            MaterialTheme.shapes.extraLarge
-        )
+        modifier
+            .detectRotation(state),
+        contentAlignment = Alignment.Center
     ) {
         UpdateEffect(
             key,
             Modifier
+                .displayRotation(state, layer = 0f)
+                .border(
+                    borderWidth.value.dp,
+                    MaterialTheme.colorScheme.primary,
+                    MaterialTheme.shapes.extraLarge
+                )
                 .fillMaxSize()
                 .clip(MaterialTheme.shapes.extraLarge)
         )
-        content()
+        content(state)
     }
 }
 
@@ -65,9 +79,13 @@ private fun PreviewContainerPreview() {
                     interactionSource = remember { MutableInteractionSource() }) {
                     key += 1
                 }
-                .fillMaxSize()
+                .size(200.dp)
         ) {
-
+            Box(
+                Modifier
+                    .displayRotation(it, layer = 1f)
+                    .size(100.dp)
+                    .background(MaterialTheme.colorScheme.surfaceVariant))
         }
     }
 }

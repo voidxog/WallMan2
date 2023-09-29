@@ -21,7 +21,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
-import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.Size
@@ -42,7 +41,6 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.intellij.lang.annotations.Language
-import kotlin.math.abs
 import kotlin.math.pow
 import kotlin.math.sqrt
 
@@ -111,6 +109,7 @@ private val SHADER = """
 @Suppress("UNCHECKED_CAST")
 private class UpdateEffectState(
     private val scope: CoroutineScope,
+    private val disappearOnEnd: Boolean = false,
     private val effect: () -> Color,
     private val animationSpec: () -> AnimationSpec<*>,
     private val size: () -> Size
@@ -120,22 +119,38 @@ private class UpdateEffectState(
         get() = _radius.value
 
     private val _effectColor = Animatable(Color.Transparent)
-    private val effectColor: Color
+    val effectColor: Color
         get() = _effectColor.value
 
     fun update() {
         scope.launch {
             if (_effectColor.value != Color.Transparent) {
-                _effectColor.animateTo(Color.Transparent, tween(500))
+                _effectColor.animateTo(Color.Transparent, tween(1000))
             }
             _radius.snapTo(0f)
             launch {
                 _effectColor.animateTo(effect())
             }
-            _radius.animateTo(
-                calculateUVRadius(size()),
-                animationSpec() as AnimationSpec<Float>
-            )
+            val target = calculateUVRadius(size())
+            if (disappearOnEnd) {
+                var launched = false
+                _radius.animateTo(target, animationSpec() as AnimationSpec<Float>) {
+                    if (!launched && value >= target / 2) {
+                        launched = true
+                        launch {
+                            _effectColor.animateTo(
+                                Color.Transparent,
+                                animationSpec() as AnimationSpec<Color>
+                            )
+                        }
+                    }
+                }
+            } else {
+                _radius.animateTo(
+                    target,
+                    animationSpec() as AnimationSpec<Float>
+                )
+            }
             _radius.snapTo(0f)
             _effectColor.snapTo(Color.Transparent)
         }
@@ -143,7 +158,13 @@ private class UpdateEffectState(
 }
 
 @Composable
-private fun rememberUpdateEffectState(key: Any?, size: Size, effectColor: Color, animationSpec: AnimationSpec<*>): UpdateEffectState {
+private fun rememberUpdateEffectState(
+    key: Any?,
+    size: Size,
+    effectColor: Color,
+    animationSpec: AnimationSpec<*>,
+    disappearOnEnd: Boolean = false
+): UpdateEffectState {
     val scope = rememberCoroutineScope()
     val state = remember {
         UpdateEffectState(scope, effect = {
@@ -152,11 +173,11 @@ private fun rememberUpdateEffectState(key: Any?, size: Size, effectColor: Color,
             size
         }, animationSpec = {
             animationSpec
-        })
+        }, disappearOnEnd = disappearOnEnd)
     }
-    val firstComposition = isCompositionLaunched()
+    val compositionLaunched = isCompositionLaunched()
     LaunchedEffect(key) {
-        if (!firstComposition) return@LaunchedEffect
+        if (!compositionLaunched) return@LaunchedEffect
         state.update()
     }
     return state
@@ -199,37 +220,16 @@ private fun UpdateEffectApi33(
     animationSpec: AnimationSpec<Float>
 ) {
     val shader = remember { RuntimeShader(SHADER) }
-    val time = remember { Animatable(0.0f) }
     var size by remember { mutableStateOf(Size(500f, 500f)) }
-    val updatedEffectColor = remember { Animatable(Color.Transparent) }
-    val firstComposition = isCompositionLaunched()
-    val scope = rememberCoroutineScope()
-    LaunchedEffect(key) {
-        if (!firstComposition) return@LaunchedEffect
-        scope.launch {
-            if (updatedEffectColor.value != Color.Transparent) {
-                updatedEffectColor.animateTo(Color.Transparent, tween(500))
-            }
-            time.snapTo(0f)
-            launch {
-                updatedEffectColor.animateTo(effectColor)
-            }
-            time.animateTo(
-                calculateUVRadius(size),
-                animationSpec
-            )
-            time.snapTo(0f)
-            updatedEffectColor.snapTo(Color.Transparent)
-        }
-    }
+    val state = rememberUpdateEffectState(key, size, effectColor, animationSpec)
     Box(
         modifier
             .graphicsLayer {
                 clip = true
                 with(shader) {
-                    setFloatUniform("iTime", time.value)
+                    setFloatUniform("iTime", state.radius)
                     setFloatUniform("iResolution", size.width, size.height)
-                    setColorUniform("iSparkleColor", updatedEffectColor.value.toArgb())
+                    setColorUniform("iSparkleColor", state.effectColor.toArgb())
                 }
                 renderEffect =
                     RenderEffect
@@ -239,9 +239,7 @@ private fun UpdateEffectApi33(
             .background(containerColor)
             .onSizeChanged {
                 size = it.toSize()
-            }) {
-        Text(time.value.toString())
-    }
+            })
 }
 
 @Stable
@@ -258,36 +256,15 @@ private fun UpdateEffectApi32(
     effectColor: Color,
     animationSpec: AnimationSpec<Float>
 ) {
-    val scale = remember { Animatable(0f) }
-    val updatedEffectColor = remember { Animatable(Color.Transparent) }
-    LaunchedEffect(key) {
-        if (updatedEffectColor.value != Color.Transparent) {
-            updatedEffectColor.animateTo(Color.Transparent)
-        }
-        launch {
-            updatedEffectColor.animateTo(effectColor, animationSpec as AnimationSpec<Color>)
-        }
-        var launched = false
-        scale.animateTo(2f, animationSpec) {
-            if (value >= 1f && !launched) {
-                launched = true
-                launch {
-                    updatedEffectColor.animateTo(
-                        Color.Transparent,
-                        animationSpec as AnimationSpec<Color>
-                    )
-                }
-            }
-        }
-        scale.snapTo(0f)
-    }
+    var size by remember { mutableStateOf(Size(500f, 500f)) }
+    val state = rememberUpdateEffectState(key, size, effectColor, animationSpec, disappearOnEnd = true)
     Box(modifier.drawBehind {
         drawRect(containerColor)
-        scale(calculateUVRadius(size) * scale.value, pivot = center) {
+        scale(state.radius * 2f, pivot = center) {
             drawRect(
                 Brush.radialGradient(
                     0f to Color.Transparent,
-                    0.5f to updatedEffectColor.value.copy(alpha = 1f - abs(scale.value - 1f)),
+                    0.5f to state.effectColor.copy(alpha = (1f - state.radius).coerceAtLeast(0f)),
                     1f to Color.Transparent,
                 )
             )
@@ -303,7 +280,7 @@ private fun UpdateEffectPreview() {
         LaunchedEffect(Unit) {
             while (true) {
                 key += 1
-                delay(1000)
+                delay(5000)
             }
         }
         UpdateEffect(
