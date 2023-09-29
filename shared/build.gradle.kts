@@ -31,6 +31,7 @@ projectDependencies(androidUnitTestBlock = {}, commonTestBlock = {}) {
 
         settings.overview.ui()
         settings.about.ui()
+        settings.animation.ui()
         settings.memory.ui()
         settings.mirror.ui()
     }

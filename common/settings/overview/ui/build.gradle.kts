@@ -13,6 +13,7 @@ projectDependencies {
         settings.memory.api()
         settings.mirror.api()
         settings.about.api()
+        settings.animation.api()
     }
 }
 

@@ -92,5 +92,13 @@ class Modules(private val applier: (moduleName: String) -> Unit) {
             fun api() = applier("$prefix:api")
             fun ui() = applier("$prefix:ui")
         }
+
+        val animation = Animation()
+
+        inner class Animation {
+            private val prefix = ":common:settings:animation"
+            fun api() = applier("$prefix:api")
+            fun ui() = applier("$prefix:ui")
+        }
     }
 }

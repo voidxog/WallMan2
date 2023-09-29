@@ -83,6 +83,12 @@ object Strings {
     val requiresAccountInGitlab =
         simplifiedLocaleOf("Requires account on Gitlab", "Необходим аккаунт на Gitlab")
 
+    val animations = simplifiedLocaleOf("Animations", "Анимации")
+    val animationsDescription = simplifiedLocaleOf("Customize app animations", "Настройте анимации приложения")
+    val slide = simplifiedLocaleOf("Slide", "Скольжение")
+    val scale = simplifiedLocaleOf("Scale", "Масштаб")
+    val fade = simplifiedLocaleOf("Fade", "Угасание")
+
     val memoryOptimization = simplifiedLocaleOf("Memory Optimization", "Оптимизация памяти")
 
     val appMotion = simplifiedLocaleOf("App Motion", "Анимации приложения")

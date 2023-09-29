@@ -28,6 +28,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.unit.times
 import com.colorata.wallman.core.data.Polyglot
 import com.colorata.wallman.core.data.animation
 import com.colorata.wallman.core.data.rememberString
@@ -47,7 +48,7 @@ fun VerticalSelector(
     onClick: (Int) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    Column(modifier, verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.extraSmall)) {
+    Column(modifier.height(values.size * 100.dp), verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.extraSmall)) {
         Selector(values, selected, onClick) { weight -> Modifier.fillMaxWidth().weight(weight) }
     }
 }
@@ -59,7 +60,7 @@ fun HorizontalSelector(
     onClick: (Int) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    Row(modifier, horizontalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.extraSmall)) {
+    Row(modifier.width(values.size * 100.dp), horizontalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.extraSmall)) {
         Selector(values, selected, onClick) { weight -> Modifier.fillMaxHeight().weight(weight) }
     }
 }
@@ -117,7 +118,7 @@ private fun VerticalSelectorPreview() {
                 .toImmutableList(),
             selected = selected, {
                 selected = it
-            }, Modifier.fillMaxWidth().height(500.dp)
+            }, Modifier.fillMaxWidth()
         )
     }
 }

@@ -37,7 +37,6 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.testTagsAsResourceId
 import androidx.compose.ui.unit.dp
 import com.colorata.animateaslifestyle.material3.isCompact
-import com.colorata.animateaslifestyle.scale
 import com.colorata.animateaslifestyle.stagger.toPx
 import com.colorata.wallman.categories.ui.categoriesScreen
 import com.colorata.wallman.categories.ui.categoryDetailsScreen
@@ -52,11 +51,14 @@ import com.colorata.wallman.core.ui.list.VisibilityColumn
 import com.colorata.wallman.core.ui.list.VisibilityRow
 import com.colorata.wallman.core.ui.list.animatedAtLaunch
 import com.colorata.wallman.core.ui.list.rememberVisibilityList
+import com.colorata.wallman.core.ui.modifiers.runWhen
+import com.colorata.wallman.core.ui.modifiers.sizeOffset
 import com.colorata.wallman.core.ui.theme.LocalPaddings
 import com.colorata.wallman.core.ui.theme.emphasizedHorizontalEnterExit
 import com.colorata.wallman.core.ui.theme.emphasizedEnterExit
 import com.colorata.wallman.core.ui.theme.spacing
 import com.colorata.wallman.core.ui.util.LocalWindowSizeConfiguration
+import com.colorata.wallman.settings.animation.ui.animationScreen
 import com.colorata.wallman.settings.memory.ui.cacheScreen
 import com.colorata.wallman.settings.mirror.ui.mirrorScreen
 import com.colorata.wallman.settings.overview.ui.aboutScreen
@@ -115,6 +117,7 @@ private fun Navigator(
             settingsScreen()
             aboutScreen()
             mirrorScreen()
+            animationScreen()
         }
 
         with(graph.wallpapersModule) {
@@ -147,8 +150,9 @@ fun BottomBar(currentRoute: String, onClick: (route: String) -> Unit) {
     val barVisible =
         remember(currentRoute) { currentRoute in quickAccessibleDestinations.map { it.destination.path } }
     Surface(
-        tonalElevation = 3.dp, modifier = Modifier.animateVisibility(
-            barVisible, MaterialTheme.animation.emphasizedEnterExit(dp80inPx, Alignment.Bottom)
+        tonalElevation = 3.dp, modifier = Modifier
+            .animateVisibility(
+            barVisible, MaterialTheme.animation.emphasizedEnterExit(dp80inPx, Alignment.Bottom), withOffset = true
         )
     ) {
         Column {
@@ -172,7 +176,8 @@ fun BottomBar(currentRoute: String, onClick: (route: String) -> Unit) {
                     alwaysShowLabel = false,
                     modifier = modifier
                         .testTag(destination.path)
-                        .height(80.dp)
+                        .height(80.dp),
+                    enabled = barVisible
                 )
             }
             Spacer(
@@ -224,8 +229,9 @@ private fun SideBar(
                     imageVector = if (selected) it.filledIcon else it.outlinedIcon,
                     contentDescription = ""
                 )
-            }, label = null/* { Text(text = rememberString(string = it.value.previewName)) }*/,
-            alwaysShowLabel = false
+            },
+            alwaysShowLabel = false,
+            enabled = sidebarVisible
         )
     }
 }

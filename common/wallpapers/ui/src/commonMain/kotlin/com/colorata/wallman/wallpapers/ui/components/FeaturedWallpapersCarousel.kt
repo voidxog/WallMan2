@@ -293,7 +293,10 @@ fun FeaturedWallpapersCarousel(
             }
         }
         Row(
-            Modifier.animateVisibility(indicatorsVisible, MaterialTheme.animation.emphasizedEnterExit()),
+            Modifier.animateVisibility(
+                indicatorsVisible,
+                MaterialTheme.animation.emphasizedEnterExit()
+            ),
             horizontalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.small)
         ) {
             wallpapers.forEachIndexed { index, _ ->

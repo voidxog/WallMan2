@@ -10,8 +10,10 @@ import com.colorata.wallman.core.data.*
 import com.colorata.wallman.core.data.module.CoreModule
 import com.colorata.wallman.core.data.module.NavigationController
 import com.colorata.wallman.settings.about.api.AboutDestination
+import com.colorata.wallman.settings.animation.api.AnimationScreen
 import com.colorata.wallman.settings.memory.api.MemoryDestination
 import com.colorata.wallman.settings.mirror.api.MirrorDestination
+import com.colorata.wallman.ui.icons.Animation
 import com.colorata.wallman.ui.icons.ContentCopy
 import com.colorata.wallman.ui.icons.Storage
 import kotlinx.collections.immutable.ImmutableList
@@ -23,6 +25,12 @@ class SettingsViewModel(
     private val navigation: NavigationController
 ) : ViewModel() {
     private val items = persistentListOf(
+        SettingsItem(
+            Strings.animations,
+            Strings.animationsDescription,
+            Icons.Default.Animation,
+            Destinations.AnimationScreen()
+        ),
         SettingsItem(
             Strings.memoryOptimization,
             Strings.keepYourMemoryFree,
