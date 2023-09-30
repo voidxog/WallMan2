@@ -1,14 +1,13 @@
 plugins {
-    composeMultiplatformSetup()
+    configuration()
 }
 
-projectDependencies {
+configuration {
     modules {
-        core.data()
-        core.ui()
+        +projects.common.core.data
+        +projects.common.core.ui
 
-        settings.about.api()
+        +projects.common.settings.about.api
     }
+    namespace = "settings.about.ui"
 }
-
-androidNamespace("settings.about.ui")

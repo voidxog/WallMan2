@@ -1,17 +1,16 @@
 plugins {
-    composeMultiplatformSetup()
+    configuration()
 }
 
-projectDependencies {
+configuration {
     modules {
-        core.data()
-        core.ui()
+        +projects.common.core.data
+        +projects.common.core.ui
 
-        wallpapers.api()
-        wallpapers.ui()
+        +projects.common.wallpapers.api
+        +projects.common.wallpapers.ui
 
-        categories.api()
+        +projects.common.categories.api
     }
+    namespace = "categories.ui"
 }
-
-androidNamespace("categories.ui")

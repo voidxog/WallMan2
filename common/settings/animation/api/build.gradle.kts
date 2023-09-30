@@ -1,11 +1,10 @@
 plugins {
-    multiplatformSetup()
+    configuration()
 }
 
-projectDependencies {
+configuration {
     modules {
-        core.data()
+        +projects.common.core.data
     }
+    namespace = "settings.animation.api"
 }
-
-androidNamespace("settings.animation.api")

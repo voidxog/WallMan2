@@ -1,11 +1,10 @@
 plugins {
-    multiplatformSetup()
+    configuration()
 }
 
-projectDependencies {
+configuration {
     modules {
-        core.data()
+        +projects.common.core.data
     }
+    namespace = "categories.api"
 }
-
-androidNamespace("categories.api")
