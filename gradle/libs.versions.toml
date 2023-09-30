@@ -1,5 +1,12 @@
 [versions]
+app_targetsdk = "34"
+app_compilesdk = "34"
+app_minsdk = "26"
+app_versioncode = "5"
+app_versionname = "Tiramisu01"
+
 compose = "1.5.1"
+compose_compiler = "1.5.3"
 compose_material3 = "1.2.0-alpha02"
 compose_glance = "1.0.0"
 compose_material3_colors = "1.0.0-alpha01"
@@ -65,3 +72,5 @@ ktor = { module = "io.ktor:ktor-client-android", version.ref = "ktor" }
 [plugins]
 compose = { id = "org.jetbrains.compose:compose-gradle-plugin", version.ref = "compose" }
 kotlin = { id = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
+serialization = { id = "org.jetbrains.kotlin.plugin.serialization" }
+configuration = { id = "configurationPlugin" }

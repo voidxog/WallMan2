@@ -1,5 +1,7 @@
 import com.android.build.api.dsl.LibraryExtension
 import org.gradle.api.Project
+import org.gradle.api.artifacts.VersionCatalog
+import org.gradle.api.artifacts.VersionCatalogsExtension
 import org.gradle.kotlin.dsl.getValue
 import org.gradle.kotlin.dsl.getting
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
@@ -57,6 +59,38 @@ abstract class Configuration @Inject constructor(private val project: Project) {
         }
 }
 
+fun Configuration.internal(block: VisibilityDependenciesScope.() -> Unit) {
+    commonMain {
+        internal(block)
+    }
+}
+
+fun Configuration.external(block: VisibilityDependenciesScope.() -> Unit) {
+    commonMain {
+        external(block)
+    }
+}
+
+internal val Project.libs: VersionCatalog
+    get() =
+    extensions
+        .getByType(VersionCatalogsExtension::class.java)
+        .named("libs")
+internal fun Project.getVersion(name: String): String {
+    return libs
+        .findVersion(name)
+        .get()
+        .displayName
+}
+
+internal fun Project.kotlin(block: KotlinMultiplatformExtension.() -> Unit) {
+    extensions.configure(KotlinMultiplatformExtension::class.java, block)
+}
+
+internal fun Project.android(block: LibraryExtension.() -> Unit) {
+    extensions.configure(LibraryExtension::class.java, block)
+}
+
 fun Configuration.commonMain(block: SourceDependenciesScope.() -> Unit) {
     dependencies {
         commonMain(block)
@@ -92,12 +126,4 @@ private fun KotlinSourceSet.configure(dependencies: List<SourceDependenciesScope
             }
         }
     }
-}
-
-private fun Project.kotlin(block: KotlinMultiplatformExtension.() -> Unit) {
-    extensions.configure(KotlinMultiplatformExtension::class.java, block)
-}
-
-private fun Project.android(block: LibraryExtension.() -> Unit) {
-    extensions.configure(LibraryExtension::class.java, block)
 }
