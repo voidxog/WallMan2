@@ -11,10 +11,6 @@ java {
     targetCompatibility = JavaVersion.VERSION_17
 }
 
-libs {
-    androidx.compose.runtime
-}
-
 tasks.withType<KotlinCompile>().configureEach {
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_17.toString()

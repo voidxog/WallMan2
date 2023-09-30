@@ -1,5 +1,67 @@
 [versions]
 compose = "1.5.1"
+compose_material3 = "1.2.0-alpha02"
+compose_glance = "1.0.0"
+compose_material3_colors = "1.0.0-alpha01"
+compose_systemui = "0.31.3-beta"
 
+androidx_core = "1.10.1"
+androidx_lifecycle = "2.6.1"
+androidx_activity = "1.7.2"
+androidx_datastore = "1.0.0"
+androidx_startup = "1.1.1"
+androidx_splashscreen = "1.0.1"
+androidx_work = "2.8.1"
+
+androidx_junit = "1.1.5"
+junit = "4.13.2"
+
+kotlin = "1.9.10"
+kotlin_serialization = "1.5.0"
+kotlin_immutable = "0.3.5"
+kotlin_coroutines = "1.7.2"
+
+colorata_animations = "1.0.0-alpha15"
+
+ktor = "2.3.1"
 [libraries]
-androidx-compose-runtime = { group = "androidx.compose.runtime", name = "runtime", version.ref = "compose" }
+compose-runtime = { module = "androidx.compose.runtime:runtime", version.ref = "compose" }
+compose-ui = { module = "androidx.compose.ui:ui", version.ref = "compose" }
+compose-activity = { module = "androidx.activity:activity-compose", version = "1.7.2" }
+compose-ui-util = { module = "androidx.compose.ui:ui-util", version.ref = "compose" }
+compose-ui-test = { module = "androidx.compose.ui:ui-test-junit4-android", version.ref = "compose" }
+compose-ui-tooling-manifest = { module = "androidx.compose.ui:ui-test-manifest", version.ref = "compose" }
+compose-ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview", version.ref = "compose" }
+compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "compose" }
+compose-material3 = { module = "androidx.compose.material3:material3", version.ref = "compose_material3" }
+compose-material3-windowsize = { module = "androidx.compose.material3:material3-window-size-class", version.ref = "compose_material3" }
+compose_navigation = { module = "androidx.navigation:navigation-compose", version = "2.7.3" }
+compose_glance = { module = "androidx.glance:glance", version.ref = "compose_glance" }
+compose_glance_appwidget = { module = "androidx.glance:glance-appwidget", version.ref = "compose_glance" }
+compose_material3_colors = { module = "dev.sasikanth:material-color-utilities", version.ref = "compose_material3_colors" }
+compose_systemui = { module = "com.google.accompanist:accompanist-systemuicontroller", version.ref = "compose_systemui" }
+
+
+androidx_core = { module = "androidx.core:core-ktx", version.ref = "androidx_core" }
+androidx_lifecycle = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "androidx_lifecycle" }
+androidx_lifecycle_compose = { module = "androidx.lifecycle:lifecycle-runtime-compose", version.ref = "androidx_lifecycle" }
+androidx_lifecycle_viewmodel = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "androidx_lifecycle" }
+androidx_activity = { module = "androidx.activity:activity-ktx", version.ref = "androidx_activity" }
+androidx_datastore = { module = "androidx.datastore:datastore", version.ref = "androidx_datastore" }
+androidx_startup = { module = "androidx.startup:startup-runtime", version.ref = "androidx_startup" }
+androidx_splashscreen = { module = "androidx.core:core-splashscreen", version.ref = "androidx_splashscreen" }
+androidx_work = { module = "androidx.work:work-runtime-ktx", version.ref = "androidx_work" }
+
+androidx_junit = { module = "androidx.test.ext:junit-ktx", version.ref = "androidx_junit" }
+test_juint = { module = "junit:junit", version.ref = "junit" }
+
+kotlin_serialization = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlin_serialization" }
+kotlin_immutable = { module = "org.jetbrains.kotlinx:kotlinx-collections-immutable", version.ref = "kotlin_immutable" }
+kotlin_coroutines = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlin_coroutines" }
+
+colorata_animations = { module = "com.gitlab.colorata:animateaslifestyle", version.ref = "colorata_animations" }
+
+ktor = { module = "io.ktor:ktor-client-android", version.ref = "ktor" }
+[plugins]
+compose = { id = "org.jetbrains.compose:compose-gradle-plugin", version.ref = "compose" }
+kotlin = { id = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }

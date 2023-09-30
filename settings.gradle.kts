@@ -16,6 +16,8 @@ dependencyResolutionManagement {
         maven { url = uri("https://jitpack.io") }
     }
 }
+enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
+
 rootProject.name = "WallMan"
 
 rootDir

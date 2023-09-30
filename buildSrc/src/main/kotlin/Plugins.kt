@@ -11,3 +11,7 @@ fun PluginDependenciesSpec.composeMultiplatformSetup() {
 fun PluginDependenciesSpec.serialization() {
     id("org.jetbrains.kotlin.plugin.serialization")
 }
+
+fun PluginDependenciesSpec.library() {
+    id("configurationPlugin")
+}

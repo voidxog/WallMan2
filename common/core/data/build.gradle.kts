@@ -1,8 +1,18 @@
 plugins {
     multiplatformSetup()
     serialization()
+    library()
 }
 
+configuration {
+    dependencies {
+        commonMain {
+            internal {
+                libs.compose.ui
+            }
+        }
+    }
+}
 projectDependencies(commonTestBlock = {}) {
     external {
         kotlin.coroutines()

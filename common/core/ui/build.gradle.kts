@@ -1,7 +1,7 @@
 plugins {
     composeMultiplatformSetup()
-    id("configurationPlugin")
 }
+
 
 projectDependencies {
     modules {

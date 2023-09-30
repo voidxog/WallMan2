@@ -15,6 +15,11 @@ abstract class Configuration @Inject constructor(private val project: Project) {
             androidTarget()
             sourceSets.apply {
                 val commonMain by getting {
+                    dependencies {
+                        scope.modules.forEach {
+                            implementation(it)
+                        }
+                    }
                     configure(scope.commonMain)
                 }
                 if (scope.commonTest.isNotEmpty()) {
