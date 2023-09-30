@@ -57,6 +57,30 @@ abstract class Configuration @Inject constructor(private val project: Project) {
         }
 }
 
+fun Configuration.commonMain(block: SourceDependenciesScope.() -> Unit) {
+    dependencies {
+        commonMain(block)
+    }
+}
+
+fun Configuration.commonTest(block: SourceDependenciesScope.() -> Unit) {
+    dependencies {
+        commonTest(block)
+    }
+}
+
+fun Configuration.androidMain(block: SourceDependenciesScope.() -> Unit) {
+    dependencies {
+        androidMain(block)
+    }
+}
+
+fun Configuration.androidTest(block: SourceDependenciesScope.() -> Unit) {
+    dependencies {
+        androidTest(block)
+    }
+}
+
 private fun KotlinSourceSet.configure(dependencies: List<SourceDependenciesScope>) {
     dependencies {
         dependencies.forEach {

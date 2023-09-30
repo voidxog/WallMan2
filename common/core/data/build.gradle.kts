@@ -5,25 +5,16 @@ plugins {
 }
 
 configuration {
-    dependencies {
-        commonMain {
-            internal {
-                libs.compose.ui
-            }
+    commonMain {
+        external {
+            +libs.kotlin.coroutines
+            +libs.kotlin.immutable
+            +libs.compose.navigation
+            +libs.kotlin.serialization
+            +libs.compose.runtime
         }
-    }
-}
-projectDependencies(commonTestBlock = {}) {
-    external {
-        kotlin.coroutines()
-        kotlin.collectionsImmutable()
-        compose.navigation()
-        kotlin.serialization()
-        compose.runtime()
-    }
-    internal {
-        compose.material3()
-    }
-}
 
-androidNamespace("core.data")
+        +libs.compose.material3
+    }
+    namespace = "core.data"
+}

@@ -1,4 +1,5 @@
 import org.gradle.api.artifacts.MinimalExternalModuleDependency
+import org.gradle.api.internal.catalog.ExternalModuleDependencyFactory
 import org.gradle.api.provider.Provider
 
 class SourceDependenciesScope {
@@ -10,6 +11,14 @@ class SourceDependenciesScope {
 
     fun internal(block: VisibilityDependenciesScope.() -> Unit) {
         internalDependencies.addAll(generateDependencies(block))
+    }
+
+    operator fun Provider<MinimalExternalModuleDependency>.unaryPlus() {
+        internalDependencies.add(this)
+    }
+
+    operator fun ExternalModuleDependencyFactory.DependencyNotationSupplier.unaryPlus() {
+        internalDependencies.add(asProvider())
     }
 
     private fun generateDependencies(block: VisibilityDependenciesScope.() -> Unit): List<Provider<MinimalExternalModuleDependency>> {
