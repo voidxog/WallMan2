@@ -1,10 +1,8 @@
 plugins {
     composeMultiplatformSetup()
+    id("configurationPlugin")
 }
 
-kotlin {
-
-}
 projectDependencies {
     modules {
         core.data()

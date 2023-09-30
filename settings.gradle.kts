@@ -1,4 +1,5 @@
 pluginManagement {
+    includeBuild("build-logic")
     repositories {
         gradlePluginPortal()
         google()
@@ -20,7 +21,7 @@ rootProject.name = "WallMan"
 rootDir
     .walk()
     .filter {
-        it.name != "buildSrc"
+        it.name != "buildSrc" && it.name != "convention"
                 && it.isDirectory
                 && file("${it.absolutePath}/build.gradle.kts").exists()
     }
