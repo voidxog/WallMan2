@@ -1,32 +1,30 @@
 plugins {
-    composeMultiplatformSetup()
+    configuration()
 }
 
 
-projectDependencies {
+configuration {
     modules {
-        core.data()
+        +projects.common.core.data
     }
     external {
-        colorata.animateAsLifestyle()
+        +libs.colorata.animations
 
-        androidX.lifecycleViewModel()
-        androidX.lifecycleCompose()
+        +libs.androidx.lifecycle.compose
+        +libs.androidx.lifecycle.viewmodel
 
-        compose.navigation()
-        compose.material3WindowSize()
-        compose.uiUtil()
-        compose.uiTooling()
-        compose.uiToolingPreview()
-        compose.rebugger()
+        +libs.compose.navigation
+        +libs.compose.material3
+        +libs.compose.material3.windowsize
+        +libs.compose.ui.util
+        +libs.compose.ui.tooling
+        +libs.compose.ui.tooling.preview
     }
 
     internal {
-        kotlin.collectionsImmutable()
-        accompanist.systemUiController()
-        compose.materialColorUtilities()
-        androidX.palette()
+        +libs.kotlin.immutable
+        +libs.compose.systemui
+        +libs.compose.material3.colors
     }
+    namespace = "core.ui"
 }
-
-androidNamespace("core.ui")

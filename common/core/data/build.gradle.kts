@@ -1,6 +1,6 @@
 plugins {
     serialization()
-    library()
+    configuration()
 }
 
 configuration {

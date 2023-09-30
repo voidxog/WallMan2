@@ -1,26 +1,24 @@
 plugins {
-    multiplatformSetup()
     serialization()
+    configuration()
 }
 
-projectDependencies {
+configuration {
     modules {
-        core.data()
-        core.di()
+        +projects.common.core.data
+        +projects.common.core.di
 
-        wallpapers.impl()
-        wallpapers.api()
+        +projects.common.wallpapers.impl
+        +projects.common.wallpapers.api
 
-        widget.api()
-        widget.impl()
+        +projects.common.widget.api
+        +projects.common.widget.impl
     }
 
     internal {
-        androidX.dataStore()
-        ktor.library()
-
-        compose.material3WindowSize()
+        +libs.androidx.datastore
+        +libs.ktor
+        +libs.compose.material3.windowsize
     }
+    namespace = "core.impl"
 }
-
-androidNamespace("core.impl")

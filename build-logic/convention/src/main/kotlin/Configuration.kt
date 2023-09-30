@@ -71,6 +71,12 @@ fun Configuration.external(block: VisibilityDependenciesScope.() -> Unit) {
     }
 }
 
+fun Configuration.modules(block: ModuleDependenciesScope.() -> Unit) {
+    dependencies {
+        modules(block)
+    }
+}
+
 internal val Project.libs: VersionCatalog
     get() =
     extensions

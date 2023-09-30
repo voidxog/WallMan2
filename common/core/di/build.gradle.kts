@@ -1,15 +1,13 @@
 plugins {
-    multiplatformSetup()
     serialization()
+    configuration()
 }
 
-projectDependencies {
+configuration {
     modules {
-        wallpapers.api()
-
-        widget.api()
-        core.data()
+        +projects.common.wallpapers.api
+        +projects.common.widget.api
+        +projects.common.core.data
     }
+    namespace = "core.di"
 }
-
-androidNamespace("core.di")
