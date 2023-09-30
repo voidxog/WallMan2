@@ -7,19 +7,23 @@ import androidx.annotation.RequiresApi
 import androidx.compose.animation.Animatable
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.AnimationSpec
-import androidx.compose.animation.core.tween
+import androidx.compose.animation.core.AnimationVector1D
+import androidx.compose.animation.core.AnimationVector4D
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
@@ -32,12 +36,12 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.toSize
-import com.colorata.animateaslifestyle.isCompositionLaunched
 import com.colorata.wallman.core.data.animation
+import com.colorata.wallman.core.data.memoize
 import com.colorata.wallman.core.ui.LightDarkPreview
 import com.colorata.wallman.core.ui.theme.WallManPreviewTheme
-import kotlinx.coroutines.CoroutineScope
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.intellij.lang.annotations.Language
@@ -106,82 +110,10 @@ private val SHADER = """
     }
 """.trimIndent()
 
-@Suppress("UNCHECKED_CAST")
-private class UpdateEffectState(
-    private val scope: CoroutineScope,
-    private val disappearOnEnd: Boolean = false,
-    private val effect: () -> Color,
-    private val animationSpec: () -> AnimationSpec<*>,
-    private val size: () -> Size
-) {
-    private val _radius = Animatable(0f)
-    val radius: Float
-        get() = _radius.value
-
-    private val _effectColor = Animatable(Color.Transparent)
-    val effectColor: Color
-        get() = _effectColor.value
-
-    fun update() {
-        scope.launch {
-            if (_effectColor.value != Color.Transparent) {
-                _effectColor.animateTo(Color.Transparent, tween(1000))
-            }
-            _radius.snapTo(0f)
-            launch {
-                _effectColor.animateTo(effect())
-            }
-            val target = calculateUVRadius(size())
-            if (disappearOnEnd) {
-                var launched = false
-                _radius.animateTo(target, animationSpec() as AnimationSpec<Float>) {
-                    if (!launched && value >= target / 2) {
-                        launched = true
-                        launch {
-                            _effectColor.animateTo(
-                                Color.Transparent,
-                                animationSpec() as AnimationSpec<Color>
-                            )
-                        }
-                    }
-                }
-            } else {
-                _radius.animateTo(
-                    target,
-                    animationSpec() as AnimationSpec<Float>
-                )
-            }
-            _radius.snapTo(0f)
-            _effectColor.snapTo(Color.Transparent)
-        }
-    }
-}
-
-@Composable
-private fun rememberUpdateEffectState(
-    key: Any?,
-    size: Size,
-    effectColor: Color,
-    animationSpec: AnimationSpec<*>,
-    disappearOnEnd: Boolean = false
-): UpdateEffectState {
-    val scope = rememberCoroutineScope()
-    val state = remember {
-        UpdateEffectState(scope, effect = {
-            effectColor
-        }, size = {
-            size
-        }, animationSpec = {
-            animationSpec
-        }, disappearOnEnd = disappearOnEnd)
-    }
-    val compositionLaunched = isCompositionLaunched()
-    LaunchedEffect(key) {
-        if (!compositionLaunched) return@LaunchedEffect
-        state.update()
-    }
-    return state
-}
+data class UpdateEffectState(
+    val radius: Animatable<Float, AnimationVector1D> = Animatable(0f),
+    val color: Animatable<Color, AnimationVector4D> = Animatable(Color.Transparent)
+)
 
 @Composable
 fun UpdateEffect(
@@ -191,21 +123,32 @@ fun UpdateEffect(
     effectColor: Color = MaterialTheme.colorScheme.primary,
     animationSpec: AnimationSpec<Float> = MaterialTheme.animation.emphasized(MaterialTheme.animation.durationSpec.extraLong4 * 3)
 ) {
+    val states = remember { mutableStateListOf<UpdateEffectState>() }
+    val scope = rememberCoroutineScope()
+    val updatedEffectColor by rememberUpdatedState(effectColor)
+    LaunchedEffect(key) {
+        scope.launch {
+            val state = UpdateEffectState()
+            states.add(state)
+            scope.launch {
+                state.color.animateTo(updatedEffectColor)
+            }
+            state.radius.animateTo(1f, animationSpec)
+            // Removing is thread safe because there is always single instance of state
+            states.remove(state)
+        }
+    }
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
         UpdateEffectApi33(
-            key = key,
-            modifier = modifier,
+            states = states.toImmutableList(),
             containerColor = containerColor,
-            effectColor = effectColor,
-            animationSpec = animationSpec
+            modifier = modifier,
         )
     } else {
         UpdateEffectApi32(
-            key = key,
-            modifier = modifier,
+            states = states.toImmutableList(),
             containerColor = containerColor,
-            effectColor = effectColor,
-            animationSpec = animationSpec
+            modifier = modifier
         )
     }
 }
@@ -213,61 +156,71 @@ fun UpdateEffect(
 @RequiresApi(33)
 @Composable
 private fun UpdateEffectApi33(
-    key: Any?,
-    modifier: Modifier = Modifier,
+    states: ImmutableList<UpdateEffectState>,
     containerColor: Color,
-    effectColor: Color,
-    animationSpec: AnimationSpec<Float>
+    modifier: Modifier = Modifier,
 ) {
-    val shader = remember { RuntimeShader(SHADER) }
-    var size by remember { mutableStateOf(Size(500f, 500f)) }
-    val state = rememberUpdateEffectState(key, size, effectColor, animationSpec)
+    val statesWithShaders = remember(states) {
+        states.map { it to RuntimeShader(SHADER) }
+    }
     Box(
         modifier
-            .graphicsLayer {
-                clip = true
-                with(shader) {
-                    setFloatUniform("iTime", state.radius)
-                    setFloatUniform("iResolution", size.width, size.height)
-                    setColorUniform("iSparkleColor", state.effectColor.toArgb())
+            .fillMaxSize()
+            .forEach(statesWithShaders) { (state, shader) ->
+                graphicsLayer {
+                    clip = true
+                    with(shader) {
+                        setFloatUniform("iTime", state.radius.value * memoizedCalculateRadius(size))
+                        setColorUniform("iSparkleColor", state.color.value.toArgb())
+                        setFloatUniform(
+                            "iResolution",
+                            size.width,
+                            size.height
+                        )
+                    }
+                    renderEffect =
+                        RenderEffect
+                            .createRuntimeShaderEffect(shader, "in_shader")
+                            .asComposeRenderEffect()
                 }
-                renderEffect =
-                    RenderEffect
-                        .createRuntimeShaderEffect(shader, "in_shader")
-                        .asComposeRenderEffect()
             }
-            .background(containerColor)
-            .onSizeChanged {
-                size = it.toSize()
-            })
+            .background(containerColor))
 }
 
-@Stable
-private fun calculateUVRadius(size: Size): Float {
-    return sqrt((size.width / size.height).pow(2) + (size.height / size.width).pow(2))
+fun <T> Modifier.forEach(list: List<T>, modifier: Modifier.(T) -> Modifier): Modifier =
+    if (list.isEmpty()) this else then(this.modifier(list.last())) then forEach(
+        list.dropLast(1),
+        modifier
+    )
+
+private val memoizedCalculateRadius = memoize<Size, Float> { size ->
+    sqrt((size.width / size.height).pow(2) + (size.height / size.width).pow(2))
 }
 
 @Suppress("UNCHECKED_CAST")
 @Composable
 private fun UpdateEffectApi32(
-    key: Any?,
+    states: ImmutableList<UpdateEffectState>,
     modifier: Modifier = Modifier,
     containerColor: Color,
-    effectColor: Color,
-    animationSpec: AnimationSpec<Float>
 ) {
-    var size by remember { mutableStateOf(Size(500f, 500f)) }
-    val state = rememberUpdateEffectState(key, size, effectColor, animationSpec, disappearOnEnd = true)
     Box(modifier.drawBehind {
         drawRect(containerColor)
-        scale(state.radius * 2f, pivot = center) {
-            drawRect(
-                Brush.radialGradient(
-                    0f to Color.Transparent,
-                    0.5f to state.effectColor.copy(alpha = (1f - state.radius).coerceAtLeast(0f)),
-                    1f to Color.Transparent,
+        states.forEach { state ->
+            val radius = state.radius.value * memoizedCalculateRadius(size)
+            scale(radius * 2f, pivot = center) {
+                drawRect(
+                    Brush.radialGradient(
+                        0f to Color.Transparent,
+                        0.5f to state.color.value.copy(
+                            alpha = (1f - radius).coerceAtLeast(
+                                0f
+                            )
+                        ),
+                        1f to Color.Transparent,
+                    )
                 )
-            )
+            }
         }
     })
 }
