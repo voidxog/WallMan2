@@ -1,14 +1,13 @@
 plugins {
-    composeMultiplatformSetup()
+    id("configuration")
 }
 
-projectDependencies {
+configuration {
     modules {
-        core.data()
-        core.ui()
+        +projects.common.core.data
+        +projects.common.core.ui
 
-        settings.mirror.api()
+        +projects.common.settings.mirror.api
     }
+    namespace = "settings.mirror.ui"
 }
-
-androidNamespace("settings.mirror.ui")

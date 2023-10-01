@@ -1,11 +1,10 @@
 plugins {
-    multiplatformSetup()
+    id("configuration")
 }
 
-projectDependencies {
+configuration {
     modules {
-        core.data()
+        +projects.common.core.data
     }
+    namespace = "settings.mirror.api"
 }
-
-androidNamespace("settings.mirror.api")

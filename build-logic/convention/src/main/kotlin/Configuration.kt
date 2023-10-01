@@ -1,63 +1,84 @@
 import com.android.build.api.dsl.LibraryExtension
+import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.artifacts.VersionCatalog
 import org.gradle.api.artifacts.VersionCatalogsExtension
+import org.gradle.kotlin.dsl.findPlugin
 import org.gradle.kotlin.dsl.getValue
 import org.gradle.kotlin.dsl.getting
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 import org.jetbrains.kotlin.gradle.plugin.KotlinSourceSet
-import javax.inject.Inject
 
-abstract class Configuration @Inject constructor(private val project: Project) {
-    fun dependencies(block: DependenciesScope.() -> Unit) {
+open class Configuration {
+    internal val dependencies = mutableListOf<DependenciesScope>()
+
+    var namespace = ""
+
+
+    fun Configuration.dependencies(block: DependenciesScope.() -> Unit) {
         val scope = DependenciesScope()
         scope.block()
+        dependencies.add(scope)
+    }
+}
 
-        project.kotlin {
-            androidTarget()
-            sourceSets.apply {
-                val commonMain by getting {
-                    dependencies {
-                        scope.modules.forEach {
-                            implementation(it)
-                        }
-                    }
-                    configure(scope.commonMain)
-                }
-                if (scope.commonTest.isNotEmpty()) {
-                    val commonTest by getting {
-                        dependsOn(commonMain)
-                        dependencies {
-                            implementation(kotlin("test"))
-                        }
-                        configure(scope.commonTest)
+internal fun Configuration.apply(project: Project) {
+    val modules = dependencies.flatMap { it.modules }
+    val commonMainDeps = dependencies.flatMap { it.commonMain }
+    val commonTestDeps = dependencies.flatMap { it.commonTest }
+    val androidMainDeps = dependencies.flatMap { it.androidMain }
+    val androidTestDeps = dependencies.flatMap { it.androidTest }
+
+    project.kotlin {
+        androidTarget()
+        sourceSets.apply {
+            val commonMain by getting {
+                dependencies {
+                    modules.forEach {
+                        implementation(it)
                     }
                 }
-                val androidMain by getting {
+                configure(commonMainDeps)
+            }
+            if (commonTestDeps.isNotEmpty()) {
+                val commonTest by getting {
                     dependsOn(commonMain)
-                    configure(scope.androidMain)
-                }
-                if (scope.androidTest.isNotEmpty()) {
-                    val androidTest by getting {
-                        dependsOn(androidMain)
-                        dependencies {
-                            implementation(kotlin("test"))
-                        }
-                        configure(scope.commonTest)
+                    dependencies {
+                        implementation(kotlin("test"))
                     }
+                    configure(commonTestDeps)
+                }
+            }
+            val androidMain by getting {
+                dependsOn(commonMain)
+                configure(androidMainDeps)
+            }
+            if (androidTestDeps.isNotEmpty()) {
+                val androidTest by getting {
+                    dependsOn(androidMain)
+                    dependencies {
+                        implementation(kotlin("test"))
+                    }
+                    configure(androidTestDeps)
                 }
             }
         }
     }
 
-    var namespace = ""
-        set(value) {
-            field = value
-            project.android {
-                this.namespace = "com.colorata.wallman.$value"
-            }
-        }
+    project.android {
+        this.namespace = "com.colorata.wallman.${this@apply.namespace}"
+    }
 }
+
+// Using this block because not able to callback
+// right after configure(it breaks android namespace)
+fun Project.configuration(block: Configuration.() -> Unit) {
+    val configuration = Configuration()
+    configuration.block()
+    configuration.apply(this)
+}
+
+inline fun <reified T : Plugin<*>> Project.plugin(): T? = plugins.findPlugin(T::class)
 
 fun Configuration.internal(block: VisibilityDependenciesScope.() -> Unit) {
     commonMain {
@@ -79,9 +100,10 @@ fun Configuration.modules(block: ModuleDependenciesScope.() -> Unit) {
 
 internal val Project.libs: VersionCatalog
     get() =
-    extensions
-        .getByType(VersionCatalogsExtension::class.java)
-        .named("libs")
+        extensions
+            .getByType(VersionCatalogsExtension::class.java)
+            .named("libs")
+
 internal fun Project.getVersion(name: String): String {
     return libs
         .findVersion(name)
@@ -121,7 +143,7 @@ fun Configuration.androidTest(block: SourceDependenciesScope.() -> Unit) {
     }
 }
 
-private fun KotlinSourceSet.configure(dependencies: List<SourceDependenciesScope>) {
+internal fun KotlinSourceSet.configure(dependencies: List<SourceDependenciesScope>) {
     dependencies {
         dependencies.forEach {
             it.internalDependencies.forEach { dep ->

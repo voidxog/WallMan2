@@ -1,5 +1,5 @@
 plugins {
-    configuration()
+    id("configuration")
 }
 
 configuration {

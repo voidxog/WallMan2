@@ -11,6 +11,7 @@ java {
     targetCompatibility = JavaVersion.VERSION_17
 }
 
+
 tasks.withType<KotlinCompile>().configureEach {
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_17.toString()
@@ -24,8 +25,8 @@ dependencies {
 
 gradlePlugin {
     plugins {
-        register("configurationPlugin") {
-            id = "configurationPlugin"
+        register("configuration") {
+            id = "configuration"
             implementationClass = "ConfigurationPlugin"
         }
     }
