@@ -111,6 +111,8 @@ internal fun Project.getVersion(name: String): String {
         .displayName
 }
 
+fun Project.gradleProperty(name: String): String? = providers.gradleProperty(name).orNull
+
 internal fun Project.kotlin(block: KotlinMultiplatformExtension.() -> Unit) {
     extensions.configure(KotlinMultiplatformExtension::class.java, block)
 }

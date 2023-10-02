@@ -1,17 +1,16 @@
 plugins {
-    multiplatformSetup()
-    serialization()
+    id("configuration")
+    id("serialization")
 }
 
-projectDependencies(commonTestBlock = {}) {
+configuration {
     modules {
-        core.data()
-        categories.api()
+        +projects.common.core.data
+        +projects.common.categories.api
     }
     internal {
-        compose.runtime()
-        compose.material3()
+        +libs.compose.runtime
+        +libs.compose.material3
     }
+    namespace = "wallpapers.api"
 }
-
-androidNamespace("wallpapers.api")

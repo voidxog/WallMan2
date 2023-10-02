@@ -1,14 +1,13 @@
 plugins {
-    composeMultiplatformSetup()
+    id("configuration")
 }
 
-projectDependencies {
+configuration {
     modules {
-        core.data()
-        core.ui()
+        +projects.common.core.data
+        +projects.common.core.ui
 
-        widget.api()
+        +projects.common.widget.api
     }
+    namespace = "widget.ui"
 }
-
-androidNamespace("widget.ui")

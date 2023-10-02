@@ -5,9 +5,10 @@ import org.jetbrains.kotlin.gradle.dsl.KotlinCommonOptions
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 fun LibraryExtension.setup(project: Project) {
-    compileSdk = project.getVersion("app_compilesdk").toIntOrNull()
+    val config = project.projectConfiguration
+    compileSdk = config.compileSdk
     defaultConfig {
-        minSdk = project.getVersion("app_minsdk").toIntOrNull()
+        minSdk = config.minSdk
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_18

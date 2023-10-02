@@ -1,40 +1,39 @@
 plugins {
-    composeMultiplatformSetup()
+    id("configuration")
 }
 
-projectDependencies(androidUnitTestBlock = {}, commonTestBlock = {}) {
+configuration {
     internal {
-        compose.activity()
-        compose.navigation()
+        +libs.compose.activity
+        +libs.compose.navigation
 
-        androidX.activity()
-        androidX.splashscreen()
-        androidX.startup()
+        +libs.androidx.activity
+        +libs.androidx.splashscreen
+        +libs.androidx.startup
     }
     modules {
-        core.impl()
-        core.data()
-        core.ui()
-        core.di()
+        +projects.common.core.impl
+        +projects.common.core.data
+        +projects.common.core.ui
+        +projects.common.core.di
 
-        wallpapers.ui()
-        wallpapers.api()
+        +projects.common.wallpapers.ui
+        +projects.common.wallpapers.api
 
-        categories.api()
-        categories.ui()
+        +projects.common.categories.api
+        +projects.common.categories.ui
 
-        widget.api()
-        widget.impl()
-        widget.ui()
+        +projects.common.widget.api
+        +projects.common.widget.impl
+        +projects.common.widget.ui
 
-        settings.overview.api()
+        +projects.common.settings.overview.api
 
-        settings.overview.ui()
-        settings.about.ui()
-        settings.animation.ui()
-        settings.memory.ui()
-        settings.mirror.ui()
+        +projects.common.settings.overview.ui
+        +projects.common.settings.about.ui
+        +projects.common.settings.animation.ui
+        +projects.common.settings.memory.ui
+        +projects.common.settings.mirror.ui
     }
+    namespace = "shared"
 }
-
-androidNamespace("shared")

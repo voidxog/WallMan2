@@ -1,13 +1,13 @@
 plugins {
-    multiplatformSetup()
+    id("configuration")
 }
 
-projectDependencies {
+configuration {
     modules {
-        core.data()
-        core.di()
-        wallpapers.api()
-    }
-}
+        +projects.common.core.data
+        +projects.common.core.di
 
-androidNamespace("wallpapers.impl")
+        +projects.common.wallpapers.api
+    }
+    namespace = "wallpapers.impl"
+}

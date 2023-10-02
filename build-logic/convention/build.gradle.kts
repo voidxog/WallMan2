@@ -29,5 +29,13 @@ gradlePlugin {
             id = "configuration"
             implementationClass = "ConfigurationPlugin"
         }
+        register("serialization") {
+            id = "serialization"
+            implementationClass = "SerializationPlugin"
+        }
+        register("app") {
+            id = "app"
+            implementationClass = "ApplicationPlugin"
+        }
     }
 }

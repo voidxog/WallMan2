@@ -1,24 +1,24 @@
 plugins {
-    multiplatformSetup()
+    id("configuration")
 }
 
-projectDependencies(
-    androidMainBlock = {
+configuration {
+    androidMain {
         internal {
-            androidX.work()
-            compose.glance()
-            compose.glanceAppWidget()
+            +libs.androidx.work
+            +libs.compose.glance
+            +libs.compose.glance.appwidget
         }
-    }) {
-    modules {
-        core.data()
-        core.di()
-
-        widget.api()
-        widget.uiWidget()
-
-        wallpapers.api()
     }
-}
 
-androidNamespace("widget.impl")
+    modules {
+        +projects.common.core.data
+        +projects.common.core.di
+
+        +projects.common.widget.api
+        +projects.common.widget.uiWidget
+
+        +projects.common.wallpapers.api
+    }
+    namespace = "widget.impl"
+}

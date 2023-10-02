@@ -1,5 +1,5 @@
 plugins {
-    serialization()
+    id("serialization")
     id("configuration")
 }
 

@@ -1,55 +1,31 @@
-import com.colorata.wallman.buildSrc.AppDefaultPlugin
-
 plugins {
-    id("com.android.application")
-    id("org.jetbrains.kotlin.android")
-    id("org.jetbrains.kotlin.plugin.serialization")
-    id("androidx.baselineprofile")
+    id("serialization")
+    id("app")
 }
 
-apply<AppDefaultPlugin>()
-
-android {
-
-    kotlinOptions.apply {
-        jvmTarget = "17"
-        freeCompilerArgs += listOf(
-            "-P",
-            "plugin:androidx.compose.compiler.plugins.kotlin:suppressKotlinVersionCompatibilityCheck=1.9.0"
-        )
-        freeCompilerArgs += listOf(
-            "-P",
-            "plugin:androidx.compose.compiler.plugins.kotlin:reportsDestination=${project.buildDir.absolutePath}"
-        )
-    }
-}
+setupKotlin()
 
 dependencies {
-    implementation("androidx.profileinstaller:profileinstaller:1.3.0")
-    testImplementation(Libraries.Test.junit)
-    androidTestImplementation(Libraries.Test.androidXJunit)
-    androidTestImplementation(Libraries.Compose.uiTest)
-    "baselineProfile"(project(":app:baselineprofile"))
+    implementation(libs.androidx.profileinstaller)
+    testImplementation(libs.test.juint)
+    androidTestImplementation(libs.androidx.junit)
+    androidTestImplementation(libs.compose.ui.test)
+    "baselineProfile"(projects.app.baselineprofile)
 
-    debugImplementation(Libraries.Compose.uiToolingManifest)
-    debugImplementation(Libraries.Compose.uiTooling)
-    implementation(Libraries.Compose.uiToolingPreview)
-    debugImplementation(Libraries.Compose.uiTestManifest)
+    debugImplementation(libs.compose.ui.tooling.manifest)
+    debugImplementation(libs.compose.ui.tooling)
+    implementation(libs.compose.ui.tooling.preview)
+    debugImplementation(libs.compose.ui.test)
 
-    projectModules {
-        shared()
-
-        core.data()
-        core.impl()
-        core.di()
-        core.data()
-
-        settings.about.ui()
-
-        wallpapers.api()
-
-        widget.impl()
-        widget.uiWidget()
+    moduleDependencies {
+        +projects.shared
+        +projects.common.core.data
+        +projects.common.core.impl
+        +projects.common.core.di
+        +projects.common.settings.about.ui
+        +projects.common.wallpapers.api
+        +projects.common.widget.impl
+        +projects.common.widget.uiWidget
     }
 }
 
