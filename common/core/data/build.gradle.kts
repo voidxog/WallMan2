@@ -1,6 +1,6 @@
 plugins {
     id("serialization")
-    id("configuration")
+    alias(libs.plugins.configuration)
 }
 
 configuration {

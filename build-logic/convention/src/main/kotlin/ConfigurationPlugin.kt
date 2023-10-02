@@ -13,6 +13,3 @@ class ConfigurationPlugin : Plugin<Project> {
         project.setupKotlin()
     }
 }
-
-val PluginDependenciesSpec.config: PluginDependencySpec
-    get() = id("configuration")
