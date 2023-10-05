@@ -51,7 +51,8 @@ fun ScreenBackground(
                         drawRect(
                             gradientType.generateBrush(surfaceColor)
                         )
-                    }.fillMaxSize(),
+                    }
+                    .fillMaxSize(),
                 contentScale = ContentScale.Crop
             )
         }

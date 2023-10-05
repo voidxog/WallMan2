@@ -25,12 +25,12 @@ class SettingsViewModel(
     private val navigation: NavigationController
 ) : ViewModel() {
     private val items = persistentListOf(
-        SettingsItem(
+        /*SettingsItem(
             Strings.animations,
             Strings.animationsDescription,
             Icons.Default.Animation,
             Destinations.AnimationScreen()
-        ),
+        ),*/ // TODO: Add in preview release
         SettingsItem(
             Strings.memoryOptimization,
             Strings.keepYourMemoryFree,

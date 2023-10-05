@@ -39,6 +39,7 @@ import androidx.compose.ui.platform.LocalLayoutDirection
 import com.colorata.wallman.core.data.animation
 import com.colorata.wallman.core.data.bitmapAsset
 import com.colorata.wallman.core.ui.LightDarkPreview
+import com.colorata.wallman.core.ui.components.updateEffect
 import com.colorata.wallman.core.ui.modifiers.detectRotation
 import com.colorata.wallman.core.ui.modifiers.displayRotation
 import com.colorata.wallman.core.ui.modifiers.drawWithMask

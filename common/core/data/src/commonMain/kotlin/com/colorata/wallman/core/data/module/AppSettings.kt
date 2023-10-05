@@ -10,5 +10,5 @@ data class AppSettings(
     val mirror: String = "https://sam.nl.tab.digital/s/wqZaeixFAsDEdGe/download?path=/",
     val mirrors: ImmutableList<String> =
         persistentListOf("https://sam.nl.tab.digital/s/wqZaeixFAsDEdGe/download?path=/"),
-    val animationType: AnimationType = AnimationType.Scale
+    val animationType: AnimationType = AnimationType.Slide
 )

@@ -31,7 +31,11 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @Composable
-fun PreviewContainer(key: Any?, modifier: Modifier = Modifier, content: @Composable (RotationState) -> Unit) {
+fun PreviewContainer(
+    key: Any?,
+    modifier: Modifier = Modifier,
+    content: @Composable (RotationState) -> Unit
+) {
     val borderWidth = remember { Animatable(1f) }
     val animation = MaterialTheme.animation
     val duration = MaterialTheme.animation.durationSpec.extraLong4 * 1.5f
@@ -47,20 +51,17 @@ fun PreviewContainer(key: Any?, modifier: Modifier = Modifier, content: @Composa
     val state = rememberRotationState()
     Box(
         modifier
-            .detectRotation(state),
+            .detectRotation(state)
+            .fillMaxSize(),
         contentAlignment = Alignment.Center
     ) {
-        UpdateEffect(
-            key,
+        Box(
             Modifier
                 .displayRotation(state, layer = 0f)
-                .border(
-                    borderWidth.value.dp,
-                    MaterialTheme.colorScheme.primary,
-                    MaterialTheme.shapes.extraLarge
-                )
-                .fillMaxSize()
                 .clip(MaterialTheme.shapes.extraLarge)
+                .updateEffect(key, effectIntensity = 0.05f)
+                .background(MaterialTheme.colorScheme.surfaceVariant)
+                .fillMaxSize()
         )
         content(state)
     }
@@ -85,7 +86,8 @@ private fun PreviewContainerPreview() {
                 Modifier
                     .displayRotation(it, layer = 1f)
                     .size(100.dp)
-                    .background(MaterialTheme.colorScheme.surfaceVariant))
+                    .background(MaterialTheme.colorScheme.surfaceVariant)
+            )
         }
     }
 }

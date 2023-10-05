@@ -3,7 +3,6 @@ package com.colorata.wallman.core.ui.modifiers
 import android.os.Build
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.Easing
-import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.runtime.Composable
@@ -16,12 +15,10 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
 import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.geometry.Size
-import androidx.compose.ui.graphics.RectangleShape
-import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.pointer.pointerInput
-import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.layout.onSizeChanged
+import androidx.compose.ui.unit.IntSize
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import kotlin.math.pow
@@ -44,7 +41,7 @@ private val SpringEasing = Easing { x ->
 interface RotationState {
     fun startRotation()
 
-    fun update(rotation: Offset)
+    fun updateAngles(rotation: Offset)
 
     fun reset()
 
@@ -64,14 +61,21 @@ private class RotationStateImpl(private val scope: CoroutineScope) : RotationSta
 
     override fun startRotation() {
         isRotationInProgress = true
+        angle = Offset.Zero
     }
 
-    override fun update(rotation: Offset) {
+    private var angle = Offset.Zero
+    override fun updateAngles(rotation: Offset) {
+        val update = Offset(
+            (angle.x + rotation.x).coerceIn(-maxAngle, maxAngle),
+            (angle.y + rotation.y).coerceIn(-maxAngle, maxAngle)
+        )
+        angle = update
         scope.launch {
-            _rotationX.animateTo(rotation.x)
+            _rotationX.animateTo(-update.y)
         }
         scope.launch {
-            _rotationY.animateTo(rotation.y)
+            _rotationY.animateTo(update.x)
         }
     }
 
@@ -94,42 +98,29 @@ fun rememberRotationState(): RotationState {
 }
 
 fun Modifier.detectRotation(state: RotationState) = composed {
+    var size by remember { mutableStateOf(IntSize.Zero) }
 
-    var angle by remember { mutableStateOf(Offset.Zero) }
-    var viewSize by remember { mutableStateOf(Size.Zero) }
-    onGloballyPositioned { coordinates ->
-        viewSize = Size(
-            width = coordinates.size.width.toFloat(),
-            height = coordinates.size.height.toFloat()
-        )
-    }
-        .pointerInput(Unit) {
-            detectDragGestures(
-                onDragCancel = {
-                    state.reset()
-                },
-                onDragEnd = {
-                    state.reset()
-                },
-                onDragStart = {
-                    angle = Offset.Zero
-                    state.startRotation()
-                }
-            ) { change, dragAmount ->
-                change.consume()
-                if (viewSize != Size.Zero) {
-                    val newAngle = getRotationAngles(dragAmount, viewSize)
-
-                    val update = Offset(
-                        (angle.x + newAngle.x).coerceIn(-maxAngle, maxAngle),
-                        (angle.y + newAngle.y).coerceIn(-maxAngle, maxAngle)
-                    )
-
-                    angle = update
-                    state.update(Offset(-angle.y, angle.x))
-                }
+    this then onSizeChanged {
+        size = it
+    }.pointerInput(Unit) {
+        detectDragGestures(
+            onDragCancel = {
+                state.reset()
+            },
+            onDragEnd = {
+                state.reset()
+            },
+            onDragStart = {
+                state.startRotation()
+            }
+        ) { change, dragAmount ->
+            change.consume()
+            if (size != IntSize.Zero) {
+                val newAngle = getRotationAngles(dragAmount, size)
+                state.updateAngles(newAngle)
             }
         }
+    }
 }
 
 fun Modifier.displayRotation(
@@ -146,7 +137,7 @@ fun Modifier.displayRotation(
 
 private fun getRotationAngles(
     distance: Offset,
-    size: Size
+    size: IntSize
 ): Offset {
     val acceleration = 3
     val rotationX = (distance.x / size.width) * maxAngle * acceleration

@@ -47,15 +47,15 @@ import com.colorata.wallman.core.data.destination
 import com.colorata.wallman.core.data.rememberString
 import com.colorata.wallman.core.di.LocalGraph
 import com.colorata.wallman.core.ui.animation.animateVisibility
+import com.colorata.wallman.core.ui.animation.animateYOffset
 import com.colorata.wallman.core.ui.list.VisibilityColumn
 import com.colorata.wallman.core.ui.list.VisibilityRow
 import com.colorata.wallman.core.ui.list.animatedAtLaunch
 import com.colorata.wallman.core.ui.list.rememberVisibilityList
-import com.colorata.wallman.core.ui.modifiers.runWhen
-import com.colorata.wallman.core.ui.modifiers.sizeOffset
 import com.colorata.wallman.core.ui.theme.LocalPaddings
 import com.colorata.wallman.core.ui.theme.emphasizedHorizontalEnterExit
 import com.colorata.wallman.core.ui.theme.emphasizedEnterExit
+import com.colorata.wallman.core.ui.theme.emphasizedFade
 import com.colorata.wallman.core.ui.theme.spacing
 import com.colorata.wallman.core.ui.util.LocalWindowSizeConfiguration
 import com.colorata.wallman.settings.animation.ui.animationScreen
@@ -151,9 +151,10 @@ fun BottomBar(currentRoute: String, onClick: (route: String) -> Unit) {
         remember(currentRoute) { currentRoute in quickAccessibleDestinations.map { it.destination.path } }
     Surface(
         tonalElevation = 3.dp, modifier = Modifier
-            .animateVisibility(
-            barVisible, MaterialTheme.animation.emphasizedEnterExit(dp80inPx, Alignment.Bottom), withOffset = true
-        )
+            .animateVisibility(barVisible, MaterialTheme.animation.emphasizedFade())
+            .animateYOffset(
+                if (barVisible) 0f else dp80inPx
+            )
     ) {
         Column {
             VisibilityRow(

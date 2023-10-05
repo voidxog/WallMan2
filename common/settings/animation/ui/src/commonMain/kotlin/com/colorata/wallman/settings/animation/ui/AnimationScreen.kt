@@ -24,6 +24,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.zIndex
 import com.colorata.animateaslifestyle.material3.isCompact
 import com.colorata.wallman.core.data.AnimationType
 import com.colorata.wallman.core.data.Destinations
@@ -43,6 +44,7 @@ import com.colorata.wallman.core.ui.components.VerticalSelector
 import com.colorata.wallman.core.ui.list.VisibilityList
 import com.colorata.wallman.core.ui.list.animatedAtLaunch
 import com.colorata.wallman.core.ui.list.rememberVisibilityList
+import com.colorata.wallman.core.ui.modifiers.displayRotation
 import com.colorata.wallman.core.ui.theme.WallManPreviewTheme
 import com.colorata.wallman.core.ui.theme.emphasizedEnterExit
 import com.colorata.wallman.core.ui.theme.screenPadding
@@ -182,9 +184,10 @@ private fun AnimationPreview(selectedTypeIndex: Int, modifier: Modifier = Modifi
             delay(2000)
         }
     }
-    PreviewContainer(selectedTypeIndex, modifier) {
+    PreviewContainer(selectedTypeIndex, modifier.zIndex(3f)) { rotationState ->
         Box(
             Modifier
+                .displayRotation(rotationState, layer = 1f)
                 .animateVisibility(visible, MaterialTheme.animation.emphasizedEnterExit())
                 .clip(CircleShape)
                 .background(MaterialTheme.colorScheme.primary)
