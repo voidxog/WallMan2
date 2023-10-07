@@ -95,7 +95,7 @@ internal fun DescriptionAndActions(
                         ), Icons.Default.SdCard
                     )
                 )
-                add(Chip(simplifiedLocaleOf(wallpaper.author), Icons.Filled.AccountCircle))
+                add(Chip(wallpaper.author, Icons.Filled.AccountCircle))
             }.toImmutableList()
         }
         Chips(chips = chips, onClick = {

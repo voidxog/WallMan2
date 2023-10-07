@@ -148,7 +148,17 @@ enum class WallpaperPacks(
         checksum = 47208128,
         previewRes = "pfold_licorice_preview",
         minSdk = 28
-    )
+    ),
+    P8(
+        urlPart = "P8",
+        previewName = Strings.p8,
+        url = "P8.apk",
+        packageName = "com.google.pixel8a.livewallpaper",
+        id = 13,
+        checksum = 0,
+        previewRes = "p8_haze_dark",
+        includesDynamic = false
+    ),
 }
 
 fun WallpaperPacks.sizeInMb() = checksum / 1024 / 1024

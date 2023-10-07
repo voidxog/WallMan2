@@ -67,3 +67,20 @@ val Strings.pfold
     get() = simplifiedLocaleOf(
         "Pixel Fold Wallpaper Pack", "Пак обоев \"Pixel Fold\""
     )
+
+val Strings.p8
+    get() = simplifiedLocaleOf(
+        "Pixel 8 Wallpaper Pack", "Пак обоев \"Pixel 8\""
+    )
+
+val Strings.andrewZuckerman
+    get() = simplifiedLocaleOf("Andrew Zuckerman")
+
+val Strings.google
+    get() = simplifiedLocaleOf("Google")
+
+val Strings.lauraDumitru
+    get() = simplifiedLocaleOf("Laura Dumitru")
+
+val Strings.annaKovecses
+    get() = simplifiedLocaleOf("Anna Kövecses")

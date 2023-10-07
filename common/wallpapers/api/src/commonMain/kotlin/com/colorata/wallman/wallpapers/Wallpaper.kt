@@ -28,7 +28,7 @@ data class WallpaperI(
     val staticWallpapers: SerializableImmutableList<StaticWallpaper>,
     val parent: WallpaperPacks,
     val category: WallpaperCategory,
-    val author: String,
+    val author: Polyglot,
     val options: WallpaperOptions
 ) {
     @Immutable
@@ -187,7 +187,7 @@ class AllWallpapersDSL {
 class WallpaperDSL {
     private var dynamicWallpapers: MutableList<DynamicWallpaper> = mutableListOf()
     private var staticWallpapers: MutableList<StaticWallpaper> = mutableListOf()
-    var author: String = "Google"
+    var author: Polyglot = Strings.google
     var category: WallpaperCategory = WallpaperCategory.Appulse
     var parent: WallpaperPacks = WallpaperPacks.P
     var previewName: Polyglot = simplifiedLocaleOf("")
@@ -1123,7 +1123,7 @@ val walls by createWallpapers {
     wallpaper {
         parent = WallpaperPacks.P3
         category = WallpaperCategory.Fancy
-        author = "Laura Dumitru"
+        author = Strings.lauraDumitru
 
         shortName = simplifiedLocaleOf("Pixie", "Пикси")
         description = simplifiedLocaleOf(
@@ -1430,7 +1430,7 @@ val walls by createWallpapers {
     wallpaper {
         parent = WallpaperPacks.P4
         category = WallpaperCategory.Fancy
-        author = "Anna Kövecses"
+        author = Strings.annaKovecses
 
         shortName = simplifiedLocaleOf("Garden", "Сад")
         description = simplifiedLocaleOf(
@@ -1644,7 +1644,7 @@ val walls by createWallpapers {
     wallpaper {
         parent = WallpaperPacks.P6
         category = WallpaperCategory.Garden
-        author = "Andrew Zuckerman"
+        author = Strings.andrewZuckerman
 
         previewName = simplifiedLocaleOf("Blooming Botanicals", "Цветущие Растения")
         description = simplifiedLocaleOf(
@@ -1687,7 +1687,7 @@ val walls by createWallpapers {
     wallpaper {
         parent = WallpaperPacks.P6
         category = WallpaperCategory.Garden
-        author = "Andrew Zuckerman"
+        author = Strings.andrewZuckerman
 
         previewName = simplifiedLocaleOf("Bright Blooms", "Яркие Цветы")
         description = simplifiedLocaleOf(
@@ -1803,7 +1803,7 @@ val walls by createWallpapers {
     wallpaper {
         parent = WallpaperPacks.P7
         category = WallpaperCategory.Birdies
-        author = "Andrew Zuckerman"
+        author = Strings.andrewZuckerman
 
         previewName = simplifiedLocaleOf("Cockatoo", "Какаду")
         description = simplifiedLocaleOf(
@@ -1825,7 +1825,7 @@ val walls by createWallpapers {
     wallpaper {
         parent = WallpaperPacks.P7
         category = WallpaperCategory.Birdies
-        author = "Andrew Zuckerman"
+        author = Strings.andrewZuckerman
 
         previewName = simplifiedLocaleOf("Pied crow", "Пестрая ворона")
         description = simplifiedLocaleOf(
@@ -1855,7 +1855,7 @@ val walls by createWallpapers {
     wallpaper {
         parent = WallpaperPacks.P7
         category = WallpaperCategory.Birdies
-        author = "Andrew Zuckerman"
+        author = Strings.andrewZuckerman
 
         previewName = simplifiedLocaleOf("Green-winged macaw", "Зеленокрылый ара")
         description = simplifiedLocaleOf(
@@ -1877,7 +1877,7 @@ val walls by createWallpapers {
     wallpaper {
         parent = WallpaperPacks.P7
         category = WallpaperCategory.Birdies
-        author = "Andrew Zuckerman"
+        author = Strings.andrewZuckerman
 
         previewName = simplifiedLocaleOf("Azure Jay", "Лазурная сойка")
         description = simplifiedLocaleOf(
@@ -1899,7 +1899,7 @@ val walls by createWallpapers {
     wallpaper {
         parent = WallpaperPacks.P7
         category = WallpaperCategory.Birdies
-        author = "Andrew Zuckerman"
+        author = Strings.andrewZuckerman
 
         previewName = simplifiedLocaleOf("Seagull", "Чайка")
         description = simplifiedLocaleOf(
@@ -1921,7 +1921,7 @@ val walls by createWallpapers {
     wallpaper {
         parent = WallpaperPacks.P6_EXT
         category = WallpaperCategory.Garden
-        author = "Andrew Zuckerman"
+        author = Strings.andrewZuckerman
         performance = DynamicWallpaper.Performance.Demanding
 
         previewName = simplifiedLocaleOf("Flamingo Flower", "Антуриум")
@@ -1943,7 +1943,7 @@ val walls by createWallpapers {
     wallpaper {
         parent = WallpaperPacks.P6_EXT
         category = WallpaperCategory.Garden
-        author = "Andrew Zuckerman"
+        author = Strings.andrewZuckerman
         performance = DynamicWallpaper.Performance.Demanding
 
         previewName = simplifiedLocaleOf("Persian Buttercup", "Лютик азиатский")
@@ -1965,7 +1965,7 @@ val walls by createWallpapers {
     wallpaper {
         parent = WallpaperPacks.P6_EXT
         category = WallpaperCategory.Garden
-        author = "Andrew Zuckerman"
+        author = Strings.andrewZuckerman
         performance = DynamicWallpaper.Performance.Demanding
 
         previewName = simplifiedLocaleOf("Maki Dahlia", "Георгина \"Маки\"")
@@ -1987,7 +1987,7 @@ val walls by createWallpapers {
     wallpaper {
         parent = WallpaperPacks.P6_EXT
         category = WallpaperCategory.Garden
-        author = "Andrew Zuckerman"
+        author = Strings.andrewZuckerman
         performance = DynamicWallpaper.Performance.Demanding
 
         previewName = simplifiedLocaleOf("Boat Orchid", "Цимбидиум")
@@ -2009,7 +2009,7 @@ val walls by createWallpapers {
     wallpaper {
         parent = WallpaperPacks.PFOLD
         category = WallpaperCategory.Birdies
-        author = "Andrew Zuckerman"
+        author = Strings.andrewZuckerman
 
         previewName = simplifiedLocaleOf("Licorice", "Лакрица")
         description = simplifiedLocaleOf(
@@ -2030,7 +2030,7 @@ val walls by createWallpapers {
     wallpaper {
         parent = WallpaperPacks.PFOLD
         category = WallpaperCategory.Birdies
-        author = "Andrew Zuckerman"
+        author = Strings.andrewZuckerman
 
         previewName = simplifiedLocaleOf("Porcelain", "Фарфор")
         description = simplifiedLocaleOf(
@@ -2045,17 +2045,13 @@ val walls by createWallpapers {
         staticWallpaper {
             remoteUrl = "pfold_porcelain_preview"
         }
-
-        options {
-            isNew = true
-        }
     }
 
 
     wallpaper {
         parent = WallpaperPacks.P7A
         category = WallpaperCategory.Birdies
-        author = "Andrew Zuckerman"
+        author = Strings.andrewZuckerman
 
         previewName = simplifiedLocaleOf("Blue-throated macaw", "Синегорлый ара")
         description = simplifiedLocaleOf(
@@ -2071,17 +2067,13 @@ val walls by createWallpapers {
             previewRes = "p7a_arctic_dark_preview"
             remoteUrl = "p7a_arctic_dark_preview"
         }
-
-        options {
-            isNew = true
-        }
     }
 
 
     wallpaper {
         parent = WallpaperPacks.P7A
         category = WallpaperCategory.Birdies
-        author = "Andrew Zuckerman"
+        author = Strings.andrewZuckerman
 
         previewName = simplifiedLocaleOf("Andrean condor", "Андский кондор")
         description = simplifiedLocaleOf(
@@ -2097,17 +2089,13 @@ val walls by createWallpapers {
             previewRes = "p7a_carbon_dark_preview"
             remoteUrl = "p7a_carbon_dark_preview"
         }
-
-        options {
-            isNew = true
-        }
     }
 
 
     wallpaper {
         parent = WallpaperPacks.P7A
         category = WallpaperCategory.Birdies
-        author = "Andrew Zuckerman"
+        author = Strings.andrewZuckerman
 
         shortName = simplifiedLocaleOf("Crane", "Восточный журавль")
         previewName = simplifiedLocaleOf("Grey crowned crane", "Восточный венценосный журавль")
@@ -2124,17 +2112,13 @@ val walls by createWallpapers {
             previewRes = "p7a_cotton_dark_preview"
             remoteUrl = "p7a_cotton_dark_preview"
         }
-
-        options {
-            isNew = true
-        }
     }
 
 
     wallpaper {
         parent = WallpaperPacks.P7A
         category = WallpaperCategory.Birdies
-        author = "Andrew Zuckerman"
+        author = Strings.andrewZuckerman
 
         previewName = simplifiedLocaleOf("Livingstone's turaco", "Турако Ливингстона")
         description = simplifiedLocaleOf(
@@ -2150,7 +2134,180 @@ val walls by createWallpapers {
             previewRes = "p7a_realr_dark_preview"
             remoteUrl = "p7a_realr_dark_preview"
         }
+    }
 
+    // TODO: provide proper description and names
+    wallpaper {
+        parent = WallpaperPacks.P8
+        category = WallpaperCategory.Minerals
+        author = Strings.andrewZuckerman
+
+        previewName = simplifiedLocaleOf("Amethyst's reflection", "Отражение аметиста")
+        description = simplifiedLocaleOf(
+            "Explore the beauty of minerals and their"
+        )
+        staticWallpaper {
+            previewRes = "p8_licorice_light"
+            remoteUrl = "p8_licorice_light"
+        }
+        staticWallpaper {
+            previewRes = "p8_licorice_dark"
+            remoteUrl = "p8_licorice_dark"
+        }
+        options {
+            isNew = true
+        }
+    }
+
+    wallpaper {
+        parent = WallpaperPacks.P8
+        category = WallpaperCategory.Minerals
+        author = Strings.andrewZuckerman
+
+        previewName = simplifiedLocaleOf("Amethyst's reflection", "Отражение аметиста")
+        description = simplifiedLocaleOf(
+            "Explore the beauty of minerals and their"
+        )
+        staticWallpaper {
+            previewRes = "p8_haze_light"
+            remoteUrl = "p8_haze_light"
+        }
+        staticWallpaper {
+            previewRes = "p8_haze_dark"
+            remoteUrl = "p8_haze_dark"
+        }
+        options {
+            isNew = true
+        }
+    }
+
+    wallpaper {
+        parent = WallpaperPacks.P8
+        category = WallpaperCategory.Minerals
+        author = Strings.andrewZuckerman
+
+        previewName = simplifiedLocaleOf("Amethyst's reflection", "Отражение аметиста")
+        description = simplifiedLocaleOf(
+            "Explore the beauty of minerals and their"
+        )
+        staticWallpaper {
+            previewRes = "p8_jade_light"
+            remoteUrl = "p8_jade_light"
+        }
+        staticWallpaper {
+            previewRes = "p8_jade_dark"
+            remoteUrl = "p8_jade_dark"
+        }
+        options {
+            isNew = true
+        }
+    }
+
+    wallpaper {
+        parent = WallpaperPacks.P8
+        category = WallpaperCategory.Minerals
+        author = Strings.andrewZuckerman
+
+        previewName = simplifiedLocaleOf("Amethyst's reflection", "Отражение аметиста")
+        description = simplifiedLocaleOf(
+            "Explore the beauty of minerals and their"
+        )
+        staticWallpaper {
+            previewRes = "p8_peony_light"
+            remoteUrl = "p8_peony_light"
+        }
+        staticWallpaper {
+            previewRes = "p8_peony_dark"
+            remoteUrl = "p8_peony_dark"
+        }
+        options {
+            isNew = true
+        }
+    }
+
+    wallpaper { 
+        parent = WallpaperPacks.P8
+        category = WallpaperCategory.Minerals
+        author = Strings.andrewZuckerman
+
+        previewName = simplifiedLocaleOf("Biotite's reflection", "Отражение биотита")
+        description = simplifiedLocaleOf(
+            "Explore the beauty of minerals and their"
+        )
+        staticWallpaper {
+            previewRes = "p8_pro_licorice_light"
+            remoteUrl = "p8_pro_licorice_light"
+        }
+        staticWallpaper {
+            previewRes = "p8_pro_licorice_dark"
+            remoteUrl = "p8_pro_licorice_dark"
+        }
+        options {
+            isNew = true
+        }
+    }
+
+    wallpaper {
+        parent = WallpaperPacks.P8
+        category = WallpaperCategory.Minerals
+        author = Strings.andrewZuckerman
+
+        previewName = simplifiedLocaleOf("Biotite's reflection", "Отражение биотита")
+        description = simplifiedLocaleOf(
+            "Explore the beauty of minerals and their"
+        )
+        staticWallpaper {
+            previewRes = "p8_pro_jade_light"
+            remoteUrl = "p8_pro_jade_light"
+        }
+        staticWallpaper {
+            previewRes = "p8_pro_jade_dark"
+            remoteUrl = "p8_pro_jade_dark"
+        }
+        options {
+            isNew = true
+        }
+    }
+
+    wallpaper {
+        parent = WallpaperPacks.P8
+        category = WallpaperCategory.Minerals
+        author = Strings.andrewZuckerman
+
+        previewName = simplifiedLocaleOf("Biotite's reflection", "Отражение биотита")
+        description = simplifiedLocaleOf(
+            "Explore the beauty of minerals and their"
+        )
+        staticWallpaper {
+            previewRes = "p8_pro_porcelain_light"
+            remoteUrl = "p8_pro_porcelain_light"
+        }
+        staticWallpaper {
+            previewRes = "p8_pro_porcelain_dark"
+            remoteUrl = "p8_pro_porcelain_dark"
+        }
+        options {
+            isNew = true
+        }
+    }
+
+    wallpaper {
+        parent = WallpaperPacks.P8
+        category = WallpaperCategory.Minerals
+        author = Strings.andrewZuckerman
+
+        previewName = simplifiedLocaleOf("Biotite's reflection", "Отражение биотита")
+        description = simplifiedLocaleOf(
+            "Explore the beauty of minerals and their"
+        )
+        staticWallpaper {
+            previewRes = "p8_pro_sky_light"
+            remoteUrl = "p8_pro_sky_light"
+        }
+        staticWallpaper {
+            previewRes = "p8_pro_sky_dark"
+            remoteUrl = "p8_pro_sky_dark"
+        }
         options {
             isNew = true
         }
