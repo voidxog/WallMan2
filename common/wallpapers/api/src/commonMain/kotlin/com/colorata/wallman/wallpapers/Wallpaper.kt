@@ -2136,15 +2136,15 @@ val walls by createWallpapers {
         }
     }
 
-    // TODO: provide proper description and names
     wallpaper {
         parent = WallpaperPacks.P8
         category = WallpaperCategory.Minerals
         author = Strings.andrewZuckerman
 
-        previewName = simplifiedLocaleOf("Amethyst's reflection", "Отражение аметиста")
+        previewName = simplifiedLocaleOf("Amethyst", "Аметист")
         description = simplifiedLocaleOf(
-            "Explore the beauty of minerals and their"
+            "Amethyst, whose name translates as \"cure\", the rarest and most beautiful of quartz, has a wide range of shades from pale lilac to rich purple.",
+            "Аметист, название которого переводится как \"излечение\", самый редкий и красивый из кварцев, имеет широкий диапазон оттенков от бледно-сиреневого до насыщенного пурпурного."
         )
         staticWallpaper {
             previewRes = "p8_licorice_light"
@@ -2164,9 +2164,10 @@ val walls by createWallpapers {
         category = WallpaperCategory.Minerals
         author = Strings.andrewZuckerman
 
-        previewName = simplifiedLocaleOf("Amethyst's reflection", "Отражение аметиста")
+        previewName = simplifiedLocaleOf("Demantoid", "Демантоид")
         description = simplifiedLocaleOf(
-            "Explore the beauty of minerals and their"
+            "The light passing through the demantoid plays with all the colors of the rainbow due to the high refractive index. The name of this mineral comes from the German word \"diamant\", which means \"diamond\", because of the similar color and luster.",
+            "Свет, проходящий через демантоид, играет всеми цветами радуги благодаря высокому показателю преломления. Название этого минерала происходит от немецкого слова \"diamant\", что означает \"алмаз\", из-за схожей окраски и блеска."
         )
         staticWallpaper {
             previewRes = "p8_haze_light"
@@ -2186,9 +2187,10 @@ val walls by createWallpapers {
         category = WallpaperCategory.Minerals
         author = Strings.andrewZuckerman
 
-        previewName = simplifiedLocaleOf("Amethyst's reflection", "Отражение аметиста")
+        previewName = simplifiedLocaleOf("Baryte", "Барит")
         description = simplifiedLocaleOf(
-            "Explore the beauty of minerals and their"
+            "Barite is the only element on Earth that can protect against X-radiation. Due to its rejuvenating properties, it is also used in cosmetology.",
+            "Барит - единственный на Земле элемент, способный защитить от X-излучения. Благодаря своим омолаживающим свойствам, он также используется в косметологии."
         )
         staticWallpaper {
             previewRes = "p8_jade_light"
@@ -2208,9 +2210,10 @@ val walls by createWallpapers {
         category = WallpaperCategory.Minerals
         author = Strings.andrewZuckerman
 
-        previewName = simplifiedLocaleOf("Amethyst's reflection", "Отражение аметиста")
+        previewName = simplifiedLocaleOf("Topaz", "Топаз")
         description = simplifiedLocaleOf(
-            "Explore the beauty of minerals and their"
+            "Topaz is one of the hardest gemstones formed from molten magma or hot water rich in fluorine. Its hardness on the Mohs scale is 8, which makes it the second hardest after diamond.",
+            "Топаз - один из самых твердых драгоценных камней, образующийся из расплавленной магмы или горячей воды, богатой фтором. Его твердость по шкале Мооса составляет 8, что делает его вторым по твердости после алмаза."
         )
         staticWallpaper {
             previewRes = "p8_peony_light"
@@ -2225,14 +2228,15 @@ val walls by createWallpapers {
         }
     }
 
-    wallpaper { 
+    wallpaper {
         parent = WallpaperPacks.P8
         category = WallpaperCategory.Minerals
         author = Strings.andrewZuckerman
 
-        previewName = simplifiedLocaleOf("Biotite's reflection", "Отражение биотита")
+        previewName = simplifiedLocaleOf("Biotite", "Биотит")
         description = simplifiedLocaleOf(
-            "Explore the beauty of minerals and their"
+            "This mineral is very soft, it can be melted even under a candle flame. The hardness of biotite on the Mohs scale is 2, which makes it the second softest mineral after talc.",
+            "Этот минерал является очень мягким, его можно расплавить даже под свечным пламенем. Твердость биотита по шкале Мооса составляет 2, что делает его вторым по мягкости минералом после талька."
         )
         staticWallpaper {
             previewRes = "p8_pro_licorice_light"
@@ -2252,9 +2256,10 @@ val walls by createWallpapers {
         category = WallpaperCategory.Minerals
         author = Strings.andrewZuckerman
 
-        previewName = simplifiedLocaleOf("Biotite's reflection", "Отражение биотита")
+        previewName = simplifiedLocaleOf("Apophyllite", "Апофиллит")
         description = simplifiedLocaleOf(
-            "Explore the beauty of minerals and their"
+            "Apophyllite is often used as a conductor due to the high water content. It is very brittle and brittle, which makes it an extremely rare mineral.",
+            "Апофиллит часто используют в качестве проводника из-за большого содержания воды. Он является очень хрупким и ломким, что делает его чрезвычайно редким минералом."
         )
         staticWallpaper {
             previewRes = "p8_pro_jade_light"
@@ -2274,9 +2279,10 @@ val walls by createWallpapers {
         category = WallpaperCategory.Minerals
         author = Strings.andrewZuckerman
 
-        previewName = simplifiedLocaleOf("Biotite's reflection", "Отражение биотита")
+        previewName = simplifiedLocaleOf("Smoky quartz", "Дымчатый кварц")
         description = simplifiedLocaleOf(
-            "Explore the beauty of minerals and their"
+            "The formation of smoky quartz is a long process that can last millions of years. The longer the process takes, the darker the mineral itself becomes, but this process can be reversed by heating",
+            "Образование дымчатого кварца - это долгий процесс, который может длиться миллионы лет. Чем дольше происходит процесс, тем темнее становится сам минерал, однако этот процесс можно обратить вспять нагреванием"
         )
         staticWallpaper {
             previewRes = "p8_pro_porcelain_light"
@@ -2296,9 +2302,10 @@ val walls by createWallpapers {
         category = WallpaperCategory.Minerals
         author = Strings.andrewZuckerman
 
-        previewName = simplifiedLocaleOf("Biotite's reflection", "Отражение биотита")
+        previewName = simplifiedLocaleOf("Fluorite", "Флюорит")
         description = simplifiedLocaleOf(
-            "Explore the beauty of minerals and their"
+            "When heated, fluorite shines in the dark with a delicate bluish or green color. This is where the term \"fluorescence\" comes from",
+            "При нагревании флюорит светит в темноте нежным голубоватым или зелёным цветом. Именно отсюда происходит термин \"флюоресценция\""
         )
         staticWallpaper {
             previewRes = "p8_pro_sky_light"

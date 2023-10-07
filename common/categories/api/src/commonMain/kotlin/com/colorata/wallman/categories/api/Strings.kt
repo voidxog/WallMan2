@@ -55,5 +55,8 @@ val Strings.birdies
 val Strings.minerals
     get() = WallpaperCategoryLocale(
         simplifiedLocaleOf("Minerals", "Минералы"),
-        simplifiedLocaleOf("", "") // TODO: Provide description
+        simplifiedLocaleOf(
+            "Explore unique crystals right on your screen - from the softest to the hardest.",
+            "Исследуйте уникальные кристаллы прямо на вашем экране - от самых мягких до самых твердых."
+        )
     )
