@@ -10,6 +10,7 @@ import com.colorata.wallman.core.data.Result
 import com.colorata.wallman.core.data.launchIO
 import com.colorata.wallman.core.data.module.Logger
 import com.colorata.wallman.core.data.module.throwable
+import com.colorata.wallman.core.data.runResulting
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
@@ -41,7 +42,8 @@ actual class WallpaperProviderImpl(
     @SuppressLint("MissingPermission")
     override fun installStaticWallpaper(path: String): Flow<Result<Unit>> {
         return flow {
-            runCatching {
+            val result = runResulting {
+                emit(Result.Loading(0f))
                 val bitmap = BitmapFactory.decodeFile(path)
                 // Setting wallpapers for both lock and home screen
                 // because some OS set only to home screen by default
@@ -51,14 +53,16 @@ actual class WallpaperProviderImpl(
                     /* allowBackup = */ true,
                     /* which = */ WallpaperManager.FLAG_LOCK
                 )
-
+                emit(Result.Loading(0.5f))
                 wallpaperManager.setBitmap(
                     /* fullImage = */ bitmap,
                     /* visibleCropHint = */ null,
                     /* allowBackup = */ true,
                     /* which = */ WallpaperManager.FLAG_SYSTEM
                 )
-            }.onSuccess { emit(Result.Success(Unit)) }.onFailure { emit(Result.Error(it)) }
+                emit(Result.Loading(1f))
+            }
+            emit(result)
         }
     }
 

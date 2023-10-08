@@ -19,6 +19,14 @@ inline fun <T, R> Result<T>.map(block: (T) -> R): Result<R> {
     }
 }
 
+inline fun <T> Result<T>.mapLoading(convert: (progress: Float) -> Float): Result<T> {
+    return when (this) {
+        is Result.Error -> this
+        is Result.Loading -> Result.Loading(convert(progress))
+        is Result.Success -> this
+    }
+}
+
 inline fun <T> Result<T>.onError(block: (throwable: Throwable) -> Unit): Result<T> {
     if (this is Result.Error) block(throwable)
     return this

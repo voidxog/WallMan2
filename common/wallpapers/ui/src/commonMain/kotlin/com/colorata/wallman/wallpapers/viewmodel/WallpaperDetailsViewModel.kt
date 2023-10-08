@@ -39,12 +39,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
 
 fun WallpapersModule.WallpaperDetailsViewModel(wallpaperIndex: Int) = WallpaperDetailsViewModel(
-    wallpapersRepository,
-    wallpaperIndex,
-    wallpaperManager,
-    intentHandler,
-    permissionHandler,
-    logger
+    wallpapersRepository, wallpaperIndex, wallpaperManager, intentHandler, permissionHandler, logger
 )
 
 class WallpaperDetailsViewModel(
@@ -210,15 +205,24 @@ class WallpaperDetailsViewModel(
                 action is WallpaperI.ActionType.Install && selectedWallpaperType.value == WallpaperI.SelectedWallpaperType.Static && action.available -> {
                     val selectedWallpaper = selectedBaseWallpaper.value
                     require(selectedWallpaper is StaticWallpaper) { "Selected Wallpaper is not static" }
+
                     wallpaperManager.installStaticWallpaper(selectedWallpaper).collect {
                         actionType.value = when (it) {
-                            is Result.Loading -> WallpaperI.ActionType.Installing
+                            is Result.Loading -> {
+                                progress.value = it.progress * 100f
+                                WallpaperI.ActionType.Installing(it.progress)
+                            }
+
                             is Result.Error -> {
                                 logger.throwable(it.throwable)
+                                progress.value = 100f
                                 WallpaperI.ActionType.Error
                             }
 
-                            is Result.Success -> WallpaperI.ActionType.Installed
+                            is Result.Success -> {
+                                progress.value = 100f
+                                WallpaperI.ActionType.Installed
+                            }
                         }
                     }
                 }
@@ -236,8 +240,7 @@ class WallpaperDetailsViewModel(
             if (updatedBaseWallpaper != null) selectedBaseWallpaper.value = updatedBaseWallpaper
         } else {
             selectedBaseWallpaper.value =
-                if (type == WallpaperI.SelectedWallpaperType.Dynamic && wallpaper.supportsDynamicWallpapers())
-                    wallpaper.dynamicWallpapers.first()
+                if (type == WallpaperI.SelectedWallpaperType.Dynamic && wallpaper.supportsDynamicWallpapers()) wallpaper.dynamicWallpapers.first()
                 else wallpaper.staticWallpapers.first()
         }
     }
@@ -263,16 +266,21 @@ class WallpaperDetailsViewModel(
         val wallpaperVariants by wallpaperVariants.collectAsState()
         val showPermissionRequest by showPermissionRequest.collectAsState()
         val showPerformanceWarning by showPerformanceWarning.collectAsState()
+
+        val selectorsDisabled = action is WallpaperI.ActionType.Installing ||
+                cacheState == DynamicWallpaper.DynamicWallpaperCacheState.Downloading
+
         return@lazyMolecule WallpaperDetailsScreenState(
-            wallpaper,
-            selectedWallpaper,
-            wallpaperVariants,
-            downloadProgress,
-            cacheState,
-            selectedType,
-            action,
-            showPermissionRequest,
-            showPerformanceWarning
+            wallpaper = wallpaper,
+            selectedWallpaper = selectedWallpaper,
+            wallpaperVariants = wallpaperVariants,
+            downloadProgress = downloadProgress,
+            cacheState = cacheState,
+            selectedWallpaperType = selectedType,
+            actionType = action,
+            showPermissionRequest = showPermissionRequest,
+            showPerformanceWarning = showPerformanceWarning,
+            selectorsDisabled = selectorsDisabled
         ) { event ->
             when (event) {
                 WallpaperDetailsScreenEvent.ClickOnActionButton -> onActionButtonClick()
@@ -282,15 +290,13 @@ class WallpaperDetailsViewModel(
                     if (coordinates != null) intentHandler.goToMaps(coordinates)
                 }
 
-                is WallpaperDetailsScreenEvent.SelectWallpaperType ->
-                    if (action != WallpaperI.ActionType.Installing) selectWallpaperType(
-                        event.type
-                    )
+                is WallpaperDetailsScreenEvent.SelectWallpaperType -> if (!selectorsDisabled) selectWallpaperType(
+                    event.type
+                )
 
-                is WallpaperDetailsScreenEvent.SelectBaseWallpaper ->
-                    if (action != WallpaperI.ActionType.Installing) selectBaseWallpaper(
-                        event.wallpaper
-                    )
+                is WallpaperDetailsScreenEvent.SelectBaseWallpaper -> if (!selectorsDisabled) selectBaseWallpaper(
+                    event.wallpaper
+                )
 
                 WallpaperDetailsScreenEvent.DismissPermissionRequest -> this.showPermissionRequest.value =
                     false
@@ -324,6 +330,7 @@ class WallpaperDetailsViewModel(
         val actionType: WallpaperI.ActionType,
         val showPermissionRequest: Boolean = false,
         val showPerformanceWarning: Boolean = false,
+        val selectorsDisabled: Boolean = false,
         val onEvent: (WallpaperDetailsScreenEvent) -> Unit
     )
 

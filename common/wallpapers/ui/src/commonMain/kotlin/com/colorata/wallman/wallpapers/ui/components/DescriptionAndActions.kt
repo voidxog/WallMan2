@@ -20,7 +20,6 @@ import com.colorata.wallman.core.data.animation
 import com.colorata.wallman.core.data.formatted
 import com.colorata.wallman.core.data.materialSharedAxisX
 import com.colorata.wallman.core.data.mutate
-import com.colorata.wallman.core.data.simplifiedLocaleOf
 import com.colorata.wallman.core.ui.LightDarkPreview
 import com.colorata.wallman.core.ui.animation.animateVisibility
 import com.colorata.wallman.core.ui.list.VisibilityList
@@ -78,7 +77,7 @@ internal fun DescriptionAndActions(
                 )
             },
             Modifier.animateVisibility(visibilityList.visible[3], animationSpec),
-            disableNotSelected = state.actionType == WallpaperI.ActionType.Installing
+            disableNotSelected = state.selectorsDisabled
         )
         val chips = remember {
             persistentListOf<Chip>().mutate {
@@ -111,7 +110,7 @@ internal fun DescriptionAndActions(
                 )
             },
             Modifier.animateVisibility(visibilityList.visible[5], animationSpec),
-            disableNotSelected = state.actionType == WallpaperI.ActionType.Installing
+            disableNotSelected = state.selectorsDisabled
         )
         Spacer(Modifier.height(80.dp))
     }

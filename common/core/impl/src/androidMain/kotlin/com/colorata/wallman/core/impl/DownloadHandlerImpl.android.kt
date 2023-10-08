@@ -156,7 +156,7 @@ private suspend fun HttpClient.downloadLarge(
         val channel: ByteReadChannel = response.body()
         val totalLength = response.contentLength()?.toFloat() ?: 100f
         while (!channel.isClosedForRead) {
-            val packet = channel.readRemaining(kotlin.io.DEFAULT_BUFFER_SIZE.toLong())
+            val packet = channel.readRemaining(DEFAULT_BUFFER_SIZE.toLong())
             while (packet.isNotEmpty) {
                 val bytes = packet.readBytes()
                 file.appendBytes(bytes)

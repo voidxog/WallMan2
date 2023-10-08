@@ -5,11 +5,14 @@ import com.colorata.wallman.core.data.module.AppsProvider
 import com.colorata.wallman.core.data.module.DownloadHandler
 import com.colorata.wallman.core.data.module.SystemProvider
 import com.colorata.wallman.core.data.Result
+import com.colorata.wallman.core.data.map
+import com.colorata.wallman.core.data.mapLoading
 import com.colorata.wallman.core.data.mutate
 import com.colorata.wallman.core.data.runResulting
 import com.colorata.wallman.wallpapers.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.launch
 import java.io.File
 
 actual class WallpaperManagerImpl(
@@ -88,19 +91,26 @@ actual class WallpaperManagerImpl(
 
     override fun installStaticWallpaper(wallpaper: StaticWallpaper): Flow<Result<Unit>> {
         val subPath = wallpaper.fullUrl()
-        return flow {
-            emit(Result.Loading(0f))
+        return channelFlow {
+            send(Result.Loading(0f))
             val localPath = "$cacheStorage/$subPath"
             val downloadResult = downloadHandler.downloadFile(
                 settings.value.mirror + subPath,
                 localPath
-            )
-            if (downloadResult is Result.Error) {
-                emit(downloadResult)
-                return@flow
+            ) {
+                launch {
+                    send(Result.Loading(it / 3f))
+                }
             }
-            wallpaperProvider.installStaticWallpaper(localPath).collect {
-                emit(it)
+            if (downloadResult is Result.Error) {
+                send(downloadResult)
+                return@channelFlow
+            }
+            wallpaperProvider.installStaticWallpaper(localPath).collect { result ->
+                send(when (result) {
+                    is Result.Loading -> result.mapLoading { 0.3f + 2 * result.progress / 3f }
+                    else -> result
+                })
             }
         }
     }

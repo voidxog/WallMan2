@@ -36,7 +36,7 @@ data class WallpaperI(
         class Install(available: Boolean) :
             ActionType(available, Strings.ApplyStates.notApplied)
 
-        data object Installing :
+        data class Installing(val progress: Float):
             ActionType(available = true, Strings.ApplyStates.applying)
 
         data object Installed :
