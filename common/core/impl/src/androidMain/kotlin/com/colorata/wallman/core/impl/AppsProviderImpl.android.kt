@@ -6,9 +6,11 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.content.pm.PackageManager
 import android.net.Uri
+import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import com.colorata.wallman.core.data.module.AppsProvider
 import com.colorata.wallman.core.data.Result
+import com.colorata.wallman.core.data.runResulting
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import java.io.File
@@ -36,7 +38,7 @@ class AppsProviderImpl(private val context: Context) : AppsProvider {
     }
 
     override fun installApp(path: String): Result<Unit> {
-        return runCatching {
+        return runResulting {
             val intent = Intent(Intent.ACTION_VIEW)
             intent.apply {
                 setDataAndType(
@@ -50,18 +52,16 @@ class AppsProviderImpl(private val context: Context) : AppsProvider {
                 addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             }
             intent.start()
-            return@runCatching Result.Success(Unit)
-        }.getOrElse { Result.Error(it) }
+        }
     }
 
     override fun deleteApp(packageName: String): Result<Unit> {
-        return runCatching {
+        return runResulting {
             val intent = Intent(
                 Intent.ACTION_DELETE, Uri.parse("package:$packageName")
             ).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             intent.start()
-            Result.Success(Unit)
-        }.getOrElse { Result.Error(it) }
+        }
     }
 
     override fun update() {
@@ -76,6 +76,7 @@ class AppsProviderImpl(private val context: Context) : AppsProvider {
     }
 
     override fun load() {
+        update()
         val intentFilter = IntentFilter()
         intentFilter.addAction(Intent.ACTION_PACKAGE_ADDED)
         intentFilter.addAction(Intent.ACTION_PACKAGE_REMOVED)
@@ -85,7 +86,7 @@ class AppsProviderImpl(private val context: Context) : AppsProvider {
         receiver = PackageReceiver {
             update()
         }
-        context.registerReceiver(receiver, intentFilter)
+        ContextCompat.registerReceiver(context, receiver, intentFilter, ContextCompat.RECEIVER_NOT_EXPORTED)
     }
 
     private fun getInstalledApps(): List<String> {

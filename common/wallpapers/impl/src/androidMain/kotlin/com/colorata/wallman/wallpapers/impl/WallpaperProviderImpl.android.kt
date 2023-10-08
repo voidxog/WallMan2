@@ -43,7 +43,21 @@ actual class WallpaperProviderImpl(
         return flow {
             runCatching {
                 val bitmap = BitmapFactory.decodeFile(path)
-                wallpaperManager.setBitmap(bitmap)
+                // Setting wallpapers for both lock and home screen
+                // because some OS set only to home screen by default
+                wallpaperManager.setBitmap(
+                    /* fullImage = */ bitmap,
+                    /* visibleCropHint = */ null,
+                    /* allowBackup = */ true,
+                    /* which = */ WallpaperManager.FLAG_LOCK
+                )
+
+                wallpaperManager.setBitmap(
+                    /* fullImage = */ bitmap,
+                    /* visibleCropHint = */ null,
+                    /* allowBackup = */ true,
+                    /* which = */ WallpaperManager.FLAG_SYSTEM
+                )
             }.onSuccess { emit(Result.Success(Unit)) }.onFailure { emit(Result.Error(it)) }
         }
     }
