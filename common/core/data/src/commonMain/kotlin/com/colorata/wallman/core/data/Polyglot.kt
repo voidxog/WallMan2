@@ -22,8 +22,6 @@ fun simplifiedLocaleOf(
     )
 )
 
-fun a() {}
-
 fun Polyglot.formatted(vararg args: Any?) = simplifiedLocaleOf(
     languageMap["en"]?.format(*args) ?: default,
     languageMap["ru"]?.format(*args) ?: default

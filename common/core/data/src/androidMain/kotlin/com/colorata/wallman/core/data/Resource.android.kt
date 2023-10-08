@@ -46,8 +46,10 @@ private class AndroidBitmapAssetStore(
                     assets[assetName] = notCached
                 }
             }
+            notCached.prepareToDraw()
             return notCached
         }
+        asset.prepareToDraw()
         return asset
     }
 
