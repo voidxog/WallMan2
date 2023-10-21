@@ -108,7 +108,7 @@ actual class WallpaperManagerImpl(
             }
             wallpaperProvider.installStaticWallpaper(localPath).collect { result ->
                 send(when (result) {
-                    is Result.Loading -> result.mapLoading { 0.3f + 2 * result.progress / 3f }
+                    is Result.Loading -> result.mapLoading { 0.5f + result.progress / 2f }
                     else -> result
                 })
             }

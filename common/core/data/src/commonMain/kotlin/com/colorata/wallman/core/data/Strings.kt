@@ -67,6 +67,7 @@ object Strings {
     val mirrors = simplifiedLocaleOf("Mirrors", "Зеркала")
     val mirror = simplifiedLocaleOf("Mirror", "Зеркало")
     val mirror1 = simplifiedLocaleOf("Mirror 1", "Зеркало 1")
+    val githubMirror = simplifiedLocaleOf("Github Mirror", "Зеркало Github")
 
     val aboutWallMan = simplifiedLocaleOf("About WallMan", "О WallMan")
     val versionOfWallMan = simplifiedLocaleOf("Version of WallMan", "Версия WallMan")

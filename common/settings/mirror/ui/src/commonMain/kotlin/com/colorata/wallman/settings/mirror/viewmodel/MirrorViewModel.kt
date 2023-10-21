@@ -23,6 +23,10 @@ class MirrorViewModel(
         ), Mirror(
             Strings.mirror1,
             "https://shared02.opsone-cloud.ch/index.php/s/CJW7DGrKskNJMm9/download?path=/"
+        ),
+        Mirror(
+            Strings.githubMirror,
+            "https://github.com/Colorata/WallManAssets/raw/main/"
         )
     )
     val settings = applicationSettings.settings()
