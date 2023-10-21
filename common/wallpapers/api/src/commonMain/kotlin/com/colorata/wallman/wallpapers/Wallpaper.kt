@@ -257,6 +257,19 @@ class WallpaperDSL {
     }
 }
 
+fun WallpaperDSL.staticWallpaper(previewAndUrl: String, block: StaticWallpaperDSL.() -> Unit = {}) {
+    staticWallpaper {
+        previewRes = previewAndUrl
+        remoteUrl = previewAndUrl
+        block()
+    }
+}
+
+fun WallpaperDSL.lightDarkStaticWallpaper(previewAndUrl: String, block: StaticWallpaperDSL.() -> Unit = {}) {
+    staticWallpaper(previewAndUrl + "_light", block)
+    staticWallpaper(previewAndUrl + "_dark", block)
+}
+
 class OptionsDSL {
     var isNew = false
     var isRetro = false
@@ -1849,6 +1862,7 @@ val walls by createWallpapers {
             previewRes = "p7_obsidian_dark_preview"
             remoteUrl = "p7_obsidian_dark_preview"
         }
+        staticWallpaper("p7_obsidian")
     }
 
 
@@ -1914,6 +1928,74 @@ val walls by createWallpapers {
         staticWallpaper {
             previewRes = "p7_haze_dark_preview"
             remoteUrl = "p7_haze_dark_preview"
+        }
+    }
+
+    wallpaper {
+        parent = WallpaperPacks.P7
+        category = WallpaperCategory.Birdies
+        author = Strings.andrewZuckerman
+
+        previewName = simplifiedLocaleOf("Blue-fronted amazon", "Синелобый амазон")
+        description = simplifiedLocaleOf(
+            "The seagulls are universal. They are the least specialised of all the seabirds, and their body allows for equal adeptness in swimming, flying, and walking.",
+            "Чайки - универсальны. Они наименее специализированы из всех морских птиц, и их тело позволяет одинаково хорошо плавать, летать и ходить."
+        ) // TODO
+
+        lightDarkStaticWallpaper("p7_amazon")
+        options {
+            isNew = true
+        }
+    }
+
+    wallpaper {
+        parent = WallpaperPacks.P7
+        category = WallpaperCategory.Birdies
+        author = Strings.andrewZuckerman
+
+        previewName = simplifiedLocaleOf("Bourke's parrot", "Розовобрюхий попугайчик")
+        description = simplifiedLocaleOf(
+            "The seagulls are universal. They are the least specialised of all the seabirds, and their body allows for equal adeptness in swimming, flying, and walking.",
+            "Чайки - универсальны. Они наименее специализированы из всех морских птиц, и их тело позволяет одинаково хорошо плавать, летать и ходить."
+        ) // TODO
+
+        staticWallpaper("p7_bourke_parrot")
+        options {
+            isNew = true
+        }
+    }
+
+    wallpaper {
+        parent = WallpaperPacks.P7
+        category = WallpaperCategory.Birdies
+        author = Strings.andrewZuckerman
+
+        previewName = simplifiedLocaleOf("White-tailed eagle", "Орлан-белохвост")
+        description = simplifiedLocaleOf(
+            "The seagulls are universal. They are the least specialised of all the seabirds, and their body allows for equal adeptness in swimming, flying, and walking.",
+            "Чайки - универсальны. Они наименее специализированы из всех морских птиц, и их тело позволяет одинаково хорошо плавать, летать и ходить."
+        ) // TODO
+
+        staticWallpaper("p7_eagle")
+        options {
+            isNew = true
+        }
+    }
+
+    wallpaper {
+        parent = WallpaperPacks.P7
+        category = WallpaperCategory.Birdies
+        author = Strings.andrewZuckerman
+
+        previewName = simplifiedLocaleOf("Flamingo", "Фламинго")
+        description = simplifiedLocaleOf(
+            "The seagulls are universal. They are the least specialised of all the seabirds, and their body allows for equal adeptness in swimming, flying, and walking.",
+            "Чайки - универсальны. Они наименее специализированы из всех морских птиц, и их тело позволяет одинаково хорошо плавать, летать и ходить."
+        ) // TODO
+
+        staticWallpaper("p7_flamingo")
+        options {
+            isNew = true
         }
     }
 
@@ -2045,6 +2127,7 @@ val walls by createWallpapers {
         staticWallpaper {
             remoteUrl = "pfold_porcelain_preview"
         }
+        staticWallpaper("pfold_porcelain")
     }
 
 
@@ -2141,157 +2224,9 @@ val walls by createWallpapers {
         category = WallpaperCategory.Minerals
         author = Strings.andrewZuckerman
 
-        previewName = simplifiedLocaleOf("Amethyst", "Аметист")
-        description = simplifiedLocaleOf(
-            "Amethyst, whose name translates as \"cure\", the rarest and most beautiful of quartz, has a wide range of shades from pale lilac to rich purple.",
-            "Аметист, название которого переводится как \"излечение\", самый редкий и красивый из кварцев, имеет широкий диапазон оттенков от бледно-сиреневого до насыщенного пурпурного."
-        )
-        staticWallpaper {
-            previewRes = "p8_licorice_light"
-            remoteUrl = "p8_licorice_light"
-        }
-        staticWallpaper {
-            previewRes = "p8_licorice_dark"
-            remoteUrl = "p8_licorice_dark"
-        }
-        options {
-            isNew = true
-        }
-    }
-
-    wallpaper {
-        parent = WallpaperPacks.P8
-        category = WallpaperCategory.Minerals
-        author = Strings.andrewZuckerman
-
-        previewName = simplifiedLocaleOf("Demantoid", "Демантоид")
-        description = simplifiedLocaleOf(
-            "The light passing through the demantoid plays with all the colors of the rainbow due to the high refractive index. The name of this mineral comes from the German word \"diamant\", which means \"diamond\", because of the similar color and luster.",
-            "Свет, проходящий через демантоид, играет всеми цветами радуги благодаря высокому показателю преломления. Название этого минерала происходит от немецкого слова \"diamant\", что означает \"алмаз\", из-за схожей окраски и блеска."
-        )
-        staticWallpaper {
-            previewRes = "p8_haze_light"
-            remoteUrl = "p8_haze_light"
-        }
-        staticWallpaper {
-            previewRes = "p8_haze_dark"
-            remoteUrl = "p8_haze_dark"
-        }
-        options {
-            isNew = true
-        }
-    }
-
-    wallpaper {
-        parent = WallpaperPacks.P8
-        category = WallpaperCategory.Minerals
-        author = Strings.andrewZuckerman
-
-        previewName = simplifiedLocaleOf("Baryte", "Барит")
-        description = simplifiedLocaleOf(
-            "Barite is the only element on Earth that can protect against X-radiation. Due to its rejuvenating properties, it is also used in cosmetology.",
-            "Барит - единственный на Земле элемент, способный защитить от X-излучения. Благодаря своим омолаживающим свойствам, он также используется в косметологии."
-        )
-        staticWallpaper {
-            previewRes = "p8_jade_light"
-            remoteUrl = "p8_jade_light"
-        }
-        staticWallpaper {
-            previewRes = "p8_jade_dark"
-            remoteUrl = "p8_jade_dark"
-        }
-        options {
-            isNew = true
-        }
-    }
-
-    wallpaper {
-        parent = WallpaperPacks.P8
-        category = WallpaperCategory.Minerals
-        author = Strings.andrewZuckerman
-
-        previewName = simplifiedLocaleOf("Topaz", "Топаз")
-        description = simplifiedLocaleOf(
-            "Topaz is one of the hardest gemstones formed from molten magma or hot water rich in fluorine. Its hardness on the Mohs scale is 8, which makes it the second hardest after diamond.",
-            "Топаз - один из самых твердых драгоценных камней, образующийся из расплавленной магмы или горячей воды, богатой фтором. Его твердость по шкале Мооса составляет 8, что делает его вторым по твердости после алмаза."
-        )
-        staticWallpaper {
-            previewRes = "p8_peony_light"
-            remoteUrl = "p8_peony_light"
-        }
-        staticWallpaper {
-            previewRes = "p8_peony_dark"
-            remoteUrl = "p8_peony_dark"
-        }
-        options {
-            isNew = true
-        }
-    }
-
-    wallpaper {
-        parent = WallpaperPacks.P8
-        category = WallpaperCategory.Minerals
-        author = Strings.andrewZuckerman
-
-        previewName = simplifiedLocaleOf("Biotite", "Биотит")
-        description = simplifiedLocaleOf(
-            "This mineral is very soft, it can be melted even under a candle flame. The hardness of biotite on the Mohs scale is 2, which makes it the second softest mineral after talc.",
-            "Этот минерал является очень мягким, его можно расплавить даже под свечным пламенем. Твердость биотита по шкале Мооса составляет 2, что делает его вторым по мягкости минералом после талька."
-        )
-        staticWallpaper {
-            previewRes = "p8_pro_licorice_light"
-            remoteUrl = "p8_pro_licorice_light"
-        }
-        staticWallpaper {
-            previewRes = "p8_pro_licorice_dark"
-            remoteUrl = "p8_pro_licorice_dark"
-        }
-        options {
-            isNew = true
-        }
-    }
-
-    wallpaper {
-        parent = WallpaperPacks.P8
-        category = WallpaperCategory.Minerals
-        author = Strings.andrewZuckerman
-
-        previewName = simplifiedLocaleOf("Apophyllite", "Апофиллит")
-        description = simplifiedLocaleOf(
-            "Apophyllite is often used as a conductor due to the high water content. It is very brittle and brittle, which makes it an extremely rare mineral.",
-            "Апофиллит часто используют в качестве проводника из-за большого содержания воды. Он является очень хрупким и ломким, что делает его чрезвычайно редким минералом."
-        )
-        staticWallpaper {
-            previewRes = "p8_pro_jade_light"
-            remoteUrl = "p8_pro_jade_light"
-        }
-        staticWallpaper {
-            previewRes = "p8_pro_jade_dark"
-            remoteUrl = "p8_pro_jade_dark"
-        }
-        options {
-            isNew = true
-        }
-    }
-
-    wallpaper {
-        parent = WallpaperPacks.P8
-        category = WallpaperCategory.Minerals
-        author = Strings.andrewZuckerman
-
-        previewName = simplifiedLocaleOf("Smoky quartz", "Дымчатый кварц")
-        description = simplifiedLocaleOf(
-            "The formation of smoky quartz is a long process that can last millions of years. The longer the process takes, the darker the mineral itself becomes, but this process can be reversed by heating",
-            "Образование дымчатого кварца - это долгий процесс, который может длиться миллионы лет. Чем дольше происходит процесс, тем темнее становится сам минерал, однако этот процесс можно обратить вспять нагреванием"
-        )
-        staticWallpaper {
-            previewRes = "p8_pro_porcelain_light"
-            remoteUrl = "p8_pro_porcelain_light"
-        }
-        staticWallpaper {
-            previewRes = "p8_pro_porcelain_dark"
-            remoteUrl = "p8_pro_porcelain_dark"
-        }
+        previewName = simplifiedLocaleOf("Fluorite", "Флюорит")
+        description = Strings.mineralDescription
+        lightDarkStaticWallpaper("p8_licorice")
         options {
             isNew = true
         }
@@ -2303,18 +2238,153 @@ val walls by createWallpapers {
         author = Strings.andrewZuckerman
 
         previewName = simplifiedLocaleOf("Fluorite", "Флюорит")
-        description = simplifiedLocaleOf(
-            "When heated, fluorite shines in the dark with a delicate bluish or green color. This is where the term \"fluorescence\" comes from",
-            "При нагревании флюорит светит в темноте нежным голубоватым или зелёным цветом. Именно отсюда происходит термин \"флюоресценция\""
-        )
-        staticWallpaper {
-            previewRes = "p8_pro_sky_light"
-            remoteUrl = "p8_pro_sky_light"
+        description = Strings.mineralDescription
+        lightDarkStaticWallpaper("p8_haze")
+        options {
+            isNew = true
         }
-        staticWallpaper {
-            previewRes = "p8_pro_sky_dark"
-            remoteUrl = "p8_pro_sky_dark"
+    }
+
+    wallpaper {
+        parent = WallpaperPacks.P8
+        category = WallpaperCategory.Minerals
+        author = Strings.andrewZuckerman
+
+        previewName = simplifiedLocaleOf("Barite", "Барит")
+        description = Strings.mineralDescription
+        lightDarkStaticWallpaper("p8_jade")
+        lightDarkStaticWallpaper("p8_barite")
+        options {
+            isNew = true
         }
+    }
+
+    wallpaper {
+        parent = WallpaperPacks.P8
+        category = WallpaperCategory.Minerals
+        author = Strings.andrewZuckerman
+
+        previewName = simplifiedLocaleOf("Halite", "Галит")
+        description = Strings.mineralDescription
+        lightDarkStaticWallpaper("p8_peony")
+        options {
+            isNew = true
+        }
+    }
+
+    wallpaper {
+        parent = WallpaperPacks.P8
+        category = WallpaperCategory.Minerals
+        author = Strings.andrewZuckerman
+
+        previewName = simplifiedLocaleOf("Hematite", "Гематит")
+        description = Strings.mineralDescription
+        lightDarkStaticWallpaper("p8_pro_licorice")
+        options {
+            isNew = true
+        }
+    }
+
+    wallpaper {
+        parent = WallpaperPacks.P8
+        category = WallpaperCategory.Minerals
+        author = Strings.andrewZuckerman
+
+        previewName = simplifiedLocaleOf("Apophyllite", "Апофиллит")
+        description = Strings.mineralDescription
+        lightDarkStaticWallpaper("p8_pro_jade")
+        options {
+            isNew = true
+        }
+    }
+
+    wallpaper {
+        parent = WallpaperPacks.P8
+        category = WallpaperCategory.Minerals
+        author = Strings.andrewZuckerman
+
+        previewName = simplifiedLocaleOf("Selenite", "Селенит")
+        description = Strings.mineralDescription
+        lightDarkStaticWallpaper("p8_pro_porcelain")
+        options {
+            isNew = true
+        }
+    }
+
+    wallpaper {
+        parent = WallpaperPacks.P8
+        category = WallpaperCategory.Minerals
+        author = Strings.andrewZuckerman
+
+        previewName = simplifiedLocaleOf("Fluorite", "Флюорит")
+        description = Strings.mineralDescription
+        lightDarkStaticWallpaper("p8_pro_sky")
+        options {
+            isNew = true
+        }
+    }
+
+    wallpaper {
+        parent = WallpaperPacks.P8
+        category = WallpaperCategory.Minerals
+        author = Strings.andrewZuckerman
+
+        previewName = simplifiedLocaleOf("Calcite", "Кальцит")
+        description = Strings.mineralDescription
+        lightDarkStaticWallpaper("p8_calcite")
+        options {
+            isNew = true
+        }
+    }
+
+    wallpaper {
+        parent = WallpaperPacks.P8
+        category = WallpaperCategory.Minerals
+        author = Strings.andrewZuckerman
+
+        previewName = simplifiedLocaleOf("Sphalerite", "Сфалерит")
+        description = Strings.mineralDescription
+        lightDarkStaticWallpaper("p8_sphalerite")
+        options {
+            isNew = true
+        }
+    }
+
+    wallpaper {
+        parent = WallpaperPacks.P8
+        category = WallpaperCategory.Minerals
+        author = Strings.andrewZuckerman
+
+        previewName = simplifiedLocaleOf("Danburite", "Данбурит")
+        description = Strings.mineralDescription
+        lightDarkStaticWallpaper("p8_danburite")
+        options {
+            isNew = true
+        }
+    }
+
+    wallpaper {
+        parent = WallpaperPacks.P8
+        category = WallpaperCategory.Minerals
+        author = Strings.andrewZuckerman
+
+        previewName = simplifiedLocaleOf("Ilvaite", "Илвайт")
+        description = Strings.mineralDescription
+        lightDarkStaticWallpaper("p8_ilvaite")
+        options {
+            isNew = true
+        }
+    }
+
+
+    wallpaper {
+        parent = WallpaperPacks.P8
+        category = WallpaperCategory.Minerals
+        author = Strings.andrewZuckerman
+
+        previewName = simplifiedLocaleOf("Dioptase", "Диоптаз")
+        description = Strings.mineralDescription
+        lightDarkStaticWallpaper("p8_dioptase")
         options {
             isNew = true
         }
