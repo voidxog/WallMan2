@@ -1828,6 +1828,19 @@ val walls by createWallpapers {
             previewRes = "p7_pro_snow_light_preview"
             remoteUrl = "p7_pro_snow_light_preview"
         }
+    }
+
+    wallpaper {
+        parent = WallpaperPacks.P7
+        category = WallpaperCategory.Birdies
+        author = Strings.andrewZuckerman
+
+        previewName = simplifiedLocaleOf("King vulture", "Королевский гриф")
+        description = simplifiedLocaleOf(
+            "The King vulture stands out for its imposing appearance due to the contrasting coloring of its plumage, its wingspan is almost 2 meters.",
+            "Королевский гриф выделяется своей импозантной внешностью благодаря контрастной раскраске оперения, размах его крыльев составляет почти 2 метра."
+        )
+
         staticWallpaper {
             previewRes = "p7_pro_snow_dark_preview"
             remoteUrl = "p7_pro_snow_dark_preview"
@@ -1877,13 +1890,24 @@ val walls by createWallpapers {
             "Зеленокрылые ара одни из самых цветастых птиц. Несмотря на это, они невидимы в листве деревьев."
         )
 
+        staticWallpaper("p7_pro_lemongrass_dark_preview")
+        staticWallpaper("p7_ara")
+    }
+
+    wallpaper {
+        parent = WallpaperPacks.P7
+        category = WallpaperCategory.Birdies
+        author = Strings.andrewZuckerman
+
+        previewName = simplifiedLocaleOf("Ring Neck Parakeet", "Кольчатый попугай")
+        description = simplifiedLocaleOf(
+            "Ring Neck Parakeets are smart, they learn speech, perfectly transmitting the intonation of the voice and accurately imitating sounds.",
+            "Кольчатые попугаи сообразительны, обучаются речи, отлично передавая интонацию голоса и точно имитируя звуки."
+        )
+
         staticWallpaper {
             previewRes = "p7_pro_lemongrass_light_preview"
             remoteUrl = "p7_pro_lemongrass_light_preview"
-        }
-        staticWallpaper {
-            previewRes = "p7_pro_lemongrass_dark_preview"
-            remoteUrl = "p7_pro_lemongrass_dark_preview"
         }
     }
 
@@ -1938,9 +1962,9 @@ val walls by createWallpapers {
 
         previewName = simplifiedLocaleOf("Blue-fronted amazon", "Синелобый амазон")
         description = simplifiedLocaleOf(
-            "The seagulls are universal. They are the least specialised of all the seabirds, and their body allows for equal adeptness in swimming, flying, and walking.",
-            "Чайки - универсальны. Они наименее специализированы из всех морских птиц, и их тело позволяет одинаково хорошо плавать, летать и ходить."
-        ) // TODO
+            "Blue-fronted Amazons are masters of mimicry. They can imitate voices of humans and other animals, which makes them popular pets.",
+            "Синелобые амазоны - мастера имитации. Они повторяют голоса людей и животных, что делает их популярными питомцами."
+        )
 
         lightDarkStaticWallpaper("p7_amazon")
         options {
@@ -1955,9 +1979,9 @@ val walls by createWallpapers {
 
         previewName = simplifiedLocaleOf("Bourke's parrot", "Розовобрюхий попугайчик")
         description = simplifiedLocaleOf(
-            "The seagulls are universal. They are the least specialised of all the seabirds, and their body allows for equal adeptness in swimming, flying, and walking.",
-            "Чайки - универсальны. Они наименее специализированы из всех морских птиц, и их тело позволяет одинаково хорошо плавать, летать и ходить."
-        ) // TODO
+            "Bourke's parrots are vibrant masters of camouflage. With their green body, pink chest and face, and red spots on the forehead, they create a perfect deceptive art to hide from predators.",
+            "Розовобрюхие попугайчики - цветные мастера маскировки. Зеленое тело, розовая грудь и лицо, плюс красные пятна на лбу - идеальное обманное искусство для сокрытия от хищников."
+        )
 
         staticWallpaper("p7_bourke_parrot")
         options {
@@ -1972,9 +1996,9 @@ val walls by createWallpapers {
 
         previewName = simplifiedLocaleOf("White-tailed eagle", "Орлан-белохвост")
         description = simplifiedLocaleOf(
-            "The seagulls are universal. They are the least specialised of all the seabirds, and their body allows for equal adeptness in swimming, flying, and walking.",
-            "Чайки - универсальны. Они наименее специализированы из всех морских птиц, и их тело позволяет одинаково хорошо плавать, летать и ходить."
-        ) // TODO
+            "The tail of the white-tailed eagle changes with age. In young individuals it is brown, but in adults it is white.",
+            "Хвост орлана-белохвоста меняется с возрастом. У молодых особей он бурый, однако у взрослых - белый."
+        )
 
         staticWallpaper("p7_eagle")
         options {
@@ -1989,11 +2013,28 @@ val walls by createWallpapers {
 
         previewName = simplifiedLocaleOf("Flamingo", "Фламинго")
         description = simplifiedLocaleOf(
-            "The seagulls are universal. They are the least specialised of all the seabirds, and their body allows for equal adeptness in swimming, flying, and walking.",
-            "Чайки - универсальны. Они наименее специализированы из всех морских птиц, и их тело позволяет одинаково хорошо плавать, летать и ходить."
-        ) // TODO
+            "Flamingos are very graceful, they walk with an elongated neck and head, and the bright pink color makes them one of the most beautiful birds on the planet.",
+            "Фламинго очень грациозны, они ходят с вытянутой шеей и головой, а ярко-розовый цвет делает их одними из самых красивых птиц на планете."
+        )
 
         staticWallpaper("p7_flamingo")
+        options {
+            isNew = true
+        }
+    }
+
+    wallpaper {
+        parent = WallpaperPacks.P7
+        category = WallpaperCategory.Birdies
+        author = Strings.andrewZuckerman
+
+        previewName = simplifiedLocaleOf("Azure magpie", "Голубая сорока")
+        description = simplifiedLocaleOf(
+            "The Azure magpie has a very bright and extraordinary appearance with smoky gray shades of plumage on the body, bright blue wings and tail.",
+            "Голубая сорока обладает очень яркой и неординарной внешностью с дымчато-серые оттенки оперением на теле, ярко-голубыми крыльями и хвостом."
+        )
+
+        staticWallpaper("p7_magpie")
         options {
             isNew = true
         }
