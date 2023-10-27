@@ -12,15 +12,15 @@
 
 ## ❔ What is WallMan?
 
-**WallMan is beautiful app** to get dynamic and static wallpapers including categories:
+**WallMan is a beautiful app** to get dynamic and static wallpapers including categories:
 
 - **Appulse** - Solar System
 - **Wonders of the world** - the best creations of mankind
 - **Picturesque places** - the best creations of nature
-- **Flight of fancy** - abstract and beatutiful wallpapers
+- **Flight of fancy** - abstract and beautiful wallpapers
 - **Your little garden** - beautifully shot flowers
 - **Birdies** - elegant plumage of elegant birds
-
+- **Mirerals** - unique crystals
 ## 📱 Requirements
 
 - **Android 8** or later for **static only** wallpapers
@@ -60,7 +60,7 @@
 - [ ] MacOS support
 - [ ] Package to Flatpak
 - [ ] Publish on Flathub
-- [ ] Publish on F-Droid
+- [x] Publish on F-Droid
 
 ## 📲 Install
 
@@ -74,10 +74,8 @@
 To contribute to this
 project, [clone a repository](https://docs.gitlab.com/ee/gitlab-basics/start-using-git.html#clone-a-repository).
 
-There is guide how to build:
+There is a guide how to build:
 - [For Android](docs/build-android.md)
 ## 💬 Messaging
 
 [Telegram](https://t.me/colorataNews)
-
-[Telegram (🚧Preview releases)](https://t.me/colorataNewsPreview)
