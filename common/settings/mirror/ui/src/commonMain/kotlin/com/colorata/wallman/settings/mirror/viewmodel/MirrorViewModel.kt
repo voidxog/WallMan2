@@ -26,11 +26,7 @@ class MirrorViewModel(
         ),
         Mirror(
             Strings.githubMirror,
-            "https://raw.githubusercontent.com/Colorata/WallManAssets/main/"
-        ),
-        Mirror(
-            Strings.githackMirror,
-            "https://rawcdn.githack.com/Colorata/WallManAssets/1.0/"
+            "https://github.com/Colorata/WallManAssets/raw/main/"
         )
     )
     val settings = applicationSettings.settings()

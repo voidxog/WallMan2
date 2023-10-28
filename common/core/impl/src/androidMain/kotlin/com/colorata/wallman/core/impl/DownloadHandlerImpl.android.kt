@@ -94,6 +94,7 @@ class DownloadHandlerImpl(
                 if (downloadIdsByUrl.containsKey(url)) {
                     downloadManager.remove(downloadIdsByUrl[url] ?: 0)
                     downloadIdsByUrl.remove(url)
+                    File(path).delete()
                 }
             }
         }
