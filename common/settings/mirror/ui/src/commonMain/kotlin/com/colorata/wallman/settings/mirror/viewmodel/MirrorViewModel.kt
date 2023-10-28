@@ -26,16 +26,21 @@ class MirrorViewModel(
         ),
         Mirror(
             Strings.githubMirror,
-            "https://github.com/Colorata/WallManAssets/raw/main/"
+            "https://raw.githubusercontent.com/Colorata/WallManAssets/main/"
+        ),
+        Mirror(
+            Strings.githackMirror,
+            "https://rawcdn.githack.com/Colorata/WallManAssets/1.0/"
         )
     )
     val settings = applicationSettings.settings()
     private val defaultMirror = allMirrors[0]
-    private val selectedMirror = settings.map { settings -> allMirrors.first { it.url == settings.mirror } }
+    private val selectedMirror = settings.map { settings -> allMirrors.firstOrNull { it.url == settings.mirror } ?: defaultMirror }
 
     private fun selectMirror(mirror: Mirror) {
         applicationSettings.mutate { it.copy(mirror = mirror.url) }
     }
+
     val state by lazyMolecule {
         val selectedMirror by selectedMirror.collectAsState(initial = defaultMirror)
         val mirrors = allMirrors
