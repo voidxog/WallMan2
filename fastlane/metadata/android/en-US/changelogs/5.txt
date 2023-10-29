@@ -1,0 +1,6 @@
+This release includes:
+- New wallpaper category: Minerals
+- Some updates to birdies categories
+- New Github mirror(not enabled by default), which should be much faster than default one. To enable: go to github.com(authorization may be needed), in WallMan: go to More -> Mirrors -> select Github mirror
+- Small UI improvements
+- Performance improvements and bug fixes
