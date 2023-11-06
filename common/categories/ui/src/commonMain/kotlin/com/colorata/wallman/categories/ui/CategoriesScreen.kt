@@ -64,19 +64,11 @@ private fun CategoriesScreen(
 ) {
     // TODO: refactor when https://gitlab.com/colorata/wallman/-/issues/1 fixed
     val windowSize = LocalWindowSizeConfiguration.current
-    if (windowSize.isCompact()) {
-        CategoriesLayout(
-            1,
-            state,
-            modifier
-        )
-    } else {
-        CategoriesLayout(
-            2,
-            state,
-            modifier
-        )
-    }
+    CategoriesLayout(
+        if (windowSize.isCompact()) 1 else 2,
+        state,
+        modifier
+    )
 }
 
 @Composable

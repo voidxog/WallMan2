@@ -1,12 +1,15 @@
 package com.colorata.wallman.core.ui.util
 
+import android.app.Activity
 import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
 import androidx.compose.material3.windowsizeclass.WindowSizeClass
+import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 
@@ -19,14 +22,7 @@ import androidx.compose.ui.unit.dp
 )
 @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
 @Composable
-fun rememberWindowSize() =
-    with(LocalConfiguration.current) {
-        remember(screenWidthDp, screenHeightDp) {
-            WindowSizeClass.calculateFromSize(
-                DpSize(screenWidthDp.dp, screenHeightDp.dp)
-            )
-        }
-    }
+fun rememberWindowSize() = calculateWindowSizeClass(LocalContext.current as Activity)
 
 val LocalWindowSizeConfiguration =
     compositionLocalOf<WindowSizeClass> { error("No windowSize is provided") }

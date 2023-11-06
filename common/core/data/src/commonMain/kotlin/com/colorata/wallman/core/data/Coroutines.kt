@@ -3,9 +3,11 @@ package com.colorata.wallman.core.data
 import androidx.compose.runtime.Composable
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.colorata.wallman.core.data.molecule.GatedFrameClock
 import com.colorata.wallman.core.data.molecule.RecompositionMode
 import com.colorata.wallman.core.data.molecule.launchMolecule
 import kotlinx.coroutines.*
+import kotlinx.coroutines.flow.StateFlow
 import kotlin.coroutines.CoroutineContext
 
 inline fun CoroutineScope.launchWithExceptionHandling(
@@ -48,8 +50,12 @@ suspend inline fun <T> withMain(crossinline block: suspend () -> T) {
     withContext(Dispatchers.Main) { block() }
 }
 
-fun <T> ViewModel.lazyMolecule(content: @Composable () -> T) =
-    lazy { viewModelScope.launchMolecule(RecompositionMode.Immediate, content) }
+fun <T> ViewModel.lazyMolecule(content: @Composable () -> T): Lazy<StateFlow<T>> =
+    lazy {
+        viewModelScope.launchMolecule(
+            content
+        )
+    }
 
-fun <T> CoroutineScope.launchMolecule(content: @Composable () -> T) =
-    launchMolecule(RecompositionMode.Immediate, content)
+fun <T> CoroutineScope.launchMolecule(content: @Composable () -> T): StateFlow<T> =
+    launchMolecule(RecompositionMode.Immediate, Dispatchers.Main, content)

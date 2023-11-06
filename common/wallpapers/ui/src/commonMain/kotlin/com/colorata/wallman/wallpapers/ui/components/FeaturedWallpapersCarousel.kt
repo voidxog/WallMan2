@@ -103,7 +103,7 @@ fun FeaturedWallpapersCarousel(
     val anim = MaterialTheme.animation
     val scope = rememberCoroutineScope()
     val currentProgress = remember { Animatable(0f) }
-    val visibleWallpapers = rememberVisibilityList { wallpapers }
+    val visibleWallpapers = rememberVisibilityList(wallpapers) { wallpapers }
     var indicatorsVisible by remember { mutableStateOf(false) }
 
     var containerWidth by remember { mutableStateOf(0.dp) }

@@ -184,6 +184,15 @@ fun <T> rememberVisibilityList(
 }
 
 @Composable
+fun <T> rememberVisibilityList(
+    key: Any?,
+    visible: Boolean = LocalInspectionMode.current,
+    builder: @DisallowComposableCalls () -> List<T>
+): VisibilityList<T> {
+    return remember(key) { builder().toVisibilityList(visible) }
+}
+
+@Composable
 fun rememberVisibilityList(
     count: Int,
     visible: Boolean = LocalInspectionMode.current,
