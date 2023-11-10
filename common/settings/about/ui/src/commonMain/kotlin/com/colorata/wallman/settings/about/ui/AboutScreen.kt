@@ -1,4 +1,4 @@
-package com.colorata.wallman.settings.overview.ui
+package com.colorata.wallman.settings.about.ui
 
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.BorderStroke
@@ -65,7 +65,7 @@ import com.colorata.wallman.core.ui.theme.screenPadding
 import com.colorata.wallman.core.ui.theme.spacing
 import com.colorata.wallman.core.ui.util.LocalWindowSizeConfiguration
 import com.colorata.wallman.settings.about.api.AboutDestination
-import com.colorata.wallman.settings.overview.viewmodel.AboutViewModel
+import com.colorata.wallman.settings.about.viewmodel.AboutViewModel
 import com.colorata.wallman.ui.icons.BugReport
 import com.colorata.wallman.ui.icons.Code
 import com.colorata.wallman.ui.icons.CurrencyRuble

@@ -7,13 +7,13 @@ import com.colorata.wallman.wallpapers.WallpaperProvider
 import com.colorata.wallman.wallpapers.WallpapersModule
 import com.colorata.wallman.wallpapers.WallpapersRepository
 
-actual class WallpapersModuleImpl(
+class AndroidWallpapersModuleImpl(
     coreModule: CoreModule,
     application: Application
 ) : WallpapersModule,
     CoreModule by coreModule {
     override val wallpaperProvider: WallpaperProvider by lazy {
-        WallpaperProviderImpl(application, coroutineScope, logger)
+        AndroidWallpaperProviderImpl(application, coroutineScope, logger)
     }
     override val wallpaperManager: WallpaperManager by lazy {
         WallpaperManagerImpl(
@@ -26,6 +26,6 @@ actual class WallpapersModuleImpl(
         )
     }
     override val wallpapersRepository: WallpapersRepository by lazy {
-        WallpapersRepositoryImpl()
+        AndroidWallpapersRepositoryImpl()
     }
 }

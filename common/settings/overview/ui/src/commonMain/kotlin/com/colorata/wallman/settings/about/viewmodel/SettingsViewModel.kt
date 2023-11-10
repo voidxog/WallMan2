@@ -1,19 +1,16 @@
-package com.colorata.wallman.settings.overview.viewmodel
+package com.colorata.wallman.settings.about.viewmodel
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.runtime.Immutable
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.colorata.wallman.core.data.*
 import com.colorata.wallman.core.data.module.CoreModule
 import com.colorata.wallman.core.data.module.NavigationController
 import com.colorata.wallman.settings.about.api.AboutDestination
-import com.colorata.wallman.settings.animation.api.AnimationScreen
 import com.colorata.wallman.settings.memory.api.MemoryDestination
 import com.colorata.wallman.settings.mirror.api.MirrorDestination
-import com.colorata.wallman.ui.icons.Animation
 import com.colorata.wallman.ui.icons.ContentCopy
 import com.colorata.wallman.ui.icons.Storage
 import kotlinx.collections.immutable.ImmutableList

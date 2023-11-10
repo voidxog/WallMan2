@@ -3,6 +3,8 @@ package com.colorata.wallman.core.data
 import androidx.compose.runtime.Composable
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.colorata.wallman.core.data.module.Logger
+import com.colorata.wallman.core.data.module.throwable
 import com.colorata.wallman.core.data.molecule.GatedFrameClock
 import com.colorata.wallman.core.data.molecule.RecompositionMode
 import com.colorata.wallman.core.data.molecule.launchMolecule
@@ -56,6 +58,10 @@ fun <T> ViewModel.lazyMolecule(content: @Composable () -> T): Lazy<StateFlow<T>>
             content
         )
     }
+
+fun ViewModel.launchIO(logger: Logger, block: suspend CoroutineScope.() -> Unit) = viewModelScope.launchIO(logger, block)
+
+fun CoroutineScope.launchIO(logger: Logger, block: suspend CoroutineScope.() -> Unit): Job = launchIO({ logger.throwable(it) }, block)
 
 fun <T> CoroutineScope.launchMolecule(content: @Composable () -> T): StateFlow<T> =
     launchMolecule(RecompositionMode.Immediate, Dispatchers.Main, content)

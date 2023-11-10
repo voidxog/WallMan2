@@ -7,7 +7,6 @@ import android.content.Context
 import android.content.res.Resources
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.media.ThumbnailUtils
 import com.colorata.wallman.core.data.Result
 import com.colorata.wallman.core.data.launchIO
 import com.colorata.wallman.core.data.module.Logger
@@ -23,7 +22,7 @@ import kotlinx.coroutines.isActive
 import kotlin.math.roundToInt
 
 
-actual class WallpaperProviderImpl(
+class AndroidWallpaperProviderImpl(
     private val context: Context,
     scope: CoroutineScope,
     private val logger: Logger

@@ -36,9 +36,17 @@ fun Project.setupKotlin() {
         kotlinOptions.apply {
             jvmTarget = "18"
             composeReports(project.layout.buildDirectory.asFile.get().absolutePath)
+            composeForceSkip()
             experimentalContextReceivers()
         }
     }
+}
+
+fun KotlinCommonOptions.composeForceSkip() {
+    freeCompilerArgs += listOf(
+        "-P",
+        "plugin:androidx.compose.compiler.plugins.kotlin:experimentalStrongSkipping=true"
+    )
 }
 
 fun KotlinCommonOptions.composeReports(path: String) {
@@ -54,4 +62,8 @@ fun KotlinCommonOptions.composeReports(path: String) {
 
 fun KotlinCommonOptions.experimentalContextReceivers() {
     freeCompilerArgs += listOf("-Xcontext-receivers")
+}
+
+fun KotlinCommonOptions.expectActualOptIn() {
+    freeCompilerArgs += listOf("-Xexpect-actual-classes")
 }

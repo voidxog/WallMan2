@@ -61,8 +61,8 @@ import com.colorata.wallman.core.ui.util.LocalWindowSizeConfiguration
 import com.colorata.wallman.settings.animation.ui.animationScreen
 import com.colorata.wallman.settings.memory.ui.cacheScreen
 import com.colorata.wallman.settings.mirror.ui.mirrorScreen
-import com.colorata.wallman.settings.overview.ui.aboutScreen
-import com.colorata.wallman.settings.overview.ui.settingsScreen
+import com.colorata.wallman.settings.about.ui.aboutScreen
+import com.colorata.wallman.settings.about.ui.settingsScreen
 import com.colorata.wallman.wallpapers.MainDestination
 import com.colorata.wallman.wallpapers.ui.mainScreen
 import com.colorata.wallman.wallpapers.ui.wallpaperDetailsScreen

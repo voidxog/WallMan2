@@ -31,6 +31,11 @@ internal fun Configuration.apply(project: Project) {
 
     project.kotlin {
         androidTarget()
+        sourceSets.all {
+            languageSettings {
+                languageVersion = "2.0"
+            }
+        }
         sourceSets.apply {
             val commonMain by getting {
                 dependencies {
@@ -42,7 +47,6 @@ internal fun Configuration.apply(project: Project) {
             }
             if (commonTestDeps.isNotEmpty()) {
                 val commonTest by getting {
-                    dependsOn(commonMain)
                     dependencies {
                         implementation(kotlin("test"))
                     }
@@ -50,12 +54,10 @@ internal fun Configuration.apply(project: Project) {
                 }
             }
             val androidMain by getting {
-                dependsOn(commonMain)
                 configure(androidMainDeps)
             }
             if (androidTestDeps.isNotEmpty()) {
                 val androidTest by getting {
-                    dependsOn(androidMain)
                     dependencies {
                         implementation(kotlin("test"))
                     }

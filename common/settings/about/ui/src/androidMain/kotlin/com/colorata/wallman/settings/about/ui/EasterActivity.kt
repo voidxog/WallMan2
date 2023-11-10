@@ -9,10 +9,9 @@ import androidx.compose.material3.Surface
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import com.colorata.wallman.core.ui.theme.WallManTheme
-import com.colorata.wallman.settings.overview.ui.FancyTextScreen
 import java.util.*
 
-class EasterActivity : ComponentActivity() {
+actual class EasterActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {

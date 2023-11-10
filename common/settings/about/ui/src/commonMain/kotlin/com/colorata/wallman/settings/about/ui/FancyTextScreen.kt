@@ -1,4 +1,4 @@
-package com.colorata.wallman.settings.overview.ui
+package com.colorata.wallman.settings.about.ui
 
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.AnimationVector1D

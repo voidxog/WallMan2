@@ -1,4 +1,4 @@
-package com.colorata.wallman.settings.overview.ui
+package com.colorata.wallman.settings.about.ui
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
@@ -35,7 +35,7 @@ import com.colorata.wallman.core.ui.theme.spacing
 import com.colorata.wallman.core.ui.util.LocalWindowSizeConfiguration
 import com.colorata.wallman.core.ui.util.fullLineItem
 import com.colorata.wallman.settings.overview.api.SettingsOverviewDestination
-import com.colorata.wallman.settings.overview.viewmodel.SettingsViewModel
+import com.colorata.wallman.settings.about.viewmodel.SettingsViewModel
 
 context(CoreModule)
 fun MaterialNavGraphBuilder.settingsScreen() {
