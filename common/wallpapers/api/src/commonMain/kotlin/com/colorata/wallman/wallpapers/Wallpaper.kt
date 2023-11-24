@@ -2268,9 +2268,6 @@ val walls by createWallpapers {
         previewName = simplifiedLocaleOf("Fluorite", "Флюорит")
         description = Strings.mineralDescription
         lightDarkStaticWallpaper("p8_licorice")
-        options {
-            isNew = true
-        }
     }
 
     wallpaper {
@@ -2281,9 +2278,6 @@ val walls by createWallpapers {
         previewName = simplifiedLocaleOf("Fluorite", "Флюорит")
         description = Strings.mineralDescription
         lightDarkStaticWallpaper("p8_haze")
-        options {
-            isNew = true
-        }
     }
 
     wallpaper {
@@ -2295,9 +2289,6 @@ val walls by createWallpapers {
         description = Strings.mineralDescription
         lightDarkStaticWallpaper("p8_jade")
         lightDarkStaticWallpaper("p8_barite")
-        options {
-            isNew = true
-        }
     }
 
     wallpaper {
@@ -2308,9 +2299,6 @@ val walls by createWallpapers {
         previewName = simplifiedLocaleOf("Halite", "Галит")
         description = Strings.mineralDescription
         lightDarkStaticWallpaper("p8_peony")
-        options {
-            isNew = true
-        }
     }
 
     wallpaper {
@@ -2321,9 +2309,6 @@ val walls by createWallpapers {
         previewName = simplifiedLocaleOf("Hematite", "Гематит")
         description = Strings.mineralDescription
         lightDarkStaticWallpaper("p8_pro_licorice")
-        options {
-            isNew = true
-        }
     }
 
     wallpaper {
@@ -2334,9 +2319,6 @@ val walls by createWallpapers {
         previewName = simplifiedLocaleOf("Apophyllite", "Апофиллит")
         description = Strings.mineralDescription
         lightDarkStaticWallpaper("p8_pro_jade")
-        options {
-            isNew = true
-        }
     }
 
     wallpaper {
@@ -2347,9 +2329,6 @@ val walls by createWallpapers {
         previewName = simplifiedLocaleOf("Selenite", "Селенит")
         description = Strings.mineralDescription
         lightDarkStaticWallpaper("p8_pro_porcelain")
-        options {
-            isNew = true
-        }
     }
 
     wallpaper {
@@ -2360,9 +2339,6 @@ val walls by createWallpapers {
         previewName = simplifiedLocaleOf("Fluorite", "Флюорит")
         description = Strings.mineralDescription
         lightDarkStaticWallpaper("p8_pro_sky")
-        options {
-            isNew = true
-        }
     }
 
     wallpaper {
@@ -2373,9 +2349,6 @@ val walls by createWallpapers {
         previewName = simplifiedLocaleOf("Calcite", "Кальцит")
         description = Strings.mineralDescription
         lightDarkStaticWallpaper("p8_calcite")
-        options {
-            isNew = true
-        }
     }
 
     wallpaper {
@@ -2386,9 +2359,6 @@ val walls by createWallpapers {
         previewName = simplifiedLocaleOf("Sphalerite", "Сфалерит")
         description = Strings.mineralDescription
         lightDarkStaticWallpaper("p8_sphalerite")
-        options {
-            isNew = true
-        }
     }
 
     wallpaper {
@@ -2399,9 +2369,6 @@ val walls by createWallpapers {
         previewName = simplifiedLocaleOf("Danburite", "Данбурит")
         description = Strings.mineralDescription
         lightDarkStaticWallpaper("p8_danburite")
-        options {
-            isNew = true
-        }
     }
 
     wallpaper {
@@ -2412,9 +2379,6 @@ val walls by createWallpapers {
         previewName = simplifiedLocaleOf("Ilvaite", "Илвайт")
         description = Strings.mineralDescription
         lightDarkStaticWallpaper("p8_ilvaite")
-        options {
-            isNew = true
-        }
     }
 
 
@@ -2426,6 +2390,55 @@ val walls by createWallpapers {
         previewName = simplifiedLocaleOf("Dioptase", "Диоптаз")
         description = Strings.mineralDescription
         lightDarkStaticWallpaper("p8_dioptase")
+    }
+
+    wallpaper {
+        parent = WallpaperPacks.P8A
+        category = WallpaperCategory.Minerals
+        author = Strings.andrewZuckerman
+
+        previewName = simplifiedLocaleOf("Titanite", "Титанит")
+        description = Strings.mineralDescription
+        lightDarkStaticWallpaper("p8a_emerald")
+        options {
+            isNew = true
+        }
+    }
+
+    wallpaper {
+        parent = WallpaperPacks.P8A
+        category = WallpaperCategory.Minerals
+        author = Strings.andrewZuckerman
+
+        previewName = simplifiedLocaleOf("Barite", "Барит")
+        description = Strings.mineralDescription
+        lightDarkStaticWallpaper("p8a_sky")
+        options {
+            isNew = true
+        }
+    }
+
+    wallpaper {
+        parent = WallpaperPacks.P8A
+        category = WallpaperCategory.Minerals
+        author = Strings.andrewZuckerman
+
+        previewName = simplifiedLocaleOf("Selenite", "Селенит")
+        description = Strings.mineralDescription
+        lightDarkStaticWallpaper("p8a_porcelain")
+        options {
+            isNew = true
+        }
+    }
+
+    wallpaper {
+        parent = WallpaperPacks.P8A
+        category = WallpaperCategory.Minerals
+        author = Strings.andrewZuckerman
+
+        previewName = simplifiedLocaleOf("Hematite", "Гематит")
+        description = Strings.mineralDescription
+        lightDarkStaticWallpaper("p8a_licorice")
         options {
             isNew = true
         }
