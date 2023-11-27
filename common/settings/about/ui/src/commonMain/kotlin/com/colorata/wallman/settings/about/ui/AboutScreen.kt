@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
@@ -159,7 +160,9 @@ private fun Actions(
         verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.medium)
     ) {
         ListItem(
-            remember { ListItem(it.name, it.description, it.icon) }, onClick = { it.onClick() }
+            remember { ListItem(it.name, it.description, it.icon) },
+            onClick = { it.onClick() },
+            Modifier.fillMaxWidth()
         )
     }
 }

@@ -3,6 +3,7 @@ package com.colorata.wallman.settings.about.ui
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
@@ -93,7 +94,7 @@ private fun SettingsScreenLayout(
         visibilityItems(animatedItems) {
             ListItem(
                 remember { ListItem(it.name, it.description, it.icon) },
-                onClick = { state.onEvent(SettingsViewModel.SettingsScreenEvent.GoToSettings(it)) })
+                onClick = { state.onEvent(SettingsViewModel.SettingsScreenEvent.GoToSettings(it)) }, Modifier.fillMaxWidth())
         }
     }
 }
