@@ -69,7 +69,7 @@
 | Variant/Platform  | Description                                  | 🤖 Android                               | 🐧 Linux       | 🪟 Windows     |
 |-------------------|----------------------------------------------|------------------------------------------|----------------|----------------|
 | 🚧 **Preview**    | Gets the latest features, lack of stability. |                                          | Coming soon... | Coming soon... |
-| 🏁 **Production** | Stable and rare release.                     | [Telegram](https://t.me/colorataNews/16) | Coming soon... | Coming soon... |
+| 🏁 **Production** | Stable and rare release.                     | [Telegram](https://t.me/colorataNews/19) | Coming soon... | Coming soon... |
 
 ## 👋 Contribution
 
