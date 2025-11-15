@@ -1,10 +1,10 @@
-package com.colorata.wallman.core.impl
+package com.voidxog.wallman2.core.impl
 
 import android.content.Context
 import android.icu.util.Calendar
 import android.util.Log
-import com.colorata.wallman.core.data.AppConfiguration
-import com.colorata.wallman.core.data.module.Logger
+import com.voidxog.wallman2.core.data.AppConfiguration
+import com.voidxog.wallman2.core.data.module.Logger
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import java.io.File

@@ -1,8 +1,8 @@
-package com.colorata.wallman.wallpapers
+package com.voidxog.wallman2.wallpapers
 
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.StateFlow
-import com.colorata.wallman.core.data.Result
+import com.voidxog.wallman2.core.data.Result
 
 interface WallpaperManager {
     fun installedWallpaperPacks(): StateFlow<List<WallpaperPacks>>

@@ -68,7 +68,7 @@ internal fun Configuration.apply(project: Project) {
     }
 
     project.android {
-        this.namespace = "com.colorata.wallman.${this@apply.namespace}"
+        this.namespace = "com.voidxog.wallman2.${this@apply.namespace}"
     }
 }
 

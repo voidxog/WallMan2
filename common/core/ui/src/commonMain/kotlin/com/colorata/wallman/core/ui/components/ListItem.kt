@@ -1,4 +1,4 @@
-package com.colorata.wallman.core.ui.components
+package com.voidxog.wallman2.core.ui.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -18,12 +18,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
-import com.colorata.wallman.core.data.Polyglot
-import com.colorata.wallman.core.data.Strings
-import com.colorata.wallman.core.data.rememberString
-import com.colorata.wallman.core.ui.LightDarkPreview
-import com.colorata.wallman.core.ui.theme.WallManPreviewTheme
-import com.colorata.wallman.core.ui.theme.spacing
+import com.voidxog.wallman2.core.data.Polyglot
+import com.voidxog.wallman2.core.data.Strings
+import com.voidxog.wallman2.core.data.rememberString
+import com.voidxog.wallman2.core.ui.LightDarkPreview
+import com.voidxog.wallman2.core.ui.theme.WallManPreviewTheme
+import com.voidxog.wallman2.core.ui.theme.spacing
 
 data class ListItem(
     val name: Polyglot,

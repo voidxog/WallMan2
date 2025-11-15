@@ -1,4 +1,4 @@
-package com.colorata.wallman.wallpapers.ui.components
+package com.voidxog.wallman2.wallpapers.ui.components
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
@@ -9,10 +9,10 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import com.colorata.wallman.core.ui.LightDarkPreview
-import com.colorata.wallman.core.ui.theme.WallManPreviewTheme
-import com.colorata.wallman.core.ui.theme.spacing
-import com.colorata.wallman.wallpapers.WallpaperI
+import com.voidxog.wallman2.core.ui.LightDarkPreview
+import com.voidxog.wallman2.core.ui.theme.WallManPreviewTheme
+import com.voidxog.wallman2.core.ui.theme.spacing
+import com.voidxog.wallman2.wallpapers.WallpaperI
 
 @Composable
 internal fun WallpaperTypeSelector(

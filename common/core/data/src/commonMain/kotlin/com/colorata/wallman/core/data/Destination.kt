@@ -1,4 +1,4 @@
-package com.colorata.wallman.core.data
+package com.voidxog.wallman2.core.data
 
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf

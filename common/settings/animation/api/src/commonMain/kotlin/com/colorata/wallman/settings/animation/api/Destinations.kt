@@ -1,6 +1,6 @@
-package com.colorata.wallman.settings.animation.api
+package com.voidxog.wallman2.settings.animation.api
 
-import com.colorata.wallman.core.data.Destinations
-import com.colorata.wallman.core.data.destination
+import com.voidxog.wallman2.core.data.Destinations
+import com.voidxog.wallman2.core.data.destination
 
 fun Destinations.AnimationScreen() = destination("Animation")

@@ -1,11 +1,11 @@
-package com.colorata.wallman.wallpapers.impl
+package com.voidxog.wallman2.wallpapers.impl
 
 import android.app.Application
-import com.colorata.wallman.core.data.module.CoreModule
-import com.colorata.wallman.wallpapers.WallpaperManager
-import com.colorata.wallman.wallpapers.WallpaperProvider
-import com.colorata.wallman.wallpapers.WallpapersModule
-import com.colorata.wallman.wallpapers.WallpapersRepository
+import com.voidxog.wallman2.core.data.module.CoreModule
+import com.voidxog.wallman2.wallpapers.WallpaperManager
+import com.voidxog.wallman2.wallpapers.WallpaperProvider
+import com.voidxog.wallman2.wallpapers.WallpapersModule
+import com.voidxog.wallman2.wallpapers.WallpapersRepository
 
 class AndroidWallpapersModuleImpl(
     coreModule: CoreModule,

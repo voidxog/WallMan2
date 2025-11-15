@@ -4,7 +4,7 @@ plugins {
     `kotlin-dsl`
 }
 
-group = "com.colorata.wallman.buildlogic"
+group = "com.voidxog.wallman2.buildlogic"
 
 java {
     sourceCompatibility = JavaVersion.VERSION_17

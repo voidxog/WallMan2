@@ -1,4 +1,4 @@
-package com.colorata.wallman.core.ui.list
+package com.voidxog.wallman2.core.ui.list
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.lazy.LazyItemScope
@@ -18,9 +18,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.colorata.animateaslifestyle.Transition
 import com.colorata.animateaslifestyle.fade
-import com.colorata.wallman.core.data.animation
-import com.colorata.wallman.core.ui.animation.animateVisibility
-import com.colorata.wallman.core.ui.theme.emphasizedEnterExit
+import com.voidxog.wallman2.core.data.animation
+import com.voidxog.wallman2.core.ui.animation.animateVisibility
+import com.voidxog.wallman2.core.ui.theme.emphasizedEnterExit
 
 inline fun <T> LazyListScope.visibilityItemsIndexed(
     items: VisibilityList<T>,
@@ -117,3 +117,4 @@ inline fun <T> LazyGridScope.visibilityItems(
         itemContent(item)
     }
 }
+

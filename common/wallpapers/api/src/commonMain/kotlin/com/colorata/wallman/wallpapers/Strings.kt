@@ -1,7 +1,7 @@
-package com.colorata.wallman.wallpapers
+package com.voidxog.wallman2.wallpapers
 
-import com.colorata.wallman.core.data.Strings
-import com.colorata.wallman.core.data.simplifiedLocaleOf
+import com.voidxog.wallman2.core.data.Strings
+import com.voidxog.wallman2.core.data.simplifiedLocaleOf
 
 val Strings.p
     get() = simplifiedLocaleOf(
@@ -136,3 +136,4 @@ val Strings.contoursDescription
         "Orbital studies explore an abstract and luminous cascade of arcs and curves.",
         "Абстрактные обои с каскадами изогнутых линий."
     ) 
+

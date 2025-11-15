@@ -1,4 +1,4 @@
-package com.colorata.wallman.shared
+package com.voidxog.wallman2.shared
 
 import android.annotation.SuppressLint
 import android.os.Bundle
@@ -10,17 +10,17 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.colorata.wallman.core.data.Animation
-import com.colorata.wallman.core.data.DurationSpec
-import com.colorata.wallman.core.data.EasingSpec
-import com.colorata.wallman.core.data.LocalAnimation
-import com.colorata.wallman.core.data.module.loadables
-import com.colorata.wallman.core.data.module.throwable
-import com.colorata.wallman.core.di.LocalGraph
-import com.colorata.wallman.core.di.impl.applyActivity
-import com.colorata.wallman.core.impl.applyWindowSize
-import com.colorata.wallman.core.ui.theme.WallManTheme
-import com.colorata.wallman.core.ui.util.LocalWindowSizeConfiguration
+import com.voidxog.wallman2.core.data.Animation
+import com.voidxog.wallman2.core.data.DurationSpec
+import com.voidxog.wallman2.core.data.EasingSpec
+import com.voidxog.wallman2.core.data.LocalAnimation
+import com.voidxog.wallman2.core.data.module.loadables
+import com.voidxog.wallman2.core.data.module.throwable
+import com.voidxog.wallman2.core.di.LocalGraph
+import com.voidxog.wallman2.core.di.impl.applyActivity
+import com.voidxog.wallman2.core.impl.applyWindowSize
+import com.voidxog.wallman2.core.ui.theme.WallManTheme
+import com.voidxog.wallman2.core.ui.util.LocalWindowSizeConfiguration
 
 private const val RESTART_COUNT_KEY = "restart_count"
 

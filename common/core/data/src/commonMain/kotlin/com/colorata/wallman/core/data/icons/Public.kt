@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.colorata.wallman.ui.icons
+package com.voidxog.wallman2.ui.icons
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.materialIcon
@@ -64,3 +64,4 @@ val Icons.Filled.Public: ImageVector
     }
 
 private var _public: ImageVector? = null
+

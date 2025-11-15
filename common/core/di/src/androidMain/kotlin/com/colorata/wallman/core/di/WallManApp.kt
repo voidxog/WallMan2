@@ -1,4 +1,4 @@
-package com.colorata.wallman.core.di
+package com.voidxog.wallman2.core.di
 
 import android.content.Context
 

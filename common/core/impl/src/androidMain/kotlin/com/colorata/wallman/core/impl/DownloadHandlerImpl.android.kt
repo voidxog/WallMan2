@@ -1,16 +1,16 @@
-package com.colorata.wallman.core.impl
+package com.voidxog.wallman2.core.impl
 
 import android.annotation.SuppressLint
 import android.app.DownloadManager
 import android.content.Context
 import android.net.Uri
-import com.colorata.wallman.core.data.module.DownloadHandler
-import com.colorata.wallman.core.data.Strings
-import com.colorata.wallman.core.data.Result
-import com.colorata.wallman.core.data.launchIO
-import com.colorata.wallman.core.data.module.Logger
-import com.colorata.wallman.core.data.module.throwable
-import com.colorata.wallman.core.data.withIO
+import com.voidxog.wallman2.core.data.module.DownloadHandler
+import com.voidxog.wallman2.core.data.Strings
+import com.voidxog.wallman2.core.data.Result
+import com.voidxog.wallman2.core.data.launchIO
+import com.voidxog.wallman2.core.data.module.Logger
+import com.voidxog.wallman2.core.data.module.throwable
+import com.voidxog.wallman2.core.data.withIO
 import io.ktor.client.*
 import io.ktor.client.call.*
 import io.ktor.client.request.*

@@ -1,7 +1,7 @@
-package com.colorata.wallman.widget.api
+package com.voidxog.wallman2.widget.api
 
-import com.colorata.wallman.wallpapers.DynamicWallpaper
-import com.colorata.wallman.wallpapers.WallpaperI
+import com.voidxog.wallman2.wallpapers.DynamicWallpaper
+import com.voidxog.wallman2.wallpapers.WallpaperI
 
 interface EverydayWidget {
 

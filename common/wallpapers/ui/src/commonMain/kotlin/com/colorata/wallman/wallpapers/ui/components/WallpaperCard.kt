@@ -1,4 +1,4 @@
-package com.colorata.wallman.wallpapers.ui.components
+package com.voidxog.wallman2.wallpapers.ui.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -32,20 +32,20 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.colorata.wallman.core.data.Strings
-import com.colorata.wallman.core.data.bitmapAsset
-import com.colorata.wallman.core.data.rememberString
-import com.colorata.wallman.core.ui.LightDarkPreview
-import com.colorata.wallman.core.ui.components.PixelatedBadge
-import com.colorata.wallman.core.ui.shapes.LeafShape
-import com.colorata.wallman.core.ui.theme.WallManPreviewTheme
-import com.colorata.wallman.core.ui.theme.spacing
-import com.colorata.wallman.wallpapers.WallpaperI
-import com.colorata.wallman.wallpapers.WallpaperOptions
-import com.colorata.wallman.wallpapers.countIcon
-import com.colorata.wallman.wallpapers.firstPreviewRes
-import com.colorata.wallman.wallpapers.shortName
-import com.colorata.wallman.wallpapers.walls
+import com.voidxog.wallman2.core.data.Strings
+import com.voidxog.wallman2.core.data.bitmapAsset
+import com.voidxog.wallman2.core.data.rememberString
+import com.voidxog.wallman2.core.ui.LightDarkPreview
+import com.voidxog.wallman2.core.ui.components.PixelatedBadge
+import com.voidxog.wallman2.core.ui.shapes.LeafShape
+import com.voidxog.wallman2.core.ui.theme.WallManPreviewTheme
+import com.voidxog.wallman2.core.ui.theme.spacing
+import com.voidxog.wallman2.wallpapers.WallpaperI
+import com.voidxog.wallman2.wallpapers.WallpaperOptions
+import com.voidxog.wallman2.wallpapers.countIcon
+import com.voidxog.wallman2.wallpapers.firstPreviewRes
+import com.voidxog.wallman2.wallpapers.shortName
+import com.voidxog.wallman2.wallpapers.walls
 
 
 @Composable
@@ -57,7 +57,7 @@ fun WallpaperCard(
     Column(
         modifier
             .clip(
-                com.colorata.wallman.core.ui.shapes.RoundedCornerShapeTopBottom(
+                com.voidxog.wallman2.core.ui.shapes.RoundedCornerShapeTopBottom(
                     bottom = MaterialTheme.spacing.extraSmall,
                     top = MaterialTheme.spacing.large
                 )
@@ -116,7 +116,7 @@ fun WallpaperCard(
             maxLines = 2,
             modifier = Modifier
                 .clip(
-                    com.colorata.wallman.core.ui.shapes.RoundedCornerShapeTopBottom(
+                    com.voidxog.wallman2.core.ui.shapes.RoundedCornerShapeTopBottom(
                         top = MaterialTheme.spacing.extraSmall,
                         bottom = MaterialTheme.spacing.large
                     )

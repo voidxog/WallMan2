@@ -1,16 +1,16 @@
-package com.colorata.wallman.widget.viewmodel
+package com.voidxog.wallman2.widget.viewmodel
 
 import androidx.compose.runtime.Immutable
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.colorata.wallman.core.data.module.IntentHandler
-import com.colorata.wallman.core.data.launchIO
-import com.colorata.wallman.core.data.lazyMolecule
-import com.colorata.wallman.core.data.module.Logger
-import com.colorata.wallman.core.data.module.throwable
-import com.colorata.wallman.widget.api.EverydayWidgetRepository
-import com.colorata.wallman.widget.api.ShapeConfiguration
-import com.colorata.wallman.widget.api.WidgetModule
+import com.voidxog.wallman2.core.data.module.IntentHandler
+import com.voidxog.wallman2.core.data.launchIO
+import com.voidxog.wallman2.core.data.lazyMolecule
+import com.voidxog.wallman2.core.data.module.Logger
+import com.voidxog.wallman2.core.data.module.throwable
+import com.voidxog.wallman2.widget.api.EverydayWidgetRepository
+import com.voidxog.wallman2.widget.api.ShapeConfiguration
+import com.voidxog.wallman2.widget.api.WidgetModule
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
 

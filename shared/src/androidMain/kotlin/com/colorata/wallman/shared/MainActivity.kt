@@ -1,4 +1,4 @@
-package com.colorata.wallman.shared
+package com.voidxog.wallman2.shared
 
 import androidx.compose.runtime.Composable
 

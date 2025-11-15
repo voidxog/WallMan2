@@ -1,4 +1,4 @@
-package com.colorata.wallman.wallpapers.impl
+package com.voidxog.wallman2.wallpapers.impl
 
 import android.annotation.SuppressLint
 import android.app.WallpaperInfo
@@ -7,12 +7,12 @@ import android.content.Context
 import android.content.res.Resources
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import com.colorata.wallman.core.data.Result
-import com.colorata.wallman.core.data.launchIO
-import com.colorata.wallman.core.data.module.Logger
-import com.colorata.wallman.core.data.module.throwable
-import com.colorata.wallman.core.data.runResulting
-import com.colorata.wallman.wallpapers.WallpaperProvider
+import com.voidxog.wallman2.core.data.Result
+import com.voidxog.wallman2.core.data.launchIO
+import com.voidxog.wallman2.core.data.module.Logger
+import com.voidxog.wallman2.core.data.module.throwable
+import com.voidxog.wallman2.core.data.runResulting
+import com.voidxog.wallman2.wallpapers.WallpaperProvider
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow

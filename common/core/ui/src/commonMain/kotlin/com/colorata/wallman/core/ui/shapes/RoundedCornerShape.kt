@@ -1,4 +1,4 @@
-package com.colorata.wallman.core.ui.shapes
+package com.voidxog.wallman2.core.ui.shapes
 
 import androidx.compose.ui.unit.Dp
 
@@ -17,3 +17,4 @@ fun RoundedCornerShapeStartEnd(start: Dp, end: Dp = start) =
         bottomStart = start,
         bottomEnd = end
     )
+

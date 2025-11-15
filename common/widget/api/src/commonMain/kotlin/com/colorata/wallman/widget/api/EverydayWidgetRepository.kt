@@ -1,4 +1,4 @@
-package com.colorata.wallman.widget.api
+package com.voidxog.wallman2.widget.api
 
 interface EverydayWidgetRepository {
     val shapes: List<ShapeConfiguration>

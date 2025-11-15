@@ -1,4 +1,4 @@
-package com.colorata.wallman.wallpapers
+package com.voidxog.wallman2.wallpapers
 
 import android.os.Build
 import androidx.annotation.ChecksSdkIntAtLeast
@@ -9,3 +9,4 @@ class AndroidVersionCompatibilityChecker(internal val minSdk: Int): Compatibilit
         return Build.VERSION.SDK_INT >= minSdk
     }
 }
+

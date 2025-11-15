@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.colorata.wallman.core.data.icons
+package com.voidxog.wallman2.core.data.icons
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.materialIcon
@@ -61,3 +61,4 @@ val Icons.Filled.InstallMobile: ImageVector
     }
 
 private var _installMobile: ImageVector? = null
+

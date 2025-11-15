@@ -1,4 +1,4 @@
-package com.colorata.wallman.ui.icons
+package com.voidxog.wallman2.ui.icons
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.materialIcon
@@ -35,3 +35,4 @@ public val Icons.Filled.Image: ImageVector
     }
 
 private var _image: ImageVector? = null
+

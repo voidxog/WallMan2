@@ -1,14 +1,14 @@
-package com.colorata.wallman.settings.mirror.viewmodel
+package com.voidxog.wallman2.settings.mirror.viewmodel
 
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.lifecycle.ViewModel
-import com.colorata.wallman.core.data.module.ApplicationSettings
-import com.colorata.wallman.core.data.module.CoreModule
-import com.colorata.wallman.core.data.Strings
-import com.colorata.wallman.core.data.lazyMolecule
-import com.colorata.wallman.settings.mirror.api.Mirror
+import com.voidxog.wallman2.core.data.module.ApplicationSettings
+import com.voidxog.wallman2.core.data.module.CoreModule
+import com.voidxog.wallman2.core.data.Strings
+import com.voidxog.wallman2.core.data.lazyMolecule
+import com.voidxog.wallman2.settings.mirror.api.Mirror
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.coroutines.flow.map

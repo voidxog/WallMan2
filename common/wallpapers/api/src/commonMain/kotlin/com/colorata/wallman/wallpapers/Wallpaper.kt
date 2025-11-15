@@ -1,22 +1,22 @@
-package com.colorata.wallman.wallpapers
+package com.voidxog.wallman2.wallpapers
 
 import android.os.Build
 import androidx.compose.material.icons.Icons
 import androidx.compose.runtime.Immutable
 import androidx.compose.ui.graphics.vector.ImageVector
-import com.colorata.wallman.categories.api.WallpaperCategory
-import com.colorata.wallman.core.data.Coordinates
-import com.colorata.wallman.core.data.Polyglot
-import com.colorata.wallman.core.data.Strings
-import com.colorata.wallman.core.data.module.IntentHandler
-import com.colorata.wallman.core.data.serialization.SerializableImmutableList
-import com.colorata.wallman.core.data.simplifiedLocaleOf
-import com.colorata.wallman.ui.icons.Bolt
-import com.colorata.wallman.ui.icons.Filter2
-import com.colorata.wallman.ui.icons.Filter3
-import com.colorata.wallman.ui.icons.Filter4
-import com.colorata.wallman.ui.icons.Filter6
-import com.colorata.wallman.ui.icons.Image
+import com.voidxog.wallman2.categories.api.WallpaperCategory
+import com.voidxog.wallman2.core.data.Coordinates
+import com.voidxog.wallman2.core.data.Polyglot
+import com.voidxog.wallman2.core.data.Strings
+import com.voidxog.wallman2.core.data.module.IntentHandler
+import com.voidxog.wallman2.core.data.serialization.SerializableImmutableList
+import com.voidxog.wallman2.core.data.simplifiedLocaleOf
+import com.voidxog.wallman2.ui.icons.Bolt
+import com.voidxog.wallman2.ui.icons.Filter2
+import com.voidxog.wallman2.ui.icons.Filter3
+import com.voidxog.wallman2.ui.icons.Filter4
+import com.voidxog.wallman2.ui.icons.Filter6
+import com.voidxog.wallman2.ui.icons.Image
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.serialization.Serializable
@@ -2640,3 +2640,4 @@ val walls by createWallpapers {
         lightDarkStaticWallpaper("p9fold_porcelain")
     }
 }
+

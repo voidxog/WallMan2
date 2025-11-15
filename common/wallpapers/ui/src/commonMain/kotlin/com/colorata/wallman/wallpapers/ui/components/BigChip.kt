@@ -1,4 +1,4 @@
-package com.colorata.wallman.wallpapers.ui.components
+package com.voidxog.wallman2.wallpapers.ui.components
 
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.animateFloatAsState
@@ -21,17 +21,17 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
-import com.colorata.wallman.core.data.Polyglot
-import com.colorata.wallman.core.data.animation
-import com.colorata.wallman.core.data.rememberString
-import com.colorata.wallman.core.data.simplifiedLocaleOf
-import com.colorata.wallman.core.ui.DarkUIMode
-import com.colorata.wallman.core.ui.LightUIMode
-import com.colorata.wallman.core.ui.components.FontVariables
-import com.colorata.wallman.core.ui.components.Text
-import com.colorata.wallman.core.ui.modifiers.disabledWhen
-import com.colorata.wallman.core.ui.theme.WallManPreviewTheme
-import com.colorata.wallman.core.ui.theme.spacing
+import com.voidxog.wallman2.core.data.Polyglot
+import com.voidxog.wallman2.core.data.animation
+import com.voidxog.wallman2.core.data.rememberString
+import com.voidxog.wallman2.core.data.simplifiedLocaleOf
+import com.voidxog.wallman2.core.ui.DarkUIMode
+import com.voidxog.wallman2.core.ui.LightUIMode
+import com.voidxog.wallman2.core.ui.components.FontVariables
+import com.voidxog.wallman2.core.ui.components.Text
+import com.voidxog.wallman2.core.ui.modifiers.disabledWhen
+import com.voidxog.wallman2.core.ui.theme.WallManPreviewTheme
+import com.voidxog.wallman2.core.ui.theme.spacing
 
 @Composable
 fun BigChip(

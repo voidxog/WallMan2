@@ -1,4 +1,4 @@
-package com.colorata.wallman.core.data
+package com.voidxog.wallman2.core.data
 
 class HashMemoizer1<T, H, R>(
     private val hasher: (T) -> H,
@@ -45,3 +45,4 @@ fun <T1, T2, H, R> memoizeHash(hasher: (T1, T2) -> H, function: (T1, T2) -> R): 
 fun <T, R> memoize(function: (T) -> R): (T) -> R = Memoizer1(function)
 
 fun <T1, T2, R> memoize(function: (T1, T2) -> R): (T1, T2) -> R = Memoizer2(function)
+

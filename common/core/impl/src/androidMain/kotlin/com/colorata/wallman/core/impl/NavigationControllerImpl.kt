@@ -1,4 +1,4 @@
-package com.colorata.wallman.core.impl
+package com.voidxog.wallman2.core.impl
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
@@ -8,10 +8,10 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.colorata.wallman.core.data.Animation
-import com.colorata.wallman.core.data.Destination
-import com.colorata.wallman.core.data.MaterialNavGraphBuilder
-import com.colorata.wallman.core.data.module.NavigationController
+import com.voidxog.wallman2.core.data.Animation
+import com.voidxog.wallman2.core.data.Destination
+import com.voidxog.wallman2.core.data.MaterialNavGraphBuilder
+import com.voidxog.wallman2.core.data.module.NavigationController
 import kotlinx.coroutines.flow.MutableStateFlow
 
 class NavigationControllerImpl : NavigationController {

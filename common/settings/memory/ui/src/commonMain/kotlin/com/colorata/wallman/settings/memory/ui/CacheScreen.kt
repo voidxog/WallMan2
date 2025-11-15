@@ -1,4 +1,4 @@
-package com.colorata.wallman.settings.memory.ui
+package com.voidxog.wallman2.settings.memory.ui
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
@@ -16,28 +16,28 @@ import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.colorata.animateaslifestyle.material3.isCompact
 import com.colorata.animateaslifestyle.stagger.ExperimentalStaggerApi
-import com.colorata.wallman.core.data.Destinations
-import com.colorata.wallman.core.data.MaterialNavGraphBuilder
-import com.colorata.wallman.core.data.Strings
-import com.colorata.wallman.core.data.continuousComposable
-import com.colorata.wallman.core.data.mutate
-import com.colorata.wallman.core.data.rememberString
-import com.colorata.wallman.core.data.viewModel
-import com.colorata.wallman.core.ui.list.animatedAsGridAtLaunch
-import com.colorata.wallman.core.ui.list.rememberVisibilityList
-import com.colorata.wallman.core.ui.list.visibilityItems
-import com.colorata.wallman.core.ui.modifiers.Padding
-import com.colorata.wallman.core.ui.modifiers.navigationBarPadding
-import com.colorata.wallman.core.ui.theme.screenPadding
-import com.colorata.wallman.core.ui.theme.spacing
-import com.colorata.wallman.core.ui.util.LocalWindowSizeConfiguration
-import com.colorata.wallman.core.ui.util.fullLineItem
-import com.colorata.wallman.settings.memory.api.MemoryDestination
-import com.colorata.wallman.settings.memory.ui.components.CacheCard
-import com.colorata.wallman.settings.memory.viewmodel.CacheViewModel
-import com.colorata.wallman.wallpapers.WallpaperPacks
-import com.colorata.wallman.wallpapers.WallpapersModule
-import com.colorata.wallman.wallpapers.sizeInMb
+import com.voidxog.wallman2.core.data.Destinations
+import com.voidxog.wallman2.core.data.MaterialNavGraphBuilder
+import com.voidxog.wallman2.core.data.Strings
+import com.voidxog.wallman2.core.data.continuousComposable
+import com.voidxog.wallman2.core.data.mutate
+import com.voidxog.wallman2.core.data.rememberString
+import com.voidxog.wallman2.core.data.viewModel
+import com.voidxog.wallman2.core.ui.list.animatedAsGridAtLaunch
+import com.voidxog.wallman2.core.ui.list.rememberVisibilityList
+import com.voidxog.wallman2.core.ui.list.visibilityItems
+import com.voidxog.wallman2.core.ui.modifiers.Padding
+import com.voidxog.wallman2.core.ui.modifiers.navigationBarPadding
+import com.voidxog.wallman2.core.ui.theme.screenPadding
+import com.voidxog.wallman2.core.ui.theme.spacing
+import com.voidxog.wallman2.core.ui.util.LocalWindowSizeConfiguration
+import com.voidxog.wallman2.core.ui.util.fullLineItem
+import com.voidxog.wallman2.settings.memory.api.MemoryDestination
+import com.voidxog.wallman2.settings.memory.ui.components.CacheCard
+import com.voidxog.wallman2.settings.memory.viewmodel.CacheViewModel
+import com.voidxog.wallman2.wallpapers.WallpaperPacks
+import com.voidxog.wallman2.wallpapers.WallpapersModule
+import com.voidxog.wallman2.wallpapers.sizeInMb
 
 context(WallpapersModule)
 fun MaterialNavGraphBuilder.cacheScreen() {
@@ -110,3 +110,4 @@ private fun CacheScreenLayout(
         }
     }
 }
+

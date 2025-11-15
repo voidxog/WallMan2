@@ -1,14 +1,14 @@
-package com.colorata.wallman.settings.memory.viewmodel
+package com.voidxog.wallman2.settings.memory.viewmodel
 
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.colorata.wallman.core.data.lazyMolecule
-import com.colorata.wallman.wallpapers.WallpaperManager
-import com.colorata.wallman.wallpapers.WallpaperPacks
-import com.colorata.wallman.wallpapers.WallpapersModule
+import com.voidxog.wallman2.core.data.lazyMolecule
+import com.voidxog.wallman2.wallpapers.WallpaperManager
+import com.voidxog.wallman2.wallpapers.WallpaperPacks
+import com.voidxog.wallman2.wallpapers.WallpapersModule
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.launch

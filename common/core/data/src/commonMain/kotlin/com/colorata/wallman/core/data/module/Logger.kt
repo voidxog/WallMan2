@@ -1,4 +1,4 @@
-package com.colorata.wallman.core.data.module
+package com.voidxog.wallman2.core.data.module
 
 interface Logger {
     fun info(tag: String, message: String)

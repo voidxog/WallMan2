@@ -1,4 +1,4 @@
-package com.colorata.wallman.baselineprofile
+package com.voidxog.wallman2.baselineprofile
 
 import androidx.benchmark.macro.BaselineProfileMode
 import androidx.benchmark.macro.CompilationMode
@@ -47,7 +47,7 @@ class StartupBenchmarks {
 
     private fun benchmark(compilationMode: CompilationMode) {
         rule.measureRepeated(
-            packageName = "com.colorata.wallman",
+            packageName = "com.voidxog.wallman2",
             metrics = listOf(StartupTimingMetric()),
             compilationMode = compilationMode,
             startupMode = StartupMode.COLD,

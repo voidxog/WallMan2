@@ -6,7 +6,7 @@
 
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
-<a href="https://apt.izzysoft.de/packages/com.colorata.wallman/"><img src="https://gitlab.com/IzzyOnDroid/repo/-/raw/master/assets/IzzyOnDroid.png" alt="Get it on IzzyOnDroid" height="80"></a>
+<a href="https://apt.izzysoft.de/packages/com.voidxog.wallman2/"><img src="https://gitlab.com/IzzyOnDroid/repo/-/raw/master/assets/IzzyOnDroid.png" alt="Get it on IzzyOnDroid" height="80"></a>
 
 **You can get legacy version [here](https://gitlab.com/colorata/WallMan-legacy)**
 
@@ -81,3 +81,4 @@ There is a guide how to build:
 ## 💬 Messaging
 
 [Telegram](https://t.me/colorataNews)
+

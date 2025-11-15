@@ -1,4 +1,4 @@
-package com.colorata.wallman.core.ui.components
+package com.voidxog.wallman2.core.ui.components
 
 import androidx.compose.animation.core.Animatable
 import androidx.compose.foundation.background
@@ -20,13 +20,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import com.colorata.animateaslifestyle.isCompositionLaunched
-import com.colorata.wallman.core.data.animation
-import com.colorata.wallman.core.ui.LightDarkPreview
-import com.colorata.wallman.core.ui.modifiers.RotationState
-import com.colorata.wallman.core.ui.modifiers.detectRotation
-import com.colorata.wallman.core.ui.modifiers.displayRotation
-import com.colorata.wallman.core.ui.modifiers.rememberRotationState
-import com.colorata.wallman.core.ui.theme.WallManPreviewTheme
+import com.voidxog.wallman2.core.data.animation
+import com.voidxog.wallman2.core.ui.LightDarkPreview
+import com.voidxog.wallman2.core.ui.modifiers.RotationState
+import com.voidxog.wallman2.core.ui.modifiers.detectRotation
+import com.voidxog.wallman2.core.ui.modifiers.displayRotation
+import com.voidxog.wallman2.core.ui.modifiers.rememberRotationState
+import com.voidxog.wallman2.core.ui.theme.WallManPreviewTheme
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 

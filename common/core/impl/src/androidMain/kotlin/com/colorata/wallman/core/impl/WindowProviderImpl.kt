@@ -1,8 +1,8 @@
-package com.colorata.wallman.core.impl
+package com.voidxog.wallman2.core.impl
 
 import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
-import com.colorata.wallman.core.data.module.WindowProvider
+import com.voidxog.wallman2.core.data.module.WindowProvider
 
 internal class WindowProviderImpl(private val windowSize: WindowSizeClass): WindowProvider {
     override fun isLayoutCompact(): Boolean =

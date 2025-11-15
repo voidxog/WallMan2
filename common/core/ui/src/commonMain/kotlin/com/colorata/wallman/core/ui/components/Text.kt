@@ -1,4 +1,4 @@
-package com.colorata.wallman.core.ui.components
+package com.voidxog.wallman2.core.ui.components
 
 import androidx.annotation.FloatRange
 import androidx.compose.material3.LocalTextStyle
@@ -19,7 +19,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.TextUnit
-import com.colorata.wallman.core.ui.R
+import com.voidxog.wallman2.core.ui.R
 
 @OptIn(ExperimentalTextApi::class)
 @Composable

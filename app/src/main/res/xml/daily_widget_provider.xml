@@ -3,7 +3,7 @@
     android:description="@string/daily_widget_description"
     android:minWidth="100dp"
     android:minHeight="100dp"
-    android:configure="com.colorata.wallman.shared.ShapePickerActivity"
+    android:configure="com.voidxog.wallman2.shared.ShapePickerActivity"
     android:resizeMode="horizontal|vertical"
     android:widgetCategory="home_screen"
     android:updatePeriodMillis="1800000"

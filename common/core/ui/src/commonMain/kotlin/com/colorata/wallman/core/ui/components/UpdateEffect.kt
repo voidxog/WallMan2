@@ -1,4 +1,4 @@
-package com.colorata.wallman.core.ui.components
+package com.voidxog.wallman2.core.ui.components
 
 import android.annotation.SuppressLint
 import android.graphics.RenderEffect
@@ -30,10 +30,10 @@ import androidx.compose.ui.graphics.drawscope.scale
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.unit.dp
-import com.colorata.wallman.core.data.animation
-import com.colorata.wallman.core.data.memoize
-import com.colorata.wallman.core.ui.LightDarkPreview
-import com.colorata.wallman.core.ui.theme.WallManPreviewTheme
+import com.voidxog.wallman2.core.data.animation
+import com.voidxog.wallman2.core.data.memoize
+import com.voidxog.wallman2.core.ui.LightDarkPreview
+import com.voidxog.wallman2.core.ui.theme.WallManPreviewTheme
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.delay

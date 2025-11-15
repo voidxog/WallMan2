@@ -1,6 +1,6 @@
-package com.colorata.wallman.settings.about.api
+package com.voidxog.wallman2.settings.about.api
 
-import com.colorata.wallman.core.data.Destination
-import com.colorata.wallman.core.data.Destinations
+import com.voidxog.wallman2.core.data.Destination
+import com.voidxog.wallman2.core.data.Destinations
 
 fun Destinations.AboutDestination() = Destination("About")

@@ -1,4 +1,4 @@
-package com.colorata.wallman.core.ui.util
+package com.voidxog.wallman2.core.ui.util
 
 import androidx.compose.foundation.lazy.staggeredgrid.LazyStaggeredGridItemScope
 import androidx.compose.foundation.lazy.staggeredgrid.LazyStaggeredGridScope

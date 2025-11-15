@@ -1,4 +1,4 @@
-package com.colorata.wallman.core.ui.theme
+package com.voidxog.wallman2.core.ui.theme
 
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.runtime.compositionLocalOf

@@ -1,4 +1,4 @@
-package com.colorata.wallman.wallpapers.ui.components
+package com.voidxog.wallman2.wallpapers.ui.components
 
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.Image
@@ -17,10 +17,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
-import com.colorata.wallman.core.data.animation
-import com.colorata.wallman.core.data.bitmapAsset
-import com.colorata.wallman.core.ui.modifiers.disabledWhen
-import com.colorata.wallman.core.ui.theme.spacing
+import com.voidxog.wallman2.core.data.animation
+import com.voidxog.wallman2.core.data.bitmapAsset
+import com.voidxog.wallman2.core.ui.modifiers.disabledWhen
+import com.voidxog.wallman2.core.ui.theme.spacing
 import kotlinx.collections.immutable.ImmutableList
 
 @Composable
@@ -66,3 +66,4 @@ fun WallpaperVariants(
         }
     }
 }
+

@@ -1,14 +1,14 @@
-package com.colorata.wallman.wallpapers.viewmodel
+package com.voidxog.wallman2.wallpapers.viewmodel
 
 import androidx.compose.runtime.Immutable
 import androidx.lifecycle.ViewModel
-import com.colorata.wallman.core.data.Destinations
-import com.colorata.wallman.core.data.lazyMolecule
-import com.colorata.wallman.core.data.module.NavigationController
-import com.colorata.wallman.wallpapers.WallpaperDetailsDestination
-import com.colorata.wallman.wallpapers.WallpaperI
-import com.colorata.wallman.wallpapers.WallpapersModule
-import com.colorata.wallman.wallpapers.WallpapersRepository
+import com.voidxog.wallman2.core.data.Destinations
+import com.voidxog.wallman2.core.data.lazyMolecule
+import com.voidxog.wallman2.core.data.module.NavigationController
+import com.voidxog.wallman2.wallpapers.WallpaperDetailsDestination
+import com.voidxog.wallman2.wallpapers.WallpaperI
+import com.voidxog.wallman2.wallpapers.WallpapersModule
+import com.voidxog.wallman2.wallpapers.WallpapersRepository
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
 
@@ -57,3 +57,4 @@ class MainViewModel(
         data class ClickOnWallpaper(val wallpaper: WallpaperI) : MainScreenEvent
     }
 }
+

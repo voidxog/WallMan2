@@ -1,6 +1,6 @@
-package com.colorata.wallman.core.data.module
+package com.voidxog.wallman2.core.data.module
 
-import com.colorata.wallman.core.data.AnimationType
+import com.voidxog.wallman2.core.data.AnimationType
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.serialization.Serializable

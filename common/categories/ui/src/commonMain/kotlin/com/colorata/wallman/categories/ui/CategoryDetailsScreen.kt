@@ -1,19 +1,19 @@
-package com.colorata.wallman.categories.ui
+package com.voidxog.wallman2.categories.ui
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.colorata.wallman.categories.api.CategoryDetailsDestination
-import com.colorata.wallman.categories.viewmodel.CategoryDetailsViewModel
-import com.colorata.wallman.core.data.Destinations
-import com.colorata.wallman.core.data.MaterialNavGraphBuilder
-import com.colorata.wallman.core.data.continuousComposable
-import com.colorata.wallman.core.data.parameter
-import com.colorata.wallman.core.data.rememberString
-import com.colorata.wallman.core.data.viewModel
-import com.colorata.wallman.wallpapers.WallpapersModule
-import com.colorata.wallman.wallpapers.ui.components.FilteredWallpaperCards
+import com.voidxog.wallman2.categories.api.CategoryDetailsDestination
+import com.voidxog.wallman2.categories.viewmodel.CategoryDetailsViewModel
+import com.voidxog.wallman2.core.data.Destinations
+import com.voidxog.wallman2.core.data.MaterialNavGraphBuilder
+import com.voidxog.wallman2.core.data.continuousComposable
+import com.voidxog.wallman2.core.data.parameter
+import com.voidxog.wallman2.core.data.rememberString
+import com.voidxog.wallman2.core.data.viewModel
+import com.voidxog.wallman2.wallpapers.WallpapersModule
+import com.voidxog.wallman2.wallpapers.ui.components.FilteredWallpaperCards
 
 context(WallpapersModule)
 fun MaterialNavGraphBuilder.categoryDetailsScreen() {

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.colorata.wallman.ui.icons
+package com.voidxog.wallman2.ui.icons
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.materialIcon
@@ -53,3 +53,4 @@ public val Icons.Outlined.Folder: ImageVector
     }
 
 private var _folder: ImageVector? = null
+

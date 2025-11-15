@@ -1,4 +1,4 @@
-package com.colorata.wallman.core.ui.shapes
+package com.voidxog.wallman2.core.ui.shapes
 
 import android.graphics.Matrix
 import androidx.compose.ui.geometry.CornerRadius

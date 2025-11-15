@@ -1,4 +1,4 @@
-package com.colorata.wallman.core.ui.theme
+package com.voidxog.wallman2.core.ui.theme
 
 import android.app.Activity
 import android.os.Build
@@ -33,8 +33,8 @@ import androidx.compose.ui.unit.toSize
 import androidx.core.view.WindowCompat
 import com.colorata.animateaslifestyle.AnimationsPerformance
 import com.colorata.animateaslifestyle.LocalAnimationsPerformance
-import com.colorata.wallman.core.ui.util.ProvideBitmapAssetStorePreview
-import com.colorata.wallman.core.ui.util.ProvideWindowSize
+import com.voidxog.wallman2.core.ui.util.ProvideBitmapAssetStorePreview
+import com.voidxog.wallman2.core.ui.util.ProvideWindowSize
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import kotlin.math.ln
 

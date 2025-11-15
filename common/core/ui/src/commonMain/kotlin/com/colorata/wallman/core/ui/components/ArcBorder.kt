@@ -1,4 +1,4 @@
-package com.colorata.wallman.core.ui.components
+package com.voidxog.wallman2.core.ui.components
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Canvas

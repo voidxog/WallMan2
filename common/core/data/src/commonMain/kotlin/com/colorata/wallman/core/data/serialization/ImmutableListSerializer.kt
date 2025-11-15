@@ -1,4 +1,4 @@
-package com.colorata.wallman.core.data.serialization
+package com.voidxog.wallman2.core.data.serialization
 
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toPersistentList

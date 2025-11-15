@@ -1,4 +1,4 @@
-package com.colorata.wallman.wallpapers
+package com.voidxog.wallman2.wallpapers
 
 fun interface CompatibilityChecker {
     fun isCompatible(): Boolean

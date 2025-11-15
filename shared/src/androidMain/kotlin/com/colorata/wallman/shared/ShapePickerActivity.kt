@@ -1,8 +1,8 @@
-package com.colorata.wallman.shared
+package com.voidxog.wallman2.shared
 
 import androidx.compose.runtime.Composable
-import com.colorata.wallman.core.di.LocalGraph
-import com.colorata.wallman.widget.ui.ShapePickerScreen
+import com.voidxog.wallman2.core.di.LocalGraph
+import com.voidxog.wallman2.widget.ui.ShapePickerScreen
 
 class ShapePickerActivity: GraphActivity() {
     @Composable

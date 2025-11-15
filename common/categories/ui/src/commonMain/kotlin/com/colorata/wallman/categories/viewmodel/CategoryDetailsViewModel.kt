@@ -1,12 +1,12 @@
-package com.colorata.wallman.categories.viewmodel
+package com.voidxog.wallman2.categories.viewmodel
 
 import androidx.compose.runtime.Immutable
 import androidx.lifecycle.ViewModel
-import com.colorata.wallman.categories.api.WallpaperCategory
-import com.colorata.wallman.core.data.Destinations
-import com.colorata.wallman.core.data.lazyMolecule
-import com.colorata.wallman.core.data.module.NavigationController
-import com.colorata.wallman.wallpapers.*
+import com.voidxog.wallman2.categories.api.WallpaperCategory
+import com.voidxog.wallman2.core.data.Destinations
+import com.voidxog.wallman2.core.data.lazyMolecule
+import com.voidxog.wallman2.core.data.module.NavigationController
+import com.voidxog.wallman2.wallpapers.*
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
 

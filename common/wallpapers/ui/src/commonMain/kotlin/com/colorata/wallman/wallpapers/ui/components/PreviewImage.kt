@@ -1,4 +1,4 @@
-package com.colorata.wallman.wallpapers.ui.components
+package com.voidxog.wallman2.wallpapers.ui.components
 
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.core.LinearEasing
@@ -36,17 +36,17 @@ import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalLayoutDirection
-import com.colorata.wallman.core.data.animation
-import com.colorata.wallman.core.data.bitmapAsset
-import com.colorata.wallman.core.ui.LightDarkPreview
-import com.colorata.wallman.core.ui.components.updateEffect
-import com.colorata.wallman.core.ui.modifiers.detectRotation
-import com.colorata.wallman.core.ui.modifiers.displayRotation
-import com.colorata.wallman.core.ui.modifiers.drawWithMask
-import com.colorata.wallman.core.ui.modifiers.rememberRotationState
-import com.colorata.wallman.core.ui.shapes.ScallopShape
-import com.colorata.wallman.core.ui.theme.WallManPreviewTheme
-import com.colorata.wallman.core.ui.theme.spacing
+import com.voidxog.wallman2.core.data.animation
+import com.voidxog.wallman2.core.data.bitmapAsset
+import com.voidxog.wallman2.core.ui.LightDarkPreview
+import com.voidxog.wallman2.core.ui.components.updateEffect
+import com.voidxog.wallman2.core.ui.modifiers.detectRotation
+import com.voidxog.wallman2.core.ui.modifiers.displayRotation
+import com.voidxog.wallman2.core.ui.modifiers.drawWithMask
+import com.voidxog.wallman2.core.ui.modifiers.rememberRotationState
+import com.voidxog.wallman2.core.ui.shapes.ScallopShape
+import com.voidxog.wallman2.core.ui.theme.WallManPreviewTheme
+import com.voidxog.wallman2.core.ui.theme.spacing
 import kotlin.random.Random
 import kotlin.random.nextInt
 

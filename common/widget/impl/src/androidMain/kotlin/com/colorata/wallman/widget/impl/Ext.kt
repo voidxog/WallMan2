@@ -1,12 +1,12 @@
-package com.colorata.wallman.widget.impl
+package com.voidxog.wallman2.widget.impl
 
 import android.app.Activity
 import android.appwidget.AppWidgetManager
 import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.glance.appwidget.GlanceAppWidgetManager
 import androidx.glance.appwidget.state.updateAppWidgetState
-import com.colorata.wallman.widget.api.EverydayWidget
-import com.colorata.wallman.widget.ui_widget.EverydayWidgetContent
+import com.voidxog.wallman2.widget.api.EverydayWidget
+import com.voidxog.wallman2.widget.ui_widget.EverydayWidgetContent
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.channelFlow
 
@@ -27,7 +27,7 @@ fun Activity.currentWidgetShapeId(): Flow<Int?> {
             it.apply {
                 val id =
                     this[intPreferencesKey(EverydayWidget.shapeKey)]
-                        ?: com.colorata.wallman.widget.api.R.drawable.ic_clever
+                        ?: com.voidxog.wallman2.widget.api.R.drawable.ic_clever
                 send(id)
             }
         }

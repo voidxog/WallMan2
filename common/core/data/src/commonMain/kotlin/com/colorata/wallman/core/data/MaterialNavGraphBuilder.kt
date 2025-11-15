@@ -1,4 +1,4 @@
-package com.colorata.wallman.core.data
+package com.voidxog.wallman2.core.data
 
 import androidx.compose.animation.*
 import androidx.compose.animation.core.FastOutLinearInEasing

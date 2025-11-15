@@ -1,4 +1,4 @@
-package com.colorata.wallman.core.ui.components
+package com.voidxog.wallman2.core.ui.components
 
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.animateFloatAsState
@@ -29,13 +29,13 @@ import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.unit.times
-import com.colorata.wallman.core.data.Polyglot
-import com.colorata.wallman.core.data.animation
-import com.colorata.wallman.core.data.rememberString
-import com.colorata.wallman.core.data.simplifiedLocaleOf
-import com.colorata.wallman.core.ui.LightDarkPreview
-import com.colorata.wallman.core.ui.theme.WallManPreviewTheme
-import com.colorata.wallman.core.ui.theme.spacing
+import com.voidxog.wallman2.core.data.Polyglot
+import com.voidxog.wallman2.core.data.animation
+import com.voidxog.wallman2.core.data.rememberString
+import com.voidxog.wallman2.core.data.simplifiedLocaleOf
+import com.voidxog.wallman2.core.ui.LightDarkPreview
+import com.voidxog.wallman2.core.ui.theme.WallManPreviewTheme
+import com.voidxog.wallman2.core.ui.theme.spacing
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toImmutableList

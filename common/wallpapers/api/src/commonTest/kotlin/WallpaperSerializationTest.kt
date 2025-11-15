@@ -1,5 +1,5 @@
-import com.colorata.wallman.core.data.serialization.Json
-import com.colorata.wallman.wallpapers.walls
+import com.voidxog.wallman2.core.data.serialization.Json
+import com.voidxog.wallman2.wallpapers.walls
 import kotlinx.serialization.encodeToString
 import org.junit.Test
 import java.io.File

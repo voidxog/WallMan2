@@ -1,14 +1,14 @@
-package com.colorata.wallman.core.impl
+package com.voidxog.wallman2.core.impl
 
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
 import android.os.Build
 import android.os.FileObserver
-import com.colorata.wallman.core.data.module.SystemProvider
-import com.colorata.wallman.core.data.launchIO
-import com.colorata.wallman.core.data.module.Logger
-import com.colorata.wallman.core.data.module.throwable
+import com.voidxog.wallman2.core.data.module.SystemProvider
+import com.voidxog.wallman2.core.data.launchIO
+import com.voidxog.wallman2.core.data.module.Logger
+import com.voidxog.wallman2.core.data.module.throwable
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

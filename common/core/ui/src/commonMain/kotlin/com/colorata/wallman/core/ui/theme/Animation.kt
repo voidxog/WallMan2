@@ -1,4 +1,4 @@
-package com.colorata.wallman.core.ui.theme
+package com.voidxog.wallman2.core.ui.theme
 
 import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.runtime.Composable
@@ -13,8 +13,8 @@ import com.colorata.animateaslifestyle.scaleVertically
 import com.colorata.animateaslifestyle.slide
 import com.colorata.animateaslifestyle.slideHorizontally
 import com.colorata.animateaslifestyle.slideVertically
-import com.colorata.wallman.core.data.Animation
-import com.colorata.wallman.core.data.AnimationType
+import com.voidxog.wallman2.core.data.Animation
+import com.voidxog.wallman2.core.data.AnimationType
 
 @Composable
 fun Animation.emphasizedEnterExit(

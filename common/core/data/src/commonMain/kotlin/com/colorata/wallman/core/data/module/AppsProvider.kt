@@ -1,7 +1,7 @@
-package com.colorata.wallman.core.data.module
+package com.voidxog.wallman2.core.data.module
 
-import com.colorata.wallman.core.data.Loadable
-import com.colorata.wallman.core.data.Result
+import com.voidxog.wallman2.core.data.Loadable
+import com.voidxog.wallman2.core.data.Result
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 

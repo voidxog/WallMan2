@@ -1,10 +1,10 @@
-package com.colorata.wallman.core.data.module
+package com.voidxog.wallman2.core.data.module
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import com.colorata.wallman.core.data.Animation
-import com.colorata.wallman.core.data.Destination
-import com.colorata.wallman.core.data.MaterialNavGraphBuilder
+import com.voidxog.wallman2.core.data.Animation
+import com.voidxog.wallman2.core.data.Destination
+import com.voidxog.wallman2.core.data.MaterialNavGraphBuilder
 import kotlinx.coroutines.flow.StateFlow
 
 interface NavigationController {
@@ -25,3 +25,4 @@ interface NavigationController {
         builder: MaterialNavGraphBuilder.() -> Unit
     )
 }
+

@@ -1,4 +1,4 @@
-package com.colorata.wallman.widget.impl
+package com.voidxog.wallman2.widget.impl
 
 import android.app.Activity
 import android.appwidget.AppWidgetManager
@@ -10,11 +10,11 @@ import androidx.glance.appwidget.GlanceAppWidgetManager
 import androidx.glance.appwidget.state.updateAppWidgetState
 import androidx.work.Configuration
 import androidx.work.WorkManager
-import com.colorata.wallman.core.data.Strings
-import com.colorata.wallman.widget.api.EverydayWidget
-import com.colorata.wallman.widget.api.EverydayWidgetRepository
-import com.colorata.wallman.widget.api.R
-import com.colorata.wallman.widget.api.ShapeConfiguration
+import com.voidxog.wallman2.core.data.Strings
+import com.voidxog.wallman2.widget.api.EverydayWidget
+import com.voidxog.wallman2.widget.api.EverydayWidgetRepository
+import com.voidxog.wallman2.widget.api.R
+import com.voidxog.wallman2.widget.api.ShapeConfiguration
 
 class EverydayWidgetRepositoryImpl(
     private val currentShapeId: Int?, private val context: Context

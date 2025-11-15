@@ -1,6 +1,6 @@
 @file:Suppress("UnusedReceiverParameter")
 
-package com.colorata.wallman.core.ui.modifiers
+package com.voidxog.wallman2.core.ui.modifiers
 
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.WindowInsets
@@ -18,7 +18,7 @@ import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.offset
-import com.colorata.wallman.core.ui.theme.LocalPaddings
+import com.voidxog.wallman2.core.ui.theme.LocalPaddings
 
 
 object Padding

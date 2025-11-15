@@ -1,4 +1,4 @@
-package com.colorata.wallman.core.data
+package com.voidxog.wallman2.core.data
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisallowComposableCalls

@@ -1,4 +1,4 @@
-package com.colorata.wallman.wallpapers.ui
+package com.voidxog.wallman2.wallpapers.ui
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -12,22 +12,22 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.colorata.animateaslifestyle.material3.isCompact
-import com.colorata.wallman.core.data.Destinations
-import com.colorata.wallman.core.data.MaterialNavGraphBuilder
-import com.colorata.wallman.core.data.Strings
-import com.colorata.wallman.core.data.bitmapAsset
-import com.colorata.wallman.core.data.flatComposable
-import com.colorata.wallman.core.data.rememberString
-import com.colorata.wallman.core.data.viewModel
-import com.colorata.wallman.core.ui.theme.spacing
-import com.colorata.wallman.core.ui.util.LocalWindowSizeConfiguration
-import com.colorata.wallman.wallpapers.MainDestination
-import com.colorata.wallman.wallpapers.WallpaperI
-import com.colorata.wallman.wallpapers.WallpapersModule
-import com.colorata.wallman.wallpapers.firstPreviewRes
-import com.colorata.wallman.wallpapers.ui.components.FeaturedWallpapersCarousel
-import com.colorata.wallman.wallpapers.ui.components.FilteredWallpaperCards
-import com.colorata.wallman.wallpapers.viewmodel.MainViewModel
+import com.voidxog.wallman2.core.data.Destinations
+import com.voidxog.wallman2.core.data.MaterialNavGraphBuilder
+import com.voidxog.wallman2.core.data.Strings
+import com.voidxog.wallman2.core.data.bitmapAsset
+import com.voidxog.wallman2.core.data.flatComposable
+import com.voidxog.wallman2.core.data.rememberString
+import com.voidxog.wallman2.core.data.viewModel
+import com.voidxog.wallman2.core.ui.theme.spacing
+import com.voidxog.wallman2.core.ui.util.LocalWindowSizeConfiguration
+import com.voidxog.wallman2.wallpapers.MainDestination
+import com.voidxog.wallman2.wallpapers.WallpaperI
+import com.voidxog.wallman2.wallpapers.WallpapersModule
+import com.voidxog.wallman2.wallpapers.firstPreviewRes
+import com.voidxog.wallman2.wallpapers.ui.components.FeaturedWallpapersCarousel
+import com.voidxog.wallman2.wallpapers.ui.components.FilteredWallpaperCards
+import com.voidxog.wallman2.wallpapers.viewmodel.MainViewModel
 import kotlinx.collections.immutable.toImmutableList
 
 context(WallpapersModule)

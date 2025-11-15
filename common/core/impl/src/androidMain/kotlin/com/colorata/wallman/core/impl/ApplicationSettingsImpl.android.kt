@@ -1,13 +1,13 @@
-package com.colorata.wallman.core.impl
+package com.voidxog.wallman2.core.impl
 
 import android.content.Context
 import androidx.datastore.core.Serializer
 import androidx.datastore.dataStore
-import com.colorata.wallman.core.data.module.AppSettings
-import com.colorata.wallman.core.data.module.ApplicationSettings
-import com.colorata.wallman.core.data.launchIO
-import com.colorata.wallman.core.data.module.Logger
-import com.colorata.wallman.core.data.module.throwable
+import com.voidxog.wallman2.core.data.module.AppSettings
+import com.voidxog.wallman2.core.data.module.ApplicationSettings
+import com.voidxog.wallman2.core.data.launchIO
+import com.voidxog.wallman2.core.data.module.Logger
+import com.voidxog.wallman2.core.data.module.throwable
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow

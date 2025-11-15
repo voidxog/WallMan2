@@ -1,11 +1,11 @@
-package com.colorata.wallman.widget.impl
+package com.voidxog.wallman2.widget.impl
 
 import android.content.Context
 import androidx.glance.appwidget.GlanceAppWidgetManager
 import androidx.glance.appwidget.state.updateAppWidgetState
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
-import com.colorata.wallman.widget.ui_widget.EverydayWidgetContent
+import com.voidxog.wallman2.widget.ui_widget.EverydayWidgetContent
 
 class WidgetUpdater(private val context: Context, workerParams: WorkerParameters) :
     CoroutineWorker(context, workerParams) {

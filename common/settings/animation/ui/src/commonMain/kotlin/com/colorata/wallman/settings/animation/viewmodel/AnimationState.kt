@@ -1,6 +1,6 @@
-package com.colorata.wallman.settings.animation.viewmodel
+package com.voidxog.wallman2.settings.animation.viewmodel
 
-import com.colorata.wallman.core.data.AnimationType
+import com.voidxog.wallman2.core.data.AnimationType
 import kotlinx.collections.immutable.ImmutableList
 
 data class AnimationState(

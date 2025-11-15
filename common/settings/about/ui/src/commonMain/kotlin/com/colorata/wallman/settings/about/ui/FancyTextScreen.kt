@@ -1,4 +1,4 @@
-package com.colorata.wallman.settings.about.ui
+package com.voidxog.wallman2.settings.about.ui
 
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.AnimationVector1D
@@ -21,9 +21,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
-import com.colorata.wallman.core.ui.components.FontVariables
-import com.colorata.wallman.core.ui.components.Text
-import com.colorata.wallman.core.ui.theme.WallManPreviewTheme
+import com.voidxog.wallman2.core.ui.components.FontVariables
+import com.voidxog.wallman2.core.ui.components.Text
+import com.voidxog.wallman2.core.ui.theme.WallManPreviewTheme
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch

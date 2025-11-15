@@ -1,8 +1,8 @@
-package com.colorata.wallman.core.ui.shapes
+package com.voidxog.wallman2.core.ui.shapes
 
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.ui.unit.Dp
-import com.colorata.wallman.core.ui.theme.Spacing
+import com.voidxog.wallman2.core.ui.theme.Spacing
 
 
 fun LeafShape(

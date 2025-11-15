@@ -1,6 +1,6 @@
-package com.colorata.wallman.core.data.serialization
+package com.voidxog.wallman2.core.data.serialization
 
-import com.colorata.wallman.core.data.Coordinates
+import com.voidxog.wallman2.core.data.Coordinates
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.ImmutableMap
 import kotlinx.serialization.json.Json

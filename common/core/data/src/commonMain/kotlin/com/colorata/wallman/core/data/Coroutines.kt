@@ -1,13 +1,13 @@
-package com.colorata.wallman.core.data
+package com.voidxog.wallman2.core.data
 
 import androidx.compose.runtime.Composable
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.colorata.wallman.core.data.module.Logger
-import com.colorata.wallman.core.data.module.throwable
-import com.colorata.wallman.core.data.molecule.GatedFrameClock
-import com.colorata.wallman.core.data.molecule.RecompositionMode
-import com.colorata.wallman.core.data.molecule.launchMolecule
+import com.voidxog.wallman2.core.data.module.Logger
+import com.voidxog.wallman2.core.data.module.throwable
+import com.voidxog.wallman2.core.data.molecule.GatedFrameClock
+import com.voidxog.wallman2.core.data.molecule.RecompositionMode
+import com.voidxog.wallman2.core.data.molecule.launchMolecule
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.StateFlow
 import kotlin.coroutines.CoroutineContext
@@ -65,3 +65,4 @@ fun CoroutineScope.launchIO(logger: Logger, block: suspend CoroutineScope.() -> 
 
 fun <T> CoroutineScope.launchMolecule(content: @Composable () -> T): StateFlow<T> =
     launchMolecule(RecompositionMode.Immediate, Dispatchers.Main, content)
+

@@ -1,4 +1,4 @@
-package com.colorata.wallman.baselineprofile
+package com.voidxog.wallman2.baselineprofile
 
 import androidx.benchmark.macro.MacrobenchmarkScope
 import androidx.benchmark.macro.junit4.BaselineProfileRule
@@ -39,7 +39,7 @@ class BaselineProfileGenerator {
 
     @Test
     fun generate() {
-        rule.collect("com.colorata.wallman", maxIterations = 3) {
+        rule.collect("com.voidxog.wallman2", maxIterations = 3) {
             // This block defines the app's critical user journey. Here we are interested in
             // optimizing for app startup. But you can also navigate and scroll
             // through your most important UI.

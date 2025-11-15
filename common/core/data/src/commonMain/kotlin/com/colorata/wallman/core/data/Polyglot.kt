@@ -1,8 +1,8 @@
-package com.colorata.wallman.core.data
+package com.voidxog.wallman2.core.data
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
-import com.colorata.wallman.core.data.serialization.SerializableImmutableMap
+import com.voidxog.wallman2.core.data.serialization.SerializableImmutableMap
 import kotlinx.collections.immutable.persistentMapOf
 import kotlinx.serialization.Serializable
 import java.util.Locale

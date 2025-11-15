@@ -1,4 +1,4 @@
-package com.colorata.wallman.settings.about.ui
+package com.voidxog.wallman2.settings.about.ui
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -8,7 +8,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import com.colorata.wallman.core.ui.theme.WallManTheme
+import com.voidxog.wallman2.core.ui.theme.WallManTheme
 import java.util.*
 
 actual class EasterActivity : ComponentActivity() {

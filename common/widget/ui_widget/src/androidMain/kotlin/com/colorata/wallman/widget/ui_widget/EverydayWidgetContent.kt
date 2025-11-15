@@ -1,4 +1,4 @@
-package com.colorata.wallman.widget.ui_widget
+package com.voidxog.wallman2.widget.ui_widget
 
 import android.content.Context
 import android.graphics.BitmapFactory
@@ -28,10 +28,10 @@ import androidx.glance.layout.fillMaxSize
 import androidx.glance.layout.size
 import androidx.glance.state.GlanceStateDefinition
 import androidx.glance.state.PreferencesGlanceStateDefinition
-import com.colorata.wallman.core.di.graph
-import com.colorata.wallman.wallpapers.supportsDynamicWallpapers
-import com.colorata.wallman.widget.api.EverydayWidget
-import com.colorata.wallman.widget.api.R
+import com.voidxog.wallman2.core.di.graph
+import com.voidxog.wallman2.wallpapers.supportsDynamicWallpapers
+import com.voidxog.wallman2.widget.api.EverydayWidget
+import com.voidxog.wallman2.widget.api.R
 
 class EverydayWidgetContent(
     private val onClick: Action

@@ -1,4 +1,4 @@
-package com.colorata.wallman.core.ui
+package com.voidxog.wallman2.core.ui
 
 import android.content.res.Configuration
 import androidx.compose.ui.tooling.preview.Preview

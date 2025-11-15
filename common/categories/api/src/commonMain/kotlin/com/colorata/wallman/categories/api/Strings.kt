@@ -1,7 +1,7 @@
-package com.colorata.wallman.categories.api
+package com.voidxog.wallman2.categories.api
 
-import com.colorata.wallman.core.data.Strings
-import com.colorata.wallman.core.data.simplifiedLocaleOf
+import com.voidxog.wallman2.core.data.Strings
+import com.voidxog.wallman2.core.data.simplifiedLocaleOf
 
 
 val Strings.appulse
@@ -69,3 +69,4 @@ val Strings.swirling_petals
             "Абстрактные цветочные узоры."
         )
     )
+

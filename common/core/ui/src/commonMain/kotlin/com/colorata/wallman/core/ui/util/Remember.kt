@@ -1,4 +1,4 @@
-package com.colorata.wallman.core.ui.util
+package com.voidxog.wallman2.core.ui.util
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
@@ -29,4 +29,5 @@ fun <T> rememberDerived(key1: Any?, key2: Any?, key3: Any?, block: () -> T): Sta
 fun <T> rememberDerived(vararg keys: Any?, block: () -> T): State<T> {
     return remember(*keys) { derivedStateOf(block) }
 }
+
 

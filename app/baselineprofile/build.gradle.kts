@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace = "com.colorata.wallman.baselineprofile"
+    namespace = "com.voidxog.wallman2.baselineprofile"
     compileSdk = 34
 
     compileOptions {

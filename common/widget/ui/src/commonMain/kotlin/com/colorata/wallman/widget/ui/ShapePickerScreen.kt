@@ -1,4 +1,4 @@
-package com.colorata.wallman.widget.ui
+package com.voidxog.wallman2.widget.ui
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -35,16 +35,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import com.colorata.wallman.core.data.Destinations
-import com.colorata.wallman.core.data.MaterialNavGraphBuilder
-import com.colorata.wallman.core.data.Strings
-import com.colorata.wallman.core.data.flatComposable
-import com.colorata.wallman.core.data.rememberString
-import com.colorata.wallman.core.data.viewModel
-import com.colorata.wallman.core.ui.theme.spacing
-import com.colorata.wallman.widget.api.ShapePickerDestination
-import com.colorata.wallman.widget.api.WidgetModule
-import com.colorata.wallman.widget.viewmodel.ShapePickerViewModel
+import com.voidxog.wallman2.core.data.Destinations
+import com.voidxog.wallman2.core.data.MaterialNavGraphBuilder
+import com.voidxog.wallman2.core.data.Strings
+import com.voidxog.wallman2.core.data.flatComposable
+import com.voidxog.wallman2.core.data.rememberString
+import com.voidxog.wallman2.core.data.viewModel
+import com.voidxog.wallman2.core.ui.theme.spacing
+import com.voidxog.wallman2.widget.api.ShapePickerDestination
+import com.voidxog.wallman2.widget.api.WidgetModule
+import com.voidxog.wallman2.widget.viewmodel.ShapePickerViewModel
 
 context(WidgetModule)
 fun MaterialNavGraphBuilder.shapePickerScreen() {

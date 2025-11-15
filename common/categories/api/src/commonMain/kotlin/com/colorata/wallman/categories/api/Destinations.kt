@@ -1,8 +1,8 @@
-package com.colorata.wallman.categories.api
+package com.voidxog.wallman2.categories.api
 
-import com.colorata.wallman.core.data.Destinations
-import com.colorata.wallman.core.data.destination
-import com.colorata.wallman.core.data.withArgument
+import com.voidxog.wallman2.core.data.Destinations
+import com.voidxog.wallman2.core.data.destination
+import com.voidxog.wallman2.core.data.withArgument
 
 fun Destinations.CategoriesDestination() = destination("CategoriesList")
 fun Destinations.CategoryDetailsDestination(category: WallpaperCategory? = null) = destination(

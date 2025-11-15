@@ -1,7 +1,7 @@
-package com.colorata.wallman.wallpapers
+package com.voidxog.wallman2.wallpapers
 
-import com.colorata.wallman.core.data.Polyglot
-import com.colorata.wallman.core.data.Strings
+import com.voidxog.wallman2.core.data.Polyglot
+import com.voidxog.wallman2.core.data.Strings
 
 enum class WallpaperPacks(
     val urlPart: String,
@@ -202,3 +202,4 @@ enum class WallpaperPacks(
 }
 
 fun WallpaperPacks.sizeInMb() = checksum / 1024 / 1024
+

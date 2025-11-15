@@ -1,9 +1,9 @@
-package com.colorata.wallman.core.impl
+package com.voidxog.wallman2.core.impl
 
 import android.app.Activity
 import android.app.Application
 import androidx.compose.material3.windowsizeclass.WindowSizeClass
-import com.colorata.wallman.core.data.module.*
+import com.voidxog.wallman2.core.data.module.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

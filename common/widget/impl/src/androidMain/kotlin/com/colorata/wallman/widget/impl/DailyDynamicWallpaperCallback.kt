@@ -1,4 +1,4 @@
-package com.colorata.wallman.widget.impl
+package com.voidxog.wallman2.widget.impl
 
 import android.content.Context
 import androidx.annotation.Keep
@@ -9,12 +9,12 @@ import androidx.glance.action.ActionParameters
 import androidx.glance.appwidget.action.ActionCallback
 import androidx.glance.appwidget.action.actionRunCallback
 import androidx.glance.state.PreferencesGlanceStateDefinition
-import com.colorata.wallman.core.di.graph
-import com.colorata.wallman.wallpapers.goToLiveWallpaper
-import com.colorata.wallman.wallpapers.supportsDynamicWallpapers
-import com.colorata.wallman.widget.api.EverydayWidget
-import com.colorata.wallman.widget.api.WidgetState
-import com.colorata.wallman.widget.ui_widget.EverydayWidgetContent
+import com.voidxog.wallman2.core.di.graph
+import com.voidxog.wallman2.wallpapers.goToLiveWallpaper
+import com.voidxog.wallman2.wallpapers.supportsDynamicWallpapers
+import com.voidxog.wallman2.widget.api.EverydayWidget
+import com.voidxog.wallman2.widget.api.WidgetState
+import com.voidxog.wallman2.widget.ui_widget.EverydayWidgetContent
 
 @Keep
 class DailyDynamicWallpaperCallback : ActionCallback {

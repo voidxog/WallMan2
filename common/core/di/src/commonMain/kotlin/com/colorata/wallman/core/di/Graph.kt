@@ -1,9 +1,9 @@
-package com.colorata.wallman.core.di
+package com.voidxog.wallman2.core.di
 
 import androidx.compose.runtime.compositionLocalOf
-import com.colorata.wallman.core.data.module.CoreModule
-import com.colorata.wallman.wallpapers.WallpapersModule
-import com.colorata.wallman.widget.api.WidgetModule
+import com.voidxog.wallman2.core.data.module.CoreModule
+import com.voidxog.wallman2.wallpapers.WallpapersModule
+import com.voidxog.wallman2.widget.api.WidgetModule
 
 interface Graph {
     val coreModule: CoreModule

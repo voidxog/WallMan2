@@ -1,4 +1,4 @@
-package com.colorata.wallman.core.ui.theme
+package com.voidxog.wallman2.core.ui.theme
 
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
@@ -20,9 +20,9 @@ import androidx.compose.ui.graphics.asAndroidBitmap
 import androidx.compose.ui.platform.LocalContext
 import com.colorata.animateaslifestyle.AnimationsPerformance
 import com.colorata.animateaslifestyle.LocalAnimationsPerformance
-import com.colorata.wallman.core.data.bitmapAsset
-import com.colorata.wallman.core.data.memoizeHash
-import com.colorata.wallman.core.ui.util.ProvideWindowSize
+import com.voidxog.wallman2.core.data.bitmapAsset
+import com.voidxog.wallman2.core.data.memoizeHash
+import com.voidxog.wallman2.core.ui.util.ProvideWindowSize
 import dev.sasikanth.material.color.utilities.hct.Hct
 import dev.sasikanth.material.color.utilities.quantize.QuantizerCelebi
 import dev.sasikanth.material.color.utilities.scheme.Scheme

@@ -1,4 +1,4 @@
-package com.colorata.wallman.wallpapers.ui.components
+package com.voidxog.wallman2.wallpapers.ui.components
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
@@ -11,13 +11,13 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import com.colorata.wallman.core.data.Strings
-import com.colorata.wallman.core.data.rememberString
-import com.colorata.wallman.core.ui.LightDarkPreview
-import com.colorata.wallman.core.ui.theme.WallManPreviewTheme
-import com.colorata.wallman.core.ui.theme.spacing
-import com.colorata.wallman.ui.icons.Storage
-import com.colorata.wallman.wallpapers.Chip
+import com.voidxog.wallman2.core.data.Strings
+import com.voidxog.wallman2.core.data.rememberString
+import com.voidxog.wallman2.core.ui.LightDarkPreview
+import com.voidxog.wallman2.core.ui.theme.WallManPreviewTheme
+import com.voidxog.wallman2.core.ui.theme.spacing
+import com.voidxog.wallman2.ui.icons.Storage
+import com.voidxog.wallman2.wallpapers.Chip
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 

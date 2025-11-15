@@ -1,14 +1,14 @@
-package com.colorata.wallman.core.di.impl
+package com.voidxog.wallman2.core.di.impl
 
 import android.app.Application
 import androidx.activity.ComponentActivity
-import com.colorata.wallman.core.di.Graph
-import com.colorata.wallman.core.impl.CoreModuleImpl
-import com.colorata.wallman.core.impl.applyActivity
-import com.colorata.wallman.wallpapers.WallpapersModule
-import com.colorata.wallman.wallpapers.impl.AndroidWallpapersModuleImpl
-import com.colorata.wallman.widget.impl.WidgetModuleImpl
-import com.colorata.wallman.widget.impl.applyActivity
+import com.voidxog.wallman2.core.di.Graph
+import com.voidxog.wallman2.core.impl.CoreModuleImpl
+import com.voidxog.wallman2.core.impl.applyActivity
+import com.voidxog.wallman2.wallpapers.WallpapersModule
+import com.voidxog.wallman2.wallpapers.impl.AndroidWallpapersModuleImpl
+import com.voidxog.wallman2.widget.impl.WidgetModuleImpl
+import com.voidxog.wallman2.widget.impl.applyActivity
 
 class GraphImpl(private val application: Application) : Graph {
     override val coreModule by lazy { CoreModuleImpl(application) }

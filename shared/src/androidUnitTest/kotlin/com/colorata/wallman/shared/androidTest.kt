@@ -1,4 +1,4 @@
-package com.colorata.wallman.shared
+package com.voidxog.wallman2.shared
 
 import org.junit.Assert.assertTrue
 import org.junit.Test

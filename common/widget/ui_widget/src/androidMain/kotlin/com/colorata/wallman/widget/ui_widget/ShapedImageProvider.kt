@@ -1,4 +1,4 @@
-package com.colorata.wallman.widget.ui_widget
+package com.voidxog.wallman2.widget.ui_widget
 
 import android.graphics.Bitmap
 import android.graphics.Canvas
@@ -41,3 +41,4 @@ fun rememberShapedImageBitmap(@DrawableRes shape: Int, image: Bitmap): Bitmap {
         ).getBitmap()
     }
 }
+

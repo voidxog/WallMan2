@@ -1,4 +1,4 @@
-package com.colorata.wallman.core.ui.modifiers
+package com.voidxog.wallman2.core.ui.modifiers
 
 import android.os.Build
 import androidx.compose.animation.core.Animatable

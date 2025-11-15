@@ -1,8 +1,8 @@
-package com.colorata.wallman.wallpapers.impl
+package com.voidxog.wallman2.wallpapers.impl
 
-import com.colorata.wallman.wallpapers.WallpaperI
-import com.colorata.wallman.wallpapers.WallpapersRepository
-import com.colorata.wallman.wallpapers.walls
+import com.voidxog.wallman2.wallpapers.WallpaperI
+import com.voidxog.wallman2.wallpapers.WallpapersRepository
+import com.voidxog.wallman2.wallpapers.walls
 
 class AndroidWallpapersRepositoryImpl: WallpapersRepository {
     override val wallpapers: List<WallpaperI> by lazy { walls }

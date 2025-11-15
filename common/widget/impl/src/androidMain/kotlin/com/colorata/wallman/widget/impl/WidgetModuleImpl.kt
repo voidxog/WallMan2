@@ -1,12 +1,12 @@
-package com.colorata.wallman.widget.impl
+package com.voidxog.wallman2.widget.impl
 
 import androidx.activity.ComponentActivity
 import androidx.lifecycle.lifecycleScope
-import com.colorata.wallman.core.data.module.CoreModule
-import com.colorata.wallman.core.data.launchIO
-import com.colorata.wallman.core.data.module.throwable
-import com.colorata.wallman.widget.api.EverydayWidgetRepository
-import com.colorata.wallman.widget.api.WidgetModule
+import com.voidxog.wallman2.core.data.module.CoreModule
+import com.voidxog.wallman2.core.data.launchIO
+import com.voidxog.wallman2.core.data.module.throwable
+import com.voidxog.wallman2.widget.api.EverydayWidgetRepository
+import com.voidxog.wallman2.widget.api.WidgetModule
 
 class WidgetModuleImpl(coreModule: CoreModule) : WidgetModule, CoreModule by coreModule {
     override var widgetRepository: EverydayWidgetRepository = EverydayWidgetRepository.NoopEverydayWidgetRepository

@@ -1,4 +1,4 @@
-package com.colorata.wallman.core.ui.util
+package com.voidxog.wallman2.core.ui.util
 
 import android.app.Activity
 import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
@@ -17,7 +17,7 @@ import androidx.compose.ui.unit.dp
     "Please use LocalWindowSizeConfiguration.current",
     replaceWith = ReplaceWith(
         "LocalWindowSizeConfiguration.current",
-        "com.colorata.wallman.core.ui.util.LocalWindowSizeConfiguration"
+        "com.voidxog.wallman2.core.ui.util.LocalWindowSizeConfiguration"
     )
 )
 @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)

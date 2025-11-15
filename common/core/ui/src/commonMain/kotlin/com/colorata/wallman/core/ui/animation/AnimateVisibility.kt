@@ -1,4 +1,4 @@
-package com.colorata.wallman.core.ui.animation
+package com.voidxog.wallman2.core.ui.animation
 
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.animateFloatAsState
@@ -22,8 +22,8 @@ import androidx.compose.ui.unit.IntOffset
 import com.colorata.animateaslifestyle.Animatable
 import com.colorata.animateaslifestyle.Transition
 import com.colorata.animateaslifestyle.fade
-import com.colorata.wallman.core.data.animation
-import com.colorata.wallman.core.data.launchIO
+import com.voidxog.wallman2.core.data.animation
+import com.voidxog.wallman2.core.data.launchIO
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 

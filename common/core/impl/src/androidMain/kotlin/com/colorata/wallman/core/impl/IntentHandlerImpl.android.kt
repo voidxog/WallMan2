@@ -1,4 +1,4 @@
-package com.colorata.wallman.core.impl
+package com.voidxog.wallman2.core.impl
 
 import android.app.Activity
 import android.app.WallpaperManager
@@ -8,12 +8,12 @@ import android.content.Intent
 import android.net.Uri
 import android.provider.Settings
 import android.widget.Toast
-import com.colorata.wallman.core.data.Coordinates
-import com.colorata.wallman.core.data.Strings
-import com.colorata.wallman.core.data.module.IntentHandler
-import com.colorata.wallman.core.data.module.PermissionPage
-import com.colorata.wallman.core.data.onError
-import com.colorata.wallman.core.data.runResulting
+import com.voidxog.wallman2.core.data.Coordinates
+import com.voidxog.wallman2.core.data.Strings
+import com.voidxog.wallman2.core.data.module.IntentHandler
+import com.voidxog.wallman2.core.data.module.PermissionPage
+import com.voidxog.wallman2.core.data.onError
+import com.voidxog.wallman2.core.data.runResulting
 import kotlin.reflect.KClass
 
 class IntentHandlerImpl(private var context: Context) : IntentHandler {

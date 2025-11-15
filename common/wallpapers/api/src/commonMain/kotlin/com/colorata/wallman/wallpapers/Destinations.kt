@@ -1,8 +1,8 @@
-package com.colorata.wallman.wallpapers
+package com.voidxog.wallman2.wallpapers
 
-import com.colorata.wallman.core.data.Destinations
-import com.colorata.wallman.core.data.destination
-import com.colorata.wallman.core.data.withArgument
+import com.voidxog.wallman2.core.data.Destinations
+import com.voidxog.wallman2.core.data.destination
+import com.voidxog.wallman2.core.data.withArgument
 
 fun Destinations.MainDestination() = destination("Main")
 fun Destinations.WallpaperDetailsDestination(wallpaperIndex: Int? = null) = destination(

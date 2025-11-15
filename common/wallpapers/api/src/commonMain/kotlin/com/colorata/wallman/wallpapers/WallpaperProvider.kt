@@ -1,8 +1,8 @@
-package com.colorata.wallman.wallpapers
+package com.voidxog.wallman2.wallpapers
 
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
-import com.colorata.wallman.core.data.Result
+import com.voidxog.wallman2.core.data.Result
 interface WallpaperProvider {
     data class LiveWallpaper(
         val packageName: String,

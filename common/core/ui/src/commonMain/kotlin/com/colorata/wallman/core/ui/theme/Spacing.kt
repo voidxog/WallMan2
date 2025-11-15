@@ -1,4 +1,4 @@
-package com.colorata.wallman.core.ui.theme
+package com.voidxog.wallman2.core.ui.theme
 
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -7,7 +7,7 @@ import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.colorata.animateaslifestyle.material3.isCompact
-import com.colorata.wallman.core.ui.util.LocalWindowSizeConfiguration
+import com.voidxog.wallman2.core.ui.util.LocalWindowSizeConfiguration
 
 data class Spacing(
     val default: Dp = 0.dp,

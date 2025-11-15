@@ -1,6 +1,6 @@
-package com.colorata.wallman.categories.api
+package com.voidxog.wallman2.categories.api
 
-import com.colorata.wallman.core.data.Strings
+import com.voidxog.wallman2.core.data.Strings
 
 
 enum class WallpaperCategory(val locale: WallpaperCategoryLocale) {
@@ -13,3 +13,4 @@ enum class WallpaperCategory(val locale: WallpaperCategoryLocale) {
     Minerals(Strings.minerals),
     Petals(Strings.swirling_petals)
 }
+

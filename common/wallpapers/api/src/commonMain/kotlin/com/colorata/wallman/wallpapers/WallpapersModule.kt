@@ -1,6 +1,6 @@
-package com.colorata.wallman.wallpapers
+package com.voidxog.wallman2.wallpapers
 
-import com.colorata.wallman.core.data.module.CoreModule
+import com.voidxog.wallman2.core.data.module.CoreModule
 
 interface WallpapersModule : CoreModule {
     val wallpaperProvider: WallpaperProvider
@@ -9,3 +9,4 @@ interface WallpapersModule : CoreModule {
 
     val wallpapersRepository: WallpapersRepository
 }
+

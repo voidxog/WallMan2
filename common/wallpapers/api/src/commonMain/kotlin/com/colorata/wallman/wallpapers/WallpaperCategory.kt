@@ -1,5 +1,6 @@
-package com.colorata.wallman.wallpapers
+package com.voidxog.wallman2.wallpapers
 
-import com.colorata.wallman.categories.api.WallpaperCategory
+import com.voidxog.wallman2.categories.api.WallpaperCategory
 
 fun WallpaperCategory.categoryWallpapers(wallpapers: List<WallpaperI>) = wallpapers.filter { it.category == this }
+

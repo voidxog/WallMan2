@@ -1,4 +1,4 @@
-package com.colorata.wallman.settings.memory.ui.components
+package com.voidxog.wallman2.settings.memory.ui.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -25,12 +25,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
-import com.colorata.wallman.core.data.Strings
-import com.colorata.wallman.core.data.bitmapAsset
-import com.colorata.wallman.core.data.rememberString
-import com.colorata.wallman.core.ui.shapes.ScallopShape
-import com.colorata.wallman.core.ui.theme.spacing
-import com.colorata.wallman.wallpapers.WallpaperPacks
+import com.voidxog.wallman2.core.data.Strings
+import com.voidxog.wallman2.core.data.bitmapAsset
+import com.voidxog.wallman2.core.data.rememberString
+import com.voidxog.wallman2.core.ui.shapes.ScallopShape
+import com.voidxog.wallman2.core.ui.theme.spacing
+import com.voidxog.wallman2.wallpapers.WallpaperPacks
 
 
 @OptIn(ExperimentalLayoutApi::class)
@@ -92,3 +92,4 @@ fun CacheCard(
         }
     }
 }
+

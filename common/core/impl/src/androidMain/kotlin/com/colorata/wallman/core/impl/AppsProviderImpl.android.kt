@@ -1,4 +1,4 @@
-package com.colorata.wallman.core.impl
+package com.voidxog.wallman2.core.impl
 
 import android.content.BroadcastReceiver
 import android.content.Context
@@ -8,9 +8,9 @@ import android.content.pm.PackageManager
 import android.net.Uri
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
-import com.colorata.wallman.core.data.module.AppsProvider
-import com.colorata.wallman.core.data.Result
-import com.colorata.wallman.core.data.runResulting
+import com.voidxog.wallman2.core.data.module.AppsProvider
+import com.voidxog.wallman2.core.data.Result
+import com.voidxog.wallman2.core.data.runResulting
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import java.io.File

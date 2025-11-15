@@ -1,4 +1,4 @@
-package com.colorata.wallman
+package com.voidxog.wallman2
 
 import org.junit.Test
 

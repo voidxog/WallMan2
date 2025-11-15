@@ -1,4 +1,4 @@
-package com.colorata.wallman.settings.mirror.ui
+package com.voidxog.wallman2.settings.mirror.ui
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.fillMaxSize
@@ -14,23 +14,23 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import com.colorata.animateaslifestyle.material3.isCompact
-import com.colorata.wallman.core.data.Destinations
-import com.colorata.wallman.core.data.MaterialNavGraphBuilder
-import com.colorata.wallman.core.data.Strings
-import com.colorata.wallman.core.data.continuousComposable
-import com.colorata.wallman.core.data.module.CoreModule
-import com.colorata.wallman.core.data.rememberString
-import com.colorata.wallman.core.data.viewModel
-import com.colorata.wallman.core.ui.list.animatedAsGridAtLaunch
-import com.colorata.wallman.core.ui.list.rememberVisibilityList
-import com.colorata.wallman.core.ui.list.visibilityItems
-import com.colorata.wallman.core.ui.theme.screenPadding
-import com.colorata.wallman.core.ui.theme.spacing
-import com.colorata.wallman.core.ui.util.LocalWindowSizeConfiguration
-import com.colorata.wallman.core.ui.util.fullLineItem
-import com.colorata.wallman.settings.mirror.api.MirrorDestination
-import com.colorata.wallman.settings.mirror.ui.components.MirrorCard
-import com.colorata.wallman.settings.mirror.viewmodel.MirrorViewModel
+import com.voidxog.wallman2.core.data.Destinations
+import com.voidxog.wallman2.core.data.MaterialNavGraphBuilder
+import com.voidxog.wallman2.core.data.Strings
+import com.voidxog.wallman2.core.data.continuousComposable
+import com.voidxog.wallman2.core.data.module.CoreModule
+import com.voidxog.wallman2.core.data.rememberString
+import com.voidxog.wallman2.core.data.viewModel
+import com.voidxog.wallman2.core.ui.list.animatedAsGridAtLaunch
+import com.voidxog.wallman2.core.ui.list.rememberVisibilityList
+import com.voidxog.wallman2.core.ui.list.visibilityItems
+import com.voidxog.wallman2.core.ui.theme.screenPadding
+import com.voidxog.wallman2.core.ui.theme.spacing
+import com.voidxog.wallman2.core.ui.util.LocalWindowSizeConfiguration
+import com.voidxog.wallman2.core.ui.util.fullLineItem
+import com.voidxog.wallman2.settings.mirror.api.MirrorDestination
+import com.voidxog.wallman2.settings.mirror.ui.components.MirrorCard
+import com.voidxog.wallman2.settings.mirror.viewmodel.MirrorViewModel
 
 context(CoreModule)
 fun MaterialNavGraphBuilder.mirrorScreen() {
@@ -97,3 +97,4 @@ private fun MirrorScreenLayout(
         }
     }
 }
+

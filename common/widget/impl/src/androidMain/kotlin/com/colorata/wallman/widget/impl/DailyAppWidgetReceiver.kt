@@ -1,4 +1,4 @@
-package com.colorata.wallman.widget.impl
+package com.voidxog.wallman2.widget.impl
 
 import android.content.Context
 import androidx.annotation.Keep

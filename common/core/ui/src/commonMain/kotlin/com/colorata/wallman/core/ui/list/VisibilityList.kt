@@ -1,4 +1,4 @@
-package com.colorata.wallman.core.ui.list
+package com.voidxog.wallman2.core.ui.list
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -21,9 +21,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalInspectionMode
 import com.colorata.animateaslifestyle.Transition
-import com.colorata.wallman.core.data.animation
-import com.colorata.wallman.core.ui.animation.animateVisibility
-import com.colorata.wallman.core.ui.theme.emphasizedEnterExit
+import com.voidxog.wallman2.core.data.animation
+import com.voidxog.wallman2.core.ui.animation.animateVisibility
+import com.voidxog.wallman2.core.ui.theme.emphasizedEnterExit
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.CoroutineScope

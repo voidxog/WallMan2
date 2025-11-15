@@ -1,6 +1,6 @@
-package com.colorata.wallman.settings.mirror.api
+package com.voidxog.wallman2.settings.mirror.api
 
-import com.colorata.wallman.core.data.Polyglot
+import com.voidxog.wallman2.core.data.Polyglot
 
 data class Mirror(
     val name: Polyglot, val url: String

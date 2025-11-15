@@ -1,4 +1,4 @@
-package com.colorata.wallman.settings.about.viewmodel
+package com.voidxog.wallman2.settings.about.viewmodel
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Info
@@ -11,20 +11,20 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.colorata.wallman.core.data.Polyglot
-import com.colorata.wallman.core.data.Strings
-import com.colorata.wallman.core.data.launchIO
-import com.colorata.wallman.core.data.lazyMolecule
-import com.colorata.wallman.core.data.module.CoreModule
-import com.colorata.wallman.core.data.module.IntentHandler
-import com.colorata.wallman.core.data.module.Logger
-import com.colorata.wallman.core.data.module.SystemProvider
-import com.colorata.wallman.core.data.module.throwable
-import com.colorata.wallman.settings.about.ui.EasterActivity
-import com.colorata.wallman.ui.icons.BugReport
-import com.colorata.wallman.ui.icons.Code
-import com.colorata.wallman.ui.icons.ContentCopy
-import com.colorata.wallman.ui.icons.CurrencyRuble
+import com.voidxog.wallman2.core.data.Polyglot
+import com.voidxog.wallman2.core.data.Strings
+import com.voidxog.wallman2.core.data.launchIO
+import com.voidxog.wallman2.core.data.lazyMolecule
+import com.voidxog.wallman2.core.data.module.CoreModule
+import com.voidxog.wallman2.core.data.module.IntentHandler
+import com.voidxog.wallman2.core.data.module.Logger
+import com.voidxog.wallman2.core.data.module.SystemProvider
+import com.voidxog.wallman2.core.data.module.throwable
+import com.voidxog.wallman2.settings.about.ui.EasterActivity
+import com.voidxog.wallman2.ui.icons.BugReport
+import com.voidxog.wallman2.ui.icons.Code
+import com.voidxog.wallman2.ui.icons.ContentCopy
+import com.voidxog.wallman2.ui.icons.CurrencyRuble
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 

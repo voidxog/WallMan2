@@ -1,12 +1,12 @@
-package com.colorata.wallman.settings.animation.viewmodel
+package com.voidxog.wallman2.settings.animation.viewmodel
 
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.lifecycle.ViewModel
-import com.colorata.wallman.core.data.AnimationType
-import com.colorata.wallman.core.data.lazyMolecule
-import com.colorata.wallman.core.data.module.ApplicationSettings
-import com.colorata.wallman.core.data.module.CoreModule
+import com.voidxog.wallman2.core.data.AnimationType
+import com.voidxog.wallman2.core.data.lazyMolecule
+import com.voidxog.wallman2.core.data.module.ApplicationSettings
+import com.voidxog.wallman2.core.data.module.CoreModule
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.flow.map
 
