@@ -11,8 +11,8 @@ fun LibraryExtension.setup(project: Project) {
         minSdk = config.minSdk
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_18
-        targetCompatibility = JavaVersion.VERSION_18
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
 
     buildFeatures {
@@ -34,7 +34,7 @@ fun LibraryExtension.setup(project: Project) {
 fun Project.setupKotlin() {
     tasks.withType(KotlinCompile::class.java) {
         kotlinOptions.apply {
-            jvmTarget = "18"
+            jvmTarget = "17"
             composeReports(project.layout.buildDirectory.asFile.get().absolutePath)
             composeForceSkip()
             experimentalContextReceivers()

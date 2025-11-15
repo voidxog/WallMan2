@@ -28,6 +28,7 @@ rootDir
                 && file("${it.absolutePath}/build.gradle.kts").exists()
     }
     .forEach {
-        val calculated = it.absolutePath.replace(rootDir.absolutePath, "").replace("/", ":")
-        include(calculated)
+        val rel = it.relativeTo(rootDir).path
+        val projectPath = ":" + rel.replace(Regex("""[\\/]+"""), ":")
+        include(projectPath)
     }

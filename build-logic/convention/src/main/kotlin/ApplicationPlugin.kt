@@ -69,8 +69,8 @@ class ApplicationPlugin : Plugin<Project> {
                     project.libs.findVersion("compose_compiler").get().displayName
             }
             compileOptions {
-                sourceCompatibility = JavaVersion.VERSION_18
-                targetCompatibility = JavaVersion.VERSION_18
+                sourceCompatibility = JavaVersion.VERSION_17
+                targetCompatibility = JavaVersion.VERSION_17
             }
         }
     }
