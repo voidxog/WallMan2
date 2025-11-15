@@ -19,10 +19,7 @@ class MirrorViewModel(
 ) : ViewModel() {
     private val allMirrors: ImmutableList<Mirror> = persistentListOf(
         Mirror(
-            Strings.original, "https://sam.nl.tab.digital/s/wqZaeixFAsDEdGe/download?path=/"
-        ), Mirror(
-            Strings.mirror1,
-            "https://shared02.opsone-cloud.ch/index.php/s/CJW7DGrKskNJMm9/download?path=/"
+            Strings.original, "https://github.com/voidxog/WallManAssets/raw/main/"
         ),
         Mirror(
             Strings.githubMirror,

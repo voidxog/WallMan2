@@ -7,8 +7,8 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class AppSettings(
-    val mirror: String = "https://sam.nl.tab.digital/s/wqZaeixFAsDEdGe/download?path=/",
+    val mirror: String = "https://github.com/voidxog/WallManAssets/raw/main/",
     val mirrors: ImmutableList<String> =
-        persistentListOf("https://sam.nl.tab.digital/s/wqZaeixFAsDEdGe/download?path=/"),
+        persistentListOf("https://github.com/voidxog/WallManAssets/raw/main/"),
     val animationType: AnimationType = AnimationType.Slide
 )
