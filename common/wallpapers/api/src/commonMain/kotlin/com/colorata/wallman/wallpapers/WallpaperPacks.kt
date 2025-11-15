@@ -189,6 +189,16 @@ enum class WallpaperPacks(
         previewRes = "p9a_iris_dark",
         includesDynamic = false
     ),
+    P9Fold(
+        urlPart = "P9Fold",
+        previewName = Strings.p9fold,
+        url = "P9Fold.apk",
+        packageName = "com.google.pixel9fold.livewallpaper",
+        id = 17,
+        checksum = 0,
+        previewRes = "p9fold_obsidian_dark",
+        includesDynamic = false
+    ),
 }
 
 fun WallpaperPacks.sizeInMb() = checksum / 1024 / 1024

@@ -2619,4 +2619,24 @@ val walls by createWallpapers {
         description = Strings.swirling_petalsDescription
         lightDarkStaticWallpaper("p9a_raspberry")
     }
+
+    wallpaper {
+        parent = WallpaperPacks.P9Fold
+        category = WallpaperCategory.Petals
+        author = Strings.andrewZuckerman
+
+        previewName = simplifiedLocaleOf("Iris")
+        description = Strings.swirling_petalsDescription
+        lightDarkStaticWallpaper("p9fold_obsidian")
+    }
+
+    wallpaper {
+        parent = WallpaperPacks.P9Fold
+        category = WallpaperCategory.Petals
+        author = Strings.andrewZuckerman
+
+        previewName = simplifiedLocaleOf("Tulip")
+        description = Strings.swirling_petalsDescription
+        lightDarkStaticWallpaper("p9fold_porcelain")
+    }
 }
