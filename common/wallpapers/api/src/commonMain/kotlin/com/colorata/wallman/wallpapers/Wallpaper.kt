@@ -2535,4 +2535,88 @@ val walls by createWallpapers {
         description = Strings.swirling_petalsDescription
         lightDarkStaticWallpaper("p9_premium_rose")
     }
+
+    wallpaper {
+        parent = WallpaperPacks.P9A
+        category = WallpaperCategory.Petals
+        author = Strings.andrewZuckerman
+
+        previewName = simplifiedLocaleOf("Pixel 9A")
+        description = simplifiedLocaleOf(
+            "Google Pixel 9A default wallpapers."
+        )
+
+        staticWallpaper {
+            previewRes = "p9a_YTH_BLK_dark"
+            remoteUrl = "p9a_YTH_BLK_dark"
+        }
+        staticWallpaper {
+            previewRes = "p9a_YTH_BLK_light"
+            remoteUrl = "p9a_YTH_BLK_light"
+        }
+        staticWallpaper {
+            previewRes = "p9a_YTH_PPL_dark"
+            remoteUrl = "p9a_YTH_PPL_dark.jpg"
+        }
+        staticWallpaper {
+            previewRes = "p9a_YTH_PPL_light"
+            remoteUrl = "p9a_YTH_PPL_light"
+        }
+        staticWallpaper {
+            previewRes = "p9a_YTH_RED_dark"
+            remoteUrl = "p9a_YTH_RED_dark"
+        }
+        staticWallpaper {
+            previewRes = "p9a_YTH_RED_light"
+            remoteUrl = "p9a_YTH_RED_light"
+        }
+        staticWallpaper {
+            previewRes = "p9a_YTH_WHT_dark"
+            remoteUrl = "p9a_YTH_WHT_dark"
+        }
+        staticWallpaper {
+            previewRes = "p9a_YTH_WHT_light"
+            remoteUrl = "p9a_YTH_WHT_light"
+        }
+    }
+
+    wallpaper {
+        parent = WallpaperPacks.P9A
+        category = WallpaperCategory.Petals
+        author = Strings.andrewZuckerman
+
+        previewName = simplifiedLocaleOf("Blue Bell")
+        description = Strings.swirling_petalsDescription
+        lightDarkStaticWallpaper("p9a_iris")
+    }
+
+    wallpaper {
+        parent = WallpaperPacks.P9A
+        category = WallpaperCategory.Petals
+        author = Strings.andrewZuckerman
+
+        previewName = simplifiedLocaleOf("Lilac")
+        description = Strings.swirling_petalsDescription
+        lightDarkStaticWallpaper("p9a_obsidian")
+    }
+
+    wallpaper {
+        parent = WallpaperPacks.P9A
+        category = WallpaperCategory.Petals
+        author = Strings.andrewZuckerman
+
+        previewName = simplifiedLocaleOf("Daffodil")
+        description = Strings.swirling_petalsDescription
+        lightDarkStaticWallpaper("p9a_porcelain")
+    }
+
+    wallpaper {
+        parent = WallpaperPacks.P9A
+        category = WallpaperCategory.Petals
+        author = Strings.andrewZuckerman
+
+        previewName = simplifiedLocaleOf("Cherry Blossom")
+        description = Strings.swirling_petalsDescription
+        lightDarkStaticWallpaper("p9a_raspberry")
+    }
 }

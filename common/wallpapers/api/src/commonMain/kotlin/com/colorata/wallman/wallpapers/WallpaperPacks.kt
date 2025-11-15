@@ -179,6 +179,16 @@ enum class WallpaperPacks(
         previewRes = "p9_jade_dark",
         includesDynamic = false
     ),
+    P9A(
+        urlPart = "P9A",
+        previewName = Strings.p9a,
+        url = "P9A.apk",
+        packageName = "com.google.pixel9a.livewallpaper",
+        id = 16,
+        checksum = 0,
+        previewRes = "p9a_iris_dark",
+        includesDynamic = false
+    ),
 }
 
 fun WallpaperPacks.sizeInMb() = checksum / 1024 / 1024

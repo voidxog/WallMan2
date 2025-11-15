@@ -83,6 +83,11 @@ val Strings.p9
         "Pixel 9 Wallpaper Pack", "Пак обоев \"Pixel 9\""
     )
 
+val Strings.p9a
+    get() = simplifiedLocaleOf(
+        "Pixel 9A Wallpaper Pack", "Пак обоев \"Pixel 9A\""
+    )
+
 val Strings.ptablet
     get() = simplifiedLocaleOf(
         "Pixel Tablet Wallpaper Pack", "Пак обоев \"Pixel Tablet\""
