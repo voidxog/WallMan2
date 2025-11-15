@@ -78,6 +78,11 @@ val Strings.p8a
         "Pixel 8A Wallpaper Pack", "Пак обоев \"Pixel 8A\""
     )
 
+val Strings.p9
+    get() = simplifiedLocaleOf(
+        "Pixel 9 Wallpaper Pack", "Пак обоев \"Pixel 9\""
+    )
+
 val Strings.ptablet
     get() = simplifiedLocaleOf(
         "Pixel Tablet Wallpaper Pack", "Пак обоев \"Pixel Tablet\""
@@ -99,4 +104,10 @@ val Strings.mineralDescription
     get() = simplifiedLocaleOf(
         "Sculpted over thousands of years.",
         "Создавался на протяжении тысячелетий."
+    )
+
+val Strings.swirling_petalsDescription
+    get() = simplifiedLocaleOf(
+        "A swirling display of abstract florals.",
+        "Абстрактные цветочные узоры."
     )

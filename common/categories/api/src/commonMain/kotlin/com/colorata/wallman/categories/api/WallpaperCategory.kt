@@ -10,5 +10,6 @@ enum class WallpaperCategory(val locale: WallpaperCategoryLocale) {
     Fancy(Strings.fancy),
     Garden(Strings.garden),
     Birdies(Strings.birdies),
-    Minerals(Strings.minerals)
+    Minerals(Strings.minerals),
+    Petals(Strings.swirling_petals)
 }

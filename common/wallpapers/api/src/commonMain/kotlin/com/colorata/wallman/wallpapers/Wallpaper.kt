@@ -144,7 +144,7 @@ fun BaseWallpaper.canBe(other: BaseWallpaper) =
 fun WallpaperI.firstWallpaperSet() =
     if (supportsDynamicWallpapers()) dynamicWallpapers
     else if (staticWallpapers.isNotEmpty()) staticWallpapers
-    else error("No wallpaper found fo $this")
+    else error("No wallpaper found for $this")
 
 fun WallpaperI.firstBaseWallpaper() = firstWallpaperSet().first()
 
@@ -344,7 +344,7 @@ val walls by createWallpapers {
         category = WallpaperCategory.Peaceful
 
         shortName = simplifiedLocaleOf("Garden", "Сад")
-        previewName = simplifiedLocaleOf("Garden, Kent, United Kingdom", "Сад, Кент, Великобритани")
+        previewName = simplifiedLocaleOf("Garden, Kent, United Kingdom", "Сад, Кент, Великобритания")
         description = simplifiedLocaleOf(
             "With its abundance of fruit orchards and hop gardens, Kent is known as The Garden of England.",
             "Из-за многочисленных фруктовых садов и плантаций хмеля Кент называют \"садом Англии\"."
@@ -442,8 +442,8 @@ val walls by createWallpapers {
         parent = WallpaperPacks.P1
         category = WallpaperCategory.Wonders
 
-        shortName = simplifiedLocaleOf("Shijuku", "Район Синдзюку")
-        previewName = simplifiedLocaleOf("Shijuku, Tokyo, Japan", "Район Синдзюку, Токио, Япония")
+        shortName = simplifiedLocaleOf("Shinjuku", "Район Синдзюку")
+        previewName = simplifiedLocaleOf("Shinjuku, Tokyo, Japan", "Район Синдзюку, Токио, Япония")
         description = simplifiedLocaleOf(
             "At 656 ft high, this building in Shinjuku, designed by Yoshikazu Uchida, is the 28th tallest building in Tokyo and the 33rd tallest in Japan.",
             "Это здание в районе Синдзюку высотой 200 метров создал архитектор Йошикацу Йошида. Сегодня оно на 28 месте среди самых высоких зданий Токио и на 33 месте – среди небоскребов Японии."
@@ -1967,9 +1967,6 @@ val walls by createWallpapers {
         )
 
         lightDarkStaticWallpaper("p7_amazon")
-        options {
-            isNew = true
-        }
     }
 
     wallpaper {
@@ -1984,9 +1981,6 @@ val walls by createWallpapers {
         )
 
         staticWallpaper("p7_bourke_parrot")
-        options {
-            isNew = true
-        }
     }
 
     wallpaper {
@@ -2001,9 +1995,6 @@ val walls by createWallpapers {
         )
 
         staticWallpaper("p7_eagle")
-        options {
-            isNew = true
-        }
     }
 
     wallpaper {
@@ -2018,9 +2009,6 @@ val walls by createWallpapers {
         )
 
         staticWallpaper("p7_flamingo")
-        options {
-            isNew = true
-        }
     }
 
     wallpaper {
@@ -2035,9 +2023,6 @@ val walls by createWallpapers {
         )
 
         staticWallpaper("p7_magpie")
-        options {
-            isNew = true
-        }
     }
 
 
@@ -2199,7 +2184,7 @@ val walls by createWallpapers {
         category = WallpaperCategory.Birdies
         author = Strings.andrewZuckerman
 
-        previewName = simplifiedLocaleOf("Andrean condor", "Андский кондор")
+        previewName = simplifiedLocaleOf("Andean condor", "Андский кондор")
         description = simplifiedLocaleOf(
             "The wingspan of the Andean Condor can reach 3 meters, and its weight is 15 kilograms, which makes it one of the largest flying birds in the world.",
             "Размах крыльев Андского кондора может достигать 3 метров, а вес - 15 килограммов, что делает его одной из самых больших летающих птиц в мире."
@@ -2381,7 +2366,6 @@ val walls by createWallpapers {
         lightDarkStaticWallpaper("p8_ilvaite")
     }
 
-
     wallpaper {
         parent = WallpaperPacks.P8
         category = WallpaperCategory.Minerals
@@ -2400,9 +2384,6 @@ val walls by createWallpapers {
         previewName = simplifiedLocaleOf("Titanite", "Титанит")
         description = Strings.mineralDescription
         lightDarkStaticWallpaper("p8a_emerald")
-        options {
-            isNew = true
-        }
     }
 
     wallpaper {
@@ -2413,9 +2394,6 @@ val walls by createWallpapers {
         previewName = simplifiedLocaleOf("Barite", "Барит")
         description = Strings.mineralDescription
         lightDarkStaticWallpaper("p8a_sky")
-        options {
-            isNew = true
-        }
     }
 
     wallpaper {
@@ -2426,9 +2404,6 @@ val walls by createWallpapers {
         previewName = simplifiedLocaleOf("Selenite", "Селенит")
         description = Strings.mineralDescription
         lightDarkStaticWallpaper("p8a_porcelain")
-        options {
-            isNew = true
-        }
     }
 
     wallpaper {
@@ -2439,8 +2414,125 @@ val walls by createWallpapers {
         previewName = simplifiedLocaleOf("Hematite", "Гематит")
         description = Strings.mineralDescription
         lightDarkStaticWallpaper("p8a_licorice")
-        options {
-            isNew = true
-        }
+    }
+
+    wallpaper {
+        parent = WallpaperPacks.P9
+        category = WallpaperCategory.Petals
+        author = Strings.andrewZuckerman
+
+        previewName = simplifiedLocaleOf("Lantana")
+        description = Strings.swirling_petalsDescription
+        lightDarkStaticWallpaper("p9_jade")
+    }
+    
+    wallpaper {
+        parent = WallpaperPacks.P9
+        category = WallpaperCategory.Petals
+        author = Strings.andrewZuckerman
+
+        previewName = simplifiedLocaleOf("Bird of Paradise")
+        description = Strings.swirling_petalsDescription
+        lightDarkStaticWallpaper("p9_large_hazel")
+    }
+
+    wallpaper {
+        parent = WallpaperPacks.P9
+        category = WallpaperCategory.Petals
+        author = Strings.andrewZuckerman
+
+        previewName = simplifiedLocaleOf("Delphinium")
+        description = Strings.swirling_petalsDescription
+        lightDarkStaticWallpaper("p9_large_obsidian")
+    }
+
+    wallpaper {
+        parent = WallpaperPacks.P9
+        category = WallpaperCategory.Petals
+        author = Strings.andrewZuckerman
+
+        previewName = simplifiedLocaleOf("Dahlia")
+        description = Strings.swirling_petalsDescription
+        lightDarkStaticWallpaper("p9_large_porcelain")
+    }
+
+    wallpaper {
+        parent = WallpaperPacks.P9
+        category = WallpaperCategory.Petals
+        author = Strings.andrewZuckerman
+
+        previewName = simplifiedLocaleOf("Azalea")
+        description = Strings.swirling_petalsDescription
+        lightDarkStaticWallpaper("p9_large_rose")
+    }
+
+    wallpaper {
+        parent = WallpaperPacks.P9
+        category = WallpaperCategory.Petals
+        author = Strings.andrewZuckerman
+
+        previewName = simplifiedLocaleOf("Gentian")
+        description = Strings.swirling_petalsDescription
+        lightDarkStaticWallpaper("p9_obsidian")
+    }
+
+    wallpaper {
+        parent = WallpaperPacks.P9
+        category = WallpaperCategory.Petals
+        author = Strings.andrewZuckerman
+
+        previewName = simplifiedLocaleOf("Hydrangea")
+        description = Strings.swirling_petalsDescription
+        lightDarkStaticWallpaper("p9_peony")
+    }
+
+    wallpaper {
+        parent = WallpaperPacks.P9
+        category = WallpaperCategory.Petals
+        author = Strings.andrewZuckerman
+
+        previewName = simplifiedLocaleOf("Lily")
+        description = Strings.swirling_petalsDescription
+        lightDarkStaticWallpaper("p9_porcelain")
+    }
+
+    wallpaper {
+        parent = WallpaperPacks.P9
+        category = WallpaperCategory.Petals
+        author = Strings.andrewZuckerman
+
+        previewName = simplifiedLocaleOf("Poppy")
+        description = Strings.swirling_petalsDescription
+        lightDarkStaticWallpaper("p9_premium_hazel")
+    }
+
+    wallpaper {
+        parent = WallpaperPacks.P9
+        category = WallpaperCategory.Petals
+        author = Strings.andrewZuckerman
+
+        previewName = simplifiedLocaleOf("Lavender")
+        description = Strings.swirling_petalsDescription
+        lightDarkStaticWallpaper("p9_premium_obsidian")
+    }
+
+    wallpaper {
+        parent = WallpaperPacks.P9
+        category = WallpaperCategory.Petals
+        author = Strings.andrewZuckerman
+
+        previewName = simplifiedLocaleOf("Zinnia")
+        description = Strings.swirling_petalsDescription
+        lightDarkStaticWallpaper("p9_premium_porcelain")
+    }
+
+    wallpaper {
+        parent = WallpaperPacks.P9
+        category = WallpaperCategory.Petals
+        author = Strings.andrewZuckerman
+
+        previewName = simplifiedLocaleOf("Peony")
+        description = Strings.swirling_petalsDescription
+        lightDarkStaticWallpaper("p9_premium_rose")
     }
 }

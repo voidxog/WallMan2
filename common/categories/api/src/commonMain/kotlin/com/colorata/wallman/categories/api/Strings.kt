@@ -60,3 +60,12 @@ val Strings.minerals
             "Исследуйте уникальные кристаллы прямо на вашем экране - от самых мягких до самых твердых."
         )
     )
+
+val Strings.swirling_petals
+    get() = WallpaperCategoryLocale(
+        simplifiedLocaleOf("Swirling Petals", "Завитки лепестков"),
+        simplifiedLocaleOf(
+            "A swirling display of abstract florals.",
+            "Абстрактные цветочные узоры."
+        )
+    )
