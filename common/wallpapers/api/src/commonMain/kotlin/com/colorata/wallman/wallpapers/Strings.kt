@@ -110,6 +110,9 @@ val Strings.lauraDumitru
 val Strings.annaKovecses
     get() = simplifiedLocaleOf("Anna Kövecses")
 
+val Strings.arthurKenzo
+    get() = simplifiedLocaleOf("Arthur Kenzo")
+
 val Strings.mineralDescription
     get() = simplifiedLocaleOf(
         "Sculpted over thousands of years.",
@@ -121,3 +124,15 @@ val Strings.swirling_petalsDescription
         "A swirling display of abstract florals.",
         "Абстрактные цветочные узоры."
     )
+    
+val Strings.aura_formsDescription
+    get() = simplifiedLocaleOf(
+        "An expressive study of dimensional shadows, shapes, and colors.",
+        "Выразительная игра форм, теней и цветов."
+    )
+
+val Strings.contoursDescription
+    get() = simplifiedLocaleOf(
+        "Orbital studies explore an abstract and luminous cascade of arcs and curves.",
+        "Абстрактные обои с каскадами изогнутых линий."
+    ) 
